@@ -6,5 +6,5 @@ package edu.ipd.kit.crowdcontrol.workerservice.strategies;
  */
 public interface Strategy {
     String getName();
-
+    String next()
 }
