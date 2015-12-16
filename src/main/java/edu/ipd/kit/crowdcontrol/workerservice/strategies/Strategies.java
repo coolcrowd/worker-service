@@ -1,5 +1,9 @@
 package edu.ipd.kit.crowdcontrol.workerservice.strategies;
 
+import edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass;
+import spark.Request;
+import spark.Response;
+
 import java.util.HashMap;
 
 /**
@@ -15,5 +19,13 @@ public class Strategies {
 
     public void registerStrategy(Strategy strategy) {
         strategies.put(strategy.getName(), strategy);
+    }
+
+    public ViewOuterClass.View getNext(Request request, Response response) {
+        //TODO Error handling
+        String platform = request.params("platform");
+        Strategy strategy = strategies.get(platform);
+
+        return strategy.next(request, response);
     }
 }
