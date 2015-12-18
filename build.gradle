@@ -2,6 +2,7 @@ group 'CoolCrowd'
 version '0.5-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'nu.studer.jooq'
 
 sourceCompatibility = 1.8
 
@@ -10,9 +11,56 @@ repositories {
 }
 
 dependencies {
+    compile 'org.jooq:jooq:3.7.1'
+    compile 'org.jooq:jooq-meta:3.7.1'
+    compile 'org.jooq:jool:0.9.7'
     compile 'com.sparkjava:spark-core:2.3'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.google.protobuf:protobuf-java:3.0.0-beta-1'
     compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'mysql:mysql-connector-java:5.1.37'
+        classpath 'nu.studer:gradle-jooq-plugin:1.0.5'
+    }
+}
+
+jooq {
+    sample(sourceSets.main) {
+        jdbc {
+            url = 'jdbc:mysql://localhost:8888'
+            driver = 'com.mysql.jdbc.Driver'
+            user = 'LeanderK'
+            password = ''
+            schema = 'crowdcontrol'
+        }
+        generator {
+            name = 'org.jooq.util.DefaultGenerator'
+            strategy {
+                name = 'org.jooq.util.DefaultGeneratorStrategy'
+            }
+            database {
+                name = 'org.jooq.util.mysql.MySQLDatabase'
+                inputSchema = 'crowdcontrol'
+            }
+            generate {
+                daos = true
+            }
+            target {
+                packageName = "edu.ipd.kit.crowdcontrol.workerservice.database.model"
+                directory = 'src/main/java'
+            }
+        }
+    }
+}
+
+generateSampleJooqSchemaSource.enabled = false
