@@ -40,7 +40,7 @@ jooq {
             url = 'jdbc:mysql://localhost:8888'
             driver = 'com.mysql.jdbc.Driver'
             user = 'LeanderK'
-            password = 'y560'
+            password = ''
             schema = 'crowdcontrol'
         }
         generator {
