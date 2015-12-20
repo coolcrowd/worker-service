@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Population extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord> {
 
-	private static final long serialVersionUID = -1305947494;
+	private static final long serialVersionUID = -2031127603;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Population</code>
@@ -32,19 +32,19 @@ public class Population extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol
 	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord, java.lang.Integer> IDPOPULATION = createField("idPopulation", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Population.experiment</code>.
+	 * The column <code>crowdcontrol.Population.property</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord, java.lang.Integer> EXPERIMENT = createField("experiment", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord, java.lang.String> PROPERTY = createField("property", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Population.volume</code>.
+	 * The column <code>crowdcontrol.Population.answers</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord, java.lang.String> VOLUME = createField("volume", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord, java.lang.String> ANSWERS = createField("answers", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Population.platform_data</code>.
+	 * The column <code>crowdcontrol.Population.description</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord, java.lang.Object> PLATFORM_DATA = createField("platform_data", org.jooq.impl.DefaultDataType.getDefaultDataType("json"), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord, java.lang.String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Population</code> table reference
@@ -82,14 +82,6 @@ public class Population extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol
 	@Override
 	public java.util.List<org.jooq.UniqueKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord>> getKeys() {
 		return java.util.Arrays.<org.jooq.UniqueKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.KEY_POPULATION_PRIMARY);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public java.util.List<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.EXPERIMENTPOPULATION);
 	}
 
 	/**

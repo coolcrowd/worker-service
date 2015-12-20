@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Ratings extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.RatingsRecord> {
 
-	private static final long serialVersionUID = -18135752;
+	private static final long serialVersionUID = -1605290158;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Ratings</code>
@@ -32,9 +32,9 @@ public class Ratings extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.wo
 	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.RatingsRecord, java.lang.Integer> IDRATINGS = createField("idRatings", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Ratings.hit_r</code>.
+	 * The column <code>crowdcontrol.Ratings.task</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.RatingsRecord, java.lang.Integer> HIT_R = createField("hit_r", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.RatingsRecord, java.lang.Integer> TASK = createField("task", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Ratings.answer_r</code>.
@@ -99,7 +99,7 @@ public class Ratings extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.wo
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.RatingsRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.RatingsRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.IDANSWERSRATINS, edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.WORKERRATED);
+		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.RatingsRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.IDHITRATING, edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.IDANSWERSRATINS, edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.WORKERRATED);
 	}
 
 	/**

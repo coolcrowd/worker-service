@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tags extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TagsRecord> {
 
-	private static final long serialVersionUID = 1815303369;
+	private static final long serialVersionUID = -974908300;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Tags</code>
@@ -34,7 +34,7 @@ public class Tags extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.worke
 	/**
 	 * The column <code>crowdcontrol.Tags.tag</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TagsRecord, java.lang.String> TAG = createField("tag", org.jooq.impl.SQLDataType.VARCHAR.length(45).nullable(false), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TagsRecord, java.lang.String> TAG = createField("tag", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Tags.experiment</code>.

@@ -48,23 +48,23 @@ public class PopulationDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontro
 	}
 
 	/**
-	 * Fetch records that have <code>experiment IN (values)</code>
+	 * Fetch records that have <code>property IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByExperiment(java.lang.Integer... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.EXPERIMENT, values);
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByProperty(java.lang.String... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.PROPERTY, values);
 	}
 
 	/**
-	 * Fetch records that have <code>volume IN (values)</code>
+	 * Fetch records that have <code>answers IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByVolume(java.lang.String... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.VOLUME, values);
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByAnswers(java.lang.String... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.ANSWERS, values);
 	}
 
 	/**
-	 * Fetch records that have <code>platform_data IN (values)</code>
+	 * Fetch records that have <code>description IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByPlatformData(java.lang.Object... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.PLATFORM_DATA, values);
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByDescription(java.lang.String... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.DESCRIPTION, values);
 	}
 }

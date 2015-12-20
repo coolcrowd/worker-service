@@ -11,25 +11,25 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Population implements java.io.Serializable {
 
-	private static final long serialVersionUID = -912756042;
+	private static final long serialVersionUID = -1681593234;
 
 	private java.lang.Integer idpopulation;
-	private java.lang.Integer experiment;
-	private java.lang.String  volume;
-	private java.lang.Object  platformData;
+	private java.lang.String  property;
+	private java.lang.String  answers;
+	private java.lang.String  description;
 
 	public Population() {}
 
 	public Population(
 		java.lang.Integer idpopulation,
-		java.lang.Integer experiment,
-		java.lang.String  volume,
-		java.lang.Object  platformData
+		java.lang.String  property,
+		java.lang.String  answers,
+		java.lang.String  description
 	) {
 		this.idpopulation = idpopulation;
-		this.experiment = experiment;
-		this.volume = volume;
-		this.platformData = platformData;
+		this.property = property;
+		this.answers = answers;
+		this.description = description;
 	}
 
 	public java.lang.Integer getIdpopulation() {
@@ -40,27 +40,27 @@ public class Population implements java.io.Serializable {
 		this.idpopulation = idpopulation;
 	}
 
-	public java.lang.Integer getExperiment() {
-		return this.experiment;
+	public java.lang.String getProperty() {
+		return this.property;
 	}
 
-	public void setExperiment(java.lang.Integer experiment) {
-		this.experiment = experiment;
+	public void setProperty(java.lang.String property) {
+		this.property = property;
 	}
 
-	public java.lang.String getVolume() {
-		return this.volume;
+	public java.lang.String getAnswers() {
+		return this.answers;
 	}
 
-	public void setVolume(java.lang.String volume) {
-		this.volume = volume;
+	public void setAnswers(java.lang.String answers) {
+		this.answers = answers;
 	}
 
-	public java.lang.Object getPlatformData() {
-		return this.platformData;
+	public java.lang.String getDescription() {
+		return this.description;
 	}
 
-	public void setPlatformData(java.lang.Object platformData) {
-		this.platformData = platformData;
+	public void setDescription(java.lang.String description) {
+		this.description = description;
 	}
 }

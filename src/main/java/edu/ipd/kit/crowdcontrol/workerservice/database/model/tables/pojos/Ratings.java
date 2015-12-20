@@ -11,10 +11,10 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Ratings implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1518313789;
+	private static final long serialVersionUID = 543545341;
 
 	private java.lang.Integer  idratings;
-	private java.lang.Integer  hitR;
+	private java.lang.Integer  task;
 	private java.lang.Integer  answerR;
 	private java.sql.Timestamp timestamp;
 	private java.lang.Integer  rating;
@@ -24,14 +24,14 @@ public class Ratings implements java.io.Serializable {
 
 	public Ratings(
 		java.lang.Integer  idratings,
-		java.lang.Integer  hitR,
+		java.lang.Integer  task,
 		java.lang.Integer  answerR,
 		java.sql.Timestamp timestamp,
 		java.lang.Integer  rating,
 		java.lang.Integer  workerId
 	) {
 		this.idratings = idratings;
-		this.hitR = hitR;
+		this.task = task;
 		this.answerR = answerR;
 		this.timestamp = timestamp;
 		this.rating = rating;
@@ -46,12 +46,12 @@ public class Ratings implements java.io.Serializable {
 		this.idratings = idratings;
 	}
 
-	public java.lang.Integer getHitR() {
-		return this.hitR;
+	public java.lang.Integer getTask() {
+		return this.task;
 	}
 
-	public void setHitR(java.lang.Integer hitR) {
-		this.hitR = hitR;
+	public void setTask(java.lang.Integer task) {
+		this.task = task;
 	}
 
 	public java.lang.Integer getAnswerR() {

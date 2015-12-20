@@ -48,16 +48,23 @@ public class WorkerDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol.wo
 	}
 
 	/**
-	 * Fetch records that have <code>platform_data IN (values)</code>
+	 * Fetch records that have <code>identification IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByPlatformData(java.lang.Object... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.PLATFORM_DATA, values);
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByIdentification(java.lang.String... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.IDENTIFICATION, values);
 	}
 
 	/**
 	 * Fetch records that have <code>platform IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByPlatform(java.lang.String... values) {
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByPlatform(java.lang.Integer... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.PLATFORM, values);
+	}
+
+	/**
+	 * Fetch records that have <code>email IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByEmail(java.lang.String... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.EMAIL, values);
 	}
 }

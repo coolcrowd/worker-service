@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Task extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord> {
 
-	private static final long serialVersionUID = 79038877;
+	private static final long serialVersionUID = -894884104;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Task</code>
@@ -44,12 +44,12 @@ public class Task extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.worke
 	/**
 	 * The column <code>crowdcontrol.Task.platform_data</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.Object> PLATFORM_DATA = createField("platform_data", org.jooq.impl.DefaultDataType.getDefaultDataType("json"), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.String> PLATFORM_DATA = createField("platform_data", org.jooq.impl.SQLDataType.CLOB.length(16777215), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Task.crowd_platform</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.String> CROWD_PLATFORM = createField("crowd_platform", org.jooq.impl.SQLDataType.VARCHAR.length(45).nullable(false), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.Integer> CROWD_PLATFORM = createField("crowd_platform", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Task</code> table reference
@@ -94,7 +94,7 @@ public class Task extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.worke
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.IDEXPERIMENTHIT);
+		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.IDEXPERIMENTHIT, edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.RUNNINGONPLATTFORM);
 	}
 
 	/**

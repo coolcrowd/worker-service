@@ -11,13 +11,13 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Task implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1835201044;
+	private static final long serialVersionUID = 1745255056;
 
 	private java.lang.Integer idtask;
 	private java.lang.Integer experiment;
 	private java.lang.Boolean running;
-	private java.lang.Object  platformData;
-	private java.lang.String  crowdPlatform;
+	private java.lang.String  platformData;
+	private java.lang.Integer crowdPlatform;
 
 	public Task() {}
 
@@ -25,8 +25,8 @@ public class Task implements java.io.Serializable {
 		java.lang.Integer idtask,
 		java.lang.Integer experiment,
 		java.lang.Boolean running,
-		java.lang.Object  platformData,
-		java.lang.String  crowdPlatform
+		java.lang.String  platformData,
+		java.lang.Integer crowdPlatform
 	) {
 		this.idtask = idtask;
 		this.experiment = experiment;
@@ -59,19 +59,19 @@ public class Task implements java.io.Serializable {
 		this.running = running;
 	}
 
-	public java.lang.Object getPlatformData() {
+	public java.lang.String getPlatformData() {
 		return this.platformData;
 	}
 
-	public void setPlatformData(java.lang.Object platformData) {
+	public void setPlatformData(java.lang.String platformData) {
 		this.platformData = platformData;
 	}
 
-	public java.lang.String getCrowdPlatform() {
+	public java.lang.Integer getCrowdPlatform() {
 		return this.crowdPlatform;
 	}
 
-	public void setCrowdPlatform(java.lang.String crowdPlatform) {
+	public void setCrowdPlatform(java.lang.Integer crowdPlatform) {
 		this.crowdPlatform = crowdPlatform;
 	}
 }

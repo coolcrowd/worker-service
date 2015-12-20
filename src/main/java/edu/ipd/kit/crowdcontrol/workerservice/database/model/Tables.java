@@ -29,14 +29,29 @@ public class Tables {
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experiment EXPERIMENT = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT;
 
 	/**
+	 * The table crowdcontrol.ExperimentsPopulation
+	 */
+	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experimentspopulation EXPERIMENTSPOPULATION = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION;
+
+	/**
 	 * The table crowdcontrol.Payment
 	 */
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment PAYMENT = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT;
 
 	/**
+	 * The table crowdcontrol.Platforms
+	 */
+	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platforms PLATFORMS = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platforms.PLATFORMS;
+
+	/**
 	 * The table crowdcontrol.Population
 	 */
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population POPULATION = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION;
+
+	/**
+	 * The table crowdcontrol.PopulationAnswers
+	 */
+	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Populationanswers POPULATIONANSWERS = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Populationanswers.POPULATIONANSWERS;
 
 	/**
 	 * The table crowdcontrol.Ratings

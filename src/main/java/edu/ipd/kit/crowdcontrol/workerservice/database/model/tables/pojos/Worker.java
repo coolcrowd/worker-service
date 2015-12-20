@@ -11,22 +11,25 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Worker implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1566218659;
+	private static final long serialVersionUID = -1783495475;
 
 	private java.lang.Integer idworker;
-	private java.lang.Object  platformData;
-	private java.lang.String  platform;
+	private java.lang.String  identification;
+	private java.lang.Integer platform;
+	private java.lang.String  email;
 
 	public Worker() {}
 
 	public Worker(
 		java.lang.Integer idworker,
-		java.lang.Object  platformData,
-		java.lang.String  platform
+		java.lang.String  identification,
+		java.lang.Integer platform,
+		java.lang.String  email
 	) {
 		this.idworker = idworker;
-		this.platformData = platformData;
+		this.identification = identification;
 		this.platform = platform;
+		this.email = email;
 	}
 
 	public java.lang.Integer getIdworker() {
@@ -37,19 +40,27 @@ public class Worker implements java.io.Serializable {
 		this.idworker = idworker;
 	}
 
-	public java.lang.Object getPlatformData() {
-		return this.platformData;
+	public java.lang.String getIdentification() {
+		return this.identification;
 	}
 
-	public void setPlatformData(java.lang.Object platformData) {
-		this.platformData = platformData;
+	public void setIdentification(java.lang.String identification) {
+		this.identification = identification;
 	}
 
-	public java.lang.String getPlatform() {
+	public java.lang.Integer getPlatform() {
 		return this.platform;
 	}
 
-	public void setPlatform(java.lang.String platform) {
+	public void setPlatform(java.lang.Integer platform) {
 		this.platform = platform;
+	}
+
+	public java.lang.String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(java.lang.String email) {
+		this.email = email;
 	}
 }

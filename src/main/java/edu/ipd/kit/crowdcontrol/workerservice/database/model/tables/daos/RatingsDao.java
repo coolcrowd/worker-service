@@ -48,10 +48,10 @@ public class RatingsDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol.w
 	}
 
 	/**
-	 * Fetch records that have <code>hit_r IN (values)</code>
+	 * Fetch records that have <code>task IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Ratings> fetchByHitR(java.lang.Integer... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Ratings.RATINGS.HIT_R, values);
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Ratings> fetchByTask(java.lang.Integer... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Ratings.RATINGS.TASK, values);
 	}
 
 	/**

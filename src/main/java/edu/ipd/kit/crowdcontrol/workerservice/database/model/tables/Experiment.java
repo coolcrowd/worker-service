@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> {
 
-	private static final long serialVersionUID = -712441250;
+	private static final long serialVersionUID = 1960901126;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiment</code>
@@ -39,17 +39,17 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol
 	/**
 	 * The column <code>crowdcontrol.Experiment.titel</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> TITEL = createField("titel", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> TITEL = createField("titel", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.answer_description</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ANSWER_DESCRIPTION = createField("answer_description", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ANSWER_DESCRIPTION = createField("answer_description", org.jooq.impl.SQLDataType.CLOB.length(65535), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.rating_description</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> RATING_DESCRIPTION = createField("rating_description", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> RATING_DESCRIPTION = createField("rating_description", org.jooq.impl.SQLDataType.CLOB.length(65535), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.ratings_per_answer</code>.
@@ -59,17 +59,17 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol
 	/**
 	 * The column <code>crowdcontrol.Experiment.algorithm_task_chooser</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_TASK_CHOOSER = createField("algorithm_task_chooser", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_TASK_CHOOSER = createField("algorithm_task_chooser", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.algorithm_quality_answer</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_QUALITY_ANSWER = createField("algorithm_quality_answer", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_QUALITY_ANSWER = createField("algorithm_quality_answer", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.algorithm_quality_rating</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_QUALITY_RATING = createField("algorithm_quality_rating", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_QUALITY_RATING = createField("algorithm_quality_rating", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.base_payment</code>.
