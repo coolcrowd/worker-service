@@ -213,6 +213,10 @@ public final class ViewOuterClass {
        * <code>CALIBRATION = 3;</code>
        */
       CALIBRATION(3, 3),
+      /**
+       * <code>EMAIL = 4;</code>
+       */
+      EMAIL(4, 4),
       UNRECOGNIZED(-1, -1),
       ;
 
@@ -232,6 +236,10 @@ public final class ViewOuterClass {
        * <code>CALIBRATION = 3;</code>
        */
       public static final int CALIBRATION_VALUE = 3;
+      /**
+       * <code>EMAIL = 4;</code>
+       */
+      public static final int EMAIL_VALUE = 4;
 
 
       public final int getNumber() {
@@ -248,6 +256,7 @@ public final class ViewOuterClass {
           case 1: return ANSWER;
           case 2: return RATING;
           case 3: return CALIBRATION;
+          case 4: return EMAIL;
           default: return null;
         }
       }
@@ -1938,15 +1947,15 @@ public final class ViewOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nview.proto\022\014crowdcontrol\"\200\002\n\004View\022%\n\004t" +
+      "\n\nview.proto\022\014crowdcontrol\"\213\002\n\004View\022%\n\004t" +
       "ype\030\001 \001(\0162\027.crowdcontrol.View.Type\022\r\n\005ti" +
       "tle\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022\023\n\013constr" +
       "aints\030\004 \003(\t\022,\n\010pictures\030\005 \003(\0132\032.crowdcon" +
       "trol.View.Picture\032+\n\007Picture\022\013\n\003url\030\001 \001(" +
-      "\t\022\023\n\013url_license\030\002 \001(\t\"=\n\004Type\022\014\n\010FINISH" +
+      "\t\022\023\n\013url_license\030\002 \001(\t\"H\n\004Type\022\014\n\010FINISH" +
       "ED\020\000\022\n\n\006ANSWER\020\001\022\n\n\006RATING\020\002\022\017\n\013CALIBRAT" +
-      "ION\020\003B.\n,edu.ipd.kit.crowdcontrol.worker" +
-      "service.protob\006proto3"
+      "ION\020\003\022\t\n\005EMAIL\020\004B.\n,edu.ipd.kit.crowdcon" +
+      "trol.workerservice.protob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> {
 
-	private static final long serialVersionUID = 1960901126;
+	private static final long serialVersionUID = -1123443160;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiment</code>
@@ -89,7 +89,7 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol
 	/**
 	 * The column <code>crowdcontrol.Experiment.template_data</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Object> TEMPLATE_DATA = createField("template_data", org.jooq.impl.DefaultDataType.getDefaultDataType("json"), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> TEMPLATE_DATA = createField("template_data", org.jooq.impl.SQLDataType.CLOB.length(16777215), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Experiment</code> table reference

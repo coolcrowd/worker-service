@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment implements java.io.Serializable {
 
-	private static final long serialVersionUID = 22655572;
+	private static final long serialVersionUID = 697208504;
 
 	private java.lang.Integer idexperiment;
 	private java.lang.Object  ratingOptions;
@@ -25,7 +25,7 @@ public class Experiment implements java.io.Serializable {
 	private java.lang.Integer basePayment;
 	private java.lang.Integer bonusAnswer;
 	private java.lang.Integer bonusRating;
-	private java.lang.Object  templateData;
+	private java.lang.String  templateData;
 
 	public Experiment() {}
 
@@ -42,7 +42,7 @@ public class Experiment implements java.io.Serializable {
 		java.lang.Integer basePayment,
 		java.lang.Integer bonusAnswer,
 		java.lang.Integer bonusRating,
-		java.lang.Object  templateData
+		java.lang.String  templateData
 	) {
 		this.idexperiment = idexperiment;
 		this.ratingOptions = ratingOptions;
@@ -155,11 +155,11 @@ public class Experiment implements java.io.Serializable {
 		this.bonusRating = bonusRating;
 	}
 
-	public java.lang.Object getTemplateData() {
+	public java.lang.String getTemplateData() {
 		return this.templateData;
 	}
 
-	public void setTemplateData(java.lang.Object templateData) {
+	public void setTemplateData(java.lang.String templateData) {
 		this.templateData = templateData;
 	}
 }

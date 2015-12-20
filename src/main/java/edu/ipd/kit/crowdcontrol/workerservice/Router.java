@@ -26,6 +26,7 @@ public class Router implements SparkApplication {
      */
     @Override
     public void init() {
+        get("/start/", strategies::getNext);
         get("/next/:experiment", strategies::getNext);
     }
 
