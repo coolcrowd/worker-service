@@ -49,9 +49,14 @@ public class Tables {
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population POPULATION = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION;
 
 	/**
-	 * The table crowdcontrol.PopulationAnswers
+	 * The table crowdcontrol.PopulationAnswersOptions
 	 */
-	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Populationanswers POPULATIONANSWERS = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Populationanswers.POPULATIONANSWERS;
+	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Populationanswersoptions POPULATIONANSWERSOPTIONS = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Populationanswersoptions.POPULATIONANSWERSOPTIONS;
+
+	/**
+	 * The table crowdcontrol.PopulationResults
+	 */
+	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Populationresults POPULATIONRESULTS = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Populationresults.POPULATIONRESULTS;
 
 	/**
 	 * The table crowdcontrol.Ratings
@@ -67,6 +72,16 @@ public class Tables {
 	 * The table crowdcontrol.Task
 	 */
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Task TASK = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Task.TASK;
+
+	/**
+	 * The table crowdcontrol.Templates
+	 */
+	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Templates TEMPLATES = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Templates.TEMPLATES;
+
+	/**
+	 * The table crowdcontrol.TemplateVariables
+	 */
+	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Templatevariables TEMPLATEVARIABLES = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Templatevariables.TEMPLATEVARIABLES;
 
 	/**
 	 * The table crowdcontrol.Worker

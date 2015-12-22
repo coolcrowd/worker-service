@@ -11,12 +11,13 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Payment implements java.io.Serializable {
 
-	private static final long serialVersionUID = 333634671;
+	private static final long serialVersionUID = 1633362569;
 
 	private java.lang.Integer  idpayment;
 	private java.lang.Integer  workerId;
 	private java.lang.Integer  experimentId;
 	private java.sql.Timestamp timestamp;
+	private java.lang.Integer  amount;
 
 	public Payment() {}
 
@@ -24,12 +25,14 @@ public class Payment implements java.io.Serializable {
 		java.lang.Integer  idpayment,
 		java.lang.Integer  workerId,
 		java.lang.Integer  experimentId,
-		java.sql.Timestamp timestamp
+		java.sql.Timestamp timestamp,
+		java.lang.Integer  amount
 	) {
 		this.idpayment = idpayment;
 		this.workerId = workerId;
 		this.experimentId = experimentId;
 		this.timestamp = timestamp;
+		this.amount = amount;
 	}
 
 	public java.lang.Integer getIdpayment() {
@@ -62,5 +65,13 @@ public class Payment implements java.io.Serializable {
 
 	public void setTimestamp(java.sql.Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public java.lang.Integer getAmount() {
+		return this.amount;
+	}
+
+	public void setAmount(java.lang.Integer amount) {
+		this.amount = amount;
 	}
 }

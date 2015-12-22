@@ -130,4 +130,11 @@ public class ExperimentDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontro
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByTemplateData(java.lang.String... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.TEMPLATE_DATA, values);
 	}
+
+	/**
+	 * Fetch records that have <code>template IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByTemplate(java.lang.Integer... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.TEMPLATE, values);
+	}
 }

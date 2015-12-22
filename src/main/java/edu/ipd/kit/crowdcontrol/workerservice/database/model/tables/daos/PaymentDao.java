@@ -67,4 +67,11 @@ public class PaymentDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol.w
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Payment> fetchByTimestamp(java.sql.Timestamp... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.TIMESTAMP, values);
 	}
+
+	/**
+	 * Fetch records that have <code>amount IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Payment> fetchByAmount(java.lang.Integer... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.AMOUNT, values);
+	}
 }

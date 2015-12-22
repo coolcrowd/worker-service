@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> {
 
-	private static final long serialVersionUID = -1123443160;
+	private static final long serialVersionUID = -453847816;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiment</code>
@@ -92,6 +92,11 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol
 	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> TEMPLATE_DATA = createField("template_data", org.jooq.impl.SQLDataType.CLOB.length(16777215), this, "");
 
 	/**
+	 * The column <code>crowdcontrol.Experiment.template</code>.
+	 */
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Integer> TEMPLATE = createField("template", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
 	 * Create a <code>crowdcontrol.Experiment</code> table reference
 	 */
 	public Experiment() {
@@ -127,6 +132,14 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol
 	@Override
 	public java.util.List<org.jooq.UniqueKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord>> getKeys() {
 		return java.util.Arrays.<org.jooq.UniqueKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.KEY_EXPERIMENT_PRIMARY);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.util.List<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, ?>> getReferences() {
+		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.USEDTEMPLATE);
 	}
 
 	/**
