@@ -2,7 +2,6 @@ package edu.ipd.kit.crowdcontrol.workerservice.strategies;
 
 import edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass;
 import spark.Request;
-import spark.Response;
 
 /**
  * @author LeanderK
@@ -17,7 +16,7 @@ public class AntiSpoof implements Strategy {
     }
 
     @Override
-    public ViewOuterClass.View next(Request request, Response response) {
+    public ViewOuterClass.View next(Request request) {
         return null;
     }
 }
