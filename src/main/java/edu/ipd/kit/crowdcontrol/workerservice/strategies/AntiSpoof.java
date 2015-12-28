@@ -17,6 +17,7 @@ public class AntiSpoof implements Strategy {
 
     @Override
     public ViewOuterClass.View next(Request request) {
+
         return null;
     }
 }

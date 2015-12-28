@@ -4,10 +4,9 @@ import com.google.protobuf.Message;
 import com.googlecode.protobuf.format.JsonFormat;
 import edu.ipd.kit.crowdcontrol.workerservice.strategies.Strategies;
 import spark.Request;
-import spark.Response;
 import spark.servlet.SparkApplication;
 
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * @author LeanderK
@@ -26,11 +25,13 @@ public class Router implements SparkApplication {
      */
     @Override
     public void init() {
-        get("/start/", strategies::getNext);
         get("/next/:experiment", strategies::getNext);
+
+        put("/email")
     }
 
-    private void get(String route, BiFunction<Request, Response, Message> handler) {
-        spark.Spark.get(route, (request, response) -> protobufJSON.printToString(handler.apply(request, response)));
+    private void get(String route, Function<Request, Message> handler) {
+        //TODO: do response things
+        spark.Spark.get(route, (request, response) -> protobufJSON.printToString(handler.apply(request)));
     }
 }

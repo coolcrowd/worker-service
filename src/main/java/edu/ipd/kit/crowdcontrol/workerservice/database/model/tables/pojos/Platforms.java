@@ -11,22 +11,25 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Platforms implements java.io.Serializable {
 
-	private static final long serialVersionUID = -876562303;
+	private static final long serialVersionUID = -2109584229;
 
 	private java.lang.Integer idplatforms;
 	private java.lang.Boolean nativeQualifications;
 	private java.lang.Boolean nativePayment;
+	private java.lang.String  name;
 
 	public Platforms() {}
 
 	public Platforms(
 		java.lang.Integer idplatforms,
 		java.lang.Boolean nativeQualifications,
-		java.lang.Boolean nativePayment
+		java.lang.Boolean nativePayment,
+		java.lang.String  name
 	) {
 		this.idplatforms = idplatforms;
 		this.nativeQualifications = nativeQualifications;
 		this.nativePayment = nativePayment;
+		this.name = name;
 	}
 
 	public java.lang.Integer getIdplatforms() {
@@ -51,5 +54,13 @@ public class Platforms implements java.io.Serializable {
 
 	public void setNativePayment(java.lang.Boolean nativePayment) {
 		this.nativePayment = nativePayment;
+	}
+
+	public java.lang.String getName() {
+		return this.name;
+	}
+
+	public void setName(java.lang.String name) {
+		this.name = name;
 	}
 }

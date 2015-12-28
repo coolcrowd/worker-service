@@ -60,4 +60,11 @@ public class PlatformsDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Platforms> fetchByNativePayment(java.lang.Boolean... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platforms.PLATFORMS.NATIVE_PAYMENT, values);
 	}
+
+	/**
+	 * Fetch records that have <code>name IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Platforms> fetchByName(java.lang.String... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platforms.PLATFORMS.NAME, values);
+	}
 }
