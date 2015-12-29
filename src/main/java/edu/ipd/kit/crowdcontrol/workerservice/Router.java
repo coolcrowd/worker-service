@@ -25,9 +25,7 @@ public class Router implements SparkApplication {
      */
     @Override
     public void init() {
-        get("/next/:experiment", strategies::getNext);
-
-        put("/email")
+        get("/next/:platform/:experiment", strategies::getNext);
     }
 
     private void get(String route, Function<Request, Message> handler) {

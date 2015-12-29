@@ -8,19 +8,16 @@ import spark.Request;
  */
 public interface Platform {
     /**
-     * this method should persist Worker-Data if it is a new worker or find the worker
-     * in the database if he is already registered.
-     * @param request the request containing all the relevant parameters
-     * @return the id of the worker
+     * this method gets called when the client does not provide a workerID for the database.
+     * @param request the request
+     * @return a workerID for the database
      */
-    int handleWorkerData(Request request);
+    int handleNoWorkerID(Request request);
 
     /**
-     * returns whether the worker is already existing in the database.
+     * this method gets called when a worker finished all the assignment.
+     * Can be used to maintain the database etc.
      * @param request the request
-     * @return the id of the worker or -1 if not existing
      */
-    int existing(Request request);
-
-    boolean needEmail(Request request);
+    void workerFinished(Request request);
 }

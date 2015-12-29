@@ -13,7 +13,7 @@ import java.util.function.Function;
 public abstract class AbstractOperation {
     protected final DSLContext create;
 
-    protected AbstractOperation(DSLContext create) {
+    public AbstractOperation(DSLContext create) {
         this.create = create;
     }
 

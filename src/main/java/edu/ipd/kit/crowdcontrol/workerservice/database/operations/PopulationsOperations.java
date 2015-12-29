@@ -19,7 +19,7 @@ import static edu.ipd.kit.crowdcontrol.workerservice.database.model.Tables.*;
 public class PopulationsOperations extends AbstractOperation {
     private final PlatformOperations platformOperations;
 
-    protected PopulationsOperations(DSLContext create, PlatformOperations platformOperations) {
+    public PopulationsOperations(DSLContext create, PlatformOperations platformOperations) {
         super(create);
         this.platformOperations = platformOperations;
     }

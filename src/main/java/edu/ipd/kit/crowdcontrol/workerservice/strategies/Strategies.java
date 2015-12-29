@@ -1,10 +1,11 @@
 package edu.ipd.kit.crowdcontrol.workerservice.strategies;
 
-import edu.ipd.kit.crowdcontrol.workerservice.BadRequestException;
 import edu.ipd.kit.crowdcontrol.workerservice.RequestHelper;
 import edu.ipd.kit.crowdcontrol.workerservice.crowdplatform.Platforms;
+import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformsRecord;
 import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
+import edu.ipd.kit.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.PopulationsOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass;
@@ -22,69 +23,117 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class Strategies implements RequestHelper {
-    private final HashMap<String, Strategy> strategies =  new HashMap<>();
+    private final HashMap<String, TaskChooserAlgorithm> strategies =  new HashMap<>();
     private final PlatformOperations platformOperations;
     private final PopulationsOperations populationsOperations;
+    private final ExperimentOperations experimentOperations;
     private final Platforms platforms;
 
-    public Strategies(PlatformOperations platformOperations, PopulationsOperations populationsOperations, Platforms platforms) {
+    public Strategies(PlatformOperations platformOperations, PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, Platforms platforms) {
         this.platformOperations = platformOperations;
         this.populationsOperations = populationsOperations;
+        this.experimentOperations = experimentOperations;
         this.platforms = platforms;
-        registerStrategy(new AntiSpoof());
+        registerTaskChooser(new AntiSpoof());
     }
 
-    public void registerStrategy(Strategy strategy) {
-        strategies.put(strategy.getName(), strategy);
+    /**
+     * used to register a new TaskStrategy.
+     * @param taskChooserAlgorithm the TaskStrategy to register
+     */
+    public void registerTaskChooser(TaskChooserAlgorithm taskChooserAlgorithm) {
+        strategies.put(taskChooserAlgorithm.getName(), taskChooserAlgorithm);
     }
 
+    /**
+     * this method returns an instance of View, determining what the worker should see next.
+     * @param request the Request
+     * @return an instance of View
+     */
     public ViewOuterClass.View getNext(Request request) {
-        //TODO Error handling
-        String workerID = request.queryParams("worker");
-        if (workerID == null) {
-            return handleNoWorkerID(request)
-                    .orElse()
+        return getNext(prepareView(request), request);
+    }
+
+    /**
+     * this method returns an instance of View, determining what the worker should see next.
+     * @param builder the builder of the view containing a workerID or -1 if none provided
+     * @param request the request
+     * @return an instance of View
+     */
+    private ViewOuterClass.View getNext(ViewOuterClass.View.Builder builder, Request request) {
+        if (builder.getWorkerID() == -1) {
+            return handleNoWorkerID(builder, request);
         } else {
-            return getStrategyStep(request, workerID);
+            Optional<ViewOuterClass.View> calibrations = getCalibrations(builder, request);
+            if (calibrations.isPresent()) {
+                return calibrations.get();
+            } else {
+                return getStrategyStep(builder, request)
+                        .orElseGet(() -> workerFinished(builder, request));
+            }
         }
     }
 
-    private ViewOuterClass.View getStrategyStep(Request request, String workerID) {
-        int id = Integer.parseInt(workerID);
-        return getCalibrations(request)
-                .orElseGet(() -> {
-                    String platformName = assertParameter(request, "platform");
-                    Strategy strategy = strategies.get(platformName);
-                    //TODO platform not existing
-                    return strategy.next(request);
-                });
+    /**
+     * initializes a new ViewBuilder
+     * @param request the Request
+     * @return an instance of view with the workerID or -1 if none provided
+     */
+    private ViewOuterClass.View.Builder prepareView(Request request) {
+        //TODO better error message/catch exceptions
+        ViewOuterClass.View.Builder builder = ViewOuterClass.View.newBuilder();
+        String worker = request.queryParams("worker");
+        if (worker != null) {
+            builder.setWorkerID(Integer.parseInt(worker));
+        } else {
+            builder.setWorkerID(-1);
+        }
+        return builder;
     }
 
-    public Optional<ViewOuterClass.View> getCalibrations(Request request) {
-        int worker = assertParameterInt(request, "worker");
+    /**
+     * handels the case where no workerID was provided (workerID = -1).
+     * This method just asks the Platform what to ID the worker should have and then calls getNext.
+     * @param builder the builder to use
+     * @param request the request
+     * @return an instance of View.
+     */
+    private ViewOuterClass.View handleNoWorkerID(ViewOuterClass.View.Builder builder, Request request) {
+        String platformName = assertParameter(request, "platform");
+        int workerID = platforms.handleNoWorkerID(request, platformName);
+        builder.setWorkerID(workerID);
+        return getNext(builder, request);
+    }
+
+    /**
+     * may returns the calibrations if there are needed Calibrations left unanswered.
+     * @param builder the builder to user
+     * @param request the request
+     * @return an instance of view if the worker has to fill in some calibrations, or empty if not.
+     */
+    private Optional<ViewOuterClass.View> getCalibrations(ViewOuterClass.View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
-        return platformOperations.getPlatform(platformName)
-                .filter(record -> !record.getNativeQualifications())
-                .map(PlatformsRecord::getIdplatforms)
-                .map(platformID -> populationsOperations.getCalibrations(experiment, platformID, worker))
-                .map(this::constructCalibrationsView);
-    }
-
-    private Optional<ViewOuterClass.View> handleNoWorkerID(Request request) {
-        String platformName = assertParameter(request, "platform");
-        Boolean needsEmail = platforms.needsEmail(request, platformName)
-                .orElseThrow(() -> new BadRequestException("unknown platform: " + platformName));
-        if (needsEmail) {
-            return Optional.of(ViewOuterClass.View.newBuilder()
-                    .setType(ViewOuterClass.View.Type.EMAIL)
-                    .build());
-        } else {
+        PlatformsRecord platform = platformOperations.getPlatform(platformName);
+        if (platform.getNativeQualifications()) {
             return Optional.empty();
+        } else {
+            Map<PopulationRecord, List<String>> calibrations = populationsOperations.getCalibrations(experiment, platform.getIdplatforms(), builder.getWorkerID());
+            if (calibrations.isEmpty()) {
+                return Optional.empty();
+            } else {
+                return Optional.of(constructCalibrationsView(calibrations, builder));
+            }
         }
     }
 
-    private ViewOuterClass.View constructCalibrationsView(Map<PopulationRecord, List<String>> qualifications) {
+    /**
+     * constructs the calibrations view from the qualifications-data.
+     * @param qualifications the qualifications
+     * @param builder the builder to use
+     * @return an instance of View with the Type Calibration and the Calibrations set.
+     */
+    private ViewOuterClass.View constructCalibrationsView(Map<PopulationRecord, List<String>> qualifications, ViewOuterClass.View.Builder builder) {
         List<ViewOuterClass.View.Calibrations> calibrations = qualifications.entrySet().stream()
                 .map(entry -> ViewOuterClass.View.Calibrations.newBuilder()
                         .setQuestion(entry.getKey().getProperty())
@@ -93,9 +142,36 @@ public class Strategies implements RequestHelper {
                         .build()
                 )
                 .collect(Collectors.toList());
-        return ViewOuterClass.View.newBuilder()
-                .addAllCalibrations(calibrations)
+        return builder.addAllCalibrations(calibrations)
                 .setType(ViewOuterClass.View.Type.CALIBRATION)
+                .build();
+    }
+
+    /**
+     * may returns the next TaskView if the worker has not finished the assignment.
+     * @param builder the builder to use
+     * @param request the request
+     * @return a Task-View filled with the assignment, or empty if finished
+     */
+    private Optional<ViewOuterClass.View> getStrategyStep(ViewOuterClass.View.Builder builder, Request request) {
+        int experiment = assertParameterInt(request, "experiment");
+        return experimentOperations.getExperiment(experiment)
+                .map(ExperimentRecord::getAlgorithmTaskChooser)
+                .flatMap(algo -> Optional.ofNullable(strategies.get(algo)))
+                .flatMap(strategy -> strategy.next(builder, request));
+
+    }
+
+    /**
+     * notifies the platform that the worker has finished the assignment and constructs the Finished View
+     * @param builder the builder to use
+     * @param request the request
+     * @return an View with the Type FINISHED
+     */
+    private ViewOuterClass.View workerFinished(ViewOuterClass.View.Builder builder, Request request) {
+        String platformName = assertParameter(request, "platform");
+        platforms.workerFinished(request, platformName);
+        return builder.setType(ViewOuterClass.View.Type.FINISHED)
                 .build();
     }
 }
