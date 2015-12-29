@@ -1,4 +1,4 @@
-package edu.ipd.kit.crowdcontrol.workerservice.strategies;
+package edu.ipd.kit.crowdcontrol.workerservice.queries;
 
 import edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass;
 import spark.Request;

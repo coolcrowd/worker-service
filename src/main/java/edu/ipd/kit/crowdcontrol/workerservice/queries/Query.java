@@ -1,4 +1,4 @@
-package edu.ipd.kit.crowdcontrol.workerservice.strategies;
+package edu.ipd.kit.crowdcontrol.workerservice.queries;
 
 import edu.ipd.kit.crowdcontrol.workerservice.RequestHelper;
 import edu.ipd.kit.crowdcontrol.workerservice.crowdplatform.Platforms;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author LeanderK
  * @version 1.0
  */
-public class Strategies implements RequestHelper {
+public class Query implements RequestHelper {
     private final HashMap<String, TaskChooserAlgorithm> strategies =  new HashMap<>();
     private final PlatformOperations platformOperations;
     private final PopulationsOperations populationsOperations;
@@ -31,7 +31,7 @@ public class Strategies implements RequestHelper {
     private final WorkerOperations workerOperations;
     private final Platforms platforms;
 
-    public Strategies(PlatformOperations platformOperations, PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, WorkerOperations workerOperations, Platforms platforms) {
+    public Query(PlatformOperations platformOperations, PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, WorkerOperations workerOperations, Platforms platforms) {
         this.platformOperations = platformOperations;
         this.populationsOperations = populationsOperations;
         this.experimentOperations = experimentOperations;

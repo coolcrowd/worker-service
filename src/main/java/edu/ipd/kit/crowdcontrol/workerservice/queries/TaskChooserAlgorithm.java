@@ -1,4 +1,4 @@
-package edu.ipd.kit.crowdcontrol.workerservice.strategies;
+package edu.ipd.kit.crowdcontrol.workerservice.queries;
 
 import edu.ipd.kit.crowdcontrol.workerservice.BadRequestException;
 import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
