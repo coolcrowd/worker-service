@@ -158,7 +158,7 @@ public class Strategies implements RequestHelper {
         return experimentOperations.getExperiment(experiment)
                 .map(ExperimentRecord::getAlgorithmTaskChooser)
                 .flatMap(algo -> Optional.ofNullable(strategies.get(algo)))
-                .flatMap(strategy -> strategy.next(builder, request));
+                .flatMap(strategy -> strategy.next(builder, request, experiment));
 
     }
 
