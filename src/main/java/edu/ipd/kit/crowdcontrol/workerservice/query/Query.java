@@ -1,4 +1,4 @@
-package edu.ipd.kit.crowdcontrol.workerservice.queries;
+package edu.ipd.kit.crowdcontrol.workerservice.query;
 
 import edu.ipd.kit.crowdcontrol.workerservice.RequestHelper;
 import edu.ipd.kit.crowdcontrol.workerservice.crowdplatform.Platforms;

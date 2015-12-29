@@ -2,7 +2,7 @@ package edu.ipd.kit.crowdcontrol.workerservice;
 
 import com.google.protobuf.Message;
 import com.googlecode.protobuf.format.JsonFormat;
-import edu.ipd.kit.crowdcontrol.workerservice.queries.Query;
+import edu.ipd.kit.crowdcontrol.workerservice.query.Query;
 import spark.Request;
 import spark.servlet.SparkApplication;
 
