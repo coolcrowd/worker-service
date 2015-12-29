@@ -38,4 +38,12 @@ public class WorkerOperations extends AbstractOperation {
             return answers + ratings;
         });
     }
+
+    public boolean hasEmail(int workerID) {
+        return create.selectFrom(Tables.WORKER)
+                .where(Tables.WORKER.IDWORKER.eq(workerID))
+                .fetchOptional()
+                .map(workerRecord -> !workerRecord.getEmail().isEmpty())
+                .orElse(false);
+    }
 }

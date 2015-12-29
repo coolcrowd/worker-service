@@ -8,6 +8,7 @@ import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.Popu
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.PopulationsOperations;
+import edu.ipd.kit.crowdcontrol.workerservice.database.operations.WorkerOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass;
 import spark.Request;
 
@@ -27,12 +28,14 @@ public class Strategies implements RequestHelper {
     private final PlatformOperations platformOperations;
     private final PopulationsOperations populationsOperations;
     private final ExperimentOperations experimentOperations;
+    private final WorkerOperations workerOperations;
     private final Platforms platforms;
 
-    public Strategies(PlatformOperations platformOperations, PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, Platforms platforms) {
+    public Strategies(PlatformOperations platformOperations, PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, WorkerOperations workerOperations, Platforms platforms) {
         this.platformOperations = platformOperations;
         this.populationsOperations = populationsOperations;
         this.experimentOperations = experimentOperations;
+        this.workerOperations = workerOperations;
         this.platforms = platforms;
         registerTaskChooser(new AntiSpoof());
     }
@@ -67,10 +70,16 @@ public class Strategies implements RequestHelper {
             Optional<ViewOuterClass.View> calibrations = getCalibrations(builder, request);
             if (calibrations.isPresent()) {
                 return calibrations.get();
-            } else {
-                return getStrategyStep(builder, request)
-                        .orElseGet(() -> workerFinished(builder, request));
             }
+            Optional<ViewOuterClass.View> strategyStep = getStrategyStep(builder, request);
+            if (strategyStep.isPresent()) {
+                return strategyStep.get();
+            }
+            Optional<ViewOuterClass.View> email = getEmail(builder, request);
+            if (email.isPresent()) {
+                return email.get();
+            }
+            return workerFinished(builder, request);
         }
     }
 
@@ -160,6 +169,21 @@ public class Strategies implements RequestHelper {
                 .flatMap(algo -> Optional.ofNullable(strategies.get(algo)))
                 .flatMap(strategy -> strategy.next(builder, request, experiment));
 
+    }
+
+    /**
+     * may returns a View with the Type email if the platform needs an email and the user lacks one
+     * @param builder the builder to use
+     * @param request the request
+     * @return an instance of view with the type email or empty
+     */
+    private Optional<ViewOuterClass.View> getEmail(ViewOuterClass.View.Builder builder, Request request) {
+        String platformName = assertParameter(request, "platform");
+        if (platforms.needsEmail(platformName) && !workerOperations.hasEmail(builder.getWorkerID())) {
+            return Optional.of(builder.setType(ViewOuterClass.View.Type.EMAIL).build());
+        } else {
+            return Optional.empty();
+        }
     }
 
     /**
