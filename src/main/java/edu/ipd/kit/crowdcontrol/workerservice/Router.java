@@ -32,7 +32,7 @@ public class Router implements SparkApplication {
     public void init() {
         get("/next/:platform/:experiment", query::getNext);
 
-        post("/email", commands::submitEmail);
+        post("/email/:platform", commands::submitEmail);
 
         post("/answer/:worker", commands::submitAnswer);
 
