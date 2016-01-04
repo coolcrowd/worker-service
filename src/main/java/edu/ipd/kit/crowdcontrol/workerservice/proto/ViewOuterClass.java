@@ -982,6 +982,11 @@ public final class ViewOuterClass {
        */
       com.google.protobuf.ByteString
           getDescriptionBytes();
+
+      /**
+       * <code>optional int32 id = 4;</code>
+       */
+      int getId();
     }
     /**
      * Protobuf type {@code crowdcontrol.View.Calibrations}
@@ -998,6 +1003,7 @@ public final class ViewOuterClass {
         question_ = "";
         answerOptions_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         description_ = "";
+        id_ = 0;
       }
 
       @java.lang.Override
@@ -1043,6 +1049,11 @@ public final class ViewOuterClass {
                 String s = input.readStringRequireUtf8();
 
                 description_ = s;
+                break;
+              }
+              case 32: {
+
+                id_ = input.readInt32();
                 break;
               }
             }
@@ -1170,6 +1181,15 @@ public final class ViewOuterClass {
         }
       }
 
+      public static final int ID_FIELD_NUMBER = 4;
+      private int id_;
+      /**
+       * <code>optional int32 id = 4;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
@@ -1191,6 +1211,9 @@ public final class ViewOuterClass {
         if (!getDescriptionBytes().isEmpty()) {
           com.google.protobuf.GeneratedMessage.writeString(output, 3, description_);
         }
+        if (id_ != 0) {
+          output.writeInt32(4, id_);
+        }
       }
 
       public int getSerializedSize() {
@@ -1211,6 +1234,10 @@ public final class ViewOuterClass {
         }
         if (!getDescriptionBytes().isEmpty()) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(3, description_);
+        }
+        if (id_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(4, id_);
         }
         memoizedSize = size;
         return size;
@@ -1329,6 +1356,8 @@ public final class ViewOuterClass {
           bitField0_ = (bitField0_ & ~0x00000002);
           description_ = "";
 
+          id_ = 0;
+
           return this;
         }
 
@@ -1360,6 +1389,7 @@ public final class ViewOuterClass {
           }
           result.answerOptions_ = answerOptions_;
           result.description_ = description_;
+          result.id_ = id_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
@@ -1393,6 +1423,9 @@ public final class ViewOuterClass {
           if (!other.getDescription().isEmpty()) {
             description_ = other.description_;
             onChanged();
+          }
+          if (other.getId() != 0) {
+            setId(other.getId());
           }
           onChanged();
           return this;
@@ -1649,6 +1682,32 @@ public final class ViewOuterClass {
   checkByteStringIsUtf8(value);
           
           description_ = value;
+          onChanged();
+          return this;
+        }
+
+        private int id_ ;
+        /**
+         * <code>optional int32 id = 4;</code>
+         */
+        public int getId() {
+          return id_;
+        }
+        /**
+         * <code>optional int32 id = 4;</code>
+         */
+        public Builder setId(int value) {
+          
+          id_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 id = 4;</code>
+         */
+        public Builder clearId() {
+          
+          id_ = 0;
           onChanged();
           return this;
         }
@@ -3141,19 +3200,19 @@ public final class ViewOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nview.proto\022\014crowdcontrol\"\242\003\n\004View\022\020\n\010w" +
+      "\n\nview.proto\022\014crowdcontrol\"\256\003\n\004View\022\020\n\010w" +
       "orkerID\030\001 \001(\005\022%\n\004type\030\002 \001(\0162\027.crowdcontr" +
       "ol.View.Type\022\r\n\005title\030\003 \001(\t\022\023\n\013descripti" +
       "on\030\004 \001(\t\022\023\n\013constraints\030\005 \003(\t\022,\n\010picture" +
       "s\030\006 \003(\0132\032.crowdcontrol.View.Picture\0225\n\014c" +
       "alibrations\030\007 \003(\0132\037.crowdcontrol.View.Ca" +
       "librations\032+\n\007Picture\022\013\n\003url\030\001 \001(\t\022\023\n\013ur" +
-      "l_license\030\002 \001(\t\032L\n\014Calibrations\022\020\n\010quest" +
+      "l_license\030\002 \001(\t\032X\n\014Calibrations\022\020\n\010quest" +
       "ion\030\001 \001(\t\022\025\n\ranswerOptions\030\002 \003(\t\022\023\n\013desc" +
-      "ription\030\003 \001(\t\"H\n\004Type\022\014\n\010FINISHED\020\000\022\n\n\006A",
-      "NSWER\020\001\022\n\n\006RATING\020\002\022\017\n\013CALIBRATION\020\003\022\t\n\005" +
-      "EMAIL\020\004B.\n,edu.ipd.kit.crowdcontrol.work" +
-      "erservice.protob\006proto3"
+      "ription\030\003 \001(\t\022\n\n\002id\030\004 \001(\005\"H\n\004Type\022\014\n\010FIN",
+      "ISHED\020\000\022\n\n\006ANSWER\020\001\022\n\n\006RATING\020\002\022\017\n\013CALIB" +
+      "RATION\020\003\022\t\n\005EMAIL\020\004B.\n,edu.ipd.kit.crowd" +
+      "control.workerservice.protob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3184,7 +3243,7 @@ public final class ViewOuterClass {
     internal_static_crowdcontrol_View_Calibrations_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_View_Calibrations_descriptor,
-        new java.lang.String[] { "Question", "AnswerOptions", "Description", });
+        new java.lang.String[] { "Question", "AnswerOptions", "Description", "Id", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -147,6 +147,7 @@ public class Query implements RequestHelper {
                 .map(entry -> ViewOuterClass.View.Calibrations.newBuilder()
                         .setQuestion(entry.getKey().getProperty())
                         .setDescription(entry.getKey().getDescription())
+                        .setId(entry.getKey().getIdpopulation())
                         .addAllAnswerOptions(entry.getValue())
                         .build()
                 )
