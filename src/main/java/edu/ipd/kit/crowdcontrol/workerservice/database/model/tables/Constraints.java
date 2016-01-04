@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Constraints extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ConstraintsRecord> {
 
-	private static final long serialVersionUID = -1899353739;
+	private static final long serialVersionUID = 485665523;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Constraints</code>
@@ -34,12 +34,12 @@ public class Constraints extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontro
 	/**
 	 * The column <code>crowdcontrol.Constraints.constraint</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ConstraintsRecord, java.lang.String> CONSTRAINT = createField("constraint", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ConstraintsRecord, java.lang.String> CONSTRAINT = createField("constraint", org.jooq.impl.SQLDataType.VARCHAR.length(45).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Constraints.experiment</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ConstraintsRecord, java.lang.Integer> EXPERIMENT = createField("experiment", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ConstraintsRecord, java.lang.Integer> EXPERIMENT = createField("experiment", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Constraints</code> table reference

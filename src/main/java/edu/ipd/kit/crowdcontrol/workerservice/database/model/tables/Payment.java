@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Payment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord> {
 
-	private static final long serialVersionUID = 1705980185;
+	private static final long serialVersionUID = 2015432626;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Payment</code>
@@ -50,6 +50,11 @@ public class Payment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.wo
 	 * The column <code>crowdcontrol.Payment.amount</code>.
 	 */
 	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord, java.lang.Integer> AMOUNT = createField("amount", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Payment.giftcode</code>.
+	 */
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord, java.lang.Integer> GIFTCODE = createField("giftcode", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Payment</code> table reference
@@ -94,7 +99,7 @@ public class Payment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.wo
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.PAYEDWORKER, edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.PAYEDEXPERIMENT);
+		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.PAYEDWORKER, edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.PAYEDEXPERIMENT, edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.USEDGIFTCODE);
 	}
 
 	/**

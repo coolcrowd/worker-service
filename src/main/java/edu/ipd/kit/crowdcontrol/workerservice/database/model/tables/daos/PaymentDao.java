@@ -74,4 +74,11 @@ public class PaymentDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol.w
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Payment> fetchByAmount(java.lang.Integer... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.AMOUNT, values);
 	}
+
+	/**
+	 * Fetch records that have <code>giftcode IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Payment> fetchByGiftcode(java.lang.Integer... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.GIFTCODE, values);
+	}
 }

@@ -11,12 +11,13 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Population implements java.io.Serializable {
 
-	private static final long serialVersionUID = -1681593234;
+	private static final long serialVersionUID = 1017147872;
 
 	private java.lang.Integer idpopulation;
 	private java.lang.String  property;
 	private java.lang.String  answers;
 	private java.lang.String  description;
+	private java.lang.String  name;
 
 	public Population() {}
 
@@ -24,12 +25,14 @@ public class Population implements java.io.Serializable {
 		java.lang.Integer idpopulation,
 		java.lang.String  property,
 		java.lang.String  answers,
-		java.lang.String  description
+		java.lang.String  description,
+		java.lang.String  name
 	) {
 		this.idpopulation = idpopulation;
 		this.property = property;
 		this.answers = answers;
 		this.description = description;
+		this.name = name;
 	}
 
 	public java.lang.Integer getIdpopulation() {
@@ -62,5 +65,13 @@ public class Population implements java.io.Serializable {
 
 	public void setDescription(java.lang.String description) {
 		this.description = description;
+	}
+
+	public java.lang.String getName() {
+		return this.name;
+	}
+
+	public void setName(java.lang.String name) {
+		this.name = name;
 	}
 }

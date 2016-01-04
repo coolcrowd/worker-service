@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Answers extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.AnswersRecord> {
 
-	private static final long serialVersionUID = -1314419096;
+	private static final long serialVersionUID = -673965320;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Answers</code>
@@ -49,7 +49,12 @@ public class Answers extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.wo
 	/**
 	 * The column <code>crowdcontrol.Answers.worker_id</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.AnswersRecord, java.lang.Integer> WORKER_ID = createField("worker_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.AnswersRecord, java.lang.Integer> WORKER_ID = createField("worker_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Answers.quality</code>.
+	 */
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.AnswersRecord, java.lang.Integer> QUALITY = createField("quality", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Answers</code> table reference

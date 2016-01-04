@@ -34,6 +34,11 @@ public class Tables {
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experimentspopulation EXPERIMENTSPOPULATION = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION;
 
 	/**
+	 * The table crowdcontrol.GiftCodes
+	 */
+	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Giftcodes GIFTCODES = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Giftcodes.GIFTCODES;
+
+	/**
 	 * The table crowdcontrol.Payment
 	 */
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment PAYMENT = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT;
@@ -77,11 +82,6 @@ public class Tables {
 	 * The table crowdcontrol.Templates
 	 */
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Templates TEMPLATES = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Templates.TEMPLATES;
-
-	/**
-	 * The table crowdcontrol.TemplateVariables
-	 */
-	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Templatevariables TEMPLATEVARIABLES = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Templatevariables.TEMPLATEVARIABLES;
 
 	/**
 	 * The table crowdcontrol.Worker

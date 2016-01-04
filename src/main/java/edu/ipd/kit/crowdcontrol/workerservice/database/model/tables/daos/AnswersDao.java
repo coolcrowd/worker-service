@@ -74,4 +74,11 @@ public class AnswersDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol.w
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Answers> fetchByWorkerId(java.lang.Integer... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Answers.ANSWERS.WORKER_ID, values);
 	}
+
+	/**
+	 * Fetch records that have <code>quality IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Answers> fetchByQuality(java.lang.Integer... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Answers.ANSWERS.QUALITY, values);
+	}
 }

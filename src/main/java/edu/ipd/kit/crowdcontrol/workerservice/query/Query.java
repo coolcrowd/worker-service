@@ -65,22 +65,21 @@ public class Query implements RequestHelper {
      */
     private ViewOuterClass.View getNext(ViewOuterClass.View.Builder builder, Request request) {
         if (builder.getWorkerID() == -1) {
-            return handleNoWorkerID(builder, request);
-        } else {
-            Optional<ViewOuterClass.View> calibrations = getCalibrations(builder, request);
-            if (calibrations.isPresent()) {
-                return calibrations.get();
-            }
-            Optional<ViewOuterClass.View> strategyStep = getStrategyStep(builder, request);
-            if (strategyStep.isPresent()) {
-                return strategyStep.get();
-            }
-            Optional<ViewOuterClass.View> email = getEmail(builder, request);
-            if (email.isPresent()) {
-                return email.get();
-            }
-            return workerFinished(builder, request);
+            builder =  handleNoWorkerID(builder, request);
         }
+        Optional<ViewOuterClass.View> calibrations = getCalibrations(builder, request);
+        if (calibrations.isPresent()) {
+            return calibrations.get();
+        }
+        Optional<ViewOuterClass.View> strategyStep = getStrategyStep(builder, request);
+        if (strategyStep.isPresent()) {
+            return strategyStep.get();
+        }
+        Optional<ViewOuterClass.View> email = getEmail(builder, request);
+        if (email.isPresent()) {
+            return email.get();
+        }
+        return workerFinished(builder, request);
     }
 
     /**
@@ -107,11 +106,11 @@ public class Query implements RequestHelper {
      * @param request the request
      * @return an instance of View.
      */
-    private ViewOuterClass.View handleNoWorkerID(ViewOuterClass.View.Builder builder, Request request) {
+    private ViewOuterClass.View.Builder handleNoWorkerID(ViewOuterClass.View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
-        int workerID = platforms.handleNoWorkerID(request, platformName);
-        builder.setWorkerID(workerID);
-        return getNext(builder, request);
+        return platforms.handleNoWorkerID(request, platformName)
+                .map(builder::setWorkerID)
+                .orElse(builder);
     }
 
     /**
@@ -180,7 +179,11 @@ public class Query implements RequestHelper {
      */
     private Optional<ViewOuterClass.View> getEmail(ViewOuterClass.View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
-        if (platforms.needsEmail(platformName) && !workerOperations.hasEmail(builder.getWorkerID())) {
+        boolean hasNoEmail = true;
+        if (builder.getWorkerID() != -1) {
+            hasNoEmail = !workerOperations.hasEmail(builder.getWorkerID());
+        }
+        if (platforms.needsEmail(platformName) && hasNoEmail) {
             return Optional.of(builder.setType(ViewOuterClass.View.Type.EMAIL).build());
         } else {
             return Optional.empty();
@@ -195,7 +198,7 @@ public class Query implements RequestHelper {
      */
     private ViewOuterClass.View workerFinished(ViewOuterClass.View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
-        platforms.workerFinished(request, platformName);
+        //TODO: notify?
         return builder.setType(ViewOuterClass.View.Type.FINISHED)
                 .build();
     }

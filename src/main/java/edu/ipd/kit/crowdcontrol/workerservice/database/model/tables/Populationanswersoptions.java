@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Populationanswersoptions extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationanswersoptionsRecord> {
 
-	private static final long serialVersionUID = 1627092193;
+	private static final long serialVersionUID = -785119807;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.PopulationAnswersOptions</code>
@@ -34,12 +34,12 @@ public class Populationanswersoptions extends org.jooq.impl.TableImpl<edu.ipd.ki
 	/**
 	 * The column <code>crowdcontrol.PopulationAnswersOptions.population</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationanswersoptionsRecord, java.lang.Integer> POPULATION = createField("population", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationanswersoptionsRecord, java.lang.Integer> POPULATION = createField("population", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.PopulationAnswersOptions.answer</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationanswersoptionsRecord, java.lang.String> ANSWER = createField("answer", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationanswersoptionsRecord, java.lang.String> ANSWER = createField("answer", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.PopulationAnswersOptions</code> table reference

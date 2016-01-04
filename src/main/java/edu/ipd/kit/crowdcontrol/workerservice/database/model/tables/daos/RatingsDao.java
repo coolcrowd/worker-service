@@ -81,4 +81,11 @@ public class RatingsDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol.w
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Ratings> fetchByWorkerId(java.lang.Integer... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Ratings.RATINGS.WORKER_ID, values);
 	}
+
+	/**
+	 * Fetch records that have <code>quality IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Ratings> fetchByQuality(java.lang.Integer... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Ratings.RATINGS.QUALITY, values);
+	}
 }

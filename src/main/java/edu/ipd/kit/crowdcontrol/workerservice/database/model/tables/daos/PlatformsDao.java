@@ -48,6 +48,13 @@ public class PlatformsDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol
 	}
 
 	/**
+	 * Fetch records that have <code>name IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Platforms> fetchByName(java.lang.String... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platforms.PLATFORMS.NAME, values);
+	}
+
+	/**
 	 * Fetch records that have <code>native_qualifications IN (values)</code>
 	 */
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Platforms> fetchByNativeQualifications(java.lang.Boolean... values) {
@@ -62,9 +69,9 @@ public class PlatformsDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol
 	}
 
 	/**
-	 * Fetch records that have <code>name IN (values)</code>
+	 * Fetch records that have <code>needs_email IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Platforms> fetchByName(java.lang.String... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platforms.PLATFORMS.NAME, values);
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Platforms> fetchByNeedsEmail(java.lang.Boolean... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platforms.PLATFORMS.NEEDS_EMAIL, values);
 	}
 }
