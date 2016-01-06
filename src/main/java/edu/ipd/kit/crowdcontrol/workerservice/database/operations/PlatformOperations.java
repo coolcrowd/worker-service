@@ -11,14 +11,18 @@ import org.jooq.DSLContext;
  */
 public class PlatformOperations extends AbstractOperation {
 
+    /**
+     * creates a new instance of PlatformOperations
+     * @param create the context to use
+     */
     public PlatformOperations(DSLContext create) {
         super(create);
     }
 
     /**
-     * returns the Platform for the name
-     * @param name the Name
-     * @return the platformsRecord
+     * returns the Platform for the passed name or throws an exception.
+     * @param name the name of the platform
+     * @return the platformsRecord corresponding to the name
      * @throws PlatformNotFoundException if the platform is not found
      */
     public PlatformRecord getPlatform(String name) throws PlatformNotFoundException {

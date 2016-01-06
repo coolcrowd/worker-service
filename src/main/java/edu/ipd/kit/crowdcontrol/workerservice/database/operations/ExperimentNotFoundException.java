@@ -1,6 +1,7 @@
 package edu.ipd.kit.crowdcontrol.workerservice.database.operations;
 
 /**
+ * this exception signals that the no experiment for the passed experimentID exists in the database.
  * @author LeanderK
  * @version 1.0
  */

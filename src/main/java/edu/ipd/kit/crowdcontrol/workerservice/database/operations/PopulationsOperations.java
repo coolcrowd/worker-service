@@ -13,6 +13,7 @@ import java.util.Map;
 import static edu.ipd.kit.crowdcontrol.workerservice.database.model.Tables.*;
 
 /**
+ *
  * @author LeanderK
  * @version 1.0
  */
