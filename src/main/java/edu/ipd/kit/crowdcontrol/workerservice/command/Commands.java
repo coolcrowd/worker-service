@@ -40,7 +40,7 @@ public class Commands implements RequestHelper {
      * this method expects the JSON-Representation of the protobuf-message calibration.
      * @param request  The request providing information about the HTTP request
      * @param response The response providing functionality for modifying the response
-     * @return emtpy body
+     * @return emtpy body (null)
      */
     public Object submitCalibration(Request request, Response response) {
         return null;
@@ -51,7 +51,7 @@ public class Commands implements RequestHelper {
      * this method expects the JSON-Representation of the protobuf-message answer.
      * @param request  The request providing information about the HTTP request
      * @param response The response providing functionality for modifying the response
-     * @return emtpy body
+     * @return emtpy body (null)
      */
     public Object submitAnswer(Request request, Response response) {
         return null;
@@ -62,7 +62,7 @@ public class Commands implements RequestHelper {
      * this method expects the JSON-Representation of the protobuf-message rating.
      * @param request  The request providing information about the HTTP request
      * @param response The response providing functionality for modifying the response
-     * @return emtpy body
+     * @return emtpy body (null)
      */
     public Object submitRating(Request request, Response response) {
         return null;
