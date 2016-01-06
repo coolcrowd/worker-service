@@ -1,6 +1,6 @@
 package edu.ipd.kit.crowdcontrol.workerservice.crowdplatform;
 
-import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformsRecord;
+import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord;
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.PlatformNotFoundException;
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import spark.Request;
@@ -41,8 +41,8 @@ public class Platforms {
         return !getPlatformRecordOrThrow(platformName).getNativeQualifications();
     }
 
-    private PlatformsRecord getPlatformRecordOrThrow(String platformName) throws PlatformNotFoundException {
-        PlatformsRecord platform = platformOperations.getPlatform(platformName);
+    private PlatformRecord getPlatformRecordOrThrow(String platformName) throws PlatformNotFoundException {
+        PlatformRecord platform = platformOperations.getPlatform(platformName);
         if (platform != null) {
             return platform;
         } else {
