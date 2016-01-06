@@ -27,6 +27,16 @@ public class Platforms {
         return !getPlatformRecordOrThrow(platformName).getNeedsEmail();
     }
 
+    public boolean hasNativeQualifications(String platformName) throws PlatformNotFoundException {
+        //TODO
+        return true;
+    }
+
+    public String getID(String platformName) throws PlatformNotFoundException {
+        //TODO
+        return null;
+    }
+
     public boolean needsCalibration(String platformName) throws PlatformNotFoundException {
         return !getPlatformRecordOrThrow(platformName).getNativeQualifications();
     }

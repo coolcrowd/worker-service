@@ -57,7 +57,7 @@ public class WorkerDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol.wo
 	/**
 	 * Fetch records that have <code>platform IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByPlatform(java.lang.Integer... values) {
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByPlatform(java.lang.String... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.PLATFORM, values);
 	}
 

@@ -3,10 +3,8 @@ package edu.ipd.kit.crowdcontrol.workerservice.query;
 import edu.ipd.kit.crowdcontrol.workerservice.RequestHelper;
 import edu.ipd.kit.crowdcontrol.workerservice.crowdplatform.Platforms;
 import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
-import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformsRecord;
 import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.ipd.kit.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.PopulationsOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.database.operations.WorkerOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass;
@@ -25,14 +23,12 @@ import java.util.stream.Collectors;
  */
 public class Query implements RequestHelper {
     private final HashMap<String, TaskChooserAlgorithm> strategies =  new HashMap<>();
-    private final PlatformOperations platformOperations;
     private final PopulationsOperations populationsOperations;
     private final ExperimentOperations experimentOperations;
     private final WorkerOperations workerOperations;
     private final Platforms platforms;
 
-    public Query(PlatformOperations platformOperations, PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, WorkerOperations workerOperations, Platforms platforms) {
-        this.platformOperations = platformOperations;
+    public Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, WorkerOperations workerOperations, Platforms platforms) {
         this.populationsOperations = populationsOperations;
         this.experimentOperations = experimentOperations;
         this.workerOperations = workerOperations;
@@ -44,7 +40,7 @@ public class Query implements RequestHelper {
      * used to register a new TaskStrategy.
      * @param taskChooserAlgorithm the TaskStrategy to register
      */
-    public void registerTaskChooser(TaskChooserAlgorithm taskChooserAlgorithm) {
+    private void registerTaskChooser(TaskChooserAlgorithm taskChooserAlgorithm) {
         strategies.put(taskChooserAlgorithm.getName(), taskChooserAlgorithm);
     }
 
@@ -122,11 +118,10 @@ public class Query implements RequestHelper {
     private Optional<ViewOuterClass.View> getCalibrations(ViewOuterClass.View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
-        PlatformsRecord platform = platformOperations.getPlatform(platformName);
-        if (platform.getNativeQualifications()) {
+        if (platforms.hasNativeQualifications(platformName)) {
             return Optional.empty();
         } else {
-            Map<PopulationRecord, List<String>> calibrations = populationsOperations.getCalibrations(experiment, platform.getIdplatforms(), builder.getWorkerID());
+            Map<PopulationRecord, List<String>> calibrations = populationsOperations.getCalibrations(experiment, platforms.getID(platformName), builder.getWorkerID());
             if (calibrations.isEmpty()) {
                 return Optional.empty();
             } else {

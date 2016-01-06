@@ -11,20 +11,20 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experimentspopulation implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1043713866;
+	private static final long serialVersionUID = -1347174722;
 
-	private java.lang.Integer idexperimentspopulation;
+	private java.lang.String  idexperimentspopulation;
 	private java.lang.Integer populationUser;
 	private java.lang.Integer referencedPopulation;
-	private java.lang.Integer referencedPlatform;
+	private java.lang.String  referencedPlatform;
 
 	public Experimentspopulation() {}
 
 	public Experimentspopulation(
-		java.lang.Integer idexperimentspopulation,
+		java.lang.String  idexperimentspopulation,
 		java.lang.Integer populationUser,
 		java.lang.Integer referencedPopulation,
-		java.lang.Integer referencedPlatform
+		java.lang.String  referencedPlatform
 	) {
 		this.idexperimentspopulation = idexperimentspopulation;
 		this.populationUser = populationUser;
@@ -32,11 +32,11 @@ public class Experimentspopulation implements java.io.Serializable {
 		this.referencedPlatform = referencedPlatform;
 	}
 
-	public java.lang.Integer getIdexperimentspopulation() {
+	public java.lang.String getIdexperimentspopulation() {
 		return this.idexperimentspopulation;
 	}
 
-	public void setIdexperimentspopulation(java.lang.Integer idexperimentspopulation) {
+	public void setIdexperimentspopulation(java.lang.String idexperimentspopulation) {
 		this.idexperimentspopulation = idexperimentspopulation;
 	}
 
@@ -56,11 +56,11 @@ public class Experimentspopulation implements java.io.Serializable {
 		this.referencedPopulation = referencedPopulation;
 	}
 
-	public java.lang.Integer getReferencedPlatform() {
+	public java.lang.String getReferencedPlatform() {
 		return this.referencedPlatform;
 	}
 
-	public void setReferencedPlatform(java.lang.Integer referencedPlatform) {
+	public void setReferencedPlatform(java.lang.String referencedPlatform) {
 		this.referencedPlatform = referencedPlatform;
 	}
 }

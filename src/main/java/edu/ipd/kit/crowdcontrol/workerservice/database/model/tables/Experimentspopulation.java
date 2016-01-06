@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experimentspopulation extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord> {
 
-	private static final long serialVersionUID = -1506495841;
+	private static final long serialVersionUID = -204971611;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.ExperimentsPopulation</code>
@@ -29,7 +29,7 @@ public class Experimentspopulation extends org.jooq.impl.TableImpl<edu.ipd.kit.c
 	/**
 	 * The column <code>crowdcontrol.ExperimentsPopulation.idExperimentsPopulation</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord, java.lang.Integer> IDEXPERIMENTSPOPULATION = createField("idExperimentsPopulation", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord, java.lang.String> IDEXPERIMENTSPOPULATION = createField("idExperimentsPopulation", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.ExperimentsPopulation.population_user</code>.
@@ -44,7 +44,7 @@ public class Experimentspopulation extends org.jooq.impl.TableImpl<edu.ipd.kit.c
 	/**
 	 * The column <code>crowdcontrol.ExperimentsPopulation.referenced_platform</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord, java.lang.Integer> REFERENCED_PLATFORM = createField("referenced_platform", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord, java.lang.String> REFERENCED_PLATFORM = createField("referenced_platform", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.ExperimentsPopulation</code> table reference

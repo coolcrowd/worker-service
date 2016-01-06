@@ -1,7 +1,7 @@
 package edu.ipd.kit.crowdcontrol.workerservice.database.operations;
 
 import edu.ipd.kit.crowdcontrol.workerservice.database.model.Tables;
-import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformsRecord;
+import edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord;
 import org.jooq.DSLContext;
 
 /**
@@ -21,9 +21,9 @@ public class PlatformOperations extends AbstractOperation {
      * @return the platformsRecord
      * @throws PlatformNotFoundException if the platform is not found
      */
-    public PlatformsRecord getPlatform(String name) throws PlatformNotFoundException {
-        return create.selectFrom(Tables.PLATFORMS)
-                .where(Tables.PLATFORMS.NAME.eq(name))
+    public PlatformRecord getPlatform(String name) throws PlatformNotFoundException {
+        return create.selectFrom(Tables.PLATFORM)
+                .where(Tables.PLATFORM.NAME.eq(name))
                 .fetchOptional()
                 .orElseThrow(() -> new PlatformNotFoundException(name));
     }

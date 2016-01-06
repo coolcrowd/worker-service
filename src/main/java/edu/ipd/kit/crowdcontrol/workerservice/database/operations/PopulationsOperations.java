@@ -31,12 +31,12 @@ public class PopulationsOperations extends AbstractOperation {
      * @param Worker the worker
      * @return a map where the keys are the detailed population the worker may belong to and the values are the answerOptions
      */
-    public Map<PopulationRecord, List<String>> getCalibrations(int experimentID, int platformID, int Worker) {
+    public Map<PopulationRecord, List<String>> getCalibrations(int experimentID, String platformID, int Worker) {
         List<Integer> answeredCalibrations = DSL.select()
-                .from(POPULATIONRESULTS)
-                .join(POPULATIONANSWERSOPTIONS).onKey()
-                .where(POPULATIONRESULTS.WORKER.eq(Worker))
-                .fetch(POPULATIONANSWERSOPTIONS.POPULATION);
+                .from(POPULATIONRESULT)
+                .join(POPULATIONANSWEROPTION).onKey()
+                .where(POPULATIONRESULT.WORKER.eq(Worker))
+                .fetch(POPULATIONANSWEROPTION.POPULATION);
 
         List<Integer> populationIDs = create.selectFrom(EXPERIMENTSPOPULATION)
                 .where(EXPERIMENTSPOPULATION.POPULATION_USER.eq(experimentID))
@@ -46,10 +46,10 @@ public class PopulationsOperations extends AbstractOperation {
 
         Map<PopulationRecord, Result<Record>> populationAndAnswers = create.select()
                 .from(Tables.POPULATION)
-                .join(Tables.POPULATIONANSWERSOPTIONS).onKey()
+                .join(Tables.POPULATIONANSWEROPTION).onKey()
                 .where(Tables.POPULATION.IDPOPULATION.in(populationIDs))
                 .fetchGroups(Tables.POPULATION);
 
-        return mapMap(populationAndAnswers, record -> record.getValues(Tables.POPULATIONANSWERSOPTIONS.ANSWER));
+        return mapMap(populationAndAnswers, record -> record.getValues(Tables.POPULATIONANSWEROPTION.ANSWER));
     }
 }
