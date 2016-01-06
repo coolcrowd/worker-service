@@ -47,68 +47,97 @@ public final class ViewOuterClass {
         getDescriptionBytes();
 
     /**
-     * <code>repeated string constraints = 5;</code>
+     * <code>optional int32 task = 5;</code>
+     */
+    int getTask();
+
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer> 
+        getAnswersList();
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer getAnswers(int index);
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    int getAnswersCount();
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    java.util.List<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder> 
+        getAnswersOrBuilderList();
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder getAnswersOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated string constraints = 7;</code>
      */
     com.google.protobuf.ProtocolStringList
         getConstraintsList();
     /**
-     * <code>repeated string constraints = 5;</code>
+     * <code>repeated string constraints = 7;</code>
      */
     int getConstraintsCount();
     /**
-     * <code>repeated string constraints = 5;</code>
+     * <code>repeated string constraints = 7;</code>
      */
     java.lang.String getConstraints(int index);
     /**
-     * <code>repeated string constraints = 5;</code>
+     * <code>repeated string constraints = 7;</code>
      */
     com.google.protobuf.ByteString
         getConstraintsBytes(int index);
 
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture> 
         getPicturesList();
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture getPictures(int index);
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     int getPicturesCount();
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     java.util.List<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.PictureOrBuilder> 
         getPicturesOrBuilderList();
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.PictureOrBuilder getPicturesOrBuilder(
         int index);
 
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations> 
         getCalibrationsList();
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations getCalibrations(int index);
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     int getCalibrationsCount();
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     java.util.List<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.CalibrationsOrBuilder> 
         getCalibrationsOrBuilderList();
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.CalibrationsOrBuilder getCalibrationsOrBuilder(
         int index);
@@ -129,6 +158,8 @@ public final class ViewOuterClass {
       type_ = 0;
       title_ = "";
       description_ = "";
+      task_ = 0;
+      answers_ = java.util.Collections.emptyList();
       constraints_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       pictures_ = java.util.Collections.emptyList();
       calibrations_ = java.util.Collections.emptyList();
@@ -181,27 +212,40 @@ public final class ViewOuterClass {
               description_ = s;
               break;
             }
-            case 42: {
-              String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                constraints_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000010;
-              }
-              constraints_.add(s);
+            case 40: {
+
+              task_ = input.readInt32();
               break;
             }
             case 50: {
               if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-                pictures_ = new java.util.ArrayList<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture>();
+                answers_ = new java.util.ArrayList<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer>();
                 mutable_bitField0_ |= 0x00000020;
+              }
+              answers_.add(input.readMessage(edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.parser(), extensionRegistry));
+              break;
+            }
+            case 58: {
+              String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                constraints_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              constraints_.add(s);
+              break;
+            }
+            case 66: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                pictures_ = new java.util.ArrayList<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture>();
+                mutable_bitField0_ |= 0x00000080;
               }
               pictures_.add(input.readMessage(edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.parser(), extensionRegistry));
               break;
             }
-            case 58: {
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+            case 74: {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
                 calibrations_ = new java.util.ArrayList<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations>();
-                mutable_bitField0_ |= 0x00000040;
+                mutable_bitField0_ |= 0x00000100;
               }
               calibrations_.add(input.readMessage(edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.parser(), extensionRegistry));
               break;
@@ -215,13 +259,16 @@ public final class ViewOuterClass {
             new com.google.protobuf.InvalidProtocolBufferException(
                 e.getMessage()).setUnfinishedMessage(this));
       } finally {
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-          constraints_ = constraints_.getUnmodifiableView();
-        }
         if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-          pictures_ = java.util.Collections.unmodifiableList(pictures_);
+          answers_ = java.util.Collections.unmodifiableList(answers_);
         }
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          constraints_ = constraints_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+          pictures_ = java.util.Collections.unmodifiableList(pictures_);
+        }
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
           calibrations_ = java.util.Collections.unmodifiableList(calibrations_);
         }
         makeExtensionsImmutable();
@@ -1769,6 +1816,514 @@ public final class ViewOuterClass {
 
     }
 
+    public interface AnswerOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:crowdcontrol.View.Answer)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      int getId();
+
+      /**
+       * <code>optional string answer = 2;</code>
+       */
+      java.lang.String getAnswer();
+      /**
+       * <code>optional string answer = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getAnswerBytes();
+    }
+    /**
+     * Protobuf type {@code crowdcontrol.View.Answer}
+     */
+    public  static final class Answer extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:crowdcontrol.View.Answer)
+        AnswerOrBuilder {
+      // Use Answer.newBuilder() to construct.
+      private Answer(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private Answer() {
+        id_ = 0;
+        answer_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      }
+      private Answer(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        this();
+        int mutable_bitField0_ = 0;
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!input.skipField(tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 8: {
+
+                id_ = input.readInt32();
+                break;
+              }
+              case 18: {
+                String s = input.readStringRequireUtf8();
+
+                answer_ = s;
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw new RuntimeException(e.setUnfinishedMessage(this));
+        } catch (java.io.IOException e) {
+          throw new RuntimeException(
+              new com.google.protobuf.InvalidProtocolBufferException(
+                  e.getMessage()).setUnfinishedMessage(this));
+        } finally {
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.internal_static_crowdcontrol_View_Answer_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.internal_static_crowdcontrol_View_Answer_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.class, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder.class);
+      }
+
+      public static final int ID_FIELD_NUMBER = 1;
+      private int id_;
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+
+      public static final int ANSWER_FIELD_NUMBER = 2;
+      private volatile java.lang.Object answer_;
+      /**
+       * <code>optional string answer = 2;</code>
+       */
+      public java.lang.String getAnswer() {
+        java.lang.Object ref = answer_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          answer_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>optional string answer = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getAnswerBytes() {
+        java.lang.Object ref = answer_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          answer_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (id_ != 0) {
+          output.writeInt32(1, id_);
+        }
+        if (!getAnswerBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, answer_);
+        }
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (id_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(1, id_);
+        }
+        if (!getAnswerBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, answer_);
+        }
+        memoizedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code crowdcontrol.View.Answer}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:crowdcontrol.View.Answer)
+          edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.internal_static_crowdcontrol_View_Answer_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.internal_static_crowdcontrol_View_Answer_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.class, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder.class);
+        }
+
+        // Construct using edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          id_ = 0;
+
+          answer_ = "";
+
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.internal_static_crowdcontrol_View_Answer_descriptor;
+        }
+
+        public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer getDefaultInstanceForType() {
+          return edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.getDefaultInstance();
+        }
+
+        public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer build() {
+          edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer buildPartial() {
+          edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer result = new edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer(this);
+          result.id_ = id_;
+          result.answer_ = answer_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer) {
+            return mergeFrom((edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer other) {
+          if (other == edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.getDefaultInstance()) return this;
+          if (other.getId() != 0) {
+            setId(other.getId());
+          }
+          if (!other.getAnswer().isEmpty()) {
+            answer_ = other.answer_;
+            onChanged();
+          }
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private int id_ ;
+        /**
+         * <code>optional int32 id = 1;</code>
+         */
+        public int getId() {
+          return id_;
+        }
+        /**
+         * <code>optional int32 id = 1;</code>
+         */
+        public Builder setId(int value) {
+          
+          id_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 id = 1;</code>
+         */
+        public Builder clearId() {
+          
+          id_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object answer_ = "";
+        /**
+         * <code>optional string answer = 2;</code>
+         */
+        public java.lang.String getAnswer() {
+          java.lang.Object ref = answer_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            answer_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>optional string answer = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getAnswerBytes() {
+          java.lang.Object ref = answer_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            answer_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>optional string answer = 2;</code>
+         */
+        public Builder setAnswer(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          answer_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string answer = 2;</code>
+         */
+        public Builder clearAnswer() {
+          
+          answer_ = getDefaultInstance().getAnswer();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string answer = 2;</code>
+         */
+        public Builder setAnswerBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          answer_ = value;
+          onChanged();
+          return this;
+        }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return this;
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return this;
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:crowdcontrol.View.Answer)
+      }
+
+      // @@protoc_insertion_point(class_scope:crowdcontrol.View.Answer)
+      private static final edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer();
+      }
+
+      public static edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Answer>
+          PARSER = new com.google.protobuf.AbstractParser<Answer>() {
+        public Answer parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          try {
+            return new Answer(input, extensionRegistry);
+          } catch (RuntimeException e) {
+            if (e.getCause() instanceof
+                com.google.protobuf.InvalidProtocolBufferException) {
+              throw (com.google.protobuf.InvalidProtocolBufferException)
+                  e.getCause();
+            }
+            throw e;
+          }
+        }
+      };
+
+      public static com.google.protobuf.Parser<Answer> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Answer> getParserForType() {
+        return PARSER;
+      }
+
+      public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int bitField0_;
     public static final int WORKERID_FIELD_NUMBER = 1;
     private int workerID_;
@@ -1863,99 +2418,143 @@ public final class ViewOuterClass {
       }
     }
 
-    public static final int CONSTRAINTS_FIELD_NUMBER = 5;
+    public static final int TASK_FIELD_NUMBER = 5;
+    private int task_;
+    /**
+     * <code>optional int32 task = 5;</code>
+     */
+    public int getTask() {
+      return task_;
+    }
+
+    public static final int ANSWERS_FIELD_NUMBER = 6;
+    private java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer> answers_;
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer> getAnswersList() {
+      return answers_;
+    }
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    public java.util.List<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder> 
+        getAnswersOrBuilderList() {
+      return answers_;
+    }
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    public int getAnswersCount() {
+      return answers_.size();
+    }
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer getAnswers(int index) {
+      return answers_.get(index);
+    }
+    /**
+     * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+     */
+    public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder getAnswersOrBuilder(
+        int index) {
+      return answers_.get(index);
+    }
+
+    public static final int CONSTRAINTS_FIELD_NUMBER = 7;
     private com.google.protobuf.LazyStringList constraints_;
     /**
-     * <code>repeated string constraints = 5;</code>
+     * <code>repeated string constraints = 7;</code>
      */
     public com.google.protobuf.ProtocolStringList
         getConstraintsList() {
       return constraints_;
     }
     /**
-     * <code>repeated string constraints = 5;</code>
+     * <code>repeated string constraints = 7;</code>
      */
     public int getConstraintsCount() {
       return constraints_.size();
     }
     /**
-     * <code>repeated string constraints = 5;</code>
+     * <code>repeated string constraints = 7;</code>
      */
     public java.lang.String getConstraints(int index) {
       return constraints_.get(index);
     }
     /**
-     * <code>repeated string constraints = 5;</code>
+     * <code>repeated string constraints = 7;</code>
      */
     public com.google.protobuf.ByteString
         getConstraintsBytes(int index) {
       return constraints_.getByteString(index);
     }
 
-    public static final int PICTURES_FIELD_NUMBER = 6;
+    public static final int PICTURES_FIELD_NUMBER = 8;
     private java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture> pictures_;
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture> getPicturesList() {
       return pictures_;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     public java.util.List<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.PictureOrBuilder> 
         getPicturesOrBuilderList() {
       return pictures_;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     public int getPicturesCount() {
       return pictures_.size();
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture getPictures(int index) {
       return pictures_.get(index);
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
      */
     public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.PictureOrBuilder getPicturesOrBuilder(
         int index) {
       return pictures_.get(index);
     }
 
-    public static final int CALIBRATIONS_FIELD_NUMBER = 7;
+    public static final int CALIBRATIONS_FIELD_NUMBER = 9;
     private java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations> calibrations_;
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations> getCalibrationsList() {
       return calibrations_;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     public java.util.List<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.CalibrationsOrBuilder> 
         getCalibrationsOrBuilderList() {
       return calibrations_;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     public int getCalibrationsCount() {
       return calibrations_.size();
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations getCalibrations(int index) {
       return calibrations_.get(index);
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+     * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
      */
     public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.CalibrationsOrBuilder getCalibrationsOrBuilder(
         int index) {
@@ -1986,14 +2585,20 @@ public final class ViewOuterClass {
       if (!getDescriptionBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessage.writeString(output, 4, description_);
       }
+      if (task_ != 0) {
+        output.writeInt32(5, task_);
+      }
+      for (int i = 0; i < answers_.size(); i++) {
+        output.writeMessage(6, answers_.get(i));
+      }
       for (int i = 0; i < constraints_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 5, constraints_.getRaw(i));
+        com.google.protobuf.GeneratedMessage.writeString(output, 7, constraints_.getRaw(i));
       }
       for (int i = 0; i < pictures_.size(); i++) {
-        output.writeMessage(6, pictures_.get(i));
+        output.writeMessage(8, pictures_.get(i));
       }
       for (int i = 0; i < calibrations_.size(); i++) {
-        output.writeMessage(7, calibrations_.get(i));
+        output.writeMessage(9, calibrations_.get(i));
       }
     }
 
@@ -2016,6 +2621,14 @@ public final class ViewOuterClass {
       if (!getDescriptionBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessage.computeStringSize(4, description_);
       }
+      if (task_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, task_);
+      }
+      for (int i = 0; i < answers_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, answers_.get(i));
+      }
       {
         int dataSize = 0;
         for (int i = 0; i < constraints_.size(); i++) {
@@ -2026,11 +2639,11 @@ public final class ViewOuterClass {
       }
       for (int i = 0; i < pictures_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, pictures_.get(i));
+          .computeMessageSize(8, pictures_.get(i));
       }
       for (int i = 0; i < calibrations_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, calibrations_.get(i));
+          .computeMessageSize(9, calibrations_.get(i));
       }
       memoizedSize = size;
       return size;
@@ -2139,6 +2752,7 @@ public final class ViewOuterClass {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAnswersFieldBuilder();
           getPicturesFieldBuilder();
           getCalibrationsFieldBuilder();
         }
@@ -2153,17 +2767,25 @@ public final class ViewOuterClass {
 
         description_ = "";
 
+        task_ = 0;
+
+        if (answersBuilder_ == null) {
+          answers_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        } else {
+          answersBuilder_.clear();
+        }
         constraints_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000040);
         if (picturesBuilder_ == null) {
           pictures_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000080);
         } else {
           picturesBuilder_.clear();
         }
         if (calibrationsBuilder_ == null) {
           calibrations_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000100);
         } else {
           calibrationsBuilder_.clear();
         }
@@ -2195,24 +2817,34 @@ public final class ViewOuterClass {
         result.type_ = type_;
         result.title_ = title_;
         result.description_ = description_;
-        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        result.task_ = task_;
+        if (answersBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            answers_ = java.util.Collections.unmodifiableList(answers_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.answers_ = answers_;
+        } else {
+          result.answers_ = answersBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
           constraints_ = constraints_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000040);
         }
         result.constraints_ = constraints_;
         if (picturesBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
             pictures_ = java.util.Collections.unmodifiableList(pictures_);
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000080);
           }
           result.pictures_ = pictures_;
         } else {
           result.pictures_ = picturesBuilder_.build();
         }
         if (calibrationsBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          if (((bitField0_ & 0x00000100) == 0x00000100)) {
             calibrations_ = java.util.Collections.unmodifiableList(calibrations_);
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000100);
           }
           result.calibrations_ = calibrations_;
         } else {
@@ -2248,10 +2880,39 @@ public final class ViewOuterClass {
           description_ = other.description_;
           onChanged();
         }
+        if (other.getTask() != 0) {
+          setTask(other.getTask());
+        }
+        if (answersBuilder_ == null) {
+          if (!other.answers_.isEmpty()) {
+            if (answers_.isEmpty()) {
+              answers_ = other.answers_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensureAnswersIsMutable();
+              answers_.addAll(other.answers_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.answers_.isEmpty()) {
+            if (answersBuilder_.isEmpty()) {
+              answersBuilder_.dispose();
+              answersBuilder_ = null;
+              answers_ = other.answers_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              answersBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAnswersFieldBuilder() : null;
+            } else {
+              answersBuilder_.addAllMessages(other.answers_);
+            }
+          }
+        }
         if (!other.constraints_.isEmpty()) {
           if (constraints_.isEmpty()) {
             constraints_ = other.constraints_;
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000040);
           } else {
             ensureConstraintsIsMutable();
             constraints_.addAll(other.constraints_);
@@ -2262,7 +2923,7 @@ public final class ViewOuterClass {
           if (!other.pictures_.isEmpty()) {
             if (pictures_.isEmpty()) {
               pictures_ = other.pictures_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000080);
             } else {
               ensurePicturesIsMutable();
               pictures_.addAll(other.pictures_);
@@ -2275,7 +2936,7 @@ public final class ViewOuterClass {
               picturesBuilder_.dispose();
               picturesBuilder_ = null;
               pictures_ = other.pictures_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000080);
               picturesBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getPicturesFieldBuilder() : null;
@@ -2288,7 +2949,7 @@ public final class ViewOuterClass {
           if (!other.calibrations_.isEmpty()) {
             if (calibrations_.isEmpty()) {
               calibrations_ = other.calibrations_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000100);
             } else {
               ensureCalibrationsIsMutable();
               calibrations_.addAll(other.calibrations_);
@@ -2301,7 +2962,7 @@ public final class ViewOuterClass {
               calibrationsBuilder_.dispose();
               calibrationsBuilder_ = null;
               calibrations_ = other.calibrations_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000100);
               calibrationsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getCalibrationsFieldBuilder() : null;
@@ -2545,41 +3206,307 @@ public final class ViewOuterClass {
         return this;
       }
 
+      private int task_ ;
+      /**
+       * <code>optional int32 task = 5;</code>
+       */
+      public int getTask() {
+        return task_;
+      }
+      /**
+       * <code>optional int32 task = 5;</code>
+       */
+      public Builder setTask(int value) {
+        
+        task_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 task = 5;</code>
+       */
+      public Builder clearTask() {
+        
+        task_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer> answers_ =
+        java.util.Collections.emptyList();
+      private void ensureAnswersIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          answers_ = new java.util.ArrayList<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer>(answers_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder> answersBuilder_;
+
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer> getAnswersList() {
+        if (answersBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(answers_);
+        } else {
+          return answersBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public int getAnswersCount() {
+        if (answersBuilder_ == null) {
+          return answers_.size();
+        } else {
+          return answersBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer getAnswers(int index) {
+        if (answersBuilder_ == null) {
+          return answers_.get(index);
+        } else {
+          return answersBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public Builder setAnswers(
+          int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer value) {
+        if (answersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAnswersIsMutable();
+          answers_.set(index, value);
+          onChanged();
+        } else {
+          answersBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public Builder setAnswers(
+          int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder builderForValue) {
+        if (answersBuilder_ == null) {
+          ensureAnswersIsMutable();
+          answers_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          answersBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public Builder addAnswers(edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer value) {
+        if (answersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAnswersIsMutable();
+          answers_.add(value);
+          onChanged();
+        } else {
+          answersBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public Builder addAnswers(
+          int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer value) {
+        if (answersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAnswersIsMutable();
+          answers_.add(index, value);
+          onChanged();
+        } else {
+          answersBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public Builder addAnswers(
+          edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder builderForValue) {
+        if (answersBuilder_ == null) {
+          ensureAnswersIsMutable();
+          answers_.add(builderForValue.build());
+          onChanged();
+        } else {
+          answersBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public Builder addAnswers(
+          int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder builderForValue) {
+        if (answersBuilder_ == null) {
+          ensureAnswersIsMutable();
+          answers_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          answersBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public Builder addAllAnswers(
+          java.lang.Iterable<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer> values) {
+        if (answersBuilder_ == null) {
+          ensureAnswersIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, answers_);
+          onChanged();
+        } else {
+          answersBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public Builder clearAnswers() {
+        if (answersBuilder_ == null) {
+          answers_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          answersBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public Builder removeAnswers(int index) {
+        if (answersBuilder_ == null) {
+          ensureAnswersIsMutable();
+          answers_.remove(index);
+          onChanged();
+        } else {
+          answersBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder getAnswersBuilder(
+          int index) {
+        return getAnswersFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder getAnswersOrBuilder(
+          int index) {
+        if (answersBuilder_ == null) {
+          return answers_.get(index);  } else {
+          return answersBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public java.util.List<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder> 
+           getAnswersOrBuilderList() {
+        if (answersBuilder_ != null) {
+          return answersBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(answers_);
+        }
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder addAnswersBuilder() {
+        return getAnswersFieldBuilder().addBuilder(
+            edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder addAnswersBuilder(
+          int index) {
+        return getAnswersFieldBuilder().addBuilder(
+            index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowdcontrol.View.Answer answers = 6;</code>
+       */
+      public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder> 
+           getAnswersBuilderList() {
+        return getAnswersFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder> 
+          getAnswersFieldBuilder() {
+        if (answersBuilder_ == null) {
+          answersBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Answer.Builder, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.AnswerOrBuilder>(
+                  answers_,
+                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  getParentForChildren(),
+                  isClean());
+          answers_ = null;
+        }
+        return answersBuilder_;
+      }
+
       private com.google.protobuf.LazyStringList constraints_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureConstraintsIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           constraints_ = new com.google.protobuf.LazyStringArrayList(constraints_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000040;
          }
       }
       /**
-       * <code>repeated string constraints = 5;</code>
+       * <code>repeated string constraints = 7;</code>
        */
       public com.google.protobuf.ProtocolStringList
           getConstraintsList() {
         return constraints_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string constraints = 5;</code>
+       * <code>repeated string constraints = 7;</code>
        */
       public int getConstraintsCount() {
         return constraints_.size();
       }
       /**
-       * <code>repeated string constraints = 5;</code>
+       * <code>repeated string constraints = 7;</code>
        */
       public java.lang.String getConstraints(int index) {
         return constraints_.get(index);
       }
       /**
-       * <code>repeated string constraints = 5;</code>
+       * <code>repeated string constraints = 7;</code>
        */
       public com.google.protobuf.ByteString
           getConstraintsBytes(int index) {
         return constraints_.getByteString(index);
       }
       /**
-       * <code>repeated string constraints = 5;</code>
+       * <code>repeated string constraints = 7;</code>
        */
       public Builder setConstraints(
           int index, java.lang.String value) {
@@ -2592,7 +3519,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated string constraints = 5;</code>
+       * <code>repeated string constraints = 7;</code>
        */
       public Builder addConstraints(
           java.lang.String value) {
@@ -2605,7 +3532,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated string constraints = 5;</code>
+       * <code>repeated string constraints = 7;</code>
        */
       public Builder addAllConstraints(
           java.lang.Iterable<java.lang.String> values) {
@@ -2616,16 +3543,16 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated string constraints = 5;</code>
+       * <code>repeated string constraints = 7;</code>
        */
       public Builder clearConstraints() {
         constraints_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000040);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string constraints = 5;</code>
+       * <code>repeated string constraints = 7;</code>
        */
       public Builder addConstraintsBytes(
           com.google.protobuf.ByteString value) {
@@ -2642,9 +3569,9 @@ public final class ViewOuterClass {
       private java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture> pictures_ =
         java.util.Collections.emptyList();
       private void ensurePicturesIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
           pictures_ = new java.util.ArrayList<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture>(pictures_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000080;
          }
       }
 
@@ -2652,7 +3579,7 @@ public final class ViewOuterClass {
           edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.Builder, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.PictureOrBuilder> picturesBuilder_;
 
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture> getPicturesList() {
         if (picturesBuilder_ == null) {
@@ -2662,7 +3589,7 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public int getPicturesCount() {
         if (picturesBuilder_ == null) {
@@ -2672,7 +3599,7 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture getPictures(int index) {
         if (picturesBuilder_ == null) {
@@ -2682,7 +3609,7 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public Builder setPictures(
           int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture value) {
@@ -2699,7 +3626,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public Builder setPictures(
           int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.Builder builderForValue) {
@@ -2713,7 +3640,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public Builder addPictures(edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture value) {
         if (picturesBuilder_ == null) {
@@ -2729,7 +3656,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public Builder addPictures(
           int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture value) {
@@ -2746,7 +3673,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public Builder addPictures(
           edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.Builder builderForValue) {
@@ -2760,7 +3687,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public Builder addPictures(
           int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.Builder builderForValue) {
@@ -2774,7 +3701,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public Builder addAllPictures(
           java.lang.Iterable<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture> values) {
@@ -2789,12 +3716,12 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public Builder clearPictures() {
         if (picturesBuilder_ == null) {
           pictures_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000080);
           onChanged();
         } else {
           picturesBuilder_.clear();
@@ -2802,7 +3729,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public Builder removePictures(int index) {
         if (picturesBuilder_ == null) {
@@ -2815,14 +3742,14 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.Builder getPicturesBuilder(
           int index) {
         return getPicturesFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.PictureOrBuilder getPicturesOrBuilder(
           int index) {
@@ -2832,7 +3759,7 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public java.util.List<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.PictureOrBuilder> 
            getPicturesOrBuilderList() {
@@ -2843,14 +3770,14 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.Builder addPicturesBuilder() {
         return getPicturesFieldBuilder().addBuilder(
             edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.Builder addPicturesBuilder(
           int index) {
@@ -2858,7 +3785,7 @@ public final class ViewOuterClass {
             index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowdcontrol.View.Picture pictures = 6;</code>
+       * <code>repeated .crowdcontrol.View.Picture pictures = 8;</code>
        */
       public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.Builder> 
            getPicturesBuilderList() {
@@ -2871,7 +3798,7 @@ public final class ViewOuterClass {
           picturesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Picture.Builder, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.PictureOrBuilder>(
                   pictures_,
-                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  ((bitField0_ & 0x00000080) == 0x00000080),
                   getParentForChildren(),
                   isClean());
           pictures_ = null;
@@ -2882,9 +3809,9 @@ public final class ViewOuterClass {
       private java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations> calibrations_ =
         java.util.Collections.emptyList();
       private void ensureCalibrationsIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
           calibrations_ = new java.util.ArrayList<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations>(calibrations_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000100;
          }
       }
 
@@ -2892,7 +3819,7 @@ public final class ViewOuterClass {
           edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.Builder, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.CalibrationsOrBuilder> calibrationsBuilder_;
 
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations> getCalibrationsList() {
         if (calibrationsBuilder_ == null) {
@@ -2902,7 +3829,7 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public int getCalibrationsCount() {
         if (calibrationsBuilder_ == null) {
@@ -2912,7 +3839,7 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations getCalibrations(int index) {
         if (calibrationsBuilder_ == null) {
@@ -2922,7 +3849,7 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public Builder setCalibrations(
           int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations value) {
@@ -2939,7 +3866,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public Builder setCalibrations(
           int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.Builder builderForValue) {
@@ -2953,7 +3880,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public Builder addCalibrations(edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations value) {
         if (calibrationsBuilder_ == null) {
@@ -2969,7 +3896,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public Builder addCalibrations(
           int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations value) {
@@ -2986,7 +3913,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public Builder addCalibrations(
           edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.Builder builderForValue) {
@@ -3000,7 +3927,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public Builder addCalibrations(
           int index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.Builder builderForValue) {
@@ -3014,7 +3941,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public Builder addAllCalibrations(
           java.lang.Iterable<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations> values) {
@@ -3029,12 +3956,12 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public Builder clearCalibrations() {
         if (calibrationsBuilder_ == null) {
           calibrations_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000100);
           onChanged();
         } else {
           calibrationsBuilder_.clear();
@@ -3042,7 +3969,7 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public Builder removeCalibrations(int index) {
         if (calibrationsBuilder_ == null) {
@@ -3055,14 +3982,14 @@ public final class ViewOuterClass {
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.Builder getCalibrationsBuilder(
           int index) {
         return getCalibrationsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.CalibrationsOrBuilder getCalibrationsOrBuilder(
           int index) {
@@ -3072,7 +3999,7 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public java.util.List<? extends edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.CalibrationsOrBuilder> 
            getCalibrationsOrBuilderList() {
@@ -3083,14 +4010,14 @@ public final class ViewOuterClass {
         }
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.Builder addCalibrationsBuilder() {
         return getCalibrationsFieldBuilder().addBuilder(
             edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.Builder addCalibrationsBuilder(
           int index) {
@@ -3098,7 +4025,7 @@ public final class ViewOuterClass {
             index, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 7;</code>
+       * <code>repeated .crowdcontrol.View.Calibrations calibrations = 9;</code>
        */
       public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.Builder> 
            getCalibrationsBuilderList() {
@@ -3111,7 +4038,7 @@ public final class ViewOuterClass {
           calibrationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.Calibrations.Builder, edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass.View.CalibrationsOrBuilder>(
                   calibrations_,
-                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  ((bitField0_ & 0x00000100) == 0x00000100),
                   getParentForChildren(),
                   isClean());
           calibrations_ = null;
@@ -3191,6 +4118,11 @@ public final class ViewOuterClass {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_crowdcontrol_View_Calibrations_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_crowdcontrol_View_Answer_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_crowdcontrol_View_Answer_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3200,19 +4132,22 @@ public final class ViewOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nview.proto\022\014crowdcontrol\"\256\003\n\004View\022\020\n\010w" +
+      "\n\nview.proto\022\014crowdcontrol\"\216\004\n\004View\022\020\n\010w" +
       "orkerID\030\001 \001(\005\022%\n\004type\030\002 \001(\0162\027.crowdcontr" +
       "ol.View.Type\022\r\n\005title\030\003 \001(\t\022\023\n\013descripti" +
-      "on\030\004 \001(\t\022\023\n\013constraints\030\005 \003(\t\022,\n\010picture" +
-      "s\030\006 \003(\0132\032.crowdcontrol.View.Picture\0225\n\014c" +
-      "alibrations\030\007 \003(\0132\037.crowdcontrol.View.Ca" +
-      "librations\032+\n\007Picture\022\013\n\003url\030\001 \001(\t\022\023\n\013ur" +
-      "l_license\030\002 \001(\t\032X\n\014Calibrations\022\020\n\010quest" +
-      "ion\030\001 \001(\t\022\025\n\ranswerOptions\030\002 \003(\t\022\023\n\013desc" +
-      "ription\030\003 \001(\t\022\n\n\002id\030\004 \001(\005\"H\n\004Type\022\014\n\010FIN",
-      "ISHED\020\000\022\n\n\006ANSWER\020\001\022\n\n\006RATING\020\002\022\017\n\013CALIB" +
-      "RATION\020\003\022\t\n\005EMAIL\020\004B.\n,edu.ipd.kit.crowd" +
-      "control.workerservice.protob\006proto3"
+      "on\030\004 \001(\t\022\014\n\004task\030\005 \001(\005\022*\n\007answers\030\006 \003(\0132" +
+      "\031.crowdcontrol.View.Answer\022\023\n\013constraint" +
+      "s\030\007 \003(\t\022,\n\010pictures\030\010 \003(\0132\032.crowdcontrol" +
+      ".View.Picture\0225\n\014calibrations\030\t \003(\0132\037.cr" +
+      "owdcontrol.View.Calibrations\032+\n\007Picture\022" +
+      "\013\n\003url\030\001 \001(\t\022\023\n\013url_license\030\002 \001(\t\032X\n\014Cal" +
+      "ibrations\022\020\n\010question\030\001 \001(\t\022\025\n\ranswerOpt",
+      "ions\030\002 \003(\t\022\023\n\013description\030\003 \001(\t\022\n\n\002id\030\004 " +
+      "\001(\005\032$\n\006Answer\022\n\n\002id\030\001 \001(\005\022\016\n\006answer\030\002 \001(" +
+      "\t\"H\n\004Type\022\014\n\010FINISHED\020\000\022\n\n\006ANSWER\020\001\022\n\n\006R" +
+      "ATING\020\002\022\017\n\013CALIBRATION\020\003\022\t\n\005EMAIL\020\004B.\n,e" +
+      "du.ipd.kit.crowdcontrol.workerservice.pr" +
+      "otob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3231,7 +4166,7 @@ public final class ViewOuterClass {
     internal_static_crowdcontrol_View_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_View_descriptor,
-        new java.lang.String[] { "WorkerID", "Type", "Title", "Description", "Constraints", "Pictures", "Calibrations", });
+        new java.lang.String[] { "WorkerID", "Type", "Title", "Description", "Task", "Answers", "Constraints", "Pictures", "Calibrations", });
     internal_static_crowdcontrol_View_Picture_descriptor =
       internal_static_crowdcontrol_View_descriptor.getNestedTypes().get(0);
     internal_static_crowdcontrol_View_Picture_fieldAccessorTable = new
@@ -3244,6 +4179,12 @@ public final class ViewOuterClass {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_View_Calibrations_descriptor,
         new java.lang.String[] { "Question", "AnswerOptions", "Description", "Id", });
+    internal_static_crowdcontrol_View_Answer_descriptor =
+      internal_static_crowdcontrol_View_descriptor.getNestedTypes().get(2);
+    internal_static_crowdcontrol_View_Answer_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_crowdcontrol_View_Answer_descriptor,
+        new java.lang.String[] { "Id", "Answer", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

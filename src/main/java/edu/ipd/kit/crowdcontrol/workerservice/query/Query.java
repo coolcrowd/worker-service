@@ -17,7 +17,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * decides what the worker should be seeing
+ * The class query is responsible for the query-part of the CQRS-pattern. Therefore it provides the getNext-method used
+ * for the /next query.
  * @author LeanderK
  * @version 1.0
  */
@@ -33,12 +34,12 @@ public class Query implements RequestHelper {
         this.experimentOperations = experimentOperations;
         this.workerOperations = workerOperations;
         this.platforms = platforms;
-        registerTaskChooser(new AntiSpoof());
+        registerTaskChooser(new AntiSpoof(experimentOperations));
     }
 
     /**
      * used to register a new TaskStrategy.
-     * @param taskChooserAlgorithm the TaskStrategy to register
+     * @param taskChooserAlgorithm the TaskChooserAlgorithm to register
      */
     private void registerTaskChooser(TaskChooserAlgorithm taskChooserAlgorithm) {
         strategies.put(taskChooserAlgorithm.getName(), taskChooserAlgorithm);
@@ -46,7 +47,10 @@ public class Query implements RequestHelper {
 
     /**
      * this method returns an instance of View, determining what the worker should see next.
-     * @param request the Request
+     * <p>
+     *     it is indented to be called when the Router gets an /next-Request.
+     * </p>
+     * @param request the SparkJava-Request
      * @return an instance of View
      */
     public ViewOuterClass.View getNext(Request request) {

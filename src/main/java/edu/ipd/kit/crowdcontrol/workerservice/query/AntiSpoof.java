@@ -1,16 +1,28 @@
 package edu.ipd.kit.crowdcontrol.workerservice.query;
 
+import edu.ipd.kit.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.ipd.kit.crowdcontrol.workerservice.proto.ViewOuterClass;
 import spark.Request;
 
 import java.util.Optional;
 
 /**
+ * This is a 3-Phase TaskChooserAlgorithm, in the first phase only creative tasks are given to workers, then the worker
+ * get also Rating tasks. In the last phase the workers only work on rating-tasks.
  * @author LeanderK
  * @version 1.0
  */
 public class AntiSpoof extends TaskChooserAlgorithm {
     public static final String NAME = "AntiSpoof";
+
+    /**
+     * creates an new AntiSpoof
+     *
+     * @param experimentOperations the ExperimentOperations used to communicate with the database.
+     */
+    public AntiSpoof(ExperimentOperations experimentOperations) {
+        super(experimentOperations);
+    }
 
     @Override
     public String getName() {
