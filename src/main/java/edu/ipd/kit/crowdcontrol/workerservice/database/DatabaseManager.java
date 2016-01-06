@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * initializes and holds the connection to the database and eventually the database itself.
  * @author LeanderK
  * @version 1.0
  */
@@ -18,9 +19,17 @@ public class DatabaseManager {
     private final DSLContext context;
 
 
-    public DatabaseManager(String userName, String password, String url) throws SQLException {
+    /**
+     * creates new DatabaseManager
+     * @param userName the username for the database
+     * @param password the password for the database
+     * @param url the url to the database
+     * @param sqlDialect the dialect to use
+     * @throws SQLException if there was a problem establishing a connection to the database
+     */
+    public DatabaseManager(String userName, String password, String url, SQLDialect sqlDialect) throws SQLException {
         connection = DriverManager.getConnection(url, userName, password);
-        context = DSL.using(connection, SQLDialect.MYSQL);
+        context = DSL.using(connection, sqlDialect);
         initDatabase();
     }
 

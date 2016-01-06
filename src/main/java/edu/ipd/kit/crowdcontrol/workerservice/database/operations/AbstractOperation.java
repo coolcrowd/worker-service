@@ -16,7 +16,7 @@ public abstract class AbstractOperation {
 
     /**
      * creates a new AbstractOperation
-     * @param create the Context to use
+     * @param create the context to use to communicate with the database
      */
     public AbstractOperation(DSLContext create) {
         this.create = create;

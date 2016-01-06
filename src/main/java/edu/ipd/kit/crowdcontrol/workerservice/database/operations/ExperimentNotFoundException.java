@@ -6,6 +6,10 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.operations;
  * @version 1.0
  */
 public class ExperimentNotFoundException extends RuntimeException {
+    /**
+     * creates a new ExperimentNotFoundException
+     * @param experiment the id not existing in the database
+     */
     public ExperimentNotFoundException(int experiment) {
         super("error, experiment not found: " + experiment);
     }

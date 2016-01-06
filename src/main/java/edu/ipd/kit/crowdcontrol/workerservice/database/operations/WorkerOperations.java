@@ -19,7 +19,7 @@ public class WorkerOperations extends AbstractOperation {
     }
 
     /**
-     * returns whether the Worker has an email
+     * returns whether the Worker has got an email-address
      * @param workerID the workerID
      * @return true if it has and email and ist existing, false if it has no email or the worker is not existing
      */

@@ -20,7 +20,7 @@ import static edu.ipd.kit.crowdcontrol.workerservice.database.model.Tables.*;
 public class PopulationsOperations extends AbstractOperation {
 
     /**
-     * creates a new instance of PlatformOperations
+     * creates a new instance of PopulationsOperations
      * @param create the context used to communicate with the database
      */
     public PopulationsOperations(DSLContext create) {
@@ -31,14 +31,14 @@ public class PopulationsOperations extends AbstractOperation {
      * returns all the open Calibrations needed from the worker
      * @param experimentID the experiment
      * @param platformID the id of the platform
-     * @param Worker the worker
+     * @param worker the worker
      * @return a map where the keys are the detailed population the worker may belong to and the values are the answerOptions
      */
-    public Map<PopulationRecord, List<String>> getCalibrations(int experimentID, String platformID, int Worker) {
+    public Map<PopulationRecord, List<String>> getCalibrations(int experimentID, String platformID, int worker) {
         List<Integer> answeredCalibrations = DSL.select()
                 .from(POPULATIONRESULT)
                 .join(POPULATIONANSWEROPTION).onKey()
-                .where(POPULATIONRESULT.WORKER.eq(Worker))
+                .where(POPULATIONRESULT.WORKER.eq(worker))
                 .fetch(POPULATIONANSWEROPTION.POPULATION);
 
         List<Integer> populationIDs = create.selectFrom(EXPERIMENTSPOPULATION)

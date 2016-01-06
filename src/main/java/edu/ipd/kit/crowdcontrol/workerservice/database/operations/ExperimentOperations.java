@@ -10,6 +10,10 @@ import org.jooq.DSLContext;
  * @version 1.0
  */
 public class ExperimentOperations extends AbstractOperation {
+    /**
+     * creates a new ExperimentOperations
+     * @param create the Context used to communicate with the database
+     */
     public ExperimentOperations(DSLContext create) {
         super(create);
     }
