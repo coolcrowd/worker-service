@@ -13,16 +13,18 @@ import java.util.Map;
 import static edu.ipd.kit.crowdcontrol.workerservice.database.model.Tables.*;
 
 /**
- *
+ * PopulationsOperations contains queries which are concerned with populations.
  * @author LeanderK
  * @version 1.0
  */
 public class PopulationsOperations extends AbstractOperation {
-    private final PlatformOperations platformOperations;
 
-    public PopulationsOperations(DSLContext create, PlatformOperations platformOperations) {
+    /**
+     * creates a new instance of PlatformOperations
+     * @param create the context used to communicate with the database
+     */
+    public PopulationsOperations(DSLContext create) {
         super(create);
-        this.platformOperations = platformOperations;
     }
 
     /**
