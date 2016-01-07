@@ -1,7 +1,7 @@
 package edu.ipd.kit.crowdcontrol.workerservice;
 
 /**
- * represents a 400 BAD REQUEST return code.
+ * this RuntimeException represents a 400 BAD REQUEST return code.
  * @author Leander Kurscheidt (Leander.Kurscheidt@gmx.de)
  * @version 1.0
  */

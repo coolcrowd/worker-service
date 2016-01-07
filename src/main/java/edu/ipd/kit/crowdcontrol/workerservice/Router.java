@@ -12,14 +12,20 @@ import java.util.function.Function;
 import static spark.Spark.*;
 
 /**
+ * the router is the glue that connects the methods from the Command & Query package to the REST-interfaces.
  * @author LeanderK
  * @version 1.0
  */
 public class Router implements SparkApplication {
     private final Query query;
     private final Commands commands;
-    JsonFormat protobufJSON = new JsonFormat();
+    private final JsonFormat protobufJSON = new JsonFormat();
 
+    /**
+     * creates a new Router.
+     * @param query the query to call
+     * @param commands the commands to call
+     */
     public Router(Query query, Commands commands) {
         this.query = query;
         this.commands = commands;
@@ -30,6 +36,11 @@ public class Router implements SparkApplication {
      */
     @Override
     public void init() {
+        exception(BadRequestException.class, (exception, request, response) -> {
+            BadRequestException exception1 = (BadRequestException) exception;
+            //TODO!
+        });
+
         get("/next/:platform/:experiment", query::getNext);
 
         post("/email/:platform", commands::submitEmail);
