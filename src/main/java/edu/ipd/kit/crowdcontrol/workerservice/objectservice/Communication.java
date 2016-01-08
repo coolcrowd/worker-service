@@ -23,9 +23,9 @@ public class Communication {
      * submits the email to the object-service
      * @param Worker the worker to submit the email for
      * @param email the email to save
-     * @return an completable future representing the request with the Response-body of the object-service
+     * @return an completable future representing the request with the resulting location in the database
      */
-    public CompletableFuture<String> submitEmail(int Worker, String email) {
+    public CompletableFuture<Integer> submitEmail(int Worker, String email) {
         return null;
     }
 
@@ -33,9 +33,9 @@ public class Communication {
      * submits the email to the object-service
      * @param platform the platform the worker is working on
      * @param email the email to save
-     * @return an completable future representing the request with the Response-body of the object-service
+     * @return an completable future representing the request with the resulting location in the database
      */
-    public CompletableFuture<String> submitEmail(String platform, String email) {
+    public CompletableFuture<Integer> submitEmail(String platform, String email) {
         return null;
     }
 
@@ -44,7 +44,7 @@ public class Communication {
      * @param answer the answer to submit
      * @param task the task answered
      * @param worker the worker answered
-     * @return an completable future representing the request with the Response-body of the object-service
+     * @return an completable future representing the request with the resulting location in the database
      */
     public CompletableFuture<Integer> submitAnswer(String answer, int task, int worker) {
         return null;
@@ -56,7 +56,7 @@ public class Communication {
      * @param task the task worked on
      * @param worker the worker responsible
      * @param answer the rated answer
-     * @return an completable future representing the request with the Response-body of the object-service
+     * @return an completable future representing the request with the resulting location in the database
      */
     public CompletableFuture<Integer> submitRating(int rating, int task, int worker, int answer) {
         return null;
@@ -66,7 +66,7 @@ public class Communication {
      * submits an answer to a calibration
      * @param option the option chosen
      * @param worker the worker answered
-     * @return an completable future representing the request with the Response-body of the object-service
+     * @return an completable future representing the request with the resulting location in the database
      */
     public CompletableFuture<Integer> submitCalibration(int option, int worker) {
         return null;
@@ -76,7 +76,7 @@ public class Communication {
      * tries to get the workerID from the request
      * @param platform the current platform
      * @param queryParameter the passed query-Parameter
-     * @return an completable future representing the request with the Response-body of the object-service
+     * @return an completable future representing the request with the resulting location in the database
      */
     public CompletableFuture<Integer> tryGetWorkerID(String platform, HashMap<String, String> queryParameter) {
         return null;
