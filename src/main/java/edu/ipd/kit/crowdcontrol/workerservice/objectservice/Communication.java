@@ -21,6 +21,7 @@ public class Communication {
 
     /**
      * submits the email to the object-service
+     * Calls 'PUT /workers' from the Object-Service.
      * @param Worker the worker to submit the email for
      * @param email the email to save
      * @return an completable future representing the request with the resulting location in the database
@@ -31,6 +32,7 @@ public class Communication {
 
     /**
      * submits the email to the object-service
+     * Calls 'PUT /workers' from the Object-Service.
      * @param platform the platform the worker is working on
      * @param email the email to save
      * @return an completable future representing the request with the resulting location in the database
@@ -41,6 +43,7 @@ public class Communication {
 
     /**
      * submits an answer for the worker
+     * Calls 'PUT /populations/answers' from the Object-Service.
      * @param answer the answer to submit
      * @param task the task answered
      * @param worker the worker answered
@@ -51,7 +54,8 @@ public class Communication {
     }
 
     /**
-     * submits an rating for the worker
+     * submits an rating for the worker.
+     * Calls 'PUT /populations/ratings' from the Object-Service.
      * @param rating the rating to submit
      * @param task the task worked on
      * @param worker the worker responsible
@@ -63,7 +67,8 @@ public class Communication {
     }
 
     /**
-     * submits an answer to a calibration
+     * submits an answer to a calibration.
+     * Calls 'PUT /populations/answers/:worker/:id' from the Object-Service.
      * @param option the option chosen
      * @param worker the worker answered
      * @return an completable future representing the request with the resulting location in the database
@@ -73,7 +78,8 @@ public class Communication {
     }
 
     /**
-     * tries to get the workerID from the request
+     * tries to get the workerID from the request.
+     * Calls 'GET /getWorkerID/:platform' from the Object-Service.
      * @param platform the current platform
      * @param queryParameter the passed query-Parameter
      * @return an completable future representing the request with the resulting location in the database
