@@ -5,7 +5,7 @@ import spark.Request;
 import java.util.function.Predicate;
 
 /**
- * contains various methods to help to deal with SparkJava-Requests.
+ * this interface contains various methods to help to deal with SparkJava-Requests.
  * @author LeanderK
  * @version 1.0
  */
