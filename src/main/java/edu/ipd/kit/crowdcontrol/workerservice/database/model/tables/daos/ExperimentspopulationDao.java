@@ -55,10 +55,10 @@ public class ExperimentspopulationDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.
 	}
 
 	/**
-	 * Fetch records that have <code>referenced_population IN (values)</code>
+	 * Fetch records that have <code>answer IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Experimentspopulation> fetchByReferencedPopulation(java.lang.Integer... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION.REFERENCED_POPULATION, values);
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Experimentspopulation> fetchByAnswer(java.lang.Integer... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION.ANSWER, values);
 	}
 
 	/**
@@ -66,5 +66,12 @@ public class ExperimentspopulationDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.
 	 */
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Experimentspopulation> fetchByReferencedPlatform(java.lang.String... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION.REFERENCED_PLATFORM, values);
+	}
+
+	/**
+	 * Fetch records that have <code>not IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Experimentspopulation> fetchByNot(java.lang.Boolean... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION.NOT, values);
 	}
 }

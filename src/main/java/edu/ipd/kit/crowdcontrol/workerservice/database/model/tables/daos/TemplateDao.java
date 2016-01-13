@@ -60,4 +60,11 @@ public class TemplateDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol.
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Template> fetchByTitel(java.lang.String... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.TITEL, values);
 	}
+
+	/**
+	 * Fetch records that have <code>answer_type IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Template> fetchByAnswerType(java.lang.String... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.ANSWER_TYPE, values);
+	}
 }

@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> {
 
-	private static final long serialVersionUID = -453847816;
+	private static final long serialVersionUID = 85777317;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiment</code>
@@ -45,11 +45,6 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol
 	 * The column <code>crowdcontrol.Experiment.answer_description</code>.
 	 */
 	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ANSWER_DESCRIPTION = createField("answer_description", org.jooq.impl.SQLDataType.CLOB.length(65535), this, "");
-
-	/**
-	 * The column <code>crowdcontrol.Experiment.rating_description</code>.
-	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> RATING_DESCRIPTION = createField("rating_description", org.jooq.impl.SQLDataType.CLOB.length(65535), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.ratings_per_answer</code>.
@@ -95,6 +90,11 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol
 	 * The column <code>crowdcontrol.Experiment.template</code>.
 	 */
 	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Integer> TEMPLATE = createField("template", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Experiment.answer_type</code>.
+	 */
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ANSWER_TYPE = createField("answer_type", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Experiment</code> table reference

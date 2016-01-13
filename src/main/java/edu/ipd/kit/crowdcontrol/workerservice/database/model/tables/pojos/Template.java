@@ -11,22 +11,25 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Template implements java.io.Serializable {
 
-	private static final long serialVersionUID = 528138909;
+	private static final long serialVersionUID = 354325215;
 
 	private java.lang.Integer idtemplate;
 	private java.lang.String  template;
 	private java.lang.String  titel;
+	private java.lang.String  answerType;
 
 	public Template() {}
 
 	public Template(
 		java.lang.Integer idtemplate,
 		java.lang.String  template,
-		java.lang.String  titel
+		java.lang.String  titel,
+		java.lang.String  answerType
 	) {
 		this.idtemplate = idtemplate;
 		this.template = template;
 		this.titel = titel;
+		this.answerType = answerType;
 	}
 
 	public java.lang.Integer getIdtemplate() {
@@ -51,5 +54,13 @@ public class Template implements java.io.Serializable {
 
 	public void setTitel(java.lang.String titel) {
 		this.titel = titel;
+	}
+
+	public java.lang.String getAnswerType() {
+		return this.answerType;
+	}
+
+	public void setAnswerType(java.lang.String answerType) {
+		this.answerType = answerType;
 	}
 }

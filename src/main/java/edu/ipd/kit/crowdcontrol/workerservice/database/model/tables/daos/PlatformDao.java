@@ -55,17 +55,10 @@ public class PlatformDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontrol.
 	}
 
 	/**
-	 * Fetch records that have <code>native_qualifications IN (values)</code>
+	 * Fetch records that have <code>render_calibrations IN (values)</code>
 	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Platform> fetchByNativeQualifications(java.lang.Boolean... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.NATIVE_QUALIFICATIONS, values);
-	}
-
-	/**
-	 * Fetch records that have <code>native_payment IN (values)</code>
-	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Platform> fetchByNativePayment(java.lang.Boolean... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.NATIVE_PAYMENT, values);
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Platform> fetchByRenderCalibrations(java.lang.Boolean... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.RENDER_CALIBRATIONS, values);
 	}
 
 	/**

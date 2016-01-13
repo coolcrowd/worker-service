@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Task extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord> {
 
-	private static final long serialVersionUID = 1460701697;
+	private static final long serialVersionUID = 1439961643;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Task</code>
@@ -50,6 +50,11 @@ public class Task extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.worke
 	 * The column <code>crowdcontrol.Task.crowd_platform</code>.
 	 */
 	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.String> CROWD_PLATFORM = createField("crowd_platform", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Task.stopping</code>.
+	 */
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.Boolean> STOPPING = createField("stopping", org.jooq.impl.SQLDataType.BIT.nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Task</code> table reference

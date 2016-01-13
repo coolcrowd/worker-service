@@ -11,12 +11,11 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Platform implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1918570020;
+	private static final long serialVersionUID = -324793668;
 
 	private java.lang.String  idplatform;
 	private java.lang.String  name;
-	private java.lang.Boolean nativeQualifications;
-	private java.lang.Boolean nativePayment;
+	private java.lang.Boolean renderCalibrations;
 	private java.lang.Boolean needsEmail;
 
 	public Platform() {}
@@ -24,14 +23,12 @@ public class Platform implements java.io.Serializable {
 	public Platform(
 		java.lang.String  idplatform,
 		java.lang.String  name,
-		java.lang.Boolean nativeQualifications,
-		java.lang.Boolean nativePayment,
+		java.lang.Boolean renderCalibrations,
 		java.lang.Boolean needsEmail
 	) {
 		this.idplatform = idplatform;
 		this.name = name;
-		this.nativeQualifications = nativeQualifications;
-		this.nativePayment = nativePayment;
+		this.renderCalibrations = renderCalibrations;
 		this.needsEmail = needsEmail;
 	}
 
@@ -51,20 +48,12 @@ public class Platform implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public java.lang.Boolean getNativeQualifications() {
-		return this.nativeQualifications;
+	public java.lang.Boolean getRenderCalibrations() {
+		return this.renderCalibrations;
 	}
 
-	public void setNativeQualifications(java.lang.Boolean nativeQualifications) {
-		this.nativeQualifications = nativeQualifications;
-	}
-
-	public java.lang.Boolean getNativePayment() {
-		return this.nativePayment;
-	}
-
-	public void setNativePayment(java.lang.Boolean nativePayment) {
-		this.nativePayment = nativePayment;
+	public void setRenderCalibrations(java.lang.Boolean renderCalibrations) {
+		this.renderCalibrations = renderCalibrations;
 	}
 
 	public java.lang.Boolean getNeedsEmail() {

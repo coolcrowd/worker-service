@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Populationresult extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationresultRecord> {
 
-	private static final long serialVersionUID = -38875702;
+	private static final long serialVersionUID = -680032207;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.PopulationResult</code>
@@ -84,7 +84,7 @@ public class Populationresult extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdc
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationresultRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationresultRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.REFERENCEDWORKER, edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.REFERENCEDANSWER);
+		return java.util.Arrays.<org.jooq.ForeignKey<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PopulationresultRecord, ?>>asList(edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.REFERENCEDWORKER, edu.ipd.kit.crowdcontrol.workerservice.database.model.Keys.CHOSENANSWER);
 	}
 
 	/**

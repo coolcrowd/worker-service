@@ -11,7 +11,7 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Platform extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord> {
 
-	private static final long serialVersionUID = -1572317970;
+	private static final long serialVersionUID = -1228181476;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Platform</code>
@@ -37,14 +37,9 @@ public class Platform extends org.jooq.impl.TableImpl<edu.ipd.kit.crowdcontrol.w
 	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Platform.native_qualifications</code>.
+	 * The column <code>crowdcontrol.Platform.render_calibrations</code>.
 	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.Boolean> NATIVE_QUALIFICATIONS = createField("native_qualifications", org.jooq.impl.SQLDataType.BIT.nullable(false), this, "");
-
-	/**
-	 * The column <code>crowdcontrol.Platform.native_payment</code>.
-	 */
-	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.Boolean> NATIVE_PAYMENT = createField("native_payment", org.jooq.impl.SQLDataType.BIT.nullable(false), this, "");
+	public final org.jooq.TableField<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.Boolean> RENDER_CALIBRATIONS = createField("render_calibrations", org.jooq.impl.SQLDataType.BIT.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Platform.needs_email</code>.

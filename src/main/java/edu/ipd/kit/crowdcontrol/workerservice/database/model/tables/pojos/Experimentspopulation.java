@@ -11,25 +11,28 @@ package edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experimentspopulation implements java.io.Serializable {
 
-	private static final long serialVersionUID = -1347174722;
+	private static final long serialVersionUID = -2000258540;
 
 	private java.lang.String  idexperimentspopulation;
 	private java.lang.Integer populationUser;
-	private java.lang.Integer referencedPopulation;
+	private java.lang.Integer answer;
 	private java.lang.String  referencedPlatform;
+	private java.lang.Boolean not;
 
 	public Experimentspopulation() {}
 
 	public Experimentspopulation(
 		java.lang.String  idexperimentspopulation,
 		java.lang.Integer populationUser,
-		java.lang.Integer referencedPopulation,
-		java.lang.String  referencedPlatform
+		java.lang.Integer answer,
+		java.lang.String  referencedPlatform,
+		java.lang.Boolean not
 	) {
 		this.idexperimentspopulation = idexperimentspopulation;
 		this.populationUser = populationUser;
-		this.referencedPopulation = referencedPopulation;
+		this.answer = answer;
 		this.referencedPlatform = referencedPlatform;
+		this.not = not;
 	}
 
 	public java.lang.String getIdexperimentspopulation() {
@@ -48,12 +51,12 @@ public class Experimentspopulation implements java.io.Serializable {
 		this.populationUser = populationUser;
 	}
 
-	public java.lang.Integer getReferencedPopulation() {
-		return this.referencedPopulation;
+	public java.lang.Integer getAnswer() {
+		return this.answer;
 	}
 
-	public void setReferencedPopulation(java.lang.Integer referencedPopulation) {
-		this.referencedPopulation = referencedPopulation;
+	public void setAnswer(java.lang.Integer answer) {
+		this.answer = answer;
 	}
 
 	public java.lang.String getReferencedPlatform() {
@@ -62,5 +65,13 @@ public class Experimentspopulation implements java.io.Serializable {
 
 	public void setReferencedPlatform(java.lang.String referencedPlatform) {
 		this.referencedPlatform = referencedPlatform;
+	}
+
+	public java.lang.Boolean getNot() {
+		return this.not;
+	}
+
+	public void setNot(java.lang.Boolean not) {
+		this.not = not;
 	}
 }

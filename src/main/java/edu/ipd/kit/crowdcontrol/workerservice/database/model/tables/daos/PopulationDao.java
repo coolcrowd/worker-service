@@ -55,13 +55,6 @@ public class PopulationDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontro
 	}
 
 	/**
-	 * Fetch records that have <code>answers IN (values)</code>
-	 */
-	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByAnswers(java.lang.String... values) {
-		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.ANSWERS, values);
-	}
-
-	/**
 	 * Fetch records that have <code>description IN (values)</code>
 	 */
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByDescription(java.lang.String... values) {
@@ -73,5 +66,19 @@ public class PopulationDao extends org.jooq.impl.DAOImpl<edu.ipd.kit.crowdcontro
 	 */
 	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByName(java.lang.String... values) {
 		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.NAME, values);
+	}
+
+	/**
+	 * Fetch records that have <code>experiment IN (values)</code>
+	 */
+	public java.util.List<edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByExperiment(java.lang.Integer... values) {
+		return fetch(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.EXPERIMENT, values);
+	}
+
+	/**
+	 * Fetch a unique record that has <code>experiment = value</code>
+	 */
+	public edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.pojos.Population fetchOneByExperiment(java.lang.Integer value) {
+		return fetchOne(edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.EXPERIMENT, value);
 	}
 }

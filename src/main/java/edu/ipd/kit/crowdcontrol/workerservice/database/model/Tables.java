@@ -39,6 +39,11 @@ public class Tables {
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Giftcode GIFTCODE = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Giftcode.GIFTCODE;
 
 	/**
+	 * The table crowdcontrol.Notification
+	 */
+	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Notification NOTIFICATION = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION;
+
+	/**
 	 * The table crowdcontrol.Payment
 	 */
 	public static final edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment PAYMENT = edu.ipd.kit.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT;
