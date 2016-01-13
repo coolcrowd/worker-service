@@ -1,6 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.objectservice;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -84,7 +85,7 @@ public class Communication {
      * @param queryParameter the passed query-Parameter
      * @return an completable future representing the request with the resulting location in the database
      */
-    public CompletableFuture<Integer> tryGetWorkerID(String platform, HashMap<String, String> queryParameter) {
+    public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, Map<String, String[]> queryParameter) {
         return null;
     }
 }

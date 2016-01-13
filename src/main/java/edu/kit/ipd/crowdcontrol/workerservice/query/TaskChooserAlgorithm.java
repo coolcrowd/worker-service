@@ -3,7 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.ViewOuterClass;
+import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
 import java.util.Optional;
@@ -41,7 +41,7 @@ public abstract class TaskChooserAlgorithm {
      * @param skipRating whether to skip the Rating-Task
      * @return empty if finished or view
      */
-    public abstract Optional<ViewOuterClass.View> next(ViewOuterClass.View.Builder builder, Request request, int experimentID, boolean skipCreative, boolean skipRating);
+    public abstract Optional<View> next(View.Builder builder, Request request, int experimentID, boolean skipCreative, boolean skipRating);
 
     /**
      * constructs an AnswerView
@@ -50,11 +50,10 @@ public abstract class TaskChooserAlgorithm {
      * @return an instance of View with the Type Answer and the information needed for an to display an answer
      * @throws BadRequestException if the experiment was not found
      */
-    protected ViewOuterClass.View constructAnswerView(ViewOuterClass.View.Builder builder, int experimentID) throws BadRequestException {
-        ExperimentRecord experimentRecord = experimentOperations.getExperiment(experimentID)
-                .orElseThrow(() -> new BadRequestException("unable to find Experiment: " + experimentID));
+    protected View constructAnswerView(View.Builder builder, int experimentID) throws BadRequestException {
+        ExperimentRecord experimentRecord = experimentOperations.getExperiment(experimentID);
         //TODO: impl
-        return builder.setType(ViewOuterClass.View.Type.ANSWER)
+        return builder.setType(View.Type.ANSWER)
                 .build();
     }
 
@@ -65,11 +64,10 @@ public abstract class TaskChooserAlgorithm {
      * @return an instance of View with the Type Rating and the information needed for an to display an rating
      * @throws BadRequestException if the experiment was not found
      */
-    protected ViewOuterClass.View constructRatingView(ViewOuterClass.View.Builder builder, int experimentID) throws BadRequestException {
-        ExperimentRecord experimentRecord = experimentOperations.getExperiment(experimentID)
-                .orElseThrow(() -> new BadRequestException("unable to find Experiment: " + experimentID));
+    protected View constructRatingView(View.Builder builder, int experimentID) throws BadRequestException {
+        ExperimentRecord experimentRecord = experimentOperations.getExperiment(experimentID);
         //TODO: impl
-        return builder.setType(ViewOuterClass.View.Type.RATING)
+        return builder.setType(View.Type.RATING)
                 .build();
     }
 }

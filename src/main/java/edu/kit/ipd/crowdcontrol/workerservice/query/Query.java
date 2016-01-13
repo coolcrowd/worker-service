@@ -1,11 +1,12 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.WorkerOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
@@ -26,11 +27,16 @@ public class Query implements RequestHelper {
     private final PopulationsOperations populationsOperations;
     private final ExperimentOperations experimentOperations;
     private final WorkerOperations workerOperations;
+    private final Communication communication;
+    private final PlatformOperations platformOperations;
 
-    public Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, WorkerOperations workerOperations, Platforms platforms) {
+    public Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, WorkerOperations workerOperations,
+                 PlatformOperations platformOperations, Communication communication) {
         this.populationsOperations = populationsOperations;
         this.experimentOperations = experimentOperations;
         this.workerOperations = workerOperations;
+        this.platformOperations = platformOperations;
+        this.communication = communication;
         registerTaskChooser(new AntiSpoof(experimentOperations));
     }
 
@@ -51,16 +57,26 @@ public class Query implements RequestHelper {
      * @return an instance of View
      */
     public View getNext(Request request) {
-        return getNext(prepareView(request), request);
+        boolean skipCreative = false;
+        if ("skip".equals(request.queryParams("answer"))) {
+            skipCreative = true;
+        }
+        boolean skipRating = false;
+        if ("skip".equals(request.queryParams("rating"))) {
+            skipRating = true;
+        }
+        return getNext(prepareView(request), request, skipCreative, skipRating);
     }
 
     /**
      * this method returns an instance of View, determining what the worker should see next.
      * @param builder the builder of the view containing a workerID or -1 if none provided
      * @param request the request
+     * @param skipCreative whether to skip the Creative-Task
+     * @param skipRating whether to skip the Rating-Task
      * @return an instance of View
      */
-    private View getNext(View.Builder builder, Request request) {
+    private View getNext(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
         if (builder.getWorkerId() == -1) {
             builder =  handleNoWorkerID(builder, request);
         }
@@ -68,7 +84,7 @@ public class Query implements RequestHelper {
         if (Calibration.isPresent()) {
             return Calibration.get();
         }
-        Optional<View> strategyStep = getStrategyStep(builder, request);
+        Optional<View> strategyStep = getStrategyStep(builder, request, skipCreative, skipRating);
         if (strategyStep.isPresent()) {
             return strategyStep.get();
         }
@@ -105,7 +121,8 @@ public class Query implements RequestHelper {
      */
     private View.Builder handleNoWorkerID(View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
-        return platforms.handleNoWorkerID(request, platformName)
+        return communication.tryGetWorkerID(platformName, request.queryMap().toMap())
+                .join()
                 .map(builder::setWorkerId)
                 .orElse(builder);
     }
@@ -119,15 +136,16 @@ public class Query implements RequestHelper {
     private Optional<View> getCalibration(View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
-        if (platforms.hasNativeQualifications(platformName)) {
-            return Optional.empty();
-        } else {
-            Map<PopulationRecord, List<String>> Calibration = populationsOperations.getCalibration(experiment, platforms.getID(platformName), builder.getWorkerId());
+        if (platformOperations.getPlatform(platformName).getRenderCalibrations()) {
+            Map<PopulationRecord, List<String>> Calibration = populationsOperations.getCalibrations(experiment,
+                    platformOperations.getPlatform(platformName).getIdplatform(), builder.getWorkerId());
             if (Calibration.isEmpty()) {
                 return Optional.empty();
             } else {
                 return Optional.of(constructCalibrationView(Calibration, builder));
             }
+        } else {
+            return Optional.empty();
         }
     }
 
@@ -155,15 +173,15 @@ public class Query implements RequestHelper {
      * may returns the next TaskView if the worker has not finished the assignment.
      * @param builder the builder to use
      * @param request the request
+     * @param skipCreative whether to skip the Creative-Task
+     * @param skipRating whether to skip the Rating-Task
      * @return a Task-View filled with the assignment, or empty if finished
      */
-    private Optional<View> getStrategyStep(View.Builder builder, Request request) {
+    private Optional<View> getStrategyStep(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
         int experiment = assertParameterInt(request, "experiment");
-        return experimentOperations.getExperiment(experiment)
-                .map(ExperimentRecord::getAlgorithmTaskChooser)
-                .flatMap(algo -> Optional.ofNullable(strategies.get(algo)))
-                .flatMap(strategy -> strategy.next(builder, request, experiment));
-
+        String algorithmTaskChooser = experimentOperations.getExperiment(experiment).getAlgorithmTaskChooser();
+        return Optional.ofNullable(strategies.get(algorithmTaskChooser))
+                .flatMap(strategy -> strategy.next(builder, request, experiment, skipCreative, skipRating));
     }
 
     /**
@@ -178,7 +196,7 @@ public class Query implements RequestHelper {
         if (builder.getWorkerId() != -1) {
             hasNoEmail = !workerOperations.hasEmail(builder.getWorkerId());
         }
-        if (platforms.needsEmail(platformName) && hasNoEmail) {
+        if (platformOperations.getPlatform(platformName).getNeedsEmail() && hasNoEmail) {
             return Optional.of(builder.setType(View.Type.EMAIL).build());
         } else {
             return Optional.empty();
