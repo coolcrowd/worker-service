@@ -96,9 +96,4 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
-### Gradle
-gradle/
-gradlew
-gradlew.bat
-
 
