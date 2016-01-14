@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Giftcode implements java.io.Serializable {
 
-	private static final long serialVersionUID = -111552686;
+	private static final long serialVersionUID = 1822307026;
 
 	private java.lang.Integer idgiftcode;
 	private java.lang.String  code;

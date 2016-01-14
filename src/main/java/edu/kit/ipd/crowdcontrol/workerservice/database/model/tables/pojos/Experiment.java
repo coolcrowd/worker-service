@@ -11,12 +11,12 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment implements java.io.Serializable {
 
-	private static final long serialVersionUID = 700221676;
+	private static final long serialVersionUID = -204335116;
 
 	private java.lang.Integer idexperiment;
 	private java.lang.Object  ratingOptions;
 	private java.lang.String  titel;
-	private java.lang.String  answerDescription;
+	private java.lang.String  description;
 	private java.lang.Integer ratingsPerAnswer;
 	private java.lang.String  algorithmTaskChooser;
 	private java.lang.String  algorithmQualityAnswer;
@@ -34,7 +34,7 @@ public class Experiment implements java.io.Serializable {
 		java.lang.Integer idexperiment,
 		java.lang.Object  ratingOptions,
 		java.lang.String  titel,
-		java.lang.String  answerDescription,
+		java.lang.String  description,
 		java.lang.Integer ratingsPerAnswer,
 		java.lang.String  algorithmTaskChooser,
 		java.lang.String  algorithmQualityAnswer,
@@ -49,7 +49,7 @@ public class Experiment implements java.io.Serializable {
 		this.idexperiment = idexperiment;
 		this.ratingOptions = ratingOptions;
 		this.titel = titel;
-		this.answerDescription = answerDescription;
+		this.description = description;
 		this.ratingsPerAnswer = ratingsPerAnswer;
 		this.algorithmTaskChooser = algorithmTaskChooser;
 		this.algorithmQualityAnswer = algorithmQualityAnswer;
@@ -86,12 +86,12 @@ public class Experiment implements java.io.Serializable {
 		this.titel = titel;
 	}
 
-	public java.lang.String getAnswerDescription() {
-		return this.answerDescription;
+	public java.lang.String getDescription() {
+		return this.description;
 	}
 
-	public void setAnswerDescription(java.lang.String answerDescription) {
-		this.answerDescription = answerDescription;
+	public void setDescription(java.lang.String description) {
+		this.description = description;
 	}
 
 	public java.lang.Integer getRatingsPerAnswer() {

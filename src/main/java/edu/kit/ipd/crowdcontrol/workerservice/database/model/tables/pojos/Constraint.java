@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Constraint implements java.io.Serializable {
 
-	private static final long serialVersionUID = 696959932;
+	private static final long serialVersionUID = -2114453700;
 
 	private java.lang.Integer idconstraint;
 	private java.lang.String  constraint;
