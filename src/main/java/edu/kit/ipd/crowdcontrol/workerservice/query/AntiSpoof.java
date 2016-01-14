@@ -1,7 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.ViewOuterClass;
+import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
 import java.util.Optional;
@@ -36,11 +36,13 @@ public class AntiSpoof extends TaskChooserAlgorithm {
      *
      * @param builder      the builder to use
      * @param request      the request
-     * @param experimentID
+     * @param experimentID the ID of the experiment
+     * @param skipCreative whether to skip the Creative-Task
+     * @param skipRating   whether to skip the Rating-Task
      * @return empty if finished or view
      */
     @Override
-    public Optional<ViewOuterClass.View> next(ViewOuterClass.View.Builder builder, Request request, int experimentID) {
+    public Optional<View> next(View.Builder builder, Request request, int experimentID, boolean skipCreative, boolean skipRating) {
         return null;
     }
 }

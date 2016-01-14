@@ -37,6 +37,7 @@ public abstract class TaskChooserAlgorithm {
      * Empty means the worker is already finished, or a view which specifies what the worker should work on.
      * @param builder the builder to use
      * @param request the request
+     * @param experimentID the ID of the experiment
      * @param skipCreative whether to skip the Creative-Task
      * @param skipRating whether to skip the Rating-Task
      * @return empty if finished or view

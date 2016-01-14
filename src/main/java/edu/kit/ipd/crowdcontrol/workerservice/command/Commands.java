@@ -2,7 +2,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.command;
 
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.Emailanswer;
+import edu.kit.ipd.crowdcontrol.workerservice.proto.EmailAnswer;
 import spark.Request;
 import spark.Response;
 
@@ -31,7 +31,7 @@ public class Commands implements RequestHelper {
      * @param response The response providing functionality for modifying the response
      * @return an instance of Emailanswer
      */
-    public Emailanswer submitEmail(Request request, Response response) {
+    public EmailAnswer submitEmail(Request request, Response response) {
         return null;
     }
 

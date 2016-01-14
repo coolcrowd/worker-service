@@ -2,12 +2,10 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationansweroptionRecord;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,25 +30,38 @@ public class PopulationsOperations extends AbstractOperation {
      * @param worker the worker
      * @return a map where the keys are the detailed population the worker may belong to and the values are the answerOptions
      */
-    public Map<PopulationRecord, List<String>> getCalibrations(int experimentID, String platformID, int worker) {
-        List<Integer> answeredCalibrations = DSL.select()
+    public Map<PopulationRecord, Result<PopulationansweroptionRecord>> getCalibrations(int experimentID, String platformID, int worker) {
+        SelectConditionStep<Record1<Integer>> answered = DSL.select(Tables.POPULATIONRESULT.ANSWER)
                 .from(Tables.POPULATIONRESULT)
-                .join(Tables.POPULATIONANSWEROPTION).onKey()
-                .where(Tables.POPULATIONRESULT.WORKER.eq(worker))
-                .fetch(Tables.POPULATIONANSWEROPTION.POPULATION);
+                .where(Tables.POPULATIONRESULT.WORKER.eq(worker));
 
-        List<Integer> populationIDs = create.selectFrom(Tables.EXPERIMENTSPOPULATION)
-                .where(Tables.EXPERIMENTSPOPULATION.POPULATION_USER.eq(experimentID))
-                .and(Tables.EXPERIMENTSPOPULATION.REFERENCED_PLATFORM.eq(platformID))
-                .and(Tables.EXPERIMENTSPOPULATION.REFERENCED_POPULATION.notIn(answeredCalibrations))
-                .fetch(Tables.EXPERIMENTSPOPULATION.REFERENCED_POPULATION);
+
+        SelectConditionStep<Record1<Integer>> alreadyBelongingPopulations = DSL.select(Tables.POPULATIONANSWEROPTION.POPULATION)
+                .from(Tables.POPULATIONANSWEROPTION)
+                .join(Tables.POPULATIONRESULT).onKey()
+                .where(Tables.POPULATIONRESULT.IDPOPULATIONRESULT.in(answered));
 
         Map<PopulationRecord, Result<Record>> populationAndAnswers = create.select()
-                .from(Tables.POPULATION)
-                .join(Tables.POPULATIONANSWEROPTION).onKey()
-                .where(Tables.POPULATION.IDPOPULATION.in(populationIDs))
+                .from(Tables.POPULATIONANSWEROPTION)
+                .join(Tables.POPULATION).onKey()
+                .join(Tables.EXPERIMENTSPOPULATION).onKey()
+                .where(Tables.EXPERIMENTSPOPULATION.POPULATION_USER.eq(experimentID))
+                .and(Tables.EXPERIMENTSPOPULATION.REFERENCED_PLATFORM.eq(platformID))
+                .and(Tables.POPULATION.IDPOPULATION.notIn(alreadyBelongingPopulations))
                 .fetchGroups(Tables.POPULATION);
 
-        return mapMap(populationAndAnswers, record -> record.getValues(Tables.POPULATIONANSWEROPTION.ANSWER));
+        return mapMap(populationAndAnswers, result -> result.into(Tables.POPULATIONANSWEROPTION.asTable()));
+    }
+
+    public boolean belongsToWrongPopulation(int experimentID, String platformID, int worker) {
+        SelectConditionStep<Record1<Integer>> answered = DSL.select(Tables.POPULATIONRESULT.ANSWER)
+                .from(Tables.POPULATIONRESULT)
+                .where(Tables.POPULATIONRESULT.WORKER.eq(worker));
+
+        return create.fetchExists(DSL.selectFrom(Tables.EXPERIMENTSPOPULATION)
+                .where(Tables.EXPERIMENTSPOPULATION.POPULATION_USER.eq(experimentID))
+                .and(Tables.EXPERIMENTSPOPULATION.REFERENCED_PLATFORM.eq(platformID))
+                .and(Tables.EXPERIMENTSPOPULATION.NOT.eq(false).and(Tables.EXPERIMENTSPOPULATION.ANSWER.notIn(answered))
+                        .or(Tables.EXPERIMENTSPOPULATION.NOT.eq(true).and(Tables.EXPERIMENTSPOPULATION.ANSWER.in(answered)))));
     }
 }

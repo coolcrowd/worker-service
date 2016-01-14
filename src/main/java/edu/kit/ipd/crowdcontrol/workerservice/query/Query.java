@@ -2,18 +2,21 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationansweroptionRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.WorkerOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
+import org.jooq.Result;
 import spark.Request;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -78,19 +81,21 @@ public class Query implements RequestHelper {
      */
     private View getNext(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
         if (builder.getWorkerId() == -1) {
-            builder =  handleNoWorkerID(builder, request);
-        }
-        Optional<View> Calibration = getCalibration(builder, request);
-        if (Calibration.isPresent()) {
-            return Calibration.get();
-        }
-        Optional<View> strategyStep = getStrategyStep(builder, request, skipCreative, skipRating);
-        if (strategyStep.isPresent()) {
-            return strategyStep.get();
+            builder = handleNoWorkerID(builder, request);
         }
         Optional<View> email = getEmail(builder, request);
         if (email.isPresent()) {
             return email.get();
+        }
+        if (checkPopulation(builder, request)) {
+            Optional<View> Calibration = getCalibration(builder, request);
+            if (Calibration.isPresent()) {
+                return Calibration.get();
+            }
+            Optional<View> strategyStep = getStrategyStep(builder, request, skipCreative, skipRating);
+            if (strategyStep.isPresent()) {
+                return strategyStep.get();
+            }
         }
         return workerFinished(builder, request);
     }
@@ -128,8 +133,20 @@ public class Query implements RequestHelper {
     }
 
     /**
+     * checks if the worker does not belong to the wrong population
+     * @param builder the builder to use
+     * @param request the request
+     * @return true if the worker does not already belong got the wrong population
+     */
+    private boolean checkPopulation(View.Builder builder, Request request) {
+        String platformName = assertParameter(request, "platform");
+        int experiment = assertParameterInt(request, "experiment");
+        return !populationsOperations.belongsToWrongPopulation(experiment, platformName, builder.getWorkerId());
+    }
+
+    /**
      * may returns the Calibration if there are needed Calibration left unanswered.
-     * @param builder the builder to user
+     * @param builder the builder to use
      * @param request the request
      * @return an instance of view if the worker has to fill in some Calibration, or empty if not.
      */
@@ -137,12 +154,12 @@ public class Query implements RequestHelper {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
         if (platformOperations.getPlatform(platformName).getRenderCalibrations()) {
-            Map<PopulationRecord, List<String>> Calibration = populationsOperations.getCalibrations(experiment,
+            Map<PopulationRecord, Result<PopulationansweroptionRecord>> calibrations = populationsOperations.getCalibrations(experiment,
                     platformOperations.getPlatform(platformName).getIdplatform(), builder.getWorkerId());
-            if (Calibration.isEmpty()) {
+            if (calibrations.isEmpty()) {
                 return Optional.empty();
             } else {
-                return Optional.of(constructCalibrationView(Calibration, builder));
+                return Optional.of(constructCalibrationView(calibrations, builder));
             }
         } else {
             return Optional.empty();
@@ -155,15 +172,22 @@ public class Query implements RequestHelper {
      * @param builder the builder to use
      * @return an instance of View with the Type Calibration and the Calibration set.
      */
-    private View constructCalibrationView(Map<PopulationRecord, List<String>> qualifications, View.Builder builder) {
+    private View constructCalibrationView(Map<PopulationRecord, Result<PopulationansweroptionRecord>> qualifications, View.Builder builder) {
+        Function<PopulationansweroptionRecord, View.CalibrationAnswerOption> constructAnswerOption = record ->
+                View.CalibrationAnswerOption.newBuilder()
+                        .setId(record.getIdpopulationansweroption())
+                        .setOption(record.getAnswer())
+                        .build();
+
         List<View.Calibration> Calibration = qualifications.entrySet().stream()
                 .map(entry -> View.Calibration.newBuilder()
                         .setQuestion(entry.getKey().getProperty())
                         .setId(entry.getKey().getIdpopulation())
-                        .addAllAnswerOptions(entry.getValue())
+                        .addAllAnswerOptions(entry.getValue().map(constructAnswerOption::apply))
                         .build()
                 )
                 .collect(Collectors.toList());
+
         return builder.addAllCalibrations(Calibration)
                 .setType(View.Type.CALIBRATION)
                 .build();
@@ -191,12 +215,11 @@ public class Query implements RequestHelper {
      * @return an instance of view with the type email or empty
      */
     private Optional<View> getEmail(View.Builder builder, Request request) {
-        String platformName = assertParameter(request, "platform");
-        boolean hasNoEmail = true;
+        boolean shouldDisplayEmail = true;
         if (builder.getWorkerId() != -1) {
-            hasNoEmail = !workerOperations.hasEmail(builder.getWorkerId());
+            shouldDisplayEmail = !workerOperations.hasEmail(builder.getWorkerId());
         }
-        if (platformOperations.getPlatform(platformName).getNeedsEmail() && hasNoEmail) {
+        if (shouldDisplayEmail) {
             return Optional.of(builder.setType(View.Type.EMAIL).build());
         } else {
             return Optional.empty();
@@ -211,7 +234,7 @@ public class Query implements RequestHelper {
      */
     private View workerFinished(View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
-        //TODO: notify?
+        //TODO: notify
         return builder.setType(View.Type.FINISHED)
                 .build();
     }
