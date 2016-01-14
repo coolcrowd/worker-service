@@ -50,7 +50,7 @@ public class Commands implements RequestHelper {
         if (!EmailValidator.getInstance(false).isValid(email)) {
             throw new BadRequestException("invalid email: " + email);
         }
-        return communication.putWorker(email, platform)
+        return communication.submitWorker(email, platform)
                 .thenApply(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
                 .handle((emailAnswer, throwable) -> wrapException(emailAnswer, throwable, response))
                 .join();
@@ -78,6 +78,7 @@ public class Commands implements RequestHelper {
      * @return empty body (null)
      */
     public Object submitAnswer(Request request, Response response) {
+        //TODO validate url-thingies
         doSubmit(request, response, Answer.newBuilder(), (answer, workerID) -> {
             if (answer.getAnswer() == null || answer.getAnswer().isEmpty()) {
                 throw new BadRequestException("this request requires the answer set");

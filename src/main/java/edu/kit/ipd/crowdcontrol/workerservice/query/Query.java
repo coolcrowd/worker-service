@@ -1,5 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
+import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationansweroptionRecord;
@@ -106,11 +107,14 @@ public class Query implements RequestHelper {
      * @return an instance of view with the workerID or -1 if none provided
      */
     private View.Builder prepareView(Request request) {
-        //TODO better error message/catch exceptions
         View.Builder builder = View.newBuilder();
         String worker = request.queryParams("worker");
         if (worker != null) {
-            builder.setWorkerId(Integer.parseInt(worker));
+            try {
+                builder.setWorkerId(Integer.parseInt(worker));
+            } catch (NumberFormatException e) {
+                throw new InternalServerErrorException("workerID mus be an integer");
+            }
         } else {
             builder.setWorkerId(-1);
         }
@@ -215,12 +219,12 @@ public class Query implements RequestHelper {
      * @return an instance of view with the type email or empty
      */
     private Optional<View> getEmail(View.Builder builder, Request request) {
-        boolean shouldDisplayEmail = true;
-        if (builder.getWorkerId() != -1) {
-            shouldDisplayEmail = !workerOperations.hasEmail(builder.getWorkerId());
-        }
-        if (shouldDisplayEmail) {
+        String platformName = assertParameter(request, "platform");
+        if (platformOperations.getPlatform(platformName).getNeedsEmail()) {
             return Optional.of(builder.setType(View.Type.EMAIL).build());
+        } else if (builder.getWorkerId() == -1) {
+            throw new InternalServerErrorException("internal server error: did not get a workerID" +
+                    "and the platform does not need an email");
         } else {
             return Optional.empty();
         }
@@ -233,8 +237,7 @@ public class Query implements RequestHelper {
      * @return an View with the Type FINISHED
      */
     private View workerFinished(View.Builder builder, Request request) {
-        String platformName = assertParameter(request, "platform");
-        //TODO: notify
+        //TODO notify??
         return builder.setType(View.Type.FINISHED)
                 .build();
     }

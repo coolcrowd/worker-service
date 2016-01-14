@@ -19,6 +19,7 @@ dependencies {
     compile 'com.google.protobuf:protobuf-java:3.0.0-beta-1'
     compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4'
     compile 'commons-validator:commons-validator:1.5.0'
+    compile 'com.mashape.unirest:unirest-java:1.4.7'
     testCompile 'junit:junit:4.12'
 }
 
@@ -57,7 +58,7 @@ jooq {
                 daos = true
             }
             target {
-                packageName = "edu.ipd.kit.crowdcontrol.workerservice.database.model"
+                packageName = "edu.kit.ipd.crowdcontrol.workerservice.database.model"
                 directory = 'src/main/java'
             }
         }
