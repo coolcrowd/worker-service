@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * TaskChooserAlgorithm represents an algorithm which decides whether the worker should work on an Creative-Task,
@@ -85,10 +86,12 @@ public abstract class TaskChooserAlgorithm {
         }
         Integer ratingsPerAnswer = experimentRecord.getRatingsPerAnswer();
         List<View.Answer> toRate = taskOperation.prepareRating(builder.getWorkerId(), experimentID, ratingsPerAnswer)
+                .stream()
                 .map(record -> View.Answer.newBuilder()
                         .setAnswer(record.getAnswer())
                         .setId(record.getIdanswer())
-                        .build());
+                        .build())
+                .collect(Collectors.toList());
         return prepareBuilder(builder, experimentID)
                 .addAllAnswers(toRate)
                 .setType(View.Type.RATING)
