@@ -21,24 +21,13 @@ public class Communication {
     }
 
     /**
-     * submits the email to the object-service
+     * submits the worker.
      * Calls 'PUT /workers' from the Object-Service.
-     * @param Worker the worker to submit the email for
      * @param email the email to save
-     * @return an completable future representing the request with the resulting location in the database
+     * @param platform the current platform
+     * @return an completable future representing the request with the resulting workerID
      */
-    public CompletableFuture<Integer> submitEmail(int Worker, String email) {
-        return null;
-    }
-
-    /**
-     * submits the email to the object-service
-     * Calls 'PUT /workers' from the Object-Service.
-     * @param platform the platform the worker is working on
-     * @param email the email to save
-     * @return an completable future representing the request with the resulting location in the database
-     */
-    public CompletableFuture<Integer> submitEmail(String platform, String email) {
+    public CompletableFuture<Integer> putWorker(String email, String platform) {
         return null;
     }
 
@@ -63,7 +52,7 @@ public class Communication {
      * @param answer the rated answer
      * @return an completable future representing the request with the resulting location in the database
      */
-    public CompletableFuture<Integer> submitRating(int rating, int task, int worker, int answer) {
+    public CompletableFuture<Integer> submitRating(int rating, int task, int answer, int worker) {
         return null;
     }
 

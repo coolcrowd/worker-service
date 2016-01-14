@@ -45,11 +45,11 @@ public class Router implements SparkApplication {
 
         post("/email/:platform", commands::submitEmail);
 
-        post("/answer/:worker", commands::submitAnswer);
+        post("/answer/:workerID", commands::submitAnswer);
 
-        post("/rating/:worker", commands::submitRating);
+        post("/rating/:workerID", commands::submitRating);
 
-        post("/calibration/:worker", commands::submitCalibration);
+        post("/calibration/:workerID", commands::submitCalibration);
     }
 
     private void get(String route, Function<Request, Message> handler) {
