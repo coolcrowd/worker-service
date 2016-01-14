@@ -6,6 +6,7 @@ import com.googlecode.protobuf.format.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.Answer;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.Calibration;
@@ -15,6 +16,9 @@ import org.apache.commons.validator.routines.EmailValidator;
 import spark.Request;
 import spark.Response;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 
@@ -26,13 +30,16 @@ import java.util.function.BiFunction;
 public class Commands implements RequestHelper {
     private final Communication communication;
     private final JsonFormat protobufJSON = new JsonFormat();
+    private final ExperimentOperations experimentOperations;
 
     /**
      * creates an instance of Commands
      * @param communication the communication used to communicate with the object-service
+     * @param experimentOperations the experiment-operations used to communicate with the database
      */
-    public Commands(Communication communication) {
+    public Commands(Communication communication, ExperimentOperations experimentOperations) {
         this.communication = communication;
+        this.experimentOperations = experimentOperations;
     }
 
     /**
@@ -79,10 +86,18 @@ public class Commands implements RequestHelper {
      * @return empty body (null)
      */
     public Object submitAnswer(Request request, Response response) {
-        //TODO validate url-thingies
         doSubmit(request, response, Answer.newBuilder(), (answer, workerID) -> {
             if (answer.getAnswer() == null || answer.getAnswer().isEmpty()) {
                 throw new BadRequestException("this request requires the answer set");
+            }
+            String answerType = experimentOperations.getExperiment(answer.getTask()).getAnswerType();
+            try {
+                //TODO try this out
+                if (answerType != null && !getContentType(answer.getAnswer()).startsWith(answerType)) {
+                    throw new BadRequestException("the content-type of the URL does not match the desired type: " + answerType);
+                }
+            } catch (IOException e) {
+                throw new InternalServerErrorException("unable to probe Content-type, aborting", e);
             }
             return communication.submitAnswer(answer.getAnswer(), answer.getTask(), workerID);
         });
@@ -127,5 +142,42 @@ public class Commands implements RequestHelper {
         return func.apply(builder, workerID)
                 .handle((t, throwable) -> wrapException(t, throwable, response))
                 .join();
+    }
+
+    /**
+     * Http HEAD Method to get URL content type
+     *
+     * @param urlString
+     * @return content type
+     * @throws IOException
+     */
+    //from: http://stackoverflow.com/questions/5801993/quickest-way-to-get-content-type
+    public static String getContentType(String urlString) throws IOException {
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("HEAD");
+        if (isRedirect(connection.getResponseCode())) {
+            String newUrl = connection.getHeaderField("Location"); // get redirect url from "location" header field
+            return getContentType(newUrl);
+        }
+        return connection.getContentType();
+    }
+
+    /**
+     * Check status code for redirects
+     *
+     * @param statusCode
+     * @return true if matched redirect group
+     */
+    //from: http://stackoverflow.com/questions/5801993/quickest-way-to-get-content-type
+    protected static boolean isRedirect(int statusCode) {
+        if (statusCode != HttpURLConnection.HTTP_OK) {
+            if (statusCode == HttpURLConnection.HTTP_MOVED_TEMP
+                    || statusCode == HttpURLConnection.HTTP_MOVED_PERM
+                    || statusCode == HttpURLConnection.HTTP_SEE_OTHER) {
+                return true;
+            }
+        }
+        return false;
     }
 }
