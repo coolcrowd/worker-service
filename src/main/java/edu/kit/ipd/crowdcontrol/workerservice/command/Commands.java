@@ -105,7 +105,6 @@ public class Commands implements RequestHelper {
 
     private <T> T wrapException(T t, Throwable throwable, Response response) {
         if (throwable != null) {
-            //TODO: wrap in right exception!
             throw new InternalServerErrorException("an error occurred while communicating with the Object-Service", throwable);
         } else {
             response.status(201);
