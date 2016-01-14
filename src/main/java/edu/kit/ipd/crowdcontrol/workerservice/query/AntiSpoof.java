@@ -21,7 +21,7 @@ public class AntiSpoof extends TaskChooserAlgorithm {
      * @param experimentOperations the ExperimentOperations used to communicate with the database.
      */
     public AntiSpoof(ExperimentOperations experimentOperations) {
-        super(experimentOperations);
+        super(experimentOperations, taskOperation);
     }
 
     @Override

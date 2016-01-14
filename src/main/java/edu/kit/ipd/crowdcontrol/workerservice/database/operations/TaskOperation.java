@@ -2,8 +2,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
 import org.jooq.DSLContext;
-
-import java.util.List;
+import org.jooq.Result;
 
 /**
  * TaskOperations contains all queries concerned with the Creative- and Rating-Tasks.
@@ -27,7 +26,7 @@ public class TaskOperation extends AbstractOperation {
      * @param amount the amount of ratings to reserve
      * @return the list of answers to rate
      */
-    public List<AnswerRecord> prepareRating(int worker, int experiment, int amount) {
+    public Result<AnswerRecord> prepareRating(int worker, int experiment, int amount) {
         //TODO
         return null;
     }

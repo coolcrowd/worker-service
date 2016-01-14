@@ -2,11 +2,17 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentNotFoundException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperation;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * TaskChooserAlgorithm represents an algorithm which decides whether the worker should work on an Creative-Task,
@@ -16,13 +22,19 @@ import java.util.Optional;
  */
 public abstract class TaskChooserAlgorithm {
     protected final ExperimentOperations experimentOperations;
+    protected final TaskOperation taskOperation;
+    private final String pictureRegex = "\\{! \\S+ \\S+\\}";
+    private Pattern picturePattern = Pattern.compile("(" + pictureRegex + ")");
+    private Pattern pictureUrlLicensePattern = Pattern.compile("\\{! (?<url>\\S+) (?<license>\\S+)\\}");
 
     /**
      * creates an new TaskChooserAlgorithm
      * @param experimentOperations the ExperimentOperations used to communicate with the database.
+     * @param taskOperation the TaskOperations used to communicate with the database
      */
-    public TaskChooserAlgorithm(ExperimentOperations experimentOperations) {
+    public TaskChooserAlgorithm(ExperimentOperations experimentOperations, TaskOperation taskOperation) {
         this.experimentOperations = experimentOperations;
+        this.taskOperation = taskOperation;
     }
 
     /**
@@ -52,9 +64,8 @@ public abstract class TaskChooserAlgorithm {
      * @throws BadRequestException if the experiment was not found
      */
     protected View constructAnswerView(View.Builder builder, int experimentID) throws BadRequestException {
-        ExperimentRecord experimentRecord = experimentOperations.getExperiment(experimentID);
-        //TODO: impl
-        return builder.setType(View.Type.ANSWER)
+        return prepareBuilder(builder, experimentID)
+                .setType(View.Type.ANSWER)
                 .build();
     }
 
@@ -66,9 +77,57 @@ public abstract class TaskChooserAlgorithm {
      * @throws BadRequestException if the experiment was not found
      */
     protected View constructRatingView(View.Builder builder, int experimentID) throws BadRequestException {
-        ExperimentRecord experimentRecord = experimentOperations.getExperiment(experimentID);
-        //TODO: impl
-        return builder.setType(View.Type.RATING)
+        ExperimentRecord experimentRecord = null;
+        try {
+            experimentRecord = experimentOperations.getExperiment(experimentID);
+        } catch (ExperimentNotFoundException e) {
+            throw new BadRequestException("experiment not found : " + experimentID);
+        }
+        Integer ratingsPerAnswer = experimentRecord.getRatingsPerAnswer();
+        List<View.Answer> toRate = taskOperation.prepareRating(builder.getWorkerId(), experimentID, ratingsPerAnswer)
+                .map(record -> View.Answer.newBuilder()
+                        .setAnswer(record.getAnswer())
+                        .setId(record.getIdanswer())
+                        .build());
+        return prepareBuilder(builder, experimentID)
+                .addAllAnswers(toRate)
+                .setType(View.Type.RATING)
                 .build();
+    }
+
+    /**
+     * prepares the builder by setting all common information about the experiment.
+     * It will set the Title, TaskID, Description, Pictures and Constraints.
+     * @param builder the builder to use
+     * @param experimentID the current experiment
+     * @return an instance of builder with all common experiment-Data set.
+     * @throws BadRequestException if the experiment is not existing
+     */
+    protected View.Builder prepareBuilder(View.Builder builder, int experimentID) throws BadRequestException {
+        ExperimentRecord experimentRecord = null;
+        try {
+            experimentRecord = experimentOperations.getExperiment(experimentID);
+        } catch (ExperimentNotFoundException e) {
+            throw new BadRequestException("experiment not found : " + experimentID);
+        }
+        String mixedDescription = experimentRecord.getDescription();
+        Matcher matcher = picturePattern.matcher(mixedDescription);
+        List<View.Picture> pictures = new ArrayList<>();
+        while(matcher.find()) {
+            Matcher urlLicense = pictureUrlLicensePattern.matcher(matcher.group());
+            pictures.add(View.Picture.newBuilder()
+                .setUrl(urlLicense.group("url"))
+                .setUrlLicense(urlLicense.group("license"))
+                .build());
+        }
+        String cleanDescription = mixedDescription.replaceAll(pictureRegex, "");
+        List<View.Constraint> constraints = experimentOperations.getConstraints(experimentID)
+                .map(constraint -> View.Constraint.newBuilder().setName(constraint.getConstraint()).build());
+        return builder
+                .setTitle(experimentRecord.getTitel())
+                .setTask(experimentRecord.getIdexperiment())
+                .setDescription(cleanDescription)
+                .addAllPictures(pictures)
+                .addAllConstraints(constraints);
     }
 }

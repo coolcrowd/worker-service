@@ -1,8 +1,10 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import org.jooq.DSLContext;
+import org.jooq.Result;
 
 /**
  * contains all the operations concerned with experiments.
@@ -29,5 +31,16 @@ public class ExperimentOperations extends AbstractOperation {
                 .where(Tables.EXPERIMENT.IDEXPERIMENT.eq(experimentID))
                 .fetchOptional()
                 .orElseThrow(() -> new ExperimentNotFoundException(experimentID));
+    }
+
+    /**
+     * returns all the Constraints associated with the Experiment-ID
+     * @param experimentID the experiment-ID
+     * @return the resulting Records
+     */
+    public Result<ConstraintRecord> getConstraints(int experimentID) {
+        return create.selectFrom(Tables.CONSTRAINT)
+                .where(Tables.CONSTRAINT.EXPERIMENT.eq(experimentID))
+                .fetch();
     }
 }
