@@ -5,6 +5,7 @@ package edu.kit.ipd.crowdcontrol.workerservice;
  * @author LeanderK
  * @version 1.0
  */
+//The name is intentional, InternalServerException would ruin the direct mapping between status code and exception
 public class InternalServerErrorException extends RuntimeException {
     /**
      * Constructs a new exception with the specified detail message and

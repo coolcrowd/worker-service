@@ -1,5 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
@@ -7,11 +8,11 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.Popu
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.WorkerOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.Result;
 import spark.Request;
+import spark.Response;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,15 +31,14 @@ public class Query implements RequestHelper {
     private final HashMap<String, TaskChooserAlgorithm> strategies =  new HashMap<>();
     private final PopulationsOperations populationsOperations;
     private final ExperimentOperations experimentOperations;
-    private final WorkerOperations workerOperations;
     private final Communication communication;
     private final PlatformOperations platformOperations;
+    private final JsonFormat protobufJSON = new JsonFormat();
 
-    public Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations, WorkerOperations workerOperations,
+    public Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
                  PlatformOperations platformOperations, Communication communication) {
         this.populationsOperations = populationsOperations;
         this.experimentOperations = experimentOperations;
-        this.workerOperations = workerOperations;
         this.platformOperations = platformOperations;
         this.communication = communication;
         registerTaskChooser(new AntiSpoof(experimentOperations));
@@ -58,9 +58,10 @@ public class Query implements RequestHelper {
      *     it is indented to be called when the Router gets an /next-Request.
      * </p>
      * @param request the SparkJava-Request
-     * @return an instance of View
+     * @param response the SparkJava-Response
+     * @return the JSON-Representation of View
      */
-    public View getNext(Request request) {
+    public String getNext(Request request, Response response) {
         boolean skipCreative = false;
         if ("skip".equals(request.queryParams("answer"))) {
             skipCreative = true;
@@ -69,7 +70,9 @@ public class Query implements RequestHelper {
         if ("skip".equals(request.queryParams("rating"))) {
             skipRating = true;
         }
-        return getNext(prepareView(request), request, skipCreative, skipRating);
+        View next = getNext(prepareView(request), request, skipCreative, skipRating);
+        response.status(200);
+        return protobufJSON.printToString(next);
     }
 
     /**

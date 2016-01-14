@@ -1,13 +1,8 @@
 package edu.kit.ipd.crowdcontrol.workerservice;
 
-import com.google.protobuf.Message;
-import com.googlecode.protobuf.format.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
 import edu.kit.ipd.crowdcontrol.workerservice.query.Query;
-import spark.Request;
 import spark.servlet.SparkApplication;
-
-import java.util.function.Function;
 
 import static spark.Spark.*;
 
@@ -19,7 +14,6 @@ import static spark.Spark.*;
 public class Router implements SparkApplication {
     private final Query query;
     private final Commands commands;
-    private final JsonFormat protobufJSON = new JsonFormat();
 
     /**
      * creates a new Router.
@@ -37,8 +31,17 @@ public class Router implements SparkApplication {
     @Override
     public void init() {
         exception(BadRequestException.class, (exception, request, response) -> {
-            BadRequestException exception1 = (BadRequestException) exception;
-            //TODO!
+            BadRequestException badRequest = (BadRequestException) exception;
+            response.status(400);
+            response.body(badRequest.getMessage());
+        });
+
+        exception(InternalServerErrorException.class, (exception, request, response) -> {
+            InternalServerErrorException internalError = (InternalServerErrorException) exception;
+            response.status(500);
+            response.body(internalError.getMessage());
+            System.err.println("an internal error occurred");
+            internalError.printStackTrace();
         });
 
         get("/next/:platform/:experiment", query::getNext);
@@ -50,10 +53,6 @@ public class Router implements SparkApplication {
         post("/rating/:workerID", commands::submitRating);
 
         post("/calibration/:workerID", commands::submitCalibration);
-    }
 
-    private void get(String route, Function<Request, Message> handler) {
-        //TODO: do response things
-        spark.Spark.get(route, (request, response) -> protobufJSON.printToString(handler.apply(request)));
     }
 }

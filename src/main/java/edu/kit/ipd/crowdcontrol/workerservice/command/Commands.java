@@ -42,9 +42,9 @@ public class Commands implements RequestHelper {
      * the response is the corresponding workerID for the email.
      * @param request  The request providing information about the HTTP request
      * @param response The response providing functionality for modifying the response
-     * @return an instance of EmailAnswer
+     * @return an the JSON-Representation of of the EmailAnswer protobuf-message
      */
-    public EmailAnswer submitEmail(Request request, Response response) {
+    public String submitEmail(Request request, Response response) {
         String platform = assertParameter(request, ":platform");
         String email = request.body();
         if (!EmailValidator.getInstance(false).isValid(email)) {
@@ -52,6 +52,7 @@ public class Commands implements RequestHelper {
         }
         return communication.submitWorker(email, platform)
                 .thenApply(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
+                .thenApply(protobufJSON::printToString)
                 .handle((emailAnswer, throwable) -> wrapException(emailAnswer, throwable, response))
                 .join();
     }
@@ -107,7 +108,7 @@ public class Commands implements RequestHelper {
             //TODO: wrap in right exception!
             throw new InternalServerErrorException("an error occurred while communicating with the Object-Service", throwable);
         } else {
-            response.status(200);
+            response.status(201);
             return t;
         }
     }
