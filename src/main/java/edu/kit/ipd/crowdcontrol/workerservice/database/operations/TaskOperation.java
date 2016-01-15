@@ -47,7 +47,7 @@ public class TaskOperation extends AbstractOperation {
                     .from(Tables.ANSWER)
                     .leftJoin(Tables.RATING).onKey()
                     .where(Tables.ANSWER.TASK.eq(experiment))
-                    .and(Tables.RATING.RATING_.isNotNull().or(Tables.RATING.TIMESTAMP.lessThan(timestamp)))
+                    .and(Tables.RATING.RATING_.isNotNull().or(Tables.RATING.TIMESTAMP.greaterOrEqual(timestamp)))
                     .having(count.lessThan(
                             DSL.select(Tables.EXPERIMENT.RATINGS_PER_ANSWER).where(Tables.EXPERIMENT.IDEXPERIMENT.eq(worker))))
                     .limit(amount)

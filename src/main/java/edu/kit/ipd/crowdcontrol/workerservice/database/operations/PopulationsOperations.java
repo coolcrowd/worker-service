@@ -53,6 +53,13 @@ public class PopulationsOperations extends AbstractOperation {
         return mapMap(populationAndAnswers, result -> result.into(Tables.POPULATIONANSWEROPTION.asTable()));
     }
 
+    /**
+     * returns whether the worker already belongs to the wrong population
+     * @param experimentID the current experiment
+     * @param platformID the platform the worker is working on
+     * @param worker the worker to check for
+     * @return true if the worker is already belonging to the wrong population, false if not
+     */
     public boolean belongsToWrongPopulation(int experimentID, String platformID, int worker) {
         SelectConditionStep<Record1<Integer>> answered = DSL.select(Tables.POPULATIONRESULT.ANSWER)
                 .from(Tables.POPULATIONRESULT)
