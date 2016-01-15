@@ -100,14 +100,6 @@ public class CommandsTest {
         );
     }
 
-    private Object submitAnswerHelper(String answer, int task, int workerID, int answerID, Consumer<Response> responseVerifier) throws Exception {
-        return submitAnswerHelper(answer, printer.print(Answer.newBuilder()
-                .setTask(task)
-                .setAnswer(answer)
-                .build()),
-                task, workerID, answerID, responseVerifier);
-    }
-
     private Object submitRatingHelper(int rating, Rating ratingRequest, int task, int answer, int workerID, int ratingID, Consumer<Response> responseVerifier) throws InvalidProtocolBufferException {
         String json = printer.print(ratingRequest);
         return submit(task, null,
