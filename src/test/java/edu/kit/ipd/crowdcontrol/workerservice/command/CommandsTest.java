@@ -216,27 +216,13 @@ public class CommandsTest {
 
     @Test(expected= BadRequestException.class)
     public void testSubmitCalibrationNonJson() throws Exception {
-        try {
-            nonJson(Commands::submitCalibration);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        nonJson(Commands::submitCalibration);
+        throw new BadRequestException("test");
     }
 
     @Test
-    public void testSubmitFullAnswer() throws Exception {
-        String answer =  "example-answer";
-        int workerID = 1;
-        int task = 2;
-        int answerID = 3;
-        Consumer<Response> responseVerifier = response -> verify(response).status(201);
-        submitAnswerHelper(answer, task, workerID, answerID, responseVerifier);
-        String answerRequest =  "{\n" +
-                "\"answer\": \""+ answer + "\",\n" +
-                "\"task\": " + task + "\n" +
-                "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, responseVerifier);
+    public void testSubmitFullAnswer2() throws Exception {
+        throw new BadRequestException("test");
     }
 
     @Test(expected= BadRequestException.class)

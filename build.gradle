@@ -37,6 +37,13 @@ buildscript {
     }
 }
 
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "short"
+    }
+}
+
 jooq {
     sample(sourceSets.main) {
         jdbc {
