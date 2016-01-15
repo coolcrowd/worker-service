@@ -214,15 +214,9 @@ public class CommandsTest {
         );
     }
 
-    @Test(expected= BadRequestException.class)
+    @Test
     public void testSubmitCalibrationNonJson() throws Exception {
         nonJson(Commands::submitCalibration);
-        throw new BadRequestException("test");
-    }
-
-    @Test
-    public void testSubmitFullAnswer2() throws Exception {
-        throw new BadRequestException("test");
     }
 
     @Test(expected= BadRequestException.class)
