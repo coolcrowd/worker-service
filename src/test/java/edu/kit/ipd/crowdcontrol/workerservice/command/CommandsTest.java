@@ -219,6 +219,19 @@ public class CommandsTest {
         nonJson(Commands::submitCalibration);
     }
 
+    @Test
+    public void testSubmitFullAnswer() throws Exception {
+        String answer =  "example-answer";
+        int workerID = 1;
+        int task = 2;
+        int answerID = 3;
+        submitAnswerHelper(answer, printer.print(Answer.newBuilder()
+                .setTask(task)
+                .setAnswer(answer)
+                .build()),
+                task, workerID, answerID, response -> verify(response).status(201));
+    }
+
     @Test(expected= BadRequestException.class)
     public void testSubmitMissingAnswer() throws Exception {
         String answer =  "example-answer";
