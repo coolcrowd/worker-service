@@ -9,6 +9,7 @@ import com.mashape.unirest.request.HttpRequestWithBody;
 import edu.kit.ipd.crowdcontrol.objectservice.proto.Answer;
 import edu.kit.ipd.crowdcontrol.objectservice.proto.Rating;
 import edu.kit.ipd.crowdcontrol.objectservice.proto.Worker;
+import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 
 import java.util.Map;
 import java.util.Optional;
@@ -135,6 +136,12 @@ public class Communication {
         return null;
     }
 
+    /**
+     * creates a put-request with the specified route and the function applied
+     * @param route the route of the put-request
+     * @param func the function to complete the prepared put-request
+     * @return an CompletableFuture containing the result of the put-request
+     */
     private CompletableFuture<HttpResponse<JsonNode>> putRequest(String route, UnirestFunction func) {
         return CompletableFuture.supplyAsync(() -> {
             try {
@@ -142,11 +149,14 @@ public class Communication {
                         .basicAuth(username, password);
                 return func.apply(request);
             } catch (UnirestException e) {
-                throw new RuntimeException(e);
+                throw new InternalServerErrorException("an error occurred while trying to communicate with the object-service", e);
             }
         });
     }
 
+    /**
+     * defines the function to complete the prepared put-request.
+     */
     @FunctionalInterface
     private interface UnirestFunction {
         HttpResponse<JsonNode> apply(HttpRequestWithBody requestWithBody) throws UnirestException;

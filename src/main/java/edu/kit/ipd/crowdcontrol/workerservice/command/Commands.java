@@ -60,7 +60,7 @@ public class Commands implements RequestHelper {
         return communication.submitWorker(email, platform)
                 .thenApply(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
                 .thenApply(protobufJSON::printToString)
-                .handle((emailAnswer, throwable) -> wrapException(emailAnswer, throwable, response))
+                .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, response))
                 .join();
     }
 
@@ -118,7 +118,16 @@ public class Commands implements RequestHelper {
         return null;
     }
 
-    private <T> T wrapException(T t, Throwable throwable, Response response) {
+    /**
+     * if the throwable is not null it wraps the throwable into an InternalServerErrorException, or else it sets the
+     * response to 201 Created.
+     * @param t the Data to pass
+     * @param throwable the throwable to wrap
+     * @param response the response to set 201 to
+     * @param <T> the type of the data
+     * @return maybe the data (if the throwable is not null
+     */
+    private <T> T wrapExceptionOr201(T t, Throwable throwable, Response response) {
         if (throwable != null) {
             throw new InternalServerErrorException("an error occurred while communicating with the Object-Service", throwable);
         } else {
@@ -127,7 +136,16 @@ public class Commands implements RequestHelper {
         }
     }
 
+    /**
+     * merges the requests body with the Builder
+     * @param request the request with the JSON Representation of the Message as a Body
+     * @param t the builder
+     * @param <T> the type of the builder
+     * @return the builder with everything set
+     * @throws BadRequestException if an error occurred while parsing the JSON or wrong content-type
+     */
     private <T extends Message.Builder> T merge(Request request, T t) throws BadRequestException {
+        assertJson(request);
         try {
             protobufJSON.merge(request.body(), ExtensionRegistry.newInstance() , t);
         } catch (JsonFormat.ParseException e) {
@@ -136,11 +154,23 @@ public class Commands implements RequestHelper {
         return t;
     }
 
+    /**
+     * the abstraction for the usual submit.
+     * merges the body of the request with the builder an then calls the function. After calling the function it wraps
+     * the eventual exception, sets the status accordingly and blocks for return.
+     * @param request the request
+     * @param response the response
+     * @param x the builder for the expected message
+     * @param func the function to execute
+     * @param <X> the type of the builder
+     * @param <T> the type of the return data
+     * @return an instance of T or an exception
+     */
     private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x, BiFunction<X, Integer,  CompletableFuture<T>> func) {
         int workerID = assertParameterInt(request, "workerID");
         X builder = merge(request, x);
         return func.apply(builder, workerID)
-                .handle((t, throwable) -> wrapException(t, throwable, response))
+                .handle((t, throwable) -> wrapExceptionOr201(t, throwable, response))
                 .join();
     }
 
