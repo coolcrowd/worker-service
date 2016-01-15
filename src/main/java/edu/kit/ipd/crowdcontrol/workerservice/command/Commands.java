@@ -1,8 +1,8 @@
 package edu.kit.ipd.crowdcontrol.workerservice.command;
 
-import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
-import com.googlecode.protobuf.format.JsonFormat;
+import com.google.protobuf.util.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
@@ -29,7 +29,8 @@ import java.util.function.BiFunction;
  */
 public class Commands implements RequestHelper {
     private final Communication communication;
-    private final JsonFormat protobufJSON = new JsonFormat();
+    private final JsonFormat.Printer printer = JsonFormat.printer();
+    private final JsonFormat.Parser parser = JsonFormat.parser();
     private final ExperimentOperations experimentOperations;
 
     /**
@@ -52,14 +53,20 @@ public class Commands implements RequestHelper {
      * @return an the JSON-Representation of of the EmailAnswer protobuf-message
      */
     public String submitEmail(Request request, Response response) {
-        String platform = assertParameter(request, ":platform");
+        String platform = assertParameter(request, "platform");
         String email = request.body();
         if (!EmailValidator.getInstance(false).isValid(email)) {
             throw new BadRequestException("invalid email: " + email);
         }
         return communication.submitWorker(email, platform)
                 .thenApply(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
-                .thenApply(protobufJSON::printToString)
+                .thenApply(emailAnswer -> {
+                    try {
+                        return printer.print(emailAnswer);
+                    } catch (InvalidProtocolBufferException e) {
+                        throw new InternalServerErrorException("unable to print emailAnswer", e);
+                    }
+                })
                 .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, response))
                 .join();
     }
@@ -147,8 +154,8 @@ public class Commands implements RequestHelper {
     private <T extends Message.Builder> T merge(Request request, T t) throws BadRequestException {
         assertJson(request);
         try {
-            protobufJSON.merge(request.body(), ExtensionRegistry.newInstance() , t);
-        } catch (JsonFormat.ParseException e) {
+            parser.merge(request.body(), t);
+        } catch (InvalidProtocolBufferException e) {
             throw new BadRequestException("error while parsing JSON", e);
         }
         return t;

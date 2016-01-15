@@ -29,7 +29,7 @@ public interface RequestHelper {
      * @throws BadRequestException if the request has the incorrect content-type
      */
     default void assertJson(Request request) throws BadRequestException {
-        String actualContentType = request.headers("Content-Type");
+        String actualContentType = request.contentType();
         assertRequest(request, request1 -> actualContentType != null && actualContentType.equals("application/json"),
                 "Content-Type must be 'application/json'!");
     }

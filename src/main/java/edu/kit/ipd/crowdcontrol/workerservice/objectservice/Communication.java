@@ -1,6 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.objectservice;
 
-import com.googlecode.protobuf.format.JsonFormat;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.util.JsonFormat;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -22,7 +23,8 @@ import java.util.concurrent.CompletableFuture;
  */
 public class Communication {
     private final String url;
-    private final JsonFormat protobufJSON = new JsonFormat();
+    private final JsonFormat.Parser parser = JsonFormat.parser();
+    private final JsonFormat.Printer printer = JsonFormat.printer();
     private final String username;
     private final String password;
 
@@ -52,7 +54,7 @@ public class Communication {
                 .build();
 
         return putRequest("/workers", builder -> builder
-                .body(protobufJSON.printToString(worker))
+                .body(printer.print(worker))
                 .asJson()
         ).thenApply(response -> {
             if (response.getStatus() == 201) {
@@ -79,7 +81,7 @@ public class Communication {
                 .setWorker(worker)
                 .build();
         return putRequest("/experiments/"+task+"/answers", builder -> builder
-                .body(protobufJSON.printToString(answerProto))
+                .body(printer.print(answerProto))
                 .asJson()
         ).thenApply(response -> {
             if (response.getStatus() == 201) {
@@ -107,7 +109,7 @@ public class Communication {
                 .setWorker(worker)
                 .build();
         return putRequest("/experiments/"+task+"/answers/"+answer+"/ratings", builder -> builder
-                .body(protobufJSON.printToString(ratingProto))
+                .body(printer.print(ratingProto))
                 .asJson()
         ).thenApply(response -> Integer.parseInt(response.getHeaders().getFirst("Location")));
     }
@@ -119,7 +121,7 @@ public class Communication {
      * @param worker the worker answered
      * @return an completable future representing the request with the resulting location in the database
      */
-    public CompletableFuture<Integer> submitCalibration(int option, int worker) {
+    public CompletableFuture<HttpResponse<JsonNode>> submitCalibration(int option, int worker) {
         //TODO
         return null;
     }
@@ -150,6 +152,8 @@ public class Communication {
                 return func.apply(request);
             } catch (UnirestException e) {
                 throw new InternalServerErrorException("an error occurred while trying to communicate with the object-service", e);
+            } catch (InvalidProtocolBufferException e) {
+                throw new InternalServerErrorException("unable to print JSON for request", e);
             }
         });
     }
@@ -159,6 +163,6 @@ public class Communication {
      */
     @FunctionalInterface
     private interface UnirestFunction {
-        HttpResponse<JsonNode> apply(HttpRequestWithBody requestWithBody) throws UnirestException;
+        HttpResponse<JsonNode> apply(HttpRequestWithBody requestWithBody) throws UnirestException, InvalidProtocolBufferException;
     }
 }
