@@ -80,8 +80,7 @@ public class Commands implements RequestHelper {
      */
     public Object submitCalibration(Request request, Response response) {
         doSubmit(request, response, Calibration.newBuilder(), (calibration, workerID) ->
-                communication.submitCalibration(calibration.getAnswerOption(), workerID)
-        );
+                communication.submitCalibration(calibration.getAnswerOption(), workerID));
         return null;
     }
 
@@ -94,9 +93,6 @@ public class Commands implements RequestHelper {
      */
     public Object submitAnswer(Request request, Response response) {
         doSubmit(request, response, Answer.newBuilder(), (answer, workerID) -> {
-            if (answer.getAnswer() == null || answer.getAnswer().isEmpty()) {
-                throw new BadRequestException("this request requires the answer set");
-            }
             String answerType = experimentOperations.getExperiment(answer.getTask()).getAnswerType();
             try {
                 //TODO try this out
@@ -120,8 +116,7 @@ public class Commands implements RequestHelper {
      */
     public Object submitRating(Request request, Response response) {
         doSubmit(request, response, Rating.newBuilder(), (rating, workerID) ->
-                communication.submitRating(rating.getRating(), rating.getTask(), rating.getAnswerId(), workerID)
-        );
+                communication.submitRating(rating.getRating(), rating.getTask(), rating.getAnswerId(), workerID));
         return null;
     }
 
@@ -147,23 +142,32 @@ public class Commands implements RequestHelper {
      * merges the requests body with the Builder
      * @param request the request with the JSON Representation of the Message as a Body
      * @param t the builder
+     * @param checkFields whether to check if all fields have been set
      * @param <T> the type of the builder
      * @return the builder with everything set
      * @throws BadRequestException if an error occurred while parsing the JSON or wrong content-type
      */
-    private <T extends Message.Builder> T merge(Request request, T t) throws BadRequestException {
+    private <T extends Message.Builder> T merge(Request request, T t, boolean checkFields) throws BadRequestException {
         assertJson(request);
         try {
             parser.merge(request.body(), t);
         } catch (InvalidProtocolBufferException e) {
             throw new BadRequestException("error while parsing JSON", e);
         }
+        if (checkFields) {
+            t.getDescriptorForType().getFields().stream()
+                    .filter(field -> !t.hasField(field))
+                    .findAny()
+                    .ifPresent(field -> {
+                        throw new BadRequestException("field must be set:" + field.getFullName());
+                    });
+        }
         return t;
     }
 
     /**
      * the abstraction for the usual submit.
-     * merges the body of the request with the builder an then calls the function. After calling the function it wraps
+     * merges the body of the request with the builder, checks the fields and then calls the function. After calling the function it wraps
      * the eventual exception, sets the status accordingly and blocks for return.
      * @param request the request
      * @param response the response
@@ -175,7 +179,7 @@ public class Commands implements RequestHelper {
      */
     private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x, BiFunction<X, Integer,  CompletableFuture<T>> func) {
         int workerID = assertParameterInt(request, "workerID");
-        X builder = merge(request, x);
+        X builder = merge(request, x, true);
         return func.apply(builder, workerID)
                 .handle((t, throwable) -> wrapExceptionOr201(t, throwable, response))
                 .join();
