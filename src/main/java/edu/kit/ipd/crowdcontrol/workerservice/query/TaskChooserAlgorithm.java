@@ -1,6 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
+import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentNotFoundException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
@@ -24,9 +25,9 @@ import java.util.stream.Collectors;
 public abstract class TaskChooserAlgorithm {
     protected final ExperimentOperations experimentOperations;
     protected final TaskOperation taskOperation;
-    private final String pictureRegex = "\\{! \\S+ \\S+\\}";
+    private final String pictureRegex = "\\{! ?\\S+ \\S+ ?\\}";
     private Pattern picturePattern = Pattern.compile("(" + pictureRegex + ")");
-    private Pattern pictureUrlLicensePattern = Pattern.compile("\\{! (?<url>\\S+) (?<license>\\S+)\\}");
+    private Pattern pictureUrlLicensePattern = Pattern.compile("\\{! ?(?<url>\\S+) (?<license>\\S+) ?\\}");
 
     /**
      * creates an new TaskChooserAlgorithm
@@ -118,6 +119,9 @@ public abstract class TaskChooserAlgorithm {
         List<View.Picture> pictures = new ArrayList<>();
         while(matcher.find()) {
             Matcher urlLicense = pictureUrlLicensePattern.matcher(matcher.group());
+            if (!urlLicense.matches()) {
+                throw new InternalServerErrorException("the reges to capture the picture url and license failed" + matcher.group());
+            }
             pictures.add(View.Picture.newBuilder()
                 .setUrl(urlLicense.group("url"))
                 .setUrlLicense(urlLicense.group("license"))

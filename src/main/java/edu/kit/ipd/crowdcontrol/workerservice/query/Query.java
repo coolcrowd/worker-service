@@ -46,6 +46,13 @@ public class Query implements RequestHelper {
         registerTaskChooser(new AntiSpoof(experimentOperations, taskOperation));
     }
 
+    Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
+          PlatformOperations platformOperations, Communication communication, TaskOperation taskOperation,
+          TaskChooserAlgorithm mockUp) {
+        this(populationsOperations, experimentOperations, platformOperations, communication, taskOperation);
+        registerTaskChooser(mockUp);
+    }
+
     /**
      * used to register a new TaskStrategy.
      * @param taskChooserAlgorithm the TaskChooserAlgorithm to register
@@ -167,8 +174,8 @@ public class Query implements RequestHelper {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
         if (platformOperations.getPlatform(platformName).getRenderCalibrations()) {
-            Map<PopulationRecord, Result<PopulationansweroptionRecord>> calibrations = populationsOperations.getCalibrations(experiment,
-                    platformOperations.getPlatform(platformName).getIdplatform(), builder.getWorkerId());
+            Map<PopulationRecord, Result<PopulationansweroptionRecord>> calibrations =
+                    populationsOperations.getCalibrations(experiment, platformName, builder.getWorkerId());
             if (calibrations.isEmpty()) {
                 return Optional.empty();
             } else {
@@ -216,6 +223,8 @@ public class Query implements RequestHelper {
      */
     private Optional<View> getStrategyStep(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
         int experiment = assertParameterInt(request, "experiment");
+        if (skipCreative && skipRating)
+            return Optional.empty();
         String algorithmTaskChooser = experimentOperations.getExperiment(experiment).getAlgorithmTaskChooser();
         return Optional.ofNullable(strategies.get(algorithmTaskChooser))
                 .flatMap(strategy -> strategy.next(builder, request, experiment, skipCreative, skipRating));
