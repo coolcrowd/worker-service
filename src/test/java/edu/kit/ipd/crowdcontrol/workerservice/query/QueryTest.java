@@ -10,7 +10,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.Popu
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperation;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.Result;
@@ -174,8 +174,8 @@ public class QueryTest {
         ExperimentRecord experimentRecord = operationsHelper.prepareExperimentRecord(experimentID, 3, mockTaskChooserName, "title", description+picture);
         List<String> constraints = Arrays.asList("const1", "const2");
         ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, constraints);
-        TaskOperation taskOperation = operationsHelper.prepareTaskOperations(experimentID, workerID, 0, new ArrayList<>());
-        MockTaskChooser mockTaskChooser = new MockTaskChooser(mockTaskChooserName, false, true, experimentOperations, taskOperation);
+        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, workerID, 0, new ArrayList<>());
+        MockTaskChooser mockTaskChooser = new MockTaskChooser(mockTaskChooserName, false, true, experimentOperations, taskOperations);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null, mockTaskChooser);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
@@ -199,8 +199,8 @@ public class QueryTest {
         ExperimentRecord experimentRecord = operationsHelper.prepareExperimentRecord(experimentID, 3, mockTaskChooserName, "title", "description");
         ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, new ArrayList<>());
         List<AnswerRecord> answerRecords = operationsHelper.generateAnswers(experimentRecord.getRatingsPerAnswer(), experimentID);
-        TaskOperation taskOperation = operationsHelper.prepareTaskOperations(experimentID, workerID, experimentRecord.getRatingsPerAnswer(), answerRecords);
-        MockTaskChooser mockTaskChooser = new MockTaskChooser(mockTaskChooserName, false, false, experimentOperations, taskOperation);
+        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, workerID, experimentRecord.getRatingsPerAnswer(), answerRecords);
+        MockTaskChooser mockTaskChooser = new MockTaskChooser(mockTaskChooserName, false, false, experimentOperations, taskOperations);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null, mockTaskChooser);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();

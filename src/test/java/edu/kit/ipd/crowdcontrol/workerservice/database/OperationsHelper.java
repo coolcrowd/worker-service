@@ -5,7 +5,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperation;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
@@ -65,10 +65,10 @@ public class OperationsHelper {
         return answers;
     }
 
-    public TaskOperation prepareTaskOperations(int experiment, int worker, int amount, List<AnswerRecord> answerRecords) {
-        TaskOperation taskOperation = mock(TaskOperation.class);
-        when(taskOperation.prepareRating(worker, experiment, amount)).thenReturn(answerRecords);
-        return taskOperation;
+    public TaskOperations prepareTaskOperations(int experiment, int worker, int amount, List<AnswerRecord> answerRecords) {
+        TaskOperations taskOperations = mock(TaskOperations.class);
+        when(taskOperations.prepareRating(worker, experiment, amount)).thenReturn(answerRecords);
+        return taskOperations;
     }
 
     public PlatformOperations preparePlatformOperations(String platform, boolean NeedsEmail, boolean calibrations) {

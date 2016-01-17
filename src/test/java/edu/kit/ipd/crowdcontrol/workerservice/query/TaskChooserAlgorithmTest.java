@@ -4,7 +4,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.OperationsHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperation;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.junit.Assert;
 import org.junit.Test;
@@ -78,7 +78,7 @@ public class TaskChooserAlgorithmTest {
     private TaskChooserAlgorithm prepareTaskChooser(boolean creative, List<AnswerRecord> answers) {
         ExperimentRecord experimentRecord = operationsHelper.prepareExperimentRecord(experimentID, ratingsPerAnswer , mockTaskChooserName, title, description+picture);
         ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, constraints);
-        TaskOperation taskOperation = operationsHelper.prepareTaskOperations(experimentID, workerID, ratingsPerAnswer, answers);
-        return new MockTaskChooser(mockTaskChooserName, false, creative, experimentOperations, taskOperation);
+        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, workerID, ratingsPerAnswer, answers);
+        return new MockTaskChooser(mockTaskChooserName, false, creative, experimentOperations, taskOperations);
     }
 }

@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
  * @author LeanderK
  * @version 1.0
  */
-public class TaskOperation extends AbstractOperation {
+public class TaskOperations extends AbstractOperation {
 
     /**
      * creates a new TaskOperation
      * @param create the context used to communicate with the database
      */
-    public TaskOperation(DSLContext create) {
+    public TaskOperations(DSLContext create) {
         super(create);
     }
 

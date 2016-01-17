@@ -9,7 +9,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.Popu
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperation;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.Result;
@@ -38,18 +38,18 @@ public class Query implements RequestHelper {
     private final JsonFormat.Printer printer = JsonFormat.printer();
 
     public Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
-                 PlatformOperations platformOperations, Communication communication, TaskOperation taskOperation) {
+                 PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations) {
         this.populationsOperations = populationsOperations;
         this.experimentOperations = experimentOperations;
         this.platformOperations = platformOperations;
         this.communication = communication;
-        registerTaskChooser(new AntiSpoof(experimentOperations, taskOperation));
+        registerTaskChooser(new AntiSpoof(experimentOperations, taskOperations));
     }
 
     Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
-          PlatformOperations platformOperations, Communication communication, TaskOperation taskOperation,
+          PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
           TaskChooserAlgorithm mockUp) {
-        this(populationsOperations, experimentOperations, platformOperations, communication, taskOperation);
+        this(populationsOperations, experimentOperations, platformOperations, communication, taskOperations);
         registerTaskChooser(mockUp);
     }
 

@@ -5,7 +5,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentNotFoundException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperation;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 public abstract class TaskChooserAlgorithm {
     protected final ExperimentOperations experimentOperations;
-    protected final TaskOperation taskOperation;
+    protected final TaskOperations taskOperations;
     private final String pictureRegex = "\\{! ?\\S+ \\S+ ?\\}";
     private Pattern picturePattern = Pattern.compile("(" + pictureRegex + ")");
     private Pattern pictureUrlLicensePattern = Pattern.compile("\\{! ?(?<url>\\S+) (?<license>\\S+) ?\\}");
@@ -32,11 +32,11 @@ public abstract class TaskChooserAlgorithm {
     /**
      * creates an new TaskChooserAlgorithm
      * @param experimentOperations the ExperimentOperations used to communicate with the database.
-     * @param taskOperation the TaskOperations used to communicate with the database
+     * @param taskOperations the TaskOperations used to communicate with the database
      */
-    public TaskChooserAlgorithm(ExperimentOperations experimentOperations, TaskOperation taskOperation) {
+    public TaskChooserAlgorithm(ExperimentOperations experimentOperations, TaskOperations taskOperations) {
         this.experimentOperations = experimentOperations;
-        this.taskOperation = taskOperation;
+        this.taskOperations = taskOperations;
     }
 
     /**
@@ -86,7 +86,7 @@ public abstract class TaskChooserAlgorithm {
             throw new BadRequestException("experiment not found : " + experimentID);
         }
         Integer ratingsPerAnswer = experimentRecord.getRatingsPerAnswer();
-        List<View.Answer> toRate = taskOperation.prepareRating(builder.getWorkerId(), experimentID, ratingsPerAnswer)
+        List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), experimentID, ratingsPerAnswer)
                 .stream()
                 .map(record -> View.Answer.newBuilder()
                         .setAnswer(record.getAnswer())

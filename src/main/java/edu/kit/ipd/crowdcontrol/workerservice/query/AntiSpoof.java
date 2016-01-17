@@ -1,7 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperation;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
@@ -20,10 +20,10 @@ public class AntiSpoof extends TaskChooserAlgorithm {
      * creates an new AntiSpoof
      *
      * @param experimentOperations the ExperimentOperations used to communicate with the database.
-     * @param taskOperation the TaskOperations used to communicate with the database
+     * @param taskOperations the TaskOperations used to communicate with the database
      */
-    public AntiSpoof(ExperimentOperations experimentOperations, TaskOperation taskOperation) {
-        super(experimentOperations, taskOperation);
+    public AntiSpoof(ExperimentOperations experimentOperations, TaskOperations taskOperations) {
+        super(experimentOperations, taskOperations);
     }
 
     @Override

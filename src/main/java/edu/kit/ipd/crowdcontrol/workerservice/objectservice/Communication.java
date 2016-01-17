@@ -23,7 +23,6 @@ import java.util.concurrent.CompletableFuture;
  */
 public class Communication {
     private final String url;
-    private final JsonFormat.Parser parser = JsonFormat.parser();
     private final JsonFormat.Printer printer = JsonFormat.printer();
     private final String username;
     private final String password;
@@ -60,7 +59,7 @@ public class Communication {
             if (response.getStatus() == 201) {
                 return response.getBody().getObject().getInt("id");
             } else if (response.getStatus() == 409) {
-                return Integer.parseInt(response.getHeaders().getFirst("Location"));
+                return Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", ""));
             } else {
                 throw new RuntimeException("illegal Response, status : " + response.getStatus());
             }
@@ -87,7 +86,11 @@ public class Communication {
             if (response.getStatus() == 201) {
                 return response.getBody().getObject().getInt("id");
             } else if (response.getStatus() == 409) {
-                return Integer.parseInt(response.getHeaders().getFirst("Location"));
+                return Integer.parseInt(
+                        response.getHeaders()
+                        .getFirst("Location")
+                        .replace(url+"/experiments/"+task+"/answers/", "")
+                );
             } else {
                 throw new RuntimeException("illegal Response, status : " + response.getStatus());
             }
@@ -103,7 +106,7 @@ public class Communication {
      * @param answer the rated answer
      * @return an completable future representing the request with the location of the answer in the database
      */
-    public CompletableFuture<Integer> submitRating(int rating, int task, int answer, int worker) {
+    public CompletableFuture<Void> submitRating(int rating, int task, int answer, int worker) {
         Rating ratingProto = Rating.newBuilder()
                 .setRating(rating)
                 .setWorker(worker)
@@ -111,7 +114,7 @@ public class Communication {
         return putRequest("/experiments/"+task+"/answers/"+answer+"/ratings", builder -> builder
                 .body(printer.print(ratingProto))
                 .asJson()
-        ).thenApply(response -> Integer.parseInt(response.getHeaders().getFirst("Location")));
+        ).thenApply(response -> null);
     }
 
     /**

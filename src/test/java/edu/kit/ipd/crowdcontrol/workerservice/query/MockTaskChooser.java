@@ -1,7 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperation;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
@@ -17,8 +17,8 @@ class MockTaskChooser extends TaskChooserAlgorithm {
     private final boolean creative;
     private final boolean finish;
 
-    public MockTaskChooser(String name, boolean finish, boolean creative, ExperimentOperations experimentOperations, TaskOperation taskOperation) {
-        super(experimentOperations, taskOperation);
+    public MockTaskChooser(String name, boolean finish, boolean creative, ExperimentOperations experimentOperations, TaskOperations taskOperations) {
+        super(experimentOperations, taskOperations);
         this.name = name;
         this.finish = finish;
         this.creative = creative;

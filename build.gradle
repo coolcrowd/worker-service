@@ -14,6 +14,7 @@ dependencies {
     compile 'org.jooq:jooq:3.7.1'
     compile 'org.jooq:jooq-meta:3.7.1'
     compile 'org.jooq:jool:0.9.7'
+    compile 'mysql:mysql-connector-java:5.+'
     compile 'com.sparkjava:spark-core:2.3'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.google.protobuf:protobuf-java:3.+'
@@ -32,7 +33,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'mysql:mysql-connector-java:5.1.37'
+        classpath 'mysql:mysql-connector-java:5.+'
         classpath 'nu.studer:gradle-jooq-plugin:1.0.5'
     }
 }
