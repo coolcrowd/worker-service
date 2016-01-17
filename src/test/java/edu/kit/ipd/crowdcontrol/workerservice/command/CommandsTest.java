@@ -272,7 +272,7 @@ public class CommandsTest {
         return submit(task, null,
                 communication -> {
                     when(communication.submitRating(rating, task, answer, workerID))
-                            .thenReturn(CompletableFuture.completedFuture(ratingID));
+                            .thenReturn(CompletableFuture.completedFuture(null));
                 },
                 request -> {
                     when(request.params("workerID")).thenReturn(String.valueOf(workerID));
