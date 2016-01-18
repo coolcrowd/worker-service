@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord> implements org.jooq.Record4<java.lang.Integer, java.lang.String, java.lang.String, java.lang.String> {
 
-	private static final long serialVersionUID = 626792294;
+	private static final long serialVersionUID = 746382617;
 
 	/**
-	 * Setter for <code>crowdcontrol.Template.idTemplate</code>.
+	 * Setter for <code>crowdcontrol.Template.id_template</code>.
 	 */
-	public void setIdtemplate(java.lang.Integer value) {
+	public void setIdTemplate(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Template.idTemplate</code>.
+	 * Getter for <code>crowdcontrol.Template.id_template</code>.
 	 */
-	public java.lang.Integer getIdtemplate() {
+	public java.lang.Integer getIdTemplate() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -106,7 +106,7 @@ public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.IDTEMPLATE;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.ID_TEMPLATE;
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdtemplate();
+		return getIdTemplate();
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	 */
 	@Override
 	public TemplateRecord value1(java.lang.Integer value) {
-		setIdtemplate(value);
+		setIdTemplate(value);
 		return this;
 	}
 
@@ -223,10 +223,10 @@ public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	/**
 	 * Create a detached, initialised TemplateRecord
 	 */
-	public TemplateRecord(java.lang.Integer idtemplate, java.lang.String template, java.lang.String titel, java.lang.String answerType) {
+	public TemplateRecord(java.lang.Integer idTemplate, java.lang.String template, java.lang.String titel, java.lang.String answerType) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE);
 
-		setValue(0, idtemplate);
+		setValue(0, idTemplate);
 		setValue(1, template);
 		setValue(2, titel);
 		setValue(3, answerType);

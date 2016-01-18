@@ -6,6 +6,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOper
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.query.AntiSpoof;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
@@ -31,23 +32,27 @@ public class OperationsHelper {
         when(record.getRatingsPerAnswer()).thenReturn(ratingsPerAnswer);
         when(record.getTitel()).thenReturn(title);
         when(record.getDescription()).thenReturn(description);
-        when(record.getIdexperiment()).thenReturn(experiment);
+        when(record.getIdExperiment()).thenReturn(experiment);
         return record;
     }
 
-    public ExperimentOperations prepareExperimentOperations(int experiment, ExperimentRecord record, List<String> constraints) {
+    public ExperimentOperations prepareExperimentOperations(int experiment, ExperimentRecord record, String taskChooser, List<String> constraints) {
         DSLContext create = DSL.using(SQLDialect.MYSQL);
         ExperimentOperations operations = mock(ExperimentOperations.class);
         when(operations.getExperiment(experiment)).thenReturn(record);
         Result<ConstraintRecord> constraintRecords = create.newResult(Tables.CONSTRAINT);
-        for (int i = 0; i < constraints.size(); i++) {
-            ConstraintRecord constraintRecord = create.newRecord(Tables.CONSTRAINT);
-            constraintRecord.setConstraint(constraints.get(i));
-            constraintRecord.setExperiment(experiment);
-            constraintRecord.setIdconstraint(i);
-            constraintRecords.add(constraintRecord);
+        if (constraints != null) {
+            for (int i = 0; i < constraints.size(); i++) {
+                ConstraintRecord constraintRecord = create.newRecord(Tables.CONSTRAINT);
+                constraintRecord.setConstraint(constraints.get(i));
+                constraintRecord.setExperiment(experiment);
+                constraintRecord.setIdConstraint(i);
+                constraintRecords.add(constraintRecord);
+            }
         }
         when(operations.getConstraints(experiment)).thenReturn(constraintRecords);
+        when(operations.insertTaskChooserOrIgnore(taskChooser)).thenReturn(true);
+        when(operations.insertTaskChooserOrIgnore(AntiSpoof.NAME)).thenReturn(true);
         return operations;
     }
 
@@ -57,7 +62,7 @@ public class OperationsHelper {
         for (int i = 0; i < amount; i++) {
             AnswerRecord answerRecord = create.newRecord(Tables.ANSWER);
             answerRecord.setAnswer("answer"+i);
-            answerRecord.setIdanswer(i);
+            answerRecord.setIdAnswer(i);
             answerRecord.setTask(experiment);
             answerRecord.setWorkerId(i);
             answers.add(answerRecord);
@@ -80,21 +85,21 @@ public class OperationsHelper {
         return platformOperations;
     }
 
-    public Map<PopulationRecord, Result<PopulationansweroptionRecord>> generatePopulations(int experiment) {
-        Map<PopulationRecord, Result<PopulationansweroptionRecord>> map = new HashMap<>();
+    public Map<PopulationRecord, Result<PopulationAnswerOptionRecord>> generatePopulations(int experiment) {
+        Map<PopulationRecord, Result<PopulationAnswerOptionRecord>> map = new HashMap<>();
         DSLContext create = DSL.using(SQLDialect.MYSQL);
         for (int i = 0; i < 5; i++) {
             PopulationRecord populationRecord = create.newRecord(Tables.POPULATION);
             populationRecord.setDescription("description"+i);
             populationRecord.setExperiment(experiment);
-            populationRecord.setIdpopulation(i);
+            populationRecord.setIdPopulation(i);
             populationRecord.setName("name"+i);
             populationRecord.setProperty("property"+i);
-            Result<PopulationansweroptionRecord> result = create.newResult(Tables.POPULATIONANSWEROPTION);
+            Result<PopulationAnswerOptionRecord> result = create.newResult(Tables.POPULATION_ANSWER_OPTION);
             for (int j = 0; j < 5; j++) {
-                PopulationansweroptionRecord record = create.newRecord(Tables.POPULATIONANSWEROPTION);
+                PopulationAnswerOptionRecord record = create.newRecord(Tables.POPULATION_ANSWER_OPTION);
                 record.setAnswer("answer"+j);
-                record.setIdpopulationansweroption(j);
+                record.setIdPopulationAnswerOption(j);
                 record.setPopulation(i);
                 result.add(record);
             }
@@ -104,7 +109,7 @@ public class OperationsHelper {
     }
 
     public PopulationsOperations preparePopulationOperations(int experimentID, String platform, int workerID,
-                                                              boolean belongsToWrongPopulation, Map<PopulationRecord, Result<PopulationansweroptionRecord>> calibrations) {
+                                                              boolean belongsToWrongPopulation, Map<PopulationRecord, Result<PopulationAnswerOptionRecord>> calibrations) {
         PopulationsOperations populations = mock(PopulationsOperations.class);
         when(populations.belongsToWrongPopulation(experimentID, platform, workerID)).thenReturn(belongsToWrongPopulation);
         when(populations.getCalibrations(experimentID, platform, workerID)).thenReturn(calibrations);

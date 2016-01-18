@@ -11,30 +11,30 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Constraint implements java.io.Serializable {
 
-	private static final long serialVersionUID = -2114453700;
+	private static final long serialVersionUID = -1981472900;
 
-	private java.lang.Integer idconstraint;
+	private java.lang.Integer idConstraint;
 	private java.lang.String  constraint;
 	private java.lang.Integer experiment;
 
 	public Constraint() {}
 
 	public Constraint(
-		java.lang.Integer idconstraint,
+		java.lang.Integer idConstraint,
 		java.lang.String  constraint,
 		java.lang.Integer experiment
 	) {
-		this.idconstraint = idconstraint;
+		this.idConstraint = idConstraint;
 		this.constraint = constraint;
 		this.experiment = experiment;
 	}
 
-	public java.lang.Integer getIdconstraint() {
-		return this.idconstraint;
+	public java.lang.Integer getIdConstraint() {
+		return this.idConstraint;
 	}
 
-	public void setIdconstraint(java.lang.Integer idconstraint) {
-		this.idconstraint = idconstraint;
+	public void setIdConstraint(java.lang.Integer idConstraint) {
+		this.idConstraint = idConstraint;
 	}
 
 	public java.lang.String getConstraint() {

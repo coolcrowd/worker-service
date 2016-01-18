@@ -30,21 +30,21 @@ public class PopulationDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontro
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Population object) {
-		return object.getIdpopulation();
+		return object.getIdPopulation();
 	}
 
 	/**
-	 * Fetch records that have <code>idPopulation IN (values)</code>
+	 * Fetch records that have <code>id_population IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByIdpopulation(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.IDPOPULATION, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Population> fetchByIdPopulation(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.ID_POPULATION, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idPopulation = value</code>
+	 * Fetch a unique record that has <code>id_population = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Population fetchOneByIdpopulation(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.IDPOPULATION, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Population fetchOneByIdPopulation(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.ID_POPULATION, value);
 	}
 
 	/**

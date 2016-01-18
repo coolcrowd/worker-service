@@ -30,21 +30,21 @@ public class WorkerDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.wo
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Worker object) {
-		return object.getIdworker();
+		return object.getIdWorker();
 	}
 
 	/**
-	 * Fetch records that have <code>idWorker IN (values)</code>
+	 * Fetch records that have <code>id_worker IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByIdworker(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.IDWORKER, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByIdWorker(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.ID_WORKER, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idWorker = value</code>
+	 * Fetch a unique record that has <code>id_worker = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Worker fetchOneByIdworker(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.IDWORKER, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Worker fetchOneByIdWorker(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.ID_WORKER, value);
 	}
 
 	/**

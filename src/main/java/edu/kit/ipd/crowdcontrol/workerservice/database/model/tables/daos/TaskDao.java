@@ -30,21 +30,21 @@ public class TaskDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.work
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Task object) {
-		return object.getIdtask();
+		return object.getIdTask();
 	}
 
 	/**
-	 * Fetch records that have <code>idTask IN (values)</code>
+	 * Fetch records that have <code>id_task IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Task> fetchByIdtask(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK.IDTASK, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Task> fetchByIdTask(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK.ID_TASK, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idTask = value</code>
+	 * Fetch a unique record that has <code>id_task = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Task fetchOneByIdtask(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK.IDTASK, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Task fetchOneByIdTask(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK.ID_TASK, value);
 	}
 
 	/**

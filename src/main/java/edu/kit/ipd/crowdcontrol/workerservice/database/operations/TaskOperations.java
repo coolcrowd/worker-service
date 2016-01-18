@@ -49,7 +49,7 @@ public class TaskOperations extends AbstractOperation {
                     .where(Tables.ANSWER.TASK.eq(experiment))
                     .and(Tables.RATING.RATING_.isNotNull().or(Tables.RATING.TIMESTAMP.greaterOrEqual(timestamp)))
                     .having(count.lessThan(
-                            DSL.select(Tables.EXPERIMENT.RATINGS_PER_ANSWER).where(Tables.EXPERIMENT.IDEXPERIMENT.eq(worker))))
+                            DSL.select(Tables.EXPERIMENT.RATINGS_PER_ANSWER).where(Tables.EXPERIMENT.ID_EXPERIMENT.eq(worker))))
                     .limit(amount)
                     .fetch()
                     .map(record -> record.into(Tables.ANSWER));
@@ -57,7 +57,7 @@ public class TaskOperations extends AbstractOperation {
             List<RatingRecord> emptyRatings = toRate.stream()
                     .map(answer -> {
                         RatingRecord ratingRecord = new RatingRecord();
-                        ratingRecord.setAnswerR(answer.getIdanswer());
+                        ratingRecord.setAnswerR(answer.getIdAnswer());
                         ratingRecord.setWorkerId(worker);
                         ratingRecord.setTask(experiment);
                         return ratingRecord;

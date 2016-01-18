@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Template extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord> {
 
-	private static final long serialVersionUID = 1780335238;
+	private static final long serialVersionUID = -1386869644;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Template</code>
@@ -27,9 +27,9 @@ public class Template extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.w
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Template.idTemplate</code>.
+	 * The column <code>crowdcontrol.Template.id_template</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord, java.lang.Integer> IDTEMPLATE = createField("idTemplate", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord, java.lang.Integer> ID_TEMPLATE = createField("id_template", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Template.template</code>.
@@ -39,12 +39,12 @@ public class Template extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.w
 	/**
 	 * The column <code>crowdcontrol.Template.titel</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord, java.lang.String> TITEL = createField("titel", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord, java.lang.String> TITEL = createField("titel", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Template.answer_type</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord, java.lang.String> ANSWER_TYPE = createField("answer_type", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord, java.lang.String> ANSWER_TYPE = createField("answer_type", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Template</code> table reference
@@ -66,6 +66,14 @@ public class Template extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.w
 
 	private Template(java.lang.String alias, org.jooq.Table<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord> aliased, org.jooq.Field<?>[] parameters) {
 		super(alias, edu.kit.ipd.crowdcontrol.workerservice.database.model.Crowdcontrol.CROWDCONTROL, aliased, parameters, "");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Identity<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord, java.lang.Integer> getIdentity() {
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.IDENTITY_TEMPLATE;
 	}
 
 	/**

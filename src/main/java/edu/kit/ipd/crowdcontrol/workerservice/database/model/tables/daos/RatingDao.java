@@ -30,21 +30,21 @@ public class RatingDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.wo
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Rating object) {
-		return object.getIdrating();
+		return object.getIdRating();
 	}
 
 	/**
-	 * Fetch records that have <code>idRating IN (values)</code>
+	 * Fetch records that have <code>id_rating IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Rating> fetchByIdrating(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING.IDRATING, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Rating> fetchByIdRating(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING.ID_RATING, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idRating = value</code>
+	 * Fetch a unique record that has <code>id_rating = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Rating fetchOneByIdrating(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING.IDRATING, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Rating fetchOneByIdRating(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING.ID_RATING, value);
 	}
 
 	/**

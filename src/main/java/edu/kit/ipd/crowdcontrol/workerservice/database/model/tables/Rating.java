@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Rating extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord> {
 
-	private static final long serialVersionUID = 1476238863;
+	private static final long serialVersionUID = 830211864;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Rating</code>
@@ -27,9 +27,9 @@ public class Rating extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.wor
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Rating.idRating</code>.
+	 * The column <code>crowdcontrol.Rating.id_rating</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord, java.lang.Integer> IDRATING = createField("idRating", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord, java.lang.Integer> ID_RATING = createField("id_rating", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Rating.task</code>.
@@ -81,6 +81,14 @@ public class Rating extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.wor
 
 	private Rating(java.lang.String alias, org.jooq.Table<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord> aliased, org.jooq.Field<?>[] parameters) {
 		super(alias, edu.kit.ipd.crowdcontrol.workerservice.database.model.Crowdcontrol.CROWDCONTROL, aliased, parameters, "");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Identity<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord, java.lang.Integer> getIdentity() {
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.IDENTITY_RATING;
 	}
 
 	/**

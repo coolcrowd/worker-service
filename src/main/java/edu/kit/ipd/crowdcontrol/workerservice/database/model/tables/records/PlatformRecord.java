@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlatformRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord> implements org.jooq.Record4<java.lang.String, java.lang.String, java.lang.Boolean, java.lang.Boolean> {
 
-	private static final long serialVersionUID = -772129297;
+	private static final long serialVersionUID = 1111717086;
 
 	/**
-	 * Setter for <code>crowdcontrol.Platform.idPlatform</code>.
+	 * Setter for <code>crowdcontrol.Platform.id_platform</code>.
 	 */
-	public void setIdplatform(java.lang.String value) {
+	public void setIdPlatform(java.lang.String value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Platform.idPlatform</code>.
+	 * Getter for <code>crowdcontrol.Platform.id_platform</code>.
 	 */
-	public java.lang.String getIdplatform() {
+	public java.lang.String getIdPlatform() {
 		return (java.lang.String) getValue(0);
 	}
 
@@ -106,7 +106,7 @@ public class PlatformRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	 */
 	@Override
 	public org.jooq.Field<java.lang.String> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.IDPLATFORM;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.ID_PLATFORM;
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class PlatformRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	 */
 	@Override
 	public java.lang.String value1() {
-		return getIdplatform();
+		return getIdPlatform();
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class PlatformRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	 */
 	@Override
 	public PlatformRecord value1(java.lang.String value) {
-		setIdplatform(value);
+		setIdPlatform(value);
 		return this;
 	}
 
@@ -223,10 +223,10 @@ public class PlatformRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	/**
 	 * Create a detached, initialised PlatformRecord
 	 */
-	public PlatformRecord(java.lang.String idplatform, java.lang.String name, java.lang.Boolean renderCalibrations, java.lang.Boolean needsEmail) {
+	public PlatformRecord(java.lang.String idPlatform, java.lang.String name, java.lang.Boolean renderCalibrations, java.lang.Boolean needsEmail) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM);
 
-		setValue(0, idplatform);
+		setValue(0, idPlatform);
 		setValue(1, name);
 		setValue(2, renderCalibrations);
 		setValue(3, needsEmail);

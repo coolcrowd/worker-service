@@ -3,6 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskChooserRecord;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 
@@ -28,7 +29,7 @@ public class ExperimentOperations extends AbstractOperation {
      */
     public ExperimentRecord getExperiment(int experimentID) throws ExperimentNotFoundException {
         return create.selectFrom(Tables.EXPERIMENT)
-                .where(Tables.EXPERIMENT.IDEXPERIMENT.eq(experimentID))
+                .where(Tables.EXPERIMENT.ID_EXPERIMENT.eq(experimentID))
                 .fetchOptional()
                 .orElseThrow(() -> new ExperimentNotFoundException(experimentID));
     }
@@ -42,5 +43,15 @@ public class ExperimentOperations extends AbstractOperation {
         return create.selectFrom(Tables.CONSTRAINT)
                 .where(Tables.CONSTRAINT.EXPERIMENT.eq(experimentID))
                 .fetch();
+    }
+
+    /**
+     * if a record with the given name already exists, the method returns false, if not it inserts a row and returns true.
+     * @param name the name of the TaskChooser
+     * @return true of inserted, false if already existing
+     */
+    public boolean insertTaskChooserOrIgnore(String name) {
+        TaskChooserRecord record = new TaskChooserRecord(name);
+        return create.executeInsert(record) == 1;
     }
 }

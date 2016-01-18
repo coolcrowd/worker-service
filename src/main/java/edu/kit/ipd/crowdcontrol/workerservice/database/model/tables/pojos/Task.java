@@ -11,9 +11,9 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Task implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1486428204;
+	private static final long serialVersionUID = 1988629548;
 
-	private java.lang.Integer idtask;
+	private java.lang.Integer idTask;
 	private java.lang.Integer experiment;
 	private java.lang.Boolean running;
 	private java.lang.String  platformData;
@@ -23,14 +23,14 @@ public class Task implements java.io.Serializable {
 	public Task() {}
 
 	public Task(
-		java.lang.Integer idtask,
+		java.lang.Integer idTask,
 		java.lang.Integer experiment,
 		java.lang.Boolean running,
 		java.lang.String  platformData,
 		java.lang.String  crowdPlatform,
 		java.lang.Boolean stopping
 	) {
-		this.idtask = idtask;
+		this.idTask = idTask;
 		this.experiment = experiment;
 		this.running = running;
 		this.platformData = platformData;
@@ -38,12 +38,12 @@ public class Task implements java.io.Serializable {
 		this.stopping = stopping;
 	}
 
-	public java.lang.Integer getIdtask() {
-		return this.idtask;
+	public java.lang.Integer getIdTask() {
+		return this.idTask;
 	}
 
-	public void setIdtask(java.lang.Integer idtask) {
-		this.idtask = idtask;
+	public void setIdTask(java.lang.Integer idTask) {
+		this.idTask = idTask;
 	}
 
 	public java.lang.Integer getExperiment() {

@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experimentspopulation extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord> {
 
-	private static final long serialVersionUID = -1564478796;
+	private static final long serialVersionUID = -1726962814;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.ExperimentsPopulation</code>
@@ -27,9 +27,9 @@ public class Experimentspopulation extends org.jooq.impl.TableImpl<edu.kit.ipd.c
 	}
 
 	/**
-	 * The column <code>crowdcontrol.ExperimentsPopulation.idExperimentsPopulation</code>.
+	 * The column <code>crowdcontrol.ExperimentsPopulation.id_experiments_population</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord, java.lang.String> IDEXPERIMENTSPOPULATION = createField("idExperimentsPopulation", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord, java.lang.String> ID_EXPERIMENTS_POPULATION = createField("id_experiments_population", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.ExperimentsPopulation.population_user</code>.
@@ -44,7 +44,7 @@ public class Experimentspopulation extends org.jooq.impl.TableImpl<edu.kit.ipd.c
 	/**
 	 * The column <code>crowdcontrol.ExperimentsPopulation.referenced_platform</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord, java.lang.String> REFERENCED_PLATFORM = createField("referenced_platform", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentspopulationRecord, java.lang.String> REFERENCED_PLATFORM = createField("referenced_platform", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.ExperimentsPopulation.not</code>.

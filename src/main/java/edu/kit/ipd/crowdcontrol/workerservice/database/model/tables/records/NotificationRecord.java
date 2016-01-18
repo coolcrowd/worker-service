@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class NotificationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord> implements org.jooq.Record7<java.lang.Integer, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String, java.sql.Timestamp> {
 
-	private static final long serialVersionUID = -798006592;
+	private static final long serialVersionUID = 1561467903;
 
 	/**
-	 * Setter for <code>crowdcontrol.Notification.idNotification</code>.
+	 * Setter for <code>crowdcontrol.Notification.id_notification</code>.
 	 */
-	public void setIdnotification(java.lang.Integer value) {
+	public void setIdNotification(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Notification.idNotification</code>.
+	 * Getter for <code>crowdcontrol.Notification.id_notification</code>.
 	 */
-	public java.lang.Integer getIdnotification() {
+	public java.lang.Integer getIdNotification() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -148,7 +148,7 @@ public class NotificationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.ki
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION.IDNOTIFICATION;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION.ID_NOTIFICATION;
 	}
 
 	/**
@@ -204,7 +204,7 @@ public class NotificationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.ki
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdnotification();
+		return getIdNotification();
 	}
 
 	/**
@@ -260,7 +260,7 @@ public class NotificationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.ki
 	 */
 	@Override
 	public NotificationRecord value1(java.lang.Integer value) {
-		setIdnotification(value);
+		setIdNotification(value);
 		return this;
 	}
 
@@ -340,10 +340,10 @@ public class NotificationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.ki
 	/**
 	 * Create a detached, initialised NotificationRecord
 	 */
-	public NotificationRecord(java.lang.Integer idnotification, java.lang.String name, java.lang.String description, java.lang.Integer checkperiod, java.lang.Integer sendthreshold, java.lang.String query, java.sql.Timestamp lastsent) {
+	public NotificationRecord(java.lang.Integer idNotification, java.lang.String name, java.lang.String description, java.lang.Integer checkperiod, java.lang.Integer sendthreshold, java.lang.String query, java.sql.Timestamp lastsent) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION);
 
-		setValue(0, idnotification);
+		setValue(0, idNotification);
 		setValue(1, name);
 		setValue(2, description);
 		setValue(3, checkperiod);

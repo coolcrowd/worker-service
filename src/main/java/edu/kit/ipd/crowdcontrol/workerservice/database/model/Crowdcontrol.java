@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Crowdcontrol extends org.jooq.impl.SchemaImpl {
 
-	private static final long serialVersionUID = -1803638842;
+	private static final long serialVersionUID = -941735083;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol</code>
@@ -38,16 +38,17 @@ public class Crowdcontrol extends org.jooq.impl.SchemaImpl {
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION,
-			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Giftcode.GIFTCODE,
+			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.GiftCode.GIFT_CODE,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population.POPULATION,
-			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Populationansweroption.POPULATIONANSWEROPTION,
-			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Populationresult.POPULATIONRESULT,
+			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.PopulationAnswerOption.POPULATION_ANSWER_OPTION,
+			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.PopulationResult.POPULATION_RESULT,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag.TAG,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK,
+			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TaskChooser.TASK_CHOOSER,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER);
 	}

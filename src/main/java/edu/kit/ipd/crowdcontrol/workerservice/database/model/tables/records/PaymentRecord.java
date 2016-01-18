@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PaymentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord> implements org.jooq.Record6<java.lang.Integer, java.lang.Integer, java.lang.Integer, java.sql.Timestamp, java.lang.Integer, java.lang.Integer> {
 
-	private static final long serialVersionUID = -949224012;
+	private static final long serialVersionUID = 23576229;
 
 	/**
-	 * Setter for <code>crowdcontrol.Payment.idPayment</code>.
+	 * Setter for <code>crowdcontrol.Payment.id_payment</code>.
 	 */
-	public void setIdpayment(java.lang.Integer value) {
+	public void setIdPayment(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Payment.idPayment</code>.
+	 * Getter for <code>crowdcontrol.Payment.id_payment</code>.
 	 */
-	public java.lang.Integer getIdpayment() {
+	public java.lang.Integer getIdPayment() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -134,7 +134,7 @@ public class PaymentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.IDPAYMENT;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.ID_PAYMENT;
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class PaymentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdpayment();
+		return getIdPayment();
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class PaymentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd
 	 */
 	@Override
 	public PaymentRecord value1(java.lang.Integer value) {
-		setIdpayment(value);
+		setIdPayment(value);
 		return this;
 	}
 
@@ -301,10 +301,10 @@ public class PaymentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd
 	/**
 	 * Create a detached, initialised PaymentRecord
 	 */
-	public PaymentRecord(java.lang.Integer idpayment, java.lang.Integer workerId, java.lang.Integer experimentId, java.sql.Timestamp timestamp, java.lang.Integer amount, java.lang.Integer giftcode) {
+	public PaymentRecord(java.lang.Integer idPayment, java.lang.Integer workerId, java.lang.Integer experimentId, java.sql.Timestamp timestamp, java.lang.Integer amount, java.lang.Integer giftcode) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT);
 
-		setValue(0, idpayment);
+		setValue(0, idPayment);
 		setValue(1, workerId);
 		setValue(2, experimentId);
 		setValue(3, timestamp);

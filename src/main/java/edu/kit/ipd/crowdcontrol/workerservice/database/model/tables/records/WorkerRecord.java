@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class WorkerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.WorkerRecord> implements org.jooq.Record4<java.lang.Integer, java.lang.String, java.lang.String, java.lang.String> {
 
-	private static final long serialVersionUID = 1895485395;
+	private static final long serialVersionUID = -867594666;
 
 	/**
-	 * Setter for <code>crowdcontrol.Worker.idWorker</code>.
+	 * Setter for <code>crowdcontrol.Worker.id_worker</code>.
 	 */
-	public void setIdworker(java.lang.Integer value) {
+	public void setIdWorker(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Worker.idWorker</code>.
+	 * Getter for <code>crowdcontrol.Worker.id_worker</code>.
 	 */
-	public java.lang.Integer getIdworker() {
+	public java.lang.Integer getIdWorker() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -106,7 +106,7 @@ public class WorkerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.IDWORKER;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.ID_WORKER;
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class WorkerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdworker();
+		return getIdWorker();
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class WorkerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	 */
 	@Override
 	public WorkerRecord value1(java.lang.Integer value) {
-		setIdworker(value);
+		setIdWorker(value);
 		return this;
 	}
 
@@ -223,10 +223,10 @@ public class WorkerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	/**
 	 * Create a detached, initialised WorkerRecord
 	 */
-	public WorkerRecord(java.lang.Integer idworker, java.lang.String identification, java.lang.String platform, java.lang.String email) {
+	public WorkerRecord(java.lang.Integer idWorker, java.lang.String identification, java.lang.String platform, java.lang.String email) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER);
 
-		setValue(0, idworker);
+		setValue(0, idWorker);
 		setValue(1, identification);
 		setValue(2, platform);
 		setValue(3, email);

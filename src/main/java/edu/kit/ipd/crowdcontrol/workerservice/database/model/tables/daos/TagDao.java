@@ -30,21 +30,21 @@ public class TagDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.worke
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Tag object) {
-		return object.getIdtag();
+		return object.getIdTag();
 	}
 
 	/**
-	 * Fetch records that have <code>idTag IN (values)</code>
+	 * Fetch records that have <code>id_tag IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Tag> fetchByIdtag(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag.TAG.IDTAG, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Tag> fetchByIdTag(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag.TAG.ID_TAG, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idTag = value</code>
+	 * Fetch a unique record that has <code>id_tag = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Tag fetchOneByIdtag(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag.TAG.IDTAG, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Tag fetchOneByIdTag(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag.TAG.ID_TAG, value);
 	}
 
 	/**

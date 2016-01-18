@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tag extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TagRecord> {
 
-	private static final long serialVersionUID = 1976817190;
+	private static final long serialVersionUID = -379547644;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Tag</code>
@@ -27,14 +27,14 @@ public class Tag extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.worker
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Tag.idTag</code>.
+	 * The column <code>crowdcontrol.Tag.id_tag</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TagRecord, java.lang.Integer> IDTAG = createField("idTag", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TagRecord, java.lang.Integer> ID_TAG = createField("id_tag", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Tag.tag</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TagRecord, java.lang.String> TAG_ = createField("tag", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TagRecord, java.lang.String> TAG_ = createField("tag", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Tag.experiment</code>.
@@ -61,6 +61,14 @@ public class Tag extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.worker
 
 	private Tag(java.lang.String alias, org.jooq.Table<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TagRecord> aliased, org.jooq.Field<?>[] parameters) {
 		super(alias, edu.kit.ipd.crowdcontrol.workerservice.database.model.Crowdcontrol.CROWDCONTROL, aliased, parameters, "");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Identity<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TagRecord, java.lang.Integer> getIdentity() {
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.IDENTITY_TAG;
 	}
 
 	/**

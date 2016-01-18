@@ -11,9 +11,9 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Payment implements java.io.Serializable {
 
-	private static final long serialVersionUID = 746935211;
+	private static final long serialVersionUID = 1798666155;
 
-	private java.lang.Integer  idpayment;
+	private java.lang.Integer  idPayment;
 	private java.lang.Integer  workerId;
 	private java.lang.Integer  experimentId;
 	private java.sql.Timestamp timestamp;
@@ -23,14 +23,14 @@ public class Payment implements java.io.Serializable {
 	public Payment() {}
 
 	public Payment(
-		java.lang.Integer  idpayment,
+		java.lang.Integer  idPayment,
 		java.lang.Integer  workerId,
 		java.lang.Integer  experimentId,
 		java.sql.Timestamp timestamp,
 		java.lang.Integer  amount,
 		java.lang.Integer  giftcode
 	) {
-		this.idpayment = idpayment;
+		this.idPayment = idPayment;
 		this.workerId = workerId;
 		this.experimentId = experimentId;
 		this.timestamp = timestamp;
@@ -38,12 +38,12 @@ public class Payment implements java.io.Serializable {
 		this.giftcode = giftcode;
 	}
 
-	public java.lang.Integer getIdpayment() {
-		return this.idpayment;
+	public java.lang.Integer getIdPayment() {
+		return this.idPayment;
 	}
 
-	public void setIdpayment(java.lang.Integer idpayment) {
-		this.idpayment = idpayment;
+	public void setIdPayment(java.lang.Integer idPayment) {
+		this.idPayment = idPayment;
 	}
 
 	public java.lang.Integer getWorkerId() {

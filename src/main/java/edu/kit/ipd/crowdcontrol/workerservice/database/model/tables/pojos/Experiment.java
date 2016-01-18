@@ -11,10 +11,10 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment implements java.io.Serializable {
 
-	private static final long serialVersionUID = -204335116;
+	private static final long serialVersionUID = 2090396176;
 
-	private java.lang.Integer idexperiment;
-	private java.lang.Object  ratingOptions;
+	private java.lang.Integer idExperiment;
+	private java.lang.String  ratingOptions;
 	private java.lang.String  titel;
 	private java.lang.String  description;
 	private java.lang.Integer ratingsPerAnswer;
@@ -31,8 +31,8 @@ public class Experiment implements java.io.Serializable {
 	public Experiment() {}
 
 	public Experiment(
-		java.lang.Integer idexperiment,
-		java.lang.Object  ratingOptions,
+		java.lang.Integer idExperiment,
+		java.lang.String  ratingOptions,
 		java.lang.String  titel,
 		java.lang.String  description,
 		java.lang.Integer ratingsPerAnswer,
@@ -46,7 +46,7 @@ public class Experiment implements java.io.Serializable {
 		java.lang.Integer template,
 		java.lang.String  answerType
 	) {
-		this.idexperiment = idexperiment;
+		this.idExperiment = idExperiment;
 		this.ratingOptions = ratingOptions;
 		this.titel = titel;
 		this.description = description;
@@ -62,19 +62,19 @@ public class Experiment implements java.io.Serializable {
 		this.answerType = answerType;
 	}
 
-	public java.lang.Integer getIdexperiment() {
-		return this.idexperiment;
+	public java.lang.Integer getIdExperiment() {
+		return this.idExperiment;
 	}
 
-	public void setIdexperiment(java.lang.Integer idexperiment) {
-		this.idexperiment = idexperiment;
+	public void setIdExperiment(java.lang.Integer idExperiment) {
+		this.idExperiment = idExperiment;
 	}
 
-	public java.lang.Object getRatingOptions() {
+	public java.lang.String getRatingOptions() {
 		return this.ratingOptions;
 	}
 
-	public void setRatingOptions(java.lang.Object ratingOptions) {
+	public void setRatingOptions(java.lang.String ratingOptions) {
 		this.ratingOptions = ratingOptions;
 	}
 

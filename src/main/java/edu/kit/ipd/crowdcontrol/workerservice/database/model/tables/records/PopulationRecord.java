@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PopulationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord> implements org.jooq.Record5<java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer> {
 
-	private static final long serialVersionUID = 1962931419;
+	private static final long serialVersionUID = 229790678;
 
 	/**
-	 * Setter for <code>crowdcontrol.Population.idPopulation</code>.
+	 * Setter for <code>crowdcontrol.Population.id_population</code>.
 	 */
-	public void setIdpopulation(java.lang.Integer value) {
+	public void setIdPopulation(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Population.idPopulation</code>.
+	 * Getter for <code>crowdcontrol.Population.id_population</code>.
 	 */
-	public java.lang.Integer getIdpopulation() {
+	public java.lang.Integer getIdPopulation() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -120,7 +120,7 @@ public class PopulationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.IDPOPULATION;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population.POPULATION.ID_POPULATION;
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class PopulationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdpopulation();
+		return getIdPopulation();
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class PopulationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	 */
 	@Override
 	public PopulationRecord value1(java.lang.Integer value) {
-		setIdpopulation(value);
+		setIdPopulation(value);
 		return this;
 	}
 
@@ -262,10 +262,10 @@ public class PopulationRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	/**
 	 * Create a detached, initialised PopulationRecord
 	 */
-	public PopulationRecord(java.lang.Integer idpopulation, java.lang.String property, java.lang.String description, java.lang.String name, java.lang.Integer experiment) {
+	public PopulationRecord(java.lang.Integer idPopulation, java.lang.String property, java.lang.String description, java.lang.String name, java.lang.Integer experiment) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population.POPULATION);
 
-		setValue(0, idpopulation);
+		setValue(0, idPopulation);
 		setValue(1, property);
 		setValue(2, description);
 		setValue(3, name);

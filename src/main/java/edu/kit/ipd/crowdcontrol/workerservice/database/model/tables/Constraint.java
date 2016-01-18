@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Constraint extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord> {
 
-	private static final long serialVersionUID = 1616448125;
+	private static final long serialVersionUID = -226423546;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Constraint</code>
@@ -27,9 +27,9 @@ public class Constraint extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Constraint.idConstraint</code>.
+	 * The column <code>crowdcontrol.Constraint.id_constraint</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord, java.lang.Integer> IDCONSTRAINT = createField("idConstraint", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord, java.lang.Integer> ID_CONSTRAINT = createField("id_constraint", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Constraint.constraint</code>.
@@ -61,6 +61,14 @@ public class Constraint extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 
 	private Constraint(java.lang.String alias, org.jooq.Table<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord> aliased, org.jooq.Field<?>[] parameters) {
 		super(alias, edu.kit.ipd.crowdcontrol.workerservice.database.model.Crowdcontrol.CROWDCONTROL, aliased, parameters, "");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Identity<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord, java.lang.Integer> getIdentity() {
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.IDENTITY_CONSTRAINT;
 	}
 
 	/**

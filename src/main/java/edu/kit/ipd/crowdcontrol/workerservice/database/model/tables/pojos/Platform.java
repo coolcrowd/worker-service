@@ -11,9 +11,9 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Platform implements java.io.Serializable {
 
-	private static final long serialVersionUID = -2123512260;
+	private static final long serialVersionUID = -1164566916;
 
-	private java.lang.String  idplatform;
+	private java.lang.String  idPlatform;
 	private java.lang.String  name;
 	private java.lang.Boolean renderCalibrations;
 	private java.lang.Boolean needsEmail;
@@ -21,23 +21,23 @@ public class Platform implements java.io.Serializable {
 	public Platform() {}
 
 	public Platform(
-		java.lang.String  idplatform,
+		java.lang.String  idPlatform,
 		java.lang.String  name,
 		java.lang.Boolean renderCalibrations,
 		java.lang.Boolean needsEmail
 	) {
-		this.idplatform = idplatform;
+		this.idPlatform = idPlatform;
 		this.name = name;
 		this.renderCalibrations = renderCalibrations;
 		this.needsEmail = needsEmail;
 	}
 
-	public java.lang.String getIdplatform() {
-		return this.idplatform;
+	public java.lang.String getIdPlatform() {
+		return this.idPlatform;
 	}
 
-	public void setIdplatform(java.lang.String idplatform) {
-		this.idplatform = idplatform;
+	public void setIdPlatform(java.lang.String idPlatform) {
+		this.idPlatform = idPlatform;
 	}
 
 	public java.lang.String getName() {

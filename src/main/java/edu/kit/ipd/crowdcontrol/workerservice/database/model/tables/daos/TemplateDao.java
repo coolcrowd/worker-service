@@ -30,21 +30,21 @@ public class TemplateDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Template object) {
-		return object.getIdtemplate();
+		return object.getIdTemplate();
 	}
 
 	/**
-	 * Fetch records that have <code>idTemplate IN (values)</code>
+	 * Fetch records that have <code>id_template IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Template> fetchByIdtemplate(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.IDTEMPLATE, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Template> fetchByIdTemplate(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.ID_TEMPLATE, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idTemplate = value</code>
+	 * Fetch a unique record that has <code>id_template = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Template fetchOneByIdtemplate(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.IDTEMPLATE, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Template fetchOneByIdTemplate(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.ID_TEMPLATE, value);
 	}
 
 	/**

@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ConstraintRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord> implements org.jooq.Record3<java.lang.Integer, java.lang.String, java.lang.Integer> {
 
-	private static final long serialVersionUID = 1957527760;
+	private static final long serialVersionUID = 394383531;
 
 	/**
-	 * Setter for <code>crowdcontrol.Constraint.idConstraint</code>.
+	 * Setter for <code>crowdcontrol.Constraint.id_constraint</code>.
 	 */
-	public void setIdconstraint(java.lang.Integer value) {
+	public void setIdConstraint(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Constraint.idConstraint</code>.
+	 * Getter for <code>crowdcontrol.Constraint.id_constraint</code>.
 	 */
-	public java.lang.Integer getIdconstraint() {
+	public java.lang.Integer getIdConstraint() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -92,7 +92,7 @@ public class ConstraintRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT.IDCONSTRAINT;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT.ID_CONSTRAINT;
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class ConstraintRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdconstraint();
+		return getIdConstraint();
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class ConstraintRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	 */
 	@Override
 	public ConstraintRecord value1(java.lang.Integer value) {
-		setIdconstraint(value);
+		setIdConstraint(value);
 		return this;
 	}
 
@@ -184,10 +184,10 @@ public class ConstraintRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	/**
 	 * Create a detached, initialised ConstraintRecord
 	 */
-	public ConstraintRecord(java.lang.Integer idconstraint, java.lang.String constraint, java.lang.Integer experiment) {
+	public ConstraintRecord(java.lang.Integer idConstraint, java.lang.String constraint, java.lang.Integer experiment) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT);
 
-		setValue(0, idconstraint);
+		setValue(0, idConstraint);
 		setValue(1, constraint);
 		setValue(2, experiment);
 	}

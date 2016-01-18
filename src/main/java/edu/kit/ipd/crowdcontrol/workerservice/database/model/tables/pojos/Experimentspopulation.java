@@ -11,9 +11,9 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experimentspopulation implements java.io.Serializable {
 
-	private static final long serialVersionUID = 18108052;
+	private static final long serialVersionUID = -1133568364;
 
-	private java.lang.String  idexperimentspopulation;
+	private java.lang.String  idExperimentsPopulation;
 	private java.lang.Integer populationUser;
 	private java.lang.Integer answer;
 	private java.lang.String  referencedPlatform;
@@ -22,25 +22,25 @@ public class Experimentspopulation implements java.io.Serializable {
 	public Experimentspopulation() {}
 
 	public Experimentspopulation(
-		java.lang.String  idexperimentspopulation,
+		java.lang.String  idExperimentsPopulation,
 		java.lang.Integer populationUser,
 		java.lang.Integer answer,
 		java.lang.String  referencedPlatform,
 		java.lang.Boolean not
 	) {
-		this.idexperimentspopulation = idexperimentspopulation;
+		this.idExperimentsPopulation = idExperimentsPopulation;
 		this.populationUser = populationUser;
 		this.answer = answer;
 		this.referencedPlatform = referencedPlatform;
 		this.not = not;
 	}
 
-	public java.lang.String getIdexperimentspopulation() {
-		return this.idexperimentspopulation;
+	public java.lang.String getIdExperimentsPopulation() {
+		return this.idExperimentsPopulation;
 	}
 
-	public void setIdexperimentspopulation(java.lang.String idexperimentspopulation) {
-		this.idexperimentspopulation = idexperimentspopulation;
+	public void setIdExperimentsPopulation(java.lang.String idExperimentsPopulation) {
+		this.idExperimentsPopulation = idExperimentsPopulation;
 	}
 
 	public java.lang.Integer getPopulationUser() {

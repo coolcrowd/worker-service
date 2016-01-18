@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TaskRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord> implements org.jooq.Record6<java.lang.Integer, java.lang.Integer, java.lang.Boolean, java.lang.String, java.lang.String, java.lang.Boolean> {
 
-	private static final long serialVersionUID = -26280013;
+	private static final long serialVersionUID = 402212188;
 
 	/**
-	 * Setter for <code>crowdcontrol.Task.idTask</code>.
+	 * Setter for <code>crowdcontrol.Task.id_task</code>.
 	 */
-	public void setIdtask(java.lang.Integer value) {
+	public void setIdTask(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Task.idTask</code>.
+	 * Getter for <code>crowdcontrol.Task.id_task</code>.
 	 */
-	public java.lang.Integer getIdtask() {
+	public java.lang.Integer getIdTask() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -134,7 +134,7 @@ public class TaskRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.cr
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK.IDTASK;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK.ID_TASK;
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class TaskRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.cr
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdtask();
+		return getIdTask();
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class TaskRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.cr
 	 */
 	@Override
 	public TaskRecord value1(java.lang.Integer value) {
-		setIdtask(value);
+		setIdTask(value);
 		return this;
 	}
 
@@ -301,10 +301,10 @@ public class TaskRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.cr
 	/**
 	 * Create a detached, initialised TaskRecord
 	 */
-	public TaskRecord(java.lang.Integer idtask, java.lang.Integer experiment, java.lang.Boolean running, java.lang.String platformData, java.lang.String crowdPlatform, java.lang.Boolean stopping) {
+	public TaskRecord(java.lang.Integer idTask, java.lang.Integer experiment, java.lang.Boolean running, java.lang.String platformData, java.lang.String crowdPlatform, java.lang.Boolean stopping) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK);
 
-		setValue(0, idtask);
+		setValue(0, idTask);
 		setValue(1, experiment);
 		setValue(2, running);
 		setValue(3, platformData);

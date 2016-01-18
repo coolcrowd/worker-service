@@ -30,21 +30,21 @@ public class PlatformDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.
 	 */
 	@Override
 	protected java.lang.String getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Platform object) {
-		return object.getIdplatform();
+		return object.getIdPlatform();
 	}
 
 	/**
-	 * Fetch records that have <code>idPlatform IN (values)</code>
+	 * Fetch records that have <code>id_platform IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Platform> fetchByIdplatform(java.lang.String... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.IDPLATFORM, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Platform> fetchByIdPlatform(java.lang.String... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.ID_PLATFORM, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idPlatform = value</code>
+	 * Fetch a unique record that has <code>id_platform = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Platform fetchOneByIdplatform(java.lang.String value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.IDPLATFORM, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Platform fetchOneByIdPlatform(java.lang.String value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.ID_PLATFORM, value);
 	}
 
 	/**

@@ -77,7 +77,7 @@ public class TaskChooserAlgorithmTest {
 
     private TaskChooserAlgorithm prepareTaskChooser(boolean creative, List<AnswerRecord> answers) {
         ExperimentRecord experimentRecord = operationsHelper.prepareExperimentRecord(experimentID, ratingsPerAnswer , mockTaskChooserName, title, description+picture);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, constraints);
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, mockTaskChooserName, constraints);
         TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, workerID, ratingsPerAnswer, answers);
         return new MockTaskChooser(mockTaskChooserName, false, creative, experimentOperations, taskOperations);
     }

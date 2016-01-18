@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Notification extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord> {
 
-	private static final long serialVersionUID = -1215342099;
+	private static final long serialVersionUID = -897173869;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Notification</code>
@@ -27,9 +27,9 @@ public class Notification extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontr
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Notification.idNotification</code>.
+	 * The column <code>crowdcontrol.Notification.id_notification</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.lang.Integer> IDNOTIFICATION = createField("idNotification", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.lang.Integer> ID_NOTIFICATION = createField("id_notification", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Notification.name</code>.
@@ -39,7 +39,7 @@ public class Notification extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontr
 	/**
 	 * The column <code>crowdcontrol.Notification.description</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.lang.String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.lang.String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB.length(65535).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Notification.checkPeriod</code>.
@@ -81,6 +81,14 @@ public class Notification extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontr
 
 	private Notification(java.lang.String alias, org.jooq.Table<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord> aliased, org.jooq.Field<?>[] parameters) {
 		super(alias, edu.kit.ipd.crowdcontrol.workerservice.database.model.Crowdcontrol.CROWDCONTROL, aliased, parameters, "");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Identity<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.lang.Integer> getIdentity() {
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.IDENTITY_NOTIFICATION;
 	}
 
 	/**

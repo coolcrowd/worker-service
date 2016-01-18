@@ -11,9 +11,9 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Notification implements java.io.Serializable {
 
-	private static final long serialVersionUID = -351816256;
+	private static final long serialVersionUID = 579908032;
 
-	private java.lang.Integer  idnotification;
+	private java.lang.Integer  idNotification;
 	private java.lang.String   name;
 	private java.lang.String   description;
 	private java.lang.Integer  checkperiod;
@@ -24,7 +24,7 @@ public class Notification implements java.io.Serializable {
 	public Notification() {}
 
 	public Notification(
-		java.lang.Integer  idnotification,
+		java.lang.Integer  idNotification,
 		java.lang.String   name,
 		java.lang.String   description,
 		java.lang.Integer  checkperiod,
@@ -32,7 +32,7 @@ public class Notification implements java.io.Serializable {
 		java.lang.String   query,
 		java.sql.Timestamp lastsent
 	) {
-		this.idnotification = idnotification;
+		this.idNotification = idNotification;
 		this.name = name;
 		this.description = description;
 		this.checkperiod = checkperiod;
@@ -41,12 +41,12 @@ public class Notification implements java.io.Serializable {
 		this.lastsent = lastsent;
 	}
 
-	public java.lang.Integer getIdnotification() {
-		return this.idnotification;
+	public java.lang.Integer getIdNotification() {
+		return this.idNotification;
 	}
 
-	public void setIdnotification(java.lang.Integer idnotification) {
-		this.idnotification = idnotification;
+	public void setIdNotification(java.lang.Integer idNotification) {
+		this.idNotification = idNotification;
 	}
 
 	public java.lang.String getName() {

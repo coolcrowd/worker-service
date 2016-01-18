@@ -34,9 +34,9 @@ public class Tables {
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experimentspopulation EXPERIMENTSPOPULATION = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION;
 
 	/**
-	 * The table crowdcontrol.GiftCode
+	 * The table crowdcontrol.Gift_Code
 	 */
-	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Giftcode GIFTCODE = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Giftcode.GIFTCODE;
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.GiftCode GIFT_CODE = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.GiftCode.GIFT_CODE;
 
 	/**
 	 * The table crowdcontrol.Notification
@@ -59,14 +59,14 @@ public class Tables {
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population POPULATION = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Population.POPULATION;
 
 	/**
-	 * The table crowdcontrol.PopulationAnswerOption
+	 * The table crowdcontrol.Population_answer_option
 	 */
-	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Populationansweroption POPULATIONANSWEROPTION = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Populationansweroption.POPULATIONANSWEROPTION;
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.PopulationAnswerOption POPULATION_ANSWER_OPTION = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.PopulationAnswerOption.POPULATION_ANSWER_OPTION;
 
 	/**
-	 * The table crowdcontrol.PopulationResult
+	 * The table crowdcontrol.Population_Result
 	 */
-	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Populationresult POPULATIONRESULT = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Populationresult.POPULATIONRESULT;
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.PopulationResult POPULATION_RESULT = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.PopulationResult.POPULATION_RESULT;
 
 	/**
 	 * The table crowdcontrol.Rating
@@ -82,6 +82,11 @@ public class Tables {
 	 * The table crowdcontrol.Task
 	 */
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task TASK = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK;
+
+	/**
+	 * The table crowdcontrol.Task_Chooser
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TaskChooser TASK_CHOOSER = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TaskChooser.TASK_CHOOSER;
 
 	/**
 	 * The table crowdcontrol.Template

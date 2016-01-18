@@ -11,9 +11,9 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Worker implements java.io.Serializable {
 
-	private static final long serialVersionUID = 894862517;
+	private static final long serialVersionUID = -1237838603;
 
-	private java.lang.Integer idworker;
+	private java.lang.Integer idWorker;
 	private java.lang.String  identification;
 	private java.lang.String  platform;
 	private java.lang.String  email;
@@ -21,23 +21,23 @@ public class Worker implements java.io.Serializable {
 	public Worker() {}
 
 	public Worker(
-		java.lang.Integer idworker,
+		java.lang.Integer idWorker,
 		java.lang.String  identification,
 		java.lang.String  platform,
 		java.lang.String  email
 	) {
-		this.idworker = idworker;
+		this.idWorker = idWorker;
 		this.identification = identification;
 		this.platform = platform;
 		this.email = email;
 	}
 
-	public java.lang.Integer getIdworker() {
-		return this.idworker;
+	public java.lang.Integer getIdWorker() {
+		return this.idWorker;
 	}
 
-	public void setIdworker(java.lang.Integer idworker) {
-		this.idworker = idworker;
+	public void setIdWorker(java.lang.Integer idWorker) {
+		this.idWorker = idWorker;
 	}
 
 	public java.lang.String getIdentification() {

@@ -30,21 +30,21 @@ public class ConstraintDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontro
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Constraint object) {
-		return object.getIdconstraint();
+		return object.getIdConstraint();
 	}
 
 	/**
-	 * Fetch records that have <code>idConstraint IN (values)</code>
+	 * Fetch records that have <code>id_constraint IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Constraint> fetchByIdconstraint(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT.IDCONSTRAINT, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Constraint> fetchByIdConstraint(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT.ID_CONSTRAINT, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idConstraint = value</code>
+	 * Fetch a unique record that has <code>id_constraint = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Constraint fetchOneByIdconstraint(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT.IDCONSTRAINT, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Constraint fetchOneByIdConstraint(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT.ID_CONSTRAINT, value);
 	}
 
 	/**

@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TagRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TagRecord> implements org.jooq.Record3<java.lang.Integer, java.lang.String, java.lang.Integer> {
 
-	private static final long serialVersionUID = 1859841576;
+	private static final long serialVersionUID = -22297497;
 
 	/**
-	 * Setter for <code>crowdcontrol.Tag.idTag</code>.
+	 * Setter for <code>crowdcontrol.Tag.id_tag</code>.
 	 */
-	public void setIdtag(java.lang.Integer value) {
+	public void setIdTag(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Tag.idTag</code>.
+	 * Getter for <code>crowdcontrol.Tag.id_tag</code>.
 	 */
-	public java.lang.Integer getIdtag() {
+	public java.lang.Integer getIdTag() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -92,7 +92,7 @@ public class TagRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.cro
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag.TAG.IDTAG;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag.TAG.ID_TAG;
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class TagRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.cro
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdtag();
+		return getIdTag();
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class TagRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.cro
 	 */
 	@Override
 	public TagRecord value1(java.lang.Integer value) {
-		setIdtag(value);
+		setIdTag(value);
 		return this;
 	}
 
@@ -184,10 +184,10 @@ public class TagRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.cro
 	/**
 	 * Create a detached, initialised TagRecord
 	 */
-	public TagRecord(java.lang.Integer idtag, java.lang.String tag, java.lang.Integer experiment) {
+	public TagRecord(java.lang.Integer idTag, java.lang.String tag, java.lang.Integer experiment) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag.TAG);
 
-		setValue(0, idtag);
+		setValue(0, idTag);
 		setValue(1, tag);
 		setValue(2, experiment);
 	}

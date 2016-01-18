@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Task extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord> {
 
-	private static final long serialVersionUID = -1301536085;
+	private static final long serialVersionUID = 904464123;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Task</code>
@@ -27,9 +27,9 @@ public class Task extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.worke
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Task.idTask</code>.
+	 * The column <code>crowdcontrol.Task.id_task</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.Integer> IDTASK = createField("idTask", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.Integer> ID_TASK = createField("id_task", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Task.experiment</code>.
@@ -49,7 +49,7 @@ public class Task extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.worke
 	/**
 	 * The column <code>crowdcontrol.Task.crowd_platform</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.String> CROWD_PLATFORM = createField("crowd_platform", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.String> CROWD_PLATFORM = createField("crowd_platform", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Task.stopping</code>.
@@ -76,6 +76,14 @@ public class Task extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.worke
 
 	private Task(java.lang.String alias, org.jooq.Table<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord> aliased, org.jooq.Field<?>[] parameters) {
 		super(alias, edu.kit.ipd.crowdcontrol.workerservice.database.model.Crowdcontrol.CROWDCONTROL, aliased, parameters, "");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Identity<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, java.lang.Integer> getIdentity() {
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.IDENTITY_TASK;
 	}
 
 	/**

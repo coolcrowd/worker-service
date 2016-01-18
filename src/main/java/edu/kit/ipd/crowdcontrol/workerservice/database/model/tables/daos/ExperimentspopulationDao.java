@@ -30,21 +30,21 @@ public class ExperimentspopulationDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.
 	 */
 	@Override
 	protected java.lang.String getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experimentspopulation object) {
-		return object.getIdexperimentspopulation();
+		return object.getIdExperimentsPopulation();
 	}
 
 	/**
-	 * Fetch records that have <code>idExperimentsPopulation IN (values)</code>
+	 * Fetch records that have <code>id_experiments_population IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experimentspopulation> fetchByIdexperimentspopulation(java.lang.String... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION.IDEXPERIMENTSPOPULATION, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experimentspopulation> fetchByIdExperimentsPopulation(java.lang.String... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION.ID_EXPERIMENTS_POPULATION, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idExperimentsPopulation = value</code>
+	 * Fetch a unique record that has <code>id_experiments_population = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experimentspopulation fetchOneByIdexperimentspopulation(java.lang.String value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION.IDEXPERIMENTSPOPULATION, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experimentspopulation fetchOneByIdExperimentsPopulation(java.lang.String value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION.ID_EXPERIMENTS_POPULATION, value);
 	}
 
 	/**

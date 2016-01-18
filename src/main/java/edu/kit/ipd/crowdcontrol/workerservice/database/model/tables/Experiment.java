@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> {
 
-	private static final long serialVersionUID = 941874716;
+	private static final long serialVersionUID = -1315433639;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiment</code>
@@ -27,24 +27,24 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Experiment.idexperiment</code>.
+	 * The column <code>crowdcontrol.Experiment.id_experiment</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Integer> IDEXPERIMENT = createField("idexperiment", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Integer> ID_EXPERIMENT = createField("id_experiment", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.rating_options</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Object> RATING_OPTIONS = createField("rating_options", org.jooq.impl.DefaultDataType.getDefaultDataType("json"), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> RATING_OPTIONS = createField("rating_options", org.jooq.impl.SQLDataType.CLOB.length(16777215), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.titel</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> TITEL = createField("titel", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> TITEL = createField("titel", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.description</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB.length(65535), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.ratings_per_answer</code>.
@@ -54,17 +54,17 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	/**
 	 * The column <code>crowdcontrol.Experiment.algorithm_task_chooser</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_TASK_CHOOSER = createField("algorithm_task_chooser", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_TASK_CHOOSER = createField("algorithm_task_chooser", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.algorithm_quality_answer</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_QUALITY_ANSWER = createField("algorithm_quality_answer", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_QUALITY_ANSWER = createField("algorithm_quality_answer", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.algorithm_quality_rating</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_QUALITY_RATING = createField("algorithm_quality_rating", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_QUALITY_RATING = createField("algorithm_quality_rating", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.base_payment</code>.
@@ -122,6 +122,14 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	 * {@inheritDoc}
 	 */
 	@Override
+	public org.jooq.Identity<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Integer> getIdentity() {
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.IDENTITY_EXPERIMENT;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public org.jooq.UniqueKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> getPrimaryKey() {
 		return edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.KEY_EXPERIMENT_PRIMARY;
 	}
@@ -139,7 +147,7 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, ?>>asList(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.USEDTEMPLATE);
+		return java.util.Arrays.<org.jooq.ForeignKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, ?>>asList(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.USEDTASKCHOOSER, edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.USEDTEMPLATE);
 	}
 
 	/**

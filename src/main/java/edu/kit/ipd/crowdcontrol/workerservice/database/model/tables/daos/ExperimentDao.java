@@ -30,27 +30,27 @@ public class ExperimentDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontro
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment object) {
-		return object.getIdexperiment();
+		return object.getIdExperiment();
 	}
 
 	/**
-	 * Fetch records that have <code>idexperiment IN (values)</code>
+	 * Fetch records that have <code>id_experiment IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByIdexperiment(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.IDEXPERIMENT, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByIdExperiment(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.ID_EXPERIMENT, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idexperiment = value</code>
+	 * Fetch a unique record that has <code>id_experiment = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment fetchOneByIdexperiment(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.IDEXPERIMENT, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment fetchOneByIdExperiment(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.ID_EXPERIMENT, value);
 	}
 
 	/**
 	 * Fetch records that have <code>rating_options IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByRatingOptions(java.lang.Object... values) {
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByRatingOptions(java.lang.String... values) {
 		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.RATING_OPTIONS, values);
 	}
 

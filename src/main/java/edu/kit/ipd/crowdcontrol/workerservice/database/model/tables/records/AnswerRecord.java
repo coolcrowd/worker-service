@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AnswerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord> implements org.jooq.Record6<java.lang.Integer, java.lang.Integer, java.lang.String, java.sql.Timestamp, java.lang.Integer, java.lang.Integer> {
 
-	private static final long serialVersionUID = -631484096;
+	private static final long serialVersionUID = -1616992909;
 
 	/**
-	 * Setter for <code>crowdcontrol.Answer.idAnswer</code>.
+	 * Setter for <code>crowdcontrol.Answer.id_answer</code>.
 	 */
-	public void setIdanswer(java.lang.Integer value) {
+	public void setIdAnswer(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Answer.idAnswer</code>.
+	 * Getter for <code>crowdcontrol.Answer.id_answer</code>.
 	 */
-	public java.lang.Integer getIdanswer() {
+	public java.lang.Integer getIdAnswer() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -134,7 +134,7 @@ public class AnswerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer.ANSWER.IDANSWER;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer.ANSWER.ID_ANSWER;
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class AnswerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdanswer();
+		return getIdAnswer();
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class AnswerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	 */
 	@Override
 	public AnswerRecord value1(java.lang.Integer value) {
-		setIdanswer(value);
+		setIdAnswer(value);
 		return this;
 	}
 
@@ -301,10 +301,10 @@ public class AnswerRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	/**
 	 * Create a detached, initialised AnswerRecord
 	 */
-	public AnswerRecord(java.lang.Integer idanswer, java.lang.Integer task, java.lang.String answer, java.sql.Timestamp timestamp, java.lang.Integer workerId, java.lang.Integer quality) {
+	public AnswerRecord(java.lang.Integer idAnswer, java.lang.Integer task, java.lang.String answer, java.sql.Timestamp timestamp, java.lang.Integer workerId, java.lang.Integer quality) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer.ANSWER);
 
-		setValue(0, idanswer);
+		setValue(0, idAnswer);
 		setValue(1, task);
 		setValue(2, answer);
 		setValue(3, timestamp);

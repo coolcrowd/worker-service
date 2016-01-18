@@ -11,19 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class RatingRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord> implements org.jooq.Record7<java.lang.Integer, java.lang.Integer, java.lang.Integer, java.sql.Timestamp, java.lang.Integer, java.lang.Integer, java.lang.Integer> {
 
-	private static final long serialVersionUID = 1230405591;
+	private static final long serialVersionUID = 1072461392;
 
 	/**
-	 * Setter for <code>crowdcontrol.Rating.idRating</code>.
+	 * Setter for <code>crowdcontrol.Rating.id_rating</code>.
 	 */
-	public void setIdrating(java.lang.Integer value) {
+	public void setIdRating(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Rating.idRating</code>.
+	 * Getter for <code>crowdcontrol.Rating.id_rating</code>.
 	 */
-	public java.lang.Integer getIdrating() {
+	public java.lang.Integer getIdRating() {
 		return (java.lang.Integer) getValue(0);
 	}
 
@@ -148,7 +148,7 @@ public class RatingRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING.IDRATING;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING.ID_RATING;
 	}
 
 	/**
@@ -204,7 +204,7 @@ public class RatingRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdrating();
+		return getIdRating();
 	}
 
 	/**
@@ -260,7 +260,7 @@ public class RatingRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	 */
 	@Override
 	public RatingRecord value1(java.lang.Integer value) {
-		setIdrating(value);
+		setIdRating(value);
 		return this;
 	}
 
@@ -340,10 +340,10 @@ public class RatingRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.
 	/**
 	 * Create a detached, initialised RatingRecord
 	 */
-	public RatingRecord(java.lang.Integer idrating, java.lang.Integer task, java.lang.Integer answerR, java.sql.Timestamp timestamp, java.lang.Integer rating, java.lang.Integer workerId, java.lang.Integer quality) {
+	public RatingRecord(java.lang.Integer idRating, java.lang.Integer task, java.lang.Integer answerR, java.sql.Timestamp timestamp, java.lang.Integer rating, java.lang.Integer workerId, java.lang.Integer quality) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING);
 
-		setValue(0, idrating);
+		setValue(0, idRating);
 		setValue(1, task);
 		setValue(2, answerR);
 		setValue(3, timestamp);

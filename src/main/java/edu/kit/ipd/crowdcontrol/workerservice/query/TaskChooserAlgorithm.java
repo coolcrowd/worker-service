@@ -90,7 +90,7 @@ public abstract class TaskChooserAlgorithm {
                 .stream()
                 .map(record -> View.Answer.newBuilder()
                         .setAnswer(record.getAnswer())
-                        .setId(record.getIdanswer())
+                        .setId(record.getIdAnswer())
                         .build())
                 .collect(Collectors.toList());
         return prepareBuilder(builder, experimentID)
@@ -132,7 +132,7 @@ public abstract class TaskChooserAlgorithm {
                 .map(constraint -> View.Constraint.newBuilder().setName(constraint.getConstraint()).build());
         return builder
                 .setTitle(experimentRecord.getTitel())
-                .setTask(experimentRecord.getIdexperiment())
+                .setTask(experimentRecord.getIdExperiment())
                 .setDescription(cleanDescription)
                 .addAllPictures(pictures)
                 .addAllConstraints(constraints);

@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Platform extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord> {
 
-	private static final long serialVersionUID = -1906581988;
+	private static final long serialVersionUID = 1215010719;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Platform</code>
@@ -27,14 +27,14 @@ public class Platform extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.w
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Platform.idPlatform</code>.
+	 * The column <code>crowdcontrol.Platform.id_platform</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.String> IDPLATFORM = createField("idPlatform", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.String> ID_PLATFORM = createField("id_platform", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Platform.name</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Platform.render_calibrations</code>.
@@ -81,7 +81,7 @@ public class Platform extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.w
 	 */
 	@Override
 	public java.util.List<org.jooq.UniqueKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord>> getKeys() {
-		return java.util.Arrays.<org.jooq.UniqueKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord>>asList(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.KEY_PLATFORM_PRIMARY, edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.KEY_PLATFORM_IDPLATFORM_UNIQUE);
+		return java.util.Arrays.<org.jooq.UniqueKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord>>asList(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.KEY_PLATFORM_PRIMARY);
 	}
 
 	/**

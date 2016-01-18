@@ -30,21 +30,21 @@ public class NotificationDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcont
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Notification object) {
-		return object.getIdnotification();
+		return object.getIdNotification();
 	}
 
 	/**
-	 * Fetch records that have <code>idNotification IN (values)</code>
+	 * Fetch records that have <code>id_notification IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Notification> fetchByIdnotification(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION.IDNOTIFICATION, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Notification> fetchByIdNotification(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION.ID_NOTIFICATION, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idNotification = value</code>
+	 * Fetch a unique record that has <code>id_notification = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Notification fetchOneByIdnotification(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION.IDNOTIFICATION, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Notification fetchOneByIdNotification(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION.ID_NOTIFICATION, value);
 	}
 
 	/**

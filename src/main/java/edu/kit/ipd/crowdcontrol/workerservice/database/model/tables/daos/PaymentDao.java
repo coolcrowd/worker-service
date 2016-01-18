@@ -30,21 +30,21 @@ public class PaymentDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.w
 	 */
 	@Override
 	protected java.lang.Integer getId(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Payment object) {
-		return object.getIdpayment();
+		return object.getIdPayment();
 	}
 
 	/**
-	 * Fetch records that have <code>idPayment IN (values)</code>
+	 * Fetch records that have <code>id_payment IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Payment> fetchByIdpayment(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.IDPAYMENT, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Payment> fetchByIdPayment(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.ID_PAYMENT, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>idPayment = value</code>
+	 * Fetch a unique record that has <code>id_payment = value</code>
 	 */
-	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Payment fetchOneByIdpayment(java.lang.Integer value) {
-		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.IDPAYMENT, value);
+	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Payment fetchOneByIdPayment(java.lang.Integer value) {
+		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Payment.PAYMENT.ID_PAYMENT, value);
 	}
 
 	/**

@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Payment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord> {
 
-	private static final long serialVersionUID = -382961486;
+	private static final long serialVersionUID = 1699657903;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Payment</code>
@@ -27,9 +27,9 @@ public class Payment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.wo
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Payment.idPayment</code>.
+	 * The column <code>crowdcontrol.Payment.id_payment</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord, java.lang.Integer> IDPAYMENT = createField("idPayment", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord, java.lang.Integer> ID_PAYMENT = createField("id_payment", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Payment.worker_id</code>.
@@ -76,6 +76,14 @@ public class Payment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.wo
 
 	private Payment(java.lang.String alias, org.jooq.Table<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord> aliased, org.jooq.Field<?>[] parameters) {
 		super(alias, edu.kit.ipd.crowdcontrol.workerservice.database.model.Crowdcontrol.CROWDCONTROL, aliased, parameters, "");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public org.jooq.Identity<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PaymentRecord, java.lang.Integer> getIdentity() {
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.IDENTITY_PAYMENT;
 	}
 
 	/**
