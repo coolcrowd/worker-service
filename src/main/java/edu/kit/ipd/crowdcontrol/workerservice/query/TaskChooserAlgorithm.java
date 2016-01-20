@@ -80,7 +80,7 @@ public abstract class TaskChooserAlgorithm {
      * @return an instance of View with the Type Rating and the information needed for an to display an rating
      * @throws BadRequestException if the experiment was not found
      */
-    protected View constructRatingView(View.Builder builder, int experimentID, String platform) throws BadRequestException {
+    protected View constructRatingView(View.Builder builder, int experimentID) throws BadRequestException {
         ExperimentRecord experimentRecord = null;
         try {
             experimentRecord = experimentOperations.getExperiment(experimentID);
@@ -88,8 +88,7 @@ public abstract class TaskChooserAlgorithm {
             throw new BadRequestException("experiment not found : " + experimentID);
         }
         Integer ratingsPerAnswer = experimentRecord.getRatingsPerAnswer();
-        int taskID = taskOperations.getTaskID(experimentID, platform);
-        List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), taskID, experimentID, ratingsPerAnswer)
+        List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), experimentID, ratingsPerAnswer)
                 .stream()
                 .map(record -> View.Answer.newBuilder()
                         .setAnswer(record.getAnswer())

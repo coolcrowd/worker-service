@@ -63,17 +63,16 @@ public class OperationsHelper {
             AnswerRecord answerRecord = create.newRecord(Tables.ANSWER);
             answerRecord.setAnswer("answer"+i);
             answerRecord.setIdAnswer(i);
-            answerRecord.setTask(experiment);
+            answerRecord.setExperiment(experiment);
             answerRecord.setWorkerId(i);
             answers.add(answerRecord);
         }
         return answers;
     }
 
-    public TaskOperations prepareTaskOperations(int task, int experiment, String platform, int worker, int amount, List<AnswerRecord> answerRecords) {
+    public TaskOperations prepareTaskOperations(int experiment, String platform, int worker, int amount, List<AnswerRecord> answerRecords) {
         TaskOperations taskOperations = mock(TaskOperations.class);
-        when(taskOperations.prepareRating(worker, task, experiment,  amount)).thenReturn(answerRecords);
-        when(taskOperations.getTaskID(experiment, platform)).thenReturn(task);
+        when(taskOperations.prepareRating(worker, experiment,  amount)).thenReturn(answerRecords);
         return taskOperations;
     }
 

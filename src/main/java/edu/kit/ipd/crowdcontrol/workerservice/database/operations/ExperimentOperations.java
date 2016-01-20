@@ -1,9 +1,9 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmTaskChooserRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskChooserRecord;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 
@@ -51,7 +51,7 @@ public class ExperimentOperations extends AbstractOperation {
      * @return true of inserted, false if already existing
      */
     public boolean insertTaskChooserOrIgnore(String name) {
-        TaskChooserRecord record = new TaskChooserRecord(name);
+        AlgorithmTaskChooserRecord record = new AlgorithmTaskChooserRecord(name);
         return create.executeInsert(record) == 1;
     }
 }

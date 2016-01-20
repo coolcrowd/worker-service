@@ -50,12 +50,11 @@ public class TaskOperations extends AbstractOperation {
     /**
      * reserves a number of ratings for the given worker.
      * @param worker the worker to reserve the ratings for
-     * @param task the task the worker is working on
      * @param experiment the experiment to reserve the ratings for
      * @param amount the amount of ratings to reserve
      * @return the list of answers to rate
      */
-    public List<AnswerRecord> prepareRating(int worker, int task, int experiment, int amount) {
+    public List<AnswerRecord> prepareRating(int worker, int experiment, int amount) {
         return create.transactionResult(config -> {
             LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
             Timestamp timestamp = Timestamp.valueOf(limit);
@@ -65,7 +64,7 @@ public class TaskOperations extends AbstractOperation {
                     .select(count)
                     .from(Tables.ANSWER)
                     .leftJoin(Tables.RATING).on(Tables.RATING.ANSWER_R.eq(Tables.ANSWER.ID_ANSWER).and(Tables.RATING.RATING_.isNotNull().or(Tables.RATING.TIMESTAMP.greaterOrEqual(timestamp))))
-                    .where(Tables.ANSWER.TASK.in(DSL.select(Tables.TASK.ID_TASK).from(Tables.TASK).where(Tables.TASK.EXPERIMENT.eq(experiment))))
+                    .where(Tables.ANSWER.EXPERIMENT.eq(experiment))
                     .groupBy(Tables.ANSWER.fields())
                     .having(count.lessThan(
                             DSL.select(Tables.EXPERIMENT.RATINGS_PER_ANSWER).from(Tables.EXPERIMENT).where(Tables.EXPERIMENT.ID_EXPERIMENT.eq(experiment))))
@@ -78,7 +77,7 @@ public class TaskOperations extends AbstractOperation {
                         RatingRecord ratingRecord = new RatingRecord();
                         ratingRecord.setAnswerR(answer.getIdAnswer());
                         ratingRecord.setWorkerId(worker);
-                        ratingRecord.setTask(task);
+                        ratingRecord.setExperiment(experiment);
                         return ratingRecord;
                     })
                     .collect(Collectors.toList());

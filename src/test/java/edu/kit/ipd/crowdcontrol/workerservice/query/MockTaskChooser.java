@@ -37,7 +37,7 @@ class MockTaskChooser extends TaskChooserAlgorithm {
         if (creative && !skipCreative) {
             return Optional.of(constructAnswerView(builder, experimentID));
         } else if (!skipRating) {
-            return Optional.of(constructRatingView(builder, experimentID, platform));
+            return Optional.of(constructRatingView(builder, experimentID));
         }
         return Optional.empty();
     }
