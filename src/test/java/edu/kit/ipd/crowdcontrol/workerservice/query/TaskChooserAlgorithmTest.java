@@ -69,7 +69,6 @@ public class TaskChooserAlgorithmTest {
         Assert.assertTrue(view.getConstraintsCount() != 0);
         Assert.assertTrue(view.getConstraints(0).getName().equals(constraints.get(0)));
         Assert.assertTrue(view.getConstraints(1).getName().equals(constraints.get(1)));
-        Assert.assertTrue(view.getTask() == experimentID);
     }
 
     private View.Builder prepareBuilder() {

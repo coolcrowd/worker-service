@@ -103,13 +103,13 @@ public class CommandsTest {
     public void testSubmitFullAnswer() throws Exception {
         String answer =  "example-answer";
         int workerID = 1;
-        int task = 2;
+        int experiment = 2;
         int answerID = 3;
         submitAnswerHelper(answer, printer.print(Answer.newBuilder()
-                .setTask(task)
+                .setExperiment(experiment)
                 .setAnswer(answer)
                 .build()),
-                task, workerID, answerID, response -> verify(response).status(201));
+                experiment, workerID, answerID, response -> verify(response).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -156,44 +156,44 @@ public class CommandsTest {
     @Test
     public void testSubmitFullRating() throws Exception {
         int workerID = 1;
-        int task = 2;
+        int experiment = 2;
         int answerID = 3;
         int rating = 12;
         int ratingID = 15;
         submitRatingHelper(rating, Rating.newBuilder()
                         .setRating(rating)
                         .setAnswerId(answerID)
-                        .setTask(task)
+                        .setExperiment(experiment)
                         .build(),
-                task, answerID, workerID, ratingID, response -> verify(response).status(201));
+                experiment, answerID, workerID, ratingID, response -> verify(response).status(201));
     }
 
     @Test(expected= BadRequestException.class)
     public void testSubmitMissingRating1() throws Exception {
         int workerID = 1;
-        int task = 2;
+        int experiment = 2;
         int answerID = 3;
         int rating = 12;
         int ratingID = 15;
         submitRatingHelper(rating, Rating.newBuilder()
                         .setAnswerId(answerID)
-                        .setTask(task)
+                        .setExperiment(experiment)
                         .build(),
-                task, answerID, workerID, ratingID, response -> verify(response).status(201));
+                experiment, answerID, workerID, ratingID, response -> verify(response).status(201));
     }
 
     @Test(expected= BadRequestException.class)
     public void testSubmitMissingRating2() throws Exception {
         int workerID = 1;
-        int task = 2;
+        int experiment = 2;
         int answerID = 3;
         int rating = 12;
         int ratingID = 15;
         submitRatingHelper(rating, Rating.newBuilder()
                         .setRating(rating)
-                        .setTask(task)
+                        .setExperiment(experiment)
                         .build(),
-                task, answerID, workerID, ratingID, response -> verify(response).status(201));
+                experiment, answerID, workerID, ratingID, response -> verify(response).status(201));
     }
 
     @Test

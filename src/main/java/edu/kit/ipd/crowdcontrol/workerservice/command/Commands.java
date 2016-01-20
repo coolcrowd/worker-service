@@ -93,7 +93,7 @@ public class Commands implements RequestHelper {
      */
     public Object submitAnswer(Request request, Response response) {
         doSubmit(request, response, Answer.newBuilder(), (answer, workerID) -> {
-            String answerType = experimentOperations.getExperiment(answer.getTask()).getAnswerType();
+            String answerType = experimentOperations.getExperiment(answer.getExperiment()).getAnswerType();
             try {
                 //TODO try this out
                 if (answerType != null && !getContentType(answer.getAnswer()).startsWith(answerType)) {
@@ -102,7 +102,7 @@ public class Commands implements RequestHelper {
             } catch (IOException e) {
                 throw new InternalServerErrorException("unable to probe Content-type, aborting", e);
             }
-            return communication.submitAnswer(answer.getAnswer(), answer.getTask(), workerID);
+            return communication.submitAnswer(answer.getAnswer(), answer.getExperiment(), workerID);
         });
         return null;
     }
@@ -116,7 +116,7 @@ public class Commands implements RequestHelper {
      */
     public Object submitRating(Request request, Response response) {
         doSubmit(request, response, Rating.newBuilder(), (rating, workerID) ->
-                communication.submitRating(rating.getRating(), rating.getTask(), rating.getAnswerId(), workerID));
+                communication.submitRating(rating.getRating(), rating.getExperiment(), rating.getAnswerId(), workerID));
         return null;
     }
 

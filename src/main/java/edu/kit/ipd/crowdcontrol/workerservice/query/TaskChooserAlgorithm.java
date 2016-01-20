@@ -135,7 +135,6 @@ public abstract class TaskChooserAlgorithm {
                 .map(constraint -> View.Constraint.newBuilder().setName(constraint.getConstraint()).build());
         return builder
                 .setTitle(experimentRecord.getTitel())
-                .setTask(experimentRecord.getIdExperiment())
                 .setDescription(cleanDescription)
                 .addAllPictures(pictures)
                 .addAllConstraints(constraints);

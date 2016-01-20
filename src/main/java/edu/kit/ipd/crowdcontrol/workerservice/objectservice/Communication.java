@@ -47,6 +47,7 @@ public class Communication {
      * @return an completable future representing the request with the resulting workerID
      */
     public CompletableFuture<Integer> submitWorker(String email, String platform) {
+        //TODO Rewrite -> tryGetWorkerID mit email!
         Worker worker = Worker.newBuilder()
                 .setPlatform(platform)
                 .setEmail(email)
@@ -70,16 +71,16 @@ public class Communication {
      * submits an answer for the worker
      * Calls 'PUT /populations/answers' from the Object-Service.
      * @param answer the answer to submit
-     * @param task the task answered
+     * @param experiment the experiment working on
      * @param worker the worker answered
      * @return an completable future representing the request with the resulting location in the database
      */
-    public CompletableFuture<Integer> submitAnswer(String answer, int task, int worker) {
+    public CompletableFuture<Integer> submitAnswer(String answer, int experiment, int worker) {
         Answer answerProto = Answer.newBuilder()
                 .setContent(answer)
                 .setWorker(worker)
                 .build();
-        return putRequest("/experiments/"+task+"/answers", builder -> builder
+        return putRequest("/experiments/"+experiment+"/answers", builder -> builder
                 .body(printer.print(answerProto))
                 .asJson()
         ).thenApply(response -> {
@@ -89,7 +90,7 @@ public class Communication {
                 return Integer.parseInt(
                         response.getHeaders()
                         .getFirst("Location")
-                        .replace(url+"/experiments/"+task+"/answers/", "")
+                        .replace(url+"/experiments/"+experiment+"/answers/", "")
                 );
             } else {
                 throw new RuntimeException("illegal Response, status : " + response.getStatus());
@@ -101,17 +102,17 @@ public class Communication {
      * submits an rating for the worker.
      * Calls 'PUT /populations/ratings' from the Object-Service.
      * @param rating the rating to submit
-     * @param task the task worked on
+     * @param experiment the experiment working on
      * @param worker the worker responsible
      * @param answer the rated answer
      * @return an completable future representing the request with the location of the answer in the database
      */
-    public CompletableFuture<Void> submitRating(int rating, int task, int answer, int worker) {
+    public CompletableFuture<Void> submitRating(int rating, int experiment, int answer, int worker) {
         Rating ratingProto = Rating.newBuilder()
                 .setRating(rating)
                 .setWorker(worker)
                 .build();
-        return putRequest("/experiments/"+task+"/answers/"+answer+"/ratings", builder -> builder
+        return putRequest("/experiments/"+experiment+"/answers/"+answer+"/ratings", builder -> builder
                 .body(printer.print(ratingProto))
                 .asJson()
         ).thenApply(response -> null);
