@@ -22,10 +22,10 @@ public final class AnswerOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014answer.proto\022\014crowdcontrol\"&\n\006Answer\022\016" +
-      "\n\006answer\030\001 \001(\t\022\014\n\004task\030\002 \001(\005B0\n,edu.kit." +
-      "ipd.crowdcontrol.workerservice.protoP\001b\006" +
-      "proto3"
+      "\n\014answer.proto\022\014crowdcontrol\",\n\006Answer\022\016" +
+      "\n\006answer\030\001 \001(\t\022\022\n\nexperiment\030\002 \001(\005B0\n,ed" +
+      "u.kit.ipd.crowdcontrol.workerservice.pro" +
+      "toP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -44,7 +44,7 @@ public final class AnswerOuterClass {
     internal_static_crowdcontrol_Answer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Answer_descriptor,
-        new java.lang.String[] { "Answer", "Task", });
+        new java.lang.String[] { "Answer", "Experiment", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

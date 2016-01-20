@@ -18,7 +18,7 @@ public interface AnswerOrBuilder extends
       getAnswerBytes();
 
   /**
-   * <code>optional int32 task = 2;</code>
+   * <code>optional int32 experiment = 2;</code>
    */
-  int getTask();
+  int getExperiment();
 }

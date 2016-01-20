@@ -13,9 +13,9 @@ public interface RatingOrBuilder extends
   int getRating();
 
   /**
-   * <code>optional int32 task = 2;</code>
+   * <code>optional int32 experiment = 2;</code>
    */
-  int getTask();
+  int getExperiment();
 
   /**
    * <code>optional int32 answer_id = 3;</code>

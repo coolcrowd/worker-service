@@ -16,7 +16,7 @@ public  final class Answer extends
   }
   private Answer() {
     answer_ = "";
-    task_ = 0;
+    experiment_ = 0;
   }
 
   @java.lang.Override
@@ -51,7 +51,7 @@ public  final class Answer extends
           }
           case 16: {
 
-            task_ = input.readInt32();
+            experiment_ = input.readInt32();
             break;
           }
         }
@@ -112,13 +112,13 @@ public  final class Answer extends
     }
   }
 
-  public static final int TASK_FIELD_NUMBER = 2;
-  private int task_;
+  public static final int EXPERIMENT_FIELD_NUMBER = 2;
+  private int experiment_;
   /**
-   * <code>optional int32 task = 2;</code>
+   * <code>optional int32 experiment = 2;</code>
    */
-  public int getTask() {
-    return task_;
+  public int getExperiment() {
+    return experiment_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -136,8 +136,8 @@ public  final class Answer extends
     if (!getAnswerBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessage.writeString(output, 1, answer_);
     }
-    if (task_ != 0) {
-      output.writeInt32(2, task_);
+    if (experiment_ != 0) {
+      output.writeInt32(2, experiment_);
     }
   }
 
@@ -149,9 +149,9 @@ public  final class Answer extends
     if (!getAnswerBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(1, answer_);
     }
-    if (task_ != 0) {
+    if (experiment_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, task_);
+        .computeInt32Size(2, experiment_);
     }
     memoizedSize = size;
     return size;
@@ -266,7 +266,7 @@ public  final class Answer extends
       super.clear();
       answer_ = "";
 
-      task_ = 0;
+      experiment_ = 0;
 
       return this;
     }
@@ -291,7 +291,7 @@ public  final class Answer extends
     public edu.kit.ipd.crowdcontrol.workerservice.proto.Answer buildPartial() {
       edu.kit.ipd.crowdcontrol.workerservice.proto.Answer result = new edu.kit.ipd.crowdcontrol.workerservice.proto.Answer(this);
       result.answer_ = answer_;
-      result.task_ = task_;
+      result.experiment_ = experiment_;
       onBuilt();
       return result;
     }
@@ -311,8 +311,8 @@ public  final class Answer extends
         answer_ = other.answer_;
         onChanged();
       }
-      if (other.getTask() != 0) {
-        setTask(other.getTask());
+      if (other.getExperiment() != 0) {
+        setExperiment(other.getExperiment());
       }
       onChanged();
       return this;
@@ -409,28 +409,28 @@ public  final class Answer extends
       return this;
     }
 
-    private int task_ ;
+    private int experiment_ ;
     /**
-     * <code>optional int32 task = 2;</code>
+     * <code>optional int32 experiment = 2;</code>
      */
-    public int getTask() {
-      return task_;
+    public int getExperiment() {
+      return experiment_;
     }
     /**
-     * <code>optional int32 task = 2;</code>
+     * <code>optional int32 experiment = 2;</code>
      */
-    public Builder setTask(int value) {
+    public Builder setExperiment(int value) {
       
-      task_ = value;
+      experiment_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional int32 task = 2;</code>
+     * <code>optional int32 experiment = 2;</code>
      */
-    public Builder clearTask() {
+    public Builder clearExperiment() {
       
-      task_ = 0;
+      experiment_ = 0;
       onChanged();
       return this;
     }
