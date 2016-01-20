@@ -30,14 +30,14 @@ class MockTaskChooser extends TaskChooserAlgorithm {
     }
 
     @Override
-    public Optional<View> next(View.Builder builder, Request request, int experimentID, boolean skipCreative, boolean skipRating) {
+    public Optional<View> next(View.Builder builder, Request request, int experimentID, String platform, boolean skipCreative, boolean skipRating) {
         if (finish) {
             return Optional.empty();
         }
         if (creative && !skipCreative) {
             return Optional.of(constructAnswerView(builder, experimentID));
         } else if (!skipRating) {
-            return Optional.of(constructRatingView(builder, experimentID));
+            return Optional.of(constructRatingView(builder, experimentID, platform));
         }
         return Optional.empty();
     }

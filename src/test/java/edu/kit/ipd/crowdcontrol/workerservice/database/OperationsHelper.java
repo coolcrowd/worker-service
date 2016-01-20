@@ -70,9 +70,10 @@ public class OperationsHelper {
         return answers;
     }
 
-    public TaskOperations prepareTaskOperations(int experiment, int worker, int amount, List<AnswerRecord> answerRecords) {
+    public TaskOperations prepareTaskOperations(int task, int experiment, String platform, int worker, int amount, List<AnswerRecord> answerRecords) {
         TaskOperations taskOperations = mock(TaskOperations.class);
-        when(taskOperations.prepareRating(worker, experiment, amount)).thenReturn(answerRecords);
+        when(taskOperations.prepareRating(worker, task, experiment,  amount)).thenReturn(answerRecords);
+        when(taskOperations.getTaskID(experiment, platform)).thenReturn(task);
         return taskOperations;
     }
 

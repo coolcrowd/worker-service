@@ -52,11 +52,13 @@ public abstract class TaskChooserAlgorithm {
      * @param builder the builder to use
      * @param request the request
      * @param experimentID the ID of the experiment
+     * @param platform the platform the worker is working on
      * @param skipCreative whether to skip the Creative-Task
      * @param skipRating whether to skip the Rating-Task
      * @return empty if finished or view
      */
-    public abstract Optional<View> next(View.Builder builder, Request request, int experimentID, boolean skipCreative, boolean skipRating);
+    public abstract Optional<View> next(View.Builder builder, Request request, int experimentID, String platform,
+                                        boolean skipCreative, boolean skipRating);
 
     /**
      * constructs an AnswerView
@@ -78,7 +80,7 @@ public abstract class TaskChooserAlgorithm {
      * @return an instance of View with the Type Rating and the information needed for an to display an rating
      * @throws BadRequestException if the experiment was not found
      */
-    protected View constructRatingView(View.Builder builder, int experimentID) throws BadRequestException {
+    protected View constructRatingView(View.Builder builder, int experimentID, String platform) throws BadRequestException {
         ExperimentRecord experimentRecord = null;
         try {
             experimentRecord = experimentOperations.getExperiment(experimentID);
@@ -86,7 +88,8 @@ public abstract class TaskChooserAlgorithm {
             throw new BadRequestException("experiment not found : " + experimentID);
         }
         Integer ratingsPerAnswer = experimentRecord.getRatingsPerAnswer();
-        List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), experimentID, ratingsPerAnswer)
+        int taskID = taskOperations.getTaskID(experimentID, platform);
+        List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), taskID, experimentID, ratingsPerAnswer)
                 .stream()
                 .map(record -> View.Answer.newBuilder()
                         .setAnswer(record.getAnswer())

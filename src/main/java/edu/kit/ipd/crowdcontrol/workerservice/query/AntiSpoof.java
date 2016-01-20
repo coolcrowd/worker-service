@@ -39,12 +39,14 @@ public class AntiSpoof extends TaskChooserAlgorithm {
      * @param builder      the builder to use
      * @param request      the request
      * @param experimentID the ID of the experiment
+     * @param platform     the platform the worker is working on
      * @param skipCreative whether to skip the Creative-Task
      * @param skipRating   whether to skip the Rating-Task
      * @return empty if finished or view
      */
     @Override
-    public Optional<View> next(View.Builder builder, Request request, int experimentID, boolean skipCreative, boolean skipRating) {
+    public Optional<View> next(View.Builder builder, Request request, int experimentID, String platform,
+                               boolean skipCreative, boolean skipRating) {
         return null;
     }
 }

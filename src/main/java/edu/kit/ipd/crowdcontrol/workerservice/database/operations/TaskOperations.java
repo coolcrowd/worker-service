@@ -5,6 +5,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.Answ
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
+import org.jooq.Record1;
 import org.jooq.impl.DSL;
 
 import java.sql.Timestamp;
@@ -29,27 +30,45 @@ public class TaskOperations extends AbstractOperation {
     }
 
     /**
+     * returns the ID of the Task
+     * @param experiment the experiment the task belongs to
+     * @param platform the platform the task belongs to
+     * @return the id of the task
+     * @throws IllegalArgumentException if the Task is not existing
+     */
+    public int getTaskID(int experiment, String platform) throws IllegalArgumentException {
+        return create.select(Tables.TASK.ID_TASK)
+                .from(Tables.TASK)
+                .where(Tables.TASK.EXPERIMENT.eq(experiment))
+                .and(Tables.TASK.CROWD_PLATFORM.eq(platform))
+                .fetchOptional()
+                .map(Record1::value1)
+                .orElseThrow(() -> new IllegalArgumentException("no Task existing for: experiment=" + experiment +
+                        " and platform=" + platform));
+    }
+
+    /**
      * reserves a number of ratings for the given worker.
      * @param worker the worker to reserve the ratings for
+     * @param task the task the worker is working on
      * @param experiment the experiment to reserve the ratings for
      * @param amount the amount of ratings to reserve
      * @return the list of answers to rate
      */
-    public List<AnswerRecord> prepareRating(int worker, int experiment, int amount) {
+    public List<AnswerRecord> prepareRating(int worker, int task, int experiment, int amount) {
         return create.transactionResult(config -> {
-            Field<Integer> count = DSL.selectCount().from(Tables.RATING).asField();
-
             LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
             Timestamp timestamp = Timestamp.valueOf(limit);
+            Field<Integer> count = DSL.count(Tables.RATING.ID_RATING).as("count");
             List<AnswerRecord> toRate = DSL.using(config).select()
                     .select(Tables.ANSWER.fields())
                     .select(count)
                     .from(Tables.ANSWER)
-                    .leftJoin(Tables.RATING).onKey()
-                    .where(Tables.ANSWER.TASK.eq(experiment))
-                    .and(Tables.RATING.RATING_.isNotNull().or(Tables.RATING.TIMESTAMP.greaterOrEqual(timestamp)))
+                    .leftJoin(Tables.RATING).on(Tables.RATING.ANSWER_R.eq(Tables.ANSWER.ID_ANSWER).and(Tables.RATING.RATING_.isNotNull().or(Tables.RATING.TIMESTAMP.greaterOrEqual(timestamp))))
+                    .where(Tables.ANSWER.TASK.in(DSL.select(Tables.TASK.ID_TASK).from(Tables.TASK).where(Tables.TASK.EXPERIMENT.eq(experiment))))
+                    .groupBy(Tables.ANSWER.fields())
                     .having(count.lessThan(
-                            DSL.select(Tables.EXPERIMENT.RATINGS_PER_ANSWER).where(Tables.EXPERIMENT.ID_EXPERIMENT.eq(worker))))
+                            DSL.select(Tables.EXPERIMENT.RATINGS_PER_ANSWER).from(Tables.EXPERIMENT).where(Tables.EXPERIMENT.ID_EXPERIMENT.eq(experiment))))
                     .limit(amount)
                     .fetch()
                     .map(record -> record.into(Tables.ANSWER));
@@ -59,12 +78,12 @@ public class TaskOperations extends AbstractOperation {
                         RatingRecord ratingRecord = new RatingRecord();
                         ratingRecord.setAnswerR(answer.getIdAnswer());
                         ratingRecord.setWorkerId(worker);
-                        ratingRecord.setTask(experiment);
+                        ratingRecord.setTask(task);
                         return ratingRecord;
                     })
                     .collect(Collectors.toList());
 
-            DSL.using(config).batchInsert(emptyRatings);
+            DSL.using(config).batchInsert(emptyRatings).execute();
 
             return toRate;
         });

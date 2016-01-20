@@ -96,4 +96,6 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+/src/test/java/edu/kit/ipd/crowdcontrol/workerservice/database/playground.java
+
 

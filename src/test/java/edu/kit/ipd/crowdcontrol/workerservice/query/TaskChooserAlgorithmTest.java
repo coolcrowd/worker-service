@@ -22,7 +22,9 @@ import static junit.framework.TestCase.assertTrue;
 public class TaskChooserAlgorithmTest {
     private final OperationsHelper operationsHelper = new OperationsHelper();
     private final int experimentID = 1;
+    private final int task = 2;
     private final int workerID = 3;
+    private final String platform = "a";
     private final int ratingsPerAnswer = 3;
     private final String title = "title";
     private final String mockTaskChooserName = "mockTaskChooser";
@@ -45,7 +47,7 @@ public class TaskChooserAlgorithmTest {
         View.Builder builder = prepareBuilder();
         List<AnswerRecord> answerRecords = operationsHelper.generateAnswers(ratingsPerAnswer, experimentID);
         TaskChooserAlgorithm taskChooserAlgorithm = prepareTaskChooser(true, answerRecords);
-        View view = taskChooserAlgorithm.constructRatingView(builder, experimentID);
+        View view = taskChooserAlgorithm.constructRatingView(builder, experimentID, platform);
         assertTrue(view.getType().equals(View.Type.RATING));
         Assert.assertTrue(builder.getAnswersCount() != 0);
         for (View.Answer answer : builder.getAnswersList()) {
@@ -78,7 +80,7 @@ public class TaskChooserAlgorithmTest {
     private TaskChooserAlgorithm prepareTaskChooser(boolean creative, List<AnswerRecord> answers) {
         ExperimentRecord experimentRecord = operationsHelper.prepareExperimentRecord(experimentID, ratingsPerAnswer , mockTaskChooserName, title, description+picture);
         ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, mockTaskChooserName, constraints);
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, workerID, ratingsPerAnswer, answers);
+        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(task, experimentID, platform, workerID, ratingsPerAnswer, answers);
         return new MockTaskChooser(mockTaskChooserName, false, creative, experimentOperations, taskOperations);
     }
 }

@@ -28,9 +28,14 @@ public class DatabaseManager {
      * @throws SQLException if there was a problem establishing a connection to the database
      */
     public DatabaseManager(String userName, String password, String url, SQLDialect sqlDialect) throws SQLException {
+        this(userName, password, url, sqlDialect, true);
+    }
+
+    DatabaseManager(String userName, String password, String url, SQLDialect sqlDialect, boolean init) throws SQLException {
         connection = DriverManager.getConnection(url, userName, password);
         context = DSL.using(connection, sqlDialect);
-        initDatabase();
+        if (init)
+            initDatabase();
     }
 
     /**

@@ -224,11 +224,12 @@ public class Query implements RequestHelper {
      */
     private Optional<View> getStrategyStep(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
         int experiment = assertParameterInt(request, "experiment");
+        String platformName = assertParameter(request, "platform");
         if (skipCreative && skipRating)
             return Optional.empty();
         String algorithmTaskChooser = experimentOperations.getExperiment(experiment).getAlgorithmTaskChooser();
         return Optional.ofNullable(strategies.get(algorithmTaskChooser))
-                .flatMap(strategy -> strategy.next(builder, request, experiment, skipCreative, skipRating));
+                .flatMap(strategy -> strategy.next(builder, request, experiment, platformName, skipCreative, skipRating));
     }
 
     /**
