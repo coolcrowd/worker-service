@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> {
 
-	private static final long serialVersionUID = -315330002;
+	private static final long serialVersionUID = 982065499;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiment</code>
@@ -52,6 +52,11 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_TASK_CHOOSER = createField("algorithm_task_chooser", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
+	 * The column <code>crowdcontrol.Experiment.algorithm_task_chooser_param</code>.
+	 */
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_TASK_CHOOSER_PARAM = createField("algorithm_task_chooser_param", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
+
+	/**
 	 * The column <code>crowdcontrol.Experiment.algorithm_quality_answer</code>.
 	 */
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ALGORITHM_QUALITY_ANSWER = createField("algorithm_quality_answer", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
@@ -89,7 +94,7 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	/**
 	 * The column <code>crowdcontrol.Experiment.answer_type</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ANSWER_TYPE = createField("answer_type", org.jooq.impl.SQLDataType.VARCHAR.length(45), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> ANSWER_TYPE = createField("answer_type", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Experiment</code> table reference

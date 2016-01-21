@@ -14,6 +14,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
+
 /**
  * TaskOperations contains all queries concerned with the Creative- and Rating-Tasks.
  * @author LeanderK
@@ -37,10 +39,10 @@ public class TaskOperations extends AbstractOperation {
      * @throws IllegalArgumentException if the Task is not existing
      */
     public int getTaskID(int experiment, String platform) throws IllegalArgumentException {
-        return create.select(Tables.TASK.ID_TASK)
-                .from(Tables.TASK)
-                .where(Tables.TASK.EXPERIMENT.eq(experiment))
-                .and(Tables.TASK.CROWD_PLATFORM.eq(platform))
+        return create.select(TASK.ID_TASK)
+                .from(TASK)
+                .where(TASK.EXPERIMENT.eq(experiment))
+                .and(TASK.CROWD_PLATFORM.eq(platform))
                 .fetchOptional()
                 .map(Record1::value1)
                 .orElseThrow(() -> new IllegalArgumentException("no Task existing for: experiment=" + experiment +
@@ -58,16 +60,20 @@ public class TaskOperations extends AbstractOperation {
         return create.transactionResult(config -> {
             LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
             Timestamp timestamp = Timestamp.valueOf(limit);
-            Field<Integer> count = DSL.count(Tables.RATING.ID_RATING).as("count");
+            Field<Integer> count = DSL.count(RATING.ID_RATING).as("count");
             List<AnswerRecord> toRate = DSL.using(config).select()
-                    .select(Tables.ANSWER.fields())
+                    .select(ANSWER.fields())
                     .select(count)
-                    .from(Tables.ANSWER)
-                    .leftJoin(Tables.RATING).on(Tables.RATING.ANSWER_R.eq(Tables.ANSWER.ID_ANSWER).and(Tables.RATING.RATING_.isNotNull().or(Tables.RATING.TIMESTAMP.greaterOrEqual(timestamp))))
-                    .where(Tables.ANSWER.EXPERIMENT.eq(experiment))
-                    .groupBy(Tables.ANSWER.fields())
+                    .from(ANSWER)
+                    .leftJoin(RATING).on(RATING.ANSWER_R.eq(ANSWER.ID_ANSWER)
+                            .and(RATING.RATING_.isNotNull().or(RATING.TIMESTAMP.greaterOrEqual(timestamp))))
+                    .where(ANSWER.EXPERIMENT.eq(experiment))
+                    .and(ANSWER.WORKER_ID.notEqual(worker))
+                    .and(ANSWER.ID_ANSWER.notIn(
+                            DSL.select(RATING.ANSWER_R).where(RATING.WORKER_ID.eq(worker).and(RATING.EXPERIMENT.eq(experiment)))))
+                    .groupBy(ANSWER.fields())
                     .having(count.lessThan(
-                            DSL.select(Tables.EXPERIMENT.RATINGS_PER_ANSWER).from(Tables.EXPERIMENT).where(Tables.EXPERIMENT.ID_EXPERIMENT.eq(experiment))))
+                            DSL.select(EXPERIMENT.RATINGS_PER_ANSWER).from(EXPERIMENT).where(EXPERIMENT.ID_EXPERIMENT.eq(experiment))))
                     .limit(amount)
                     .fetch()
                     .map(record -> record.into(Tables.ANSWER));
