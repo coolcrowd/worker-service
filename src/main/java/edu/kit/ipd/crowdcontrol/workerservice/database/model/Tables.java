@@ -29,9 +29,19 @@ public class Tables {
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooser ALGORITHM_TASK_CHOOSER = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooser.ALGORITHM_TASK_CHOOSER;
 
 	/**
+	 * The table crowdcontrol.Algorithm_Task_Chooser_Param
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooserParam ALGORITHM_TASK_CHOOSER_PARAM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooserParam.ALGORITHM_TASK_CHOOSER_PARAM;
+
+	/**
 	 * The table crowdcontrol.Answer
 	 */
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer ANSWER = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer.ANSWER;
+
+	/**
+	 * The table crowdcontrol.Choosen_Task_Chooser_Param
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChoosenTaskChooserParam CHOOSEN_TASK_CHOOSER_PARAM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChoosenTaskChooserParam.CHOOSEN_TASK_CHOOSER_PARAM;
 
 	/**
 	 * The table crowdcontrol.Constraint
