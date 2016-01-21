@@ -31,7 +31,7 @@ public class TaskChooserAlgorithmTest {
     private final String description = "description";
     private final String pictureUrl = "ww.xy.de";
     private final String pictureLUrl = "ww.xyz.de";
-    private final String picture = "{!" + pictureUrl + " " + pictureLUrl + "}";
+    private final String picture = "adsadsd {!" + pictureUrl + " " + pictureLUrl + "} {!" + pictureUrl + "}";
     private final List<String> constraints = Arrays.asList("const1", "const2");
 
     @Test

@@ -76,13 +76,6 @@ public class ExperimentDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontro
 	}
 
 	/**
-	 * Fetch records that have <code>algorithm_task_chooser_param IN (values)</code>
-	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByAlgorithmTaskChooserParam(java.lang.String... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.ALGORITHM_TASK_CHOOSER_PARAM, values);
-	}
-
-	/**
 	 * Fetch records that have <code>algorithm_quality_answer IN (values)</code>
 	 */
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByAlgorithmQualityAnswer(java.lang.String... values) {

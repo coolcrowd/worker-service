@@ -11,14 +11,13 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment implements java.io.Serializable {
 
-	private static final long serialVersionUID = -1676292578;
+	private static final long serialVersionUID = -390611318;
 
 	private java.lang.Integer idExperiment;
 	private java.lang.String  titel;
 	private java.lang.String  description;
 	private java.lang.Integer ratingsPerAnswer;
 	private java.lang.String  algorithmTaskChooser;
-	private java.lang.String  algorithmTaskChooserParam;
 	private java.lang.String  algorithmQualityAnswer;
 	private java.lang.String  algorithmQualityRating;
 	private java.lang.Integer basePayment;
@@ -36,7 +35,6 @@ public class Experiment implements java.io.Serializable {
 		java.lang.String  description,
 		java.lang.Integer ratingsPerAnswer,
 		java.lang.String  algorithmTaskChooser,
-		java.lang.String  algorithmTaskChooserParam,
 		java.lang.String  algorithmQualityAnswer,
 		java.lang.String  algorithmQualityRating,
 		java.lang.Integer basePayment,
@@ -51,7 +49,6 @@ public class Experiment implements java.io.Serializable {
 		this.description = description;
 		this.ratingsPerAnswer = ratingsPerAnswer;
 		this.algorithmTaskChooser = algorithmTaskChooser;
-		this.algorithmTaskChooserParam = algorithmTaskChooserParam;
 		this.algorithmQualityAnswer = algorithmQualityAnswer;
 		this.algorithmQualityRating = algorithmQualityRating;
 		this.basePayment = basePayment;
@@ -100,14 +97,6 @@ public class Experiment implements java.io.Serializable {
 
 	public void setAlgorithmTaskChooser(java.lang.String algorithmTaskChooser) {
 		this.algorithmTaskChooser = algorithmTaskChooser;
-	}
-
-	public java.lang.String getAlgorithmTaskChooserParam() {
-		return this.algorithmTaskChooserParam;
-	}
-
-	public void setAlgorithmTaskChooserParam(java.lang.String algorithmTaskChooserParam) {
-		this.algorithmTaskChooserParam = algorithmTaskChooserParam;
 	}
 
 	public java.lang.String getAlgorithmQualityAnswer() {
