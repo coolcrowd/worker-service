@@ -39,12 +39,12 @@ public class Main {
             else
                 return s;
         };
-        String url = trimIfNotNull.apply(properties.getProperty("database.url"));
-        String username = trimIfNotNull.apply(properties.getProperty("database.username"));
-        String password = trimIfNotNull.apply(properties.getProperty("database.password"));
-        String databasePool = trimIfNotNull.apply(properties.getProperty("database.poolName"));
+        String url = trimIfNotNull.apply(config.getProperty("database.url"));
+        String username = trimIfNotNull.apply(config.getProperty("database.username"));
+        String password = trimIfNotNull.apply(config.getProperty("database.password"));
+        String databasePool = trimIfNotNull.apply(config.getProperty("database.poolName"));
 
-        SQLDialect dialect = SQLDialect.valueOf(properties.getProperty("database.dialect").trim());
+        SQLDialect dialect = SQLDialect.valueOf(config.getProperty("database.dialect").trim());
         DatabaseManager databaseManager = null;
         try {
             databaseManager = new DatabaseManager(username, password, url, databasePool, dialect);
