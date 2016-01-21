@@ -2,19 +2,21 @@ package edu.kit.ipd.crowdcontrol;
 
 import edu.kit.ipd.crowdcontrol.workerservice.Router;
 import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
-import edu.kit.ipd.crowdcontrol.workerservice.database.DatabaseManager;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.DatabaseManager;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.query.Query;
 import org.jooq.SQLDialect;
 
+import javax.naming.NamingException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.function.Function;
 
 /**
  * the main class is responsible for initialising everything.
@@ -31,19 +33,28 @@ public class Main {
             System.err.println("unable to find file: " + config);
             System.exit(-1);
         }
+        Function<String, String> trimIfNotNull = s -> {
+            if (s != null)
+                return s.trim();
+            else
+                return s;
+        };
+        String url = trimIfNotNull.apply(properties.getProperty("database.url"));
+        String username = trimIfNotNull.apply(properties.getProperty("database.username"));
+        String password = trimIfNotNull.apply(properties.getProperty("database.password"));
+        String databasePool = trimIfNotNull.apply(properties.getProperty("database.poolName"));
+
+        SQLDialect dialect = SQLDialect.valueOf(properties.getProperty("database.dialect").trim());
         DatabaseManager databaseManager = null;
         try {
-            databaseManager = new DatabaseManager(
-                    config.getProperty("database_username"),
-                    config.getProperty("database_password"),
-                    config.getProperty("database_url"),
-                    SQLDialect.valueOf(config.getProperty("database_dialect"))
-            );
-        } catch (SQLException e) {
-            System.err.println("unable to find set up DatabaseManager");
+            databaseManager = new DatabaseManager(username, password, url, databasePool, dialect);
+        } catch (NamingException | SQLException e) {
+            System.err.println("unable to establish database connection");
             e.printStackTrace();
             System.exit(-1);
         }
+
+        databaseManager.initDatabase();
         PopulationsOperations populationsOperations = new PopulationsOperations(databaseManager.getContext());
         ExperimentOperations experimentOperations = new ExperimentOperations(databaseManager.getContext());
         PlatformOperations platformOperations = new PlatformOperations(databaseManager.getContext());

@@ -10,6 +10,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -137,5 +138,10 @@ public abstract class TaskChooserAlgorithm {
                 .setDescription(cleanDescription)
                 .addAllPictures(pictures)
                 .addAllConstraints(constraints);
+    }
+
+    protected HashMap<String, String> getParams(int experimentID) {
+        experimentOperations.getExperiment(experimentID)
+                .getAlgorithmTaskChooserParam()
     }
 }
