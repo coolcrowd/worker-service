@@ -25,9 +25,9 @@ import java.util.stream.Collectors;
 public abstract class TaskChooserAlgorithm {
     protected final ExperimentOperations experimentOperations;
     protected final TaskOperations taskOperations;
-    private final String pictureRegex = "\\{! ?\\S+ \\S+ ?\\}";
+    private final String pictureRegex = "\\{! ?\\S+ ?\\S+? ?\\}";
     private Pattern picturePattern = Pattern.compile("(" + pictureRegex + ")");
-    private Pattern pictureUrlLicensePattern = Pattern.compile("\\{! ?(?<url>\\S+) (?<license>\\S+)? ?\\}");
+    private Pattern pictureUrlLicensePattern = Pattern.compile("\\{! ?(?<url>\\S+) ?(?<license>\\S+)? ?\\}");
     private final String paramRegex = "((?<key>\\S+)=(?<value>\\S+) ?)+";
 
     /**
@@ -117,22 +117,29 @@ public abstract class TaskChooserAlgorithm {
         } catch (ExperimentNotFoundException e) {
             throw new BadRequestException("experiment not found : " + experimentID);
         }
+
         String mixedDescription = experimentRecord.getDescription();
         Matcher matcher = picturePattern.matcher(mixedDescription);
+
         List<View.Picture> pictures = new ArrayList<>();
         while(matcher.find()) {
             Matcher urlLicense = pictureUrlLicensePattern.matcher(matcher.group());
             if (!urlLicense.matches()) {
                 throw new InternalServerErrorException("the reges to capture the picture url and license failed" + matcher.group());
             }
-            pictures.add(View.Picture.newBuilder()
-                .setUrl(urlLicense.group("url"))
-                .setUrlLicense(urlLicense.group("license"))
-                .build());
+
+            View.Picture.Builder pictureBuilder = View.Picture.newBuilder()
+                    .setUrl(urlLicense.group("url"));
+            if (urlLicense.group("license") != null) {
+                pictureBuilder = pictureBuilder.setUrlLicense(urlLicense.group("license"));
+            }
+            pictures.add(pictureBuilder.build());
         }
-        String cleanDescription = mixedDescription.replaceAll(pictureRegex, "");
+
+        String cleanDescription = mixedDescription.replaceAll("" + pictureRegex + "\\s?", "");
         List<View.Constraint> constraints = experimentOperations.getConstraints(experimentID)
                 .map(constraint -> View.Constraint.newBuilder().setName(constraint.getConstraint()).build());
+
         return builder
                 .setTitle(experimentRecord.getTitel())
                 .setDescription(cleanDescription)
