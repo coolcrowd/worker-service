@@ -1,12 +1,12 @@
 package edu.kit.ipd.crowdcontrol;
 
+import edu.kit.ipd.crowdcontrol.workerservice.database.DatabaseManager;
 import edu.kit.ipd.crowdcontrol.workerservice.Router;
 import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.DatabaseManager;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.query.Query;
 import org.jooq.SQLDialect;

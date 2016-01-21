@@ -7,6 +7,8 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.Expe
 import org.jooq.DSLContext;
 import org.jooq.Result;
 
+import java.util.Map;
+
 /**
  * contains all the operations concerned with experiments.
  * @author LeanderK
@@ -53,5 +55,18 @@ public class ExperimentOperations extends AbstractOperation {
     public boolean insertTaskChooserOrIgnore(String name) {
         AlgorithmTaskChooserRecord record = new AlgorithmTaskChooserRecord(name);
         return create.executeInsert(record) == 1;
+    }
+
+    /**
+     * returns the Task-Chooser Parameter for the experiment
+     * @param experiment the primary key of the experiment to search for
+     * @return the map with the description as the key and the parameter-value as value
+     */
+    public Map<String, String> getTaskChooserParam(int experiment) {
+        return create.select(Tables.ALGORITHM_TASK_CHOOSER_PARAM.DESCRIPTION, Tables.CHOOSEN_TASK_CHOOSER_PARAM.VALUE)
+                .from(Tables.CHOOSEN_TASK_CHOOSER_PARAM)
+                .join(Tables.ALGORITHM_TASK_CHOOSER_PARAM).onKey()
+                .where(Tables.CHOOSEN_TASK_CHOOSER_PARAM.EXPERIMENT.eq(experiment))
+                .fetchMap(Tables.ALGORITHM_TASK_CHOOSER_PARAM.DESCRIPTION, Tables.CHOOSEN_TASK_CHOOSER_PARAM.VALUE);
     }
 }
