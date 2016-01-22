@@ -59,7 +59,14 @@ public class Query implements RequestHelper {
      */
     private void registerTaskChooser(TaskChooserAlgorithm taskChooserAlgorithm) {
         strategies.put(taskChooserAlgorithm.getName(), taskChooserAlgorithm);
-        experimentOperations.insertTaskChooserOrIgnore(taskChooserAlgorithm.getName());
+        experimentOperations.insertTaskChooserOrIgnore(taskChooserAlgorithm.getName(), taskChooserAlgorithm.getDescription());
+        taskChooserAlgorithm.getParameters()
+                .forEach(parameter -> experimentOperations.insertTaskChooserParamOrIgnore(
+                        taskChooserAlgorithm.getDescription(),
+                        parameter.getDescription(),
+                        parameter.getRegex(),
+                        parameter.getData())
+                );
     }
 
     /**
