@@ -76,6 +76,20 @@ public class ExperimentDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontro
 	}
 
 	/**
+	 * Fetch records that have <code>anwers_per_worker IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByAnwersPerWorker(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.ANWERS_PER_WORKER, values);
+	}
+
+	/**
+	 * Fetch records that have <code>ratings_per_worker IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByRatingsPerWorker(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.RATINGS_PER_WORKER, values);
+	}
+
+	/**
 	 * Fetch records that have <code>answer_type IN (values)</code>
 	 */
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByAnswerType(java.lang.String... values) {

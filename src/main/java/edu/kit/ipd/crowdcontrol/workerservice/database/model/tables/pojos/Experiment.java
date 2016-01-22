@@ -11,13 +11,15 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment implements java.io.Serializable {
 
-	private static final long serialVersionUID = -1078209430;
+	private static final long serialVersionUID = -433385120;
 
 	private java.lang.Integer idExperiment;
 	private java.lang.String  titel;
 	private java.lang.String  description;
 	private java.lang.Integer neededAnswers;
 	private java.lang.Integer ratingsPerAnswer;
+	private java.lang.Integer anwersPerWorker;
+	private java.lang.Integer ratingsPerWorker;
 	private java.lang.String  answerType;
 	private java.lang.String  algorithmTaskChooser;
 	private java.lang.String  algorithmQualityAnswer;
@@ -36,6 +38,8 @@ public class Experiment implements java.io.Serializable {
 		java.lang.String  description,
 		java.lang.Integer neededAnswers,
 		java.lang.Integer ratingsPerAnswer,
+		java.lang.Integer anwersPerWorker,
+		java.lang.Integer ratingsPerWorker,
 		java.lang.String  answerType,
 		java.lang.String  algorithmTaskChooser,
 		java.lang.String  algorithmQualityAnswer,
@@ -51,6 +55,8 @@ public class Experiment implements java.io.Serializable {
 		this.description = description;
 		this.neededAnswers = neededAnswers;
 		this.ratingsPerAnswer = ratingsPerAnswer;
+		this.anwersPerWorker = anwersPerWorker;
+		this.ratingsPerWorker = ratingsPerWorker;
 		this.answerType = answerType;
 		this.algorithmTaskChooser = algorithmTaskChooser;
 		this.algorithmQualityAnswer = algorithmQualityAnswer;
@@ -100,6 +106,22 @@ public class Experiment implements java.io.Serializable {
 
 	public void setRatingsPerAnswer(java.lang.Integer ratingsPerAnswer) {
 		this.ratingsPerAnswer = ratingsPerAnswer;
+	}
+
+	public java.lang.Integer getAnwersPerWorker() {
+		return this.anwersPerWorker;
+	}
+
+	public void setAnwersPerWorker(java.lang.Integer anwersPerWorker) {
+		this.anwersPerWorker = anwersPerWorker;
+	}
+
+	public java.lang.Integer getRatingsPerWorker() {
+		return this.ratingsPerWorker;
+	}
+
+	public void setRatingsPerWorker(java.lang.Integer ratingsPerWorker) {
+		this.ratingsPerWorker = ratingsPerWorker;
 	}
 
 	public java.lang.String getAnswerType() {

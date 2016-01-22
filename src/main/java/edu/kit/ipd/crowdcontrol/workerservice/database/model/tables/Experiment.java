@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> {
 
-	private static final long serialVersionUID = -867758375;
+	private static final long serialVersionUID = 1302944603;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiment</code>
@@ -50,6 +50,16 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	 * The column <code>crowdcontrol.Experiment.ratings_per_answer</code>.
 	 */
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Integer> RATINGS_PER_ANSWER = createField("ratings_per_answer", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Experiment.anwers_per_worker</code>.
+	 */
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Integer> ANWERS_PER_WORKER = createField("anwers_per_worker", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Experiment.ratings_per_worker</code>.
+	 */
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Integer> RATINGS_PER_WORKER = createField("ratings_per_worker", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.answer_type</code>.
