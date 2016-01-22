@@ -6,7 +6,6 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOper
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.query.AntiSpoof;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
@@ -36,7 +35,11 @@ public class OperationsHelper {
         return record;
     }
 
-    public ExperimentOperations prepareExperimentOperations(int experiment, ExperimentRecord record, String taskChooser, List<String> constraints) {
+    public ExperimentOperations prepareExperimentOperations(int experiment) {
+        return prepareExperimentOperations(experiment, null, null, null, null);
+    }
+
+    public ExperimentOperations prepareExperimentOperations(int experiment, ExperimentRecord record, String taskChooser, String description, List<String> constraints) {
         DSLContext create = DSL.using(SQLDialect.MYSQL);
         ExperimentOperations operations = mock(ExperimentOperations.class);
         when(operations.getExperiment(experiment)).thenReturn(record);
@@ -51,8 +54,7 @@ public class OperationsHelper {
             }
         }
         when(operations.getConstraints(experiment)).thenReturn(constraintRecords);
-        when(operations.insertTaskChooserOrIgnore(taskChooser)).thenReturn(true);
-        when(operations.insertTaskChooserOrIgnore(AntiSpoof.NAME)).thenReturn(true);
+        when(operations.insertTaskChooserOrIgnore(taskChooser, description)).thenReturn(true);
         return operations;
     }
 
@@ -72,7 +74,7 @@ public class OperationsHelper {
 
     public TaskOperations prepareTaskOperations(int experiment, String platform, int worker, int amount, List<AnswerRecord> answerRecords) {
         TaskOperations taskOperations = mock(TaskOperations.class);
-        when(taskOperations.prepareRating(worker, experiment,  amount)).thenReturn(answerRecords);
+        when(taskOperations.prepareRating(worker, experiment, amount)).thenReturn(answerRecords);
         return taskOperations;
     }
 

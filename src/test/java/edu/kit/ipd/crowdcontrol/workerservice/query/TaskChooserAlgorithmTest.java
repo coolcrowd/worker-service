@@ -21,13 +21,16 @@ import static junit.framework.TestCase.assertTrue;
  */
 public class TaskChooserAlgorithmTest {
     private final OperationsHelper operationsHelper = new OperationsHelper();
-    private final int experimentID = 1;
-    private final int task = 2;
-    private final int workerID = 3;
+    private final int experimentID = (int) (100 * (Math.random()));
+    private final int task = (int) (100 * (Math.random()));
+    private final int workerID = (int) (100 * (Math.random()));
+    private final int answerAmount = (int) (100 * (Math.random()));
+    private final int ratingAmount = (int) (100 * (Math.random()));
     private final String platform = "a";
-    private final int ratingsPerAnswer = 3;
+    private final int ratingsPerAnswer = (int) (100 * (Math.random()));
     private final String title = "title";
     private final String mockTaskChooserName = "mockTaskChooser";
+    private final String mockTaskChooserDescription= "mockTaskChooserDescription";
     private final String description = "description";
     private final String pictureUrl = "ww.xy.de";
     private final String pictureLUrl = "ww.xyz.de";
@@ -38,8 +41,9 @@ public class TaskChooserAlgorithmTest {
     public void testConstructAnswerView() throws Exception {
         View.Builder builder = prepareBuilder();
         TaskChooserAlgorithm taskChooserAlgorithm = prepareTaskChooser(true, new ArrayList<>());
-        View view = taskChooserAlgorithm.constructAnswerView(builder, experimentID);
+        View view = taskChooserAlgorithm.constructAnswerView(builder, experimentID, answerAmount);
         assertTrue(view.getType().equals(View.Type.ANSWER));
+        assertTrue(view.getMaxAnswersToGive() == answerAmount);
     }
 
     @Test
@@ -47,10 +51,10 @@ public class TaskChooserAlgorithmTest {
         View.Builder builder = prepareBuilder();
         List<AnswerRecord> answerRecords = operationsHelper.generateAnswers(ratingsPerAnswer, experimentID);
         TaskChooserAlgorithm taskChooserAlgorithm = prepareTaskChooser(true, answerRecords);
-        View view = taskChooserAlgorithm.constructRatingView(builder, experimentID);
+        View view = taskChooserAlgorithm.constructRatingView(builder, experimentID, ratingAmount).get();
         assertTrue(view.getType().equals(View.Type.RATING));
-        Assert.assertTrue(builder.getAnswersCount() != 0);
-        for (View.Answer answer : builder.getAnswersList()) {
+        Assert.assertTrue(builder.getAnswersToRateCount() != 0);
+        for (View.Answer answer : builder.getAnswersToRateList()) {
             Assert.assertTrue(answerRecords.get(answer.getId()).getAnswer().equals(answer.getAnswer()));
         }
     }
@@ -59,7 +63,7 @@ public class TaskChooserAlgorithmTest {
     public void testPrepareBuilder() throws Exception {
         View.Builder builder = prepareBuilder();
         TaskChooserAlgorithm taskChooserAlgorithm = prepareTaskChooser(true, new ArrayList<>());
-        View view = taskChooserAlgorithm.constructAnswerView(builder, experimentID);
+        View view = taskChooserAlgorithm.constructAnswerView(builder, experimentID, answerAmount);
         assertTrue(view.getType().equals(View.Type.ANSWER));
         Assert.assertTrue(view.getTitle().equals(title));
         Assert.assertTrue(view.getDescription().equals(description));
@@ -77,9 +81,12 @@ public class TaskChooserAlgorithmTest {
     }
 
     private TaskChooserAlgorithm prepareTaskChooser(boolean creative, List<AnswerRecord> answers) {
-        ExperimentRecord experimentRecord = operationsHelper.prepareExperimentRecord(experimentID, ratingsPerAnswer , mockTaskChooserName, title, description+picture);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, mockTaskChooserName, constraints);
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, platform, workerID, ratingsPerAnswer, answers);
-        return new MockTaskChooser(mockTaskChooserName, false, creative, experimentOperations, taskOperations);
+        ExperimentRecord experimentRecord = operationsHelper.prepareExperimentRecord(experimentID, ratingsPerAnswer ,
+                mockTaskChooserName, title, description+picture);
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord,
+                mockTaskChooserName, mockTaskChooserDescription, constraints);
+        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, platform, workerID, ratingAmount, answers);
+        return new MockTaskChooser(mockTaskChooserName, mockTaskChooserDescription, false, creative, experimentOperations,
+                taskOperations, answerAmount, ratingAmount);
     }
 }

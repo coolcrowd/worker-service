@@ -42,7 +42,7 @@ public class QueryTest {
         Response response = mock(Response.class);
         PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, true, true);
         Communication communication = prepareCommunication(platform, Optional.empty());
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, null, null, null);
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
         Query query =  new Query(null, experimentOperations, platformOperations, communication, null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
@@ -58,7 +58,7 @@ public class QueryTest {
         Response response = mock(Response.class);
         PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
         Communication communication = prepareCommunication(platform, Optional.empty());
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, null, null, null);
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
         Query query =  new Query(null, experimentOperations, platformOperations, communication, null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
@@ -77,7 +77,7 @@ public class QueryTest {
         PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
         Communication communication = prepareCommunication(platform, Optional.of(workerID));
         PopulationsOperations populationsOperations = operationsHelper.preparePopulationOperations(experimentID, platform, workerID, true, null);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, null, null, null);
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
@@ -96,7 +96,7 @@ public class QueryTest {
         PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
         Communication communication = prepareCommunication(platform, Optional.empty());
         PopulationsOperations populationsOperations = operationsHelper.preparePopulationOperations(experimentID, platform, workerID, true, null);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, null, null, null);
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
@@ -116,7 +116,7 @@ public class QueryTest {
         Communication communication = prepareCommunication(platform, Optional.empty());
         Map<PopulationRecord, Result<PopulationAnswerOptionRecord>> calibrations = operationsHelper.generatePopulations(experimentID);
         PopulationsOperations populationsOperations = operationsHelper.preparePopulationOperations(experimentID, platform, workerID, false, calibrations);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, null, null, null);
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
@@ -152,7 +152,7 @@ public class QueryTest {
         Communication communication = prepareCommunication(platform, Optional.empty());
         PopulationsOperations populationsOperations =
                 operationsHelper.preparePopulationOperations(experimentID, platform, workerID, false, new HashMap<>());
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, null, null, null);
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
@@ -174,15 +174,17 @@ public class QueryTest {
         PopulationsOperations populationsOperations =
                 operationsHelper.preparePopulationOperations(experimentID, platform, workerID, false, new HashMap<>());
         String mockTaskChooserName = "mockTaskChooser";
+        String mockTaskChooserDescription = "mockTaskChooserDescription";
         String description = "description";
         String pictureUrl = "ww.xy.de";
         String pictureLUrl = "ww.xyz.de";
         String picture = "{!" + pictureUrl + " " + pictureLUrl + "}";
         ExperimentRecord experimentRecord = operationsHelper.prepareExperimentRecord(experimentID, 3, mockTaskChooserName, "title", description+picture);
         List<String> constraints = Arrays.asList("const1", "const2");
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, mockTaskChooserName, constraints);
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord,
+                mockTaskChooserName, mockTaskChooserDescription, constraints);
         TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, platform, workerID, 0, new ArrayList<>());
-        MockTaskChooser mockTaskChooser = new MockTaskChooser(mockTaskChooserName, false, true, experimentOperations, taskOperations);
+        MockTaskChooser mockTaskChooser = new MockTaskChooser(mockTaskChooserName, mockTaskChooserDescription, false, true, experimentOperations, taskOperations, 0, 0);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null, mockTaskChooser);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
@@ -204,11 +206,13 @@ public class QueryTest {
         PopulationsOperations populationsOperations =
                 operationsHelper.preparePopulationOperations(experimentID, platform, workerID, false, new HashMap<>());
         String mockTaskChooserName = "mockTaskChooser";
+        String mockTaskChooserDescription = "mockTaskChooserDescription";
+        int ratingAmount = (int) (100 * (Math.random()));
         ExperimentRecord experimentRecord = operationsHelper.prepareExperimentRecord(experimentID, 3, mockTaskChooserName, "title", "description");
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, mockTaskChooserName, new ArrayList<>());
+        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID, experimentRecord, mockTaskChooserName, mockTaskChooserDescription, new ArrayList<>());
         List<AnswerRecord> answerRecords = operationsHelper.generateAnswers(experimentRecord.getRatingsPerAnswer(), experimentID);
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, platform, workerID, experimentRecord.getRatingsPerAnswer(), answerRecords);
-        MockTaskChooser mockTaskChooser = new MockTaskChooser(mockTaskChooserName, false, false, experimentOperations, taskOperations);
+        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentID, platform, workerID, ratingAmount, answerRecords);
+        MockTaskChooser mockTaskChooser = new MockTaskChooser(mockTaskChooserName, mockTaskChooserDescription, false, false, experimentOperations, taskOperations, 0, ratingAmount);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null, mockTaskChooser);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
