@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AlgorithmTaskChooserParam extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmTaskChooserParamRecord> {
 
-	private static final long serialVersionUID = 1012943205;
+	private static final long serialVersionUID = -229863644;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Algorithm_Task_Chooser_Param</code>
@@ -49,7 +49,7 @@ public class AlgorithmTaskChooserParam extends org.jooq.impl.TableImpl<edu.kit.i
 	/**
 	 * The column <code>crowdcontrol.Algorithm_Task_Chooser_Param.data</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmTaskChooserParamRecord, java.lang.String> DATA = createField("data", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmTaskChooserParamRecord, java.lang.String> DATA = createField("data", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Algorithm_Task_Chooser_Param</code> table reference
