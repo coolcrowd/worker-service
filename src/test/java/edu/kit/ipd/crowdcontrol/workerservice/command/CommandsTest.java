@@ -201,7 +201,7 @@ public class CommandsTest {
         nonJson(Commands::submitRating);
     }
 
-    private Commands prepareCommands(String answerType, int experimentID, Communication communication) {
+    Commands prepareCommands(String answerType, int experimentID, Communication communication) {
         ExperimentRecord record = mock(ExperimentRecord.class);
         when(record.getAnswerType()).thenReturn(answerType);
         ExperimentOperations operation = mock(ExperimentOperations.class);
@@ -209,15 +209,15 @@ public class CommandsTest {
         return new Commands(communication, operation);
     }
 
-    private Commands prepareCommands(int experimentID, Communication communication) {
+    Commands prepareCommands(int experimentID, Communication communication) {
         return prepareCommands(null, experimentID, communication);
     }
 
-    private Commands prepareCommands(Communication communication) {
+    Commands prepareCommands(Communication communication) {
         return prepareCommands(1, communication);
     }
 
-    private <T> T submit(int task, String answerType, Consumer<Communication> buildCommunication,
+    <T> T submit(int task, String answerType, Consumer<Communication> buildCommunication,
                          Consumer<Request> buildRequest, Function3<Commands, Request, Response, T> func,
                          Consumer<Response> responseVerifier) {
         Communication communication = mock(Communication.class);
@@ -232,13 +232,13 @@ public class CommandsTest {
         return apply;
     }
 
-    private <T> T submit(Consumer<Communication> buildCommunication,
+    <T> T submit(Consumer<Communication> buildCommunication,
                          Consumer<Request> buildRequest, Function3<Commands, Request, Response, T> func,
                          Consumer<Response> responseVerifier) {
         return submit(1, null, buildCommunication, buildRequest, func, responseVerifier);
     }
 
-    private String submitEmailHelper(String email, String platform, int workerID, Consumer<Response> responseVerifier) {
+    String submitEmailHelper(String email, String platform, int workerID, Consumer<Response> responseVerifier) {
         return submit(communication -> {
                     when(communication.submitWorker(email, platform)).thenReturn(CompletableFuture.completedFuture(workerID));
                 },
@@ -251,7 +251,7 @@ public class CommandsTest {
         );
     }
 
-    private Object submitAnswerHelper(String answer, String answerRequest, int task, int workerID, int answerID, Consumer<Response> responseVerifier) {
+    Object submitAnswerHelper(String answer, String answerRequest, int task, int workerID, int answerID, Consumer<Response> responseVerifier) {
         return submit(task, null,
                 communication -> {
                     when(communication.submitAnswer(answer, task, workerID))
@@ -267,7 +267,7 @@ public class CommandsTest {
         );
     }
 
-    private Object submitRatingHelper(int rating, Rating ratingRequest, int task, int answer, int workerID, int ratingID, Consumer<Response> responseVerifier) throws InvalidProtocolBufferException {
+    Object submitRatingHelper(int rating, Rating ratingRequest, int task, int answer, int workerID, int ratingID, Consumer<Response> responseVerifier) throws InvalidProtocolBufferException {
         String json = printer.print(ratingRequest);
         return submit(task, null,
                 communication -> {
@@ -284,7 +284,7 @@ public class CommandsTest {
         );
     }
 
-    private Object submitCalibrationHelper(int option, Calibration calibrationRequest, int task, int workerID, Consumer<Response> responseVerifier) throws InvalidProtocolBufferException {
+    Object submitCalibrationHelper(int option, Calibration calibrationRequest, int task, int workerID, Consumer<Response> responseVerifier) throws InvalidProtocolBufferException {
         String json = printer.print(calibrationRequest);
         return submit(task, null,
                 communication -> {
@@ -301,7 +301,7 @@ public class CommandsTest {
         );
     }
 
-    private <T> T nonJson(Function3<Commands, Request, Response, T> func) {
+    <T> T nonJson(Function3<Commands, Request, Response, T> func) {
         Communication communication = mock(Communication.class);
         Commands commands = prepareCommands(communication);
         Request request = mock(Request.class);
