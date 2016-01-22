@@ -85,19 +85,6 @@ public class ExperimentOperations extends AbstractOperation {
     }
 
     /**
-     * returns the amount of answers submitted for the passed experiment
-     * @param experimentID the primary key of the experiment
-     * @return the number of answers submitted
-     */
-    public int getAnswersCount(int experimentID) {
-        //TODO duplicates?
-        return create.fetchCount(
-                DSL.selectFrom(Tables.ANSWER)
-                        .where(Tables.ANSWER.EXPERIMENT.eq(experimentID))
-        );
-    }
-
-    /**
      * returns the Task-Chooser Parameter for the experiment
      * @param experiment the primary key of the experiment to search for
      * @return the map with the description as the key and the parameter-value as value

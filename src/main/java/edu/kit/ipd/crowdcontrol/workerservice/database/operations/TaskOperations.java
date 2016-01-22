@@ -49,6 +49,8 @@ public class TaskOperations extends AbstractOperation {
                         " and platform=" + platform));
     }
 
+
+
     /**
      * reserves a number of ratings for the given worker.
      * @param worker the worker to reserve the ratings for
@@ -92,5 +94,48 @@ public class TaskOperations extends AbstractOperation {
 
             return toRate;
         });
+    }
+
+    /**
+     * returns the amount of answers submitted for the passed experiment
+     * @param experimentID the primary key of the experiment
+     * @return the number of answers submitted
+     */
+    public int getAnswersCount(int experimentID) {
+        //TODO duplicates?
+        return create.fetchCount(
+                DSL.selectFrom(Tables.ANSWER)
+                        .where(Tables.ANSWER.EXPERIMENT.eq(experimentID))
+        );
+    }
+
+    /**
+     * returns the amount of answers submitted for the passed experiment by the worker
+     * @param experimentID the primary key of the experiment
+     * @param workerID the worker to check for
+     * @return the number of answers submitted
+     */
+    public int getAnswersCount(int experimentID, int workerID) {
+        //TODO duplicates?
+        return create.fetchCount(
+                DSL.selectFrom(Tables.ANSWER)
+                        .where(Tables.ANSWER.EXPERIMENT.eq(experimentID))
+                        .and(Tables.ANSWER.WORKER_ID.eq(workerID))
+        );
+    }
+
+    /**
+     * returns the amount of ratings submitted for the passed experiment by the worker
+     * @param experimentID the primary key of the experiment
+     * @param workerID the worker to check for
+     * @return the number of ratings submitted
+     */
+    public int getRatingsCount(int experimentID, int workerID) {
+        //TODO duplicates?
+        return create.fetchCount(
+                DSL.selectFrom(Tables.RATING)
+                        .where(Tables.RATING.EXPERIMENT.eq(experimentID))
+                        .and(Tables.RATING.WORKER_ID.eq(workerID))
+        );
     }
 }
