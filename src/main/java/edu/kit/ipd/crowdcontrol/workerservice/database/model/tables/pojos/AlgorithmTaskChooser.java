@@ -11,16 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AlgorithmTaskChooser implements java.io.Serializable {
 
-	private static final long serialVersionUID = -403864818;
+	private static final long serialVersionUID = 2116654488;
 
 	private java.lang.String idTaskChooser;
+	private java.lang.String description;
 
 	public AlgorithmTaskChooser() {}
 
 	public AlgorithmTaskChooser(
-		java.lang.String idTaskChooser
+		java.lang.String idTaskChooser,
+		java.lang.String description
 	) {
 		this.idTaskChooser = idTaskChooser;
+		this.description = description;
 	}
 
 	public java.lang.String getIdTaskChooser() {
@@ -29,5 +32,13 @@ public class AlgorithmTaskChooser implements java.io.Serializable {
 
 	public void setIdTaskChooser(java.lang.String idTaskChooser) {
 		this.idTaskChooser = idTaskChooser;
+	}
+
+	public java.lang.String getDescription() {
+		return this.description;
+	}
+
+	public void setDescription(java.lang.String description) {
+		this.description = description;
 	}
 }

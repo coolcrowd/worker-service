@@ -67,4 +67,11 @@ public class AlgorithmTaskChooserParamDao extends org.jooq.impl.DAOImpl<edu.kit.
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.AlgorithmTaskChooserParam> fetchByAlgorithm(java.lang.String... values) {
 		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooserParam.ALGORITHM_TASK_CHOOSER_PARAM.ALGORITHM, values);
 	}
+
+	/**
+	 * Fetch records that have <code>data IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.AlgorithmTaskChooserParam> fetchByData(java.lang.String... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooserParam.ALGORITHM_TASK_CHOOSER_PARAM.DATA, values);
+	}
 }

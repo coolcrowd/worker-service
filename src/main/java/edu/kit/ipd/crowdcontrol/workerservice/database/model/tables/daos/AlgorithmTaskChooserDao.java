@@ -46,4 +46,11 @@ public class AlgorithmTaskChooserDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.c
 	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.AlgorithmTaskChooser fetchOneByIdTaskChooser(java.lang.String value) {
 		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooser.ALGORITHM_TASK_CHOOSER.ID_TASK_CHOOSER, value);
 	}
+
+	/**
+	 * Fetch records that have <code>description IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.AlgorithmTaskChooser> fetchByDescription(java.lang.String... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooser.ALGORITHM_TASK_CHOOSER.DESCRIPTION, values);
+	}
 }
