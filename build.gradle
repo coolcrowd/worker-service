@@ -60,7 +60,7 @@ task integrTest(type: Test) {
     classpath = sourceSets.integrTest.runtimeClasspath
 }
 
-check.dependsOn integrTest
+//check.dependsOn integrTest
 
 
 //database-model
