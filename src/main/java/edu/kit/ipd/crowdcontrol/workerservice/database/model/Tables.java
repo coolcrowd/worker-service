@@ -19,9 +19,19 @@ public class Tables {
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmAnswerQuality ALGORITHM_ANSWER_QUALITY = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmAnswerQuality.ALGORITHM_ANSWER_QUALITY;
 
 	/**
+	 * The table crowdcontrol.Algorithm_Answer_Quality_Param
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmAnswerQualityParam ALGORITHM_ANSWER_QUALITY_PARAM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmAnswerQualityParam.ALGORITHM_ANSWER_QUALITY_PARAM;
+
+	/**
 	 * The table crowdcontrol.Algorithm_Rating_Quality
 	 */
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmRatingQuality ALGORITHM_RATING_QUALITY = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmRatingQuality.ALGORITHM_RATING_QUALITY;
+
+	/**
+	 * The table crowdcontrol.Algorithm_Rating_Quality_Param
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmRatingQualityParam ALGORITHM_RATING_QUALITY_PARAM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmRatingQualityParam.ALGORITHM_RATING_QUALITY_PARAM;
 
 	/**
 	 * The table crowdcontrol.Algorithm_Task_Chooser
@@ -39,9 +49,19 @@ public class Tables {
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer ANSWER = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer.ANSWER;
 
 	/**
-	 * The table crowdcontrol.Choosen_Task_Chooser_Param
+	 * The table crowdcontrol.Chosen_Answer_Quality_Param
 	 */
-	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChoosenTaskChooserParam CHOOSEN_TASK_CHOOSER_PARAM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChoosenTaskChooserParam.CHOOSEN_TASK_CHOOSER_PARAM;
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChosenAnswerQualityParam CHOSEN_ANSWER_QUALITY_PARAM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChosenAnswerQualityParam.CHOSEN_ANSWER_QUALITY_PARAM;
+
+	/**
+	 * The table crowdcontrol.Chosen_Rating_Quality_Param
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChosenRatingQualityParam CHOSEN_RATING_QUALITY_PARAM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChosenRatingQualityParam.CHOSEN_RATING_QUALITY_PARAM;
+
+	/**
+	 * The table crowdcontrol.Chosen_Task_Chooser_Param
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChosenTaskChooserParam CHOSEN_TASK_CHOOSER_PARAM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChosenTaskChooserParam.CHOSEN_TASK_CHOOSER_PARAM;
 
 	/**
 	 * The table crowdcontrol.Constraint

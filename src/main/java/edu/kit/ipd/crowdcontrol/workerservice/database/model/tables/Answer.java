@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Answer extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord> {
 
-	private static final long serialVersionUID = 1145903577;
+	private static final long serialVersionUID = 1363419001;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Answer</code>
@@ -55,6 +55,11 @@ public class Answer extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.wor
 	 * The column <code>crowdcontrol.Answer.quality</code>.
 	 */
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord, java.lang.Integer> QUALITY = createField("quality", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Answer.quality_assured</code>.
+	 */
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord, java.lang.Boolean> QUALITY_ASSURED = createField("quality_assured", org.jooq.impl.SQLDataType.BIT, this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Answer</code> table reference

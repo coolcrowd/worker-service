@@ -90,10 +90,10 @@ public class ExperimentOperations extends AbstractOperation {
      * @return the map with the description as the key and the parameter-value as value
      */
     public Map<String, String> getTaskChooserParam(int experiment) {
-        return create.select(Tables.ALGORITHM_TASK_CHOOSER_PARAM.DATA, Tables.CHOOSEN_TASK_CHOOSER_PARAM.VALUE)
-                .from(Tables.CHOOSEN_TASK_CHOOSER_PARAM)
+        return create.select(Tables.ALGORITHM_TASK_CHOOSER_PARAM.DATA, Tables.CHOSEN_TASK_CHOOSER_PARAM.VALUE)
+                .from(Tables.CHOSEN_TASK_CHOOSER_PARAM)
                 .join(Tables.ALGORITHM_TASK_CHOOSER_PARAM).onKey()
-                .where(Tables.CHOOSEN_TASK_CHOOSER_PARAM.EXPERIMENT.eq(experiment))
-                .fetchMap(Tables.ALGORITHM_TASK_CHOOSER_PARAM.DATA, Tables.CHOOSEN_TASK_CHOOSER_PARAM.VALUE);
+                .where(Tables.CHOSEN_TASK_CHOOSER_PARAM.EXPERIMENT.eq(experiment))
+                .fetchMap(Tables.ALGORITHM_TASK_CHOOSER_PARAM.DATA, Tables.CHOSEN_TASK_CHOOSER_PARAM.VALUE);
     }
 }

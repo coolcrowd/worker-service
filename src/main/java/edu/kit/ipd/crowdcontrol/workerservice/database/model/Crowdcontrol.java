@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Crowdcontrol extends org.jooq.impl.SchemaImpl {
 
-	private static final long serialVersionUID = 1398422429;
+	private static final long serialVersionUID = -1407600671;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol</code>
@@ -35,11 +35,15 @@ public class Crowdcontrol extends org.jooq.impl.SchemaImpl {
 	private final java.util.List<org.jooq.Table<?>> getTables0() {
 		return java.util.Arrays.<org.jooq.Table<?>>asList(
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmAnswerQuality.ALGORITHM_ANSWER_QUALITY,
+			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmAnswerQualityParam.ALGORITHM_ANSWER_QUALITY_PARAM,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmRatingQuality.ALGORITHM_RATING_QUALITY,
+			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmRatingQualityParam.ALGORITHM_RATING_QUALITY_PARAM,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooser.ALGORITHM_TASK_CHOOSER,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmTaskChooserParam.ALGORITHM_TASK_CHOOSER_PARAM,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer.ANSWER,
-			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChoosenTaskChooserParam.CHOOSEN_TASK_CHOOSER_PARAM,
+			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChosenAnswerQualityParam.CHOSEN_ANSWER_QUALITY_PARAM,
+			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChosenRatingQualityParam.CHOSEN_RATING_QUALITY_PARAM,
+			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ChosenTaskChooserParam.CHOSEN_TASK_CHOOSER_PARAM,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT,
 			edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experimentspopulation.EXPERIMENTSPOPULATION,

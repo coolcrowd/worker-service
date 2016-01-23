@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Task extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord> {
 
-	private static final long serialVersionUID = -1684465373;
+	private static final long serialVersionUID = -169873124;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Task</code>
@@ -50,6 +50,11 @@ public class Task extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.worke
 	 * The column <code>crowdcontrol.Task.status</code>.
 	 */
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStatus> STATUS = createField("status", org.jooq.util.mysql.MySQLDataType.VARCHAR.asEnumDataType(edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStatus.class), this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Task.stopgap</code>.
+	 */
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord, edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap> STOPGAP = createField("stopgap", org.jooq.util.mysql.MySQLDataType.VARCHAR.asEnumDataType(edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap.class), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Task</code> table reference

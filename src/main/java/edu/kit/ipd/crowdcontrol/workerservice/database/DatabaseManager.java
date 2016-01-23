@@ -89,12 +89,15 @@ public class DatabaseManager {
      */
     public void initDatabase() {
         try {
-            String initScript = Files.lines(new File("db.sql").toPath()).collect(Collectors.joining());
+            String initScript = Files.lines(new File("db.sql").toPath())
+                    .collect(Collectors.joining(System.getProperty("line.separator")));
             if (Boolean.getBoolean("dropSchema")) {
                 String drop = "DROP DATABASE `crowdcontrol`;";
                 context.fetch(drop);
             }
-            context.fetch(initScript);
+            if (context.meta().getSchemas().stream().noneMatch(schema -> schema.getName().equals("crowdcontrol"))) {
+                context.fetch(initScript);
+            }
         } catch (IOException e) {
             System.err.println("unable to read database-init script");
             e.printStackTrace();

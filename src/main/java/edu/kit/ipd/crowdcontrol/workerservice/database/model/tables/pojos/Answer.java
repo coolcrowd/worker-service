@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Answer implements java.io.Serializable {
 
-	private static final long serialVersionUID = -131682537;
+	private static final long serialVersionUID = -1080287783;
 
 	private java.lang.Integer  idAnswer;
 	private java.lang.Integer  experiment;
@@ -19,6 +19,7 @@ public class Answer implements java.io.Serializable {
 	private java.sql.Timestamp timestamp;
 	private java.lang.Integer  workerId;
 	private java.lang.Integer  quality;
+	private java.lang.Boolean  qualityAssured;
 
 	public Answer() {}
 
@@ -28,7 +29,8 @@ public class Answer implements java.io.Serializable {
 		java.lang.String   answer,
 		java.sql.Timestamp timestamp,
 		java.lang.Integer  workerId,
-		java.lang.Integer  quality
+		java.lang.Integer  quality,
+		java.lang.Boolean  qualityAssured
 	) {
 		this.idAnswer = idAnswer;
 		this.experiment = experiment;
@@ -36,6 +38,7 @@ public class Answer implements java.io.Serializable {
 		this.timestamp = timestamp;
 		this.workerId = workerId;
 		this.quality = quality;
+		this.qualityAssured = qualityAssured;
 	}
 
 	public java.lang.Integer getIdAnswer() {
@@ -84,5 +87,13 @@ public class Answer implements java.io.Serializable {
 
 	public void setQuality(java.lang.Integer quality) {
 		this.quality = quality;
+	}
+
+	public java.lang.Boolean getQualityAssured() {
+		return this.qualityAssured;
+	}
+
+	public void setQualityAssured(java.lang.Boolean qualityAssured) {
+		this.qualityAssured = qualityAssured;
 	}
 }

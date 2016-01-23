@@ -39,6 +39,8 @@ buildscript {
     }
 }
 
+//tests
+
 test {
     testLogging {
         events "failed"
@@ -46,13 +48,29 @@ test {
     }
 }
 
+sourceSets {
+    integrTest {
+        java.srcDir file('src/integrTest/java')
+        resources.srcDir file('src/integrTest/resources')
+    }
+}
+
+task integrTest(type: Test) {
+    testClassesDir = sourceSets.integrTest.output.classesDir
+    classpath = sourceSets.integrTest.runtimeClasspath
+}
+
+check.dependsOn integrTest
+
+
+//database-model
 jooq {
     sample(sourceSets.main) {
         jdbc {
             url = 'jdbc:mysql://localhost:8888'
             driver = 'com.mysql.jdbc.Driver'
             user = 'LeanderK'
-            password = ''
+            password = 'y560'
             schema = 'crowdcontrol'
         }
         generator {
@@ -75,4 +93,4 @@ jooq {
     }
 }
 
-generateSampleJooqSchemaSource.enabled = false
+//generateSampleJooqSchemaSource.enabled = false

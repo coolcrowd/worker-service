@@ -81,4 +81,11 @@ public class AnswerDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.wo
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Answer> fetchByQuality(java.lang.Integer... values) {
 		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer.ANSWER.QUALITY, values);
 	}
+
+	/**
+	 * Fetch records that have <code>quality_assured IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Answer> fetchByQualityAssured(java.lang.Boolean... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Answer.ANSWER.QUALITY_ASSURED, values);
+	}
 }
