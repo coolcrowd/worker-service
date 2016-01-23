@@ -148,6 +148,27 @@ public class CommandsTest {
         submitAnswerHelper(answer, answerRequest, task, workerID, answerID, response -> verify(response).status(201));
     }
 
+    @Test(expected= BadRequestException.class)
+    public void testSubmitWithStringWorkerID() throws Exception {
+        JsonFormat.printer();
+        String workerID = "aaa";
+        int task = 2;
+        String answerRequest =  "{\n" +
+                "}";
+        submit(task, null,
+                ign -> {},
+                request -> {
+                    when(request.params("workerID")).thenReturn(workerID);
+                    when(request.body()).thenReturn(answerRequest);
+                    when(request.contentType()).thenReturn("application/json");
+                },
+                Commands::submitAnswer,
+                response -> {
+                    verify(response).status(201);
+                }
+        );
+    }
+
     @Test
     public void testSubmitAnswerNonJson() throws Exception {
         nonJson(Commands::submitAnswer);

@@ -3,9 +3,9 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
-import org.jooq.Record1;
 import org.jooq.impl.DSL;
 
 import java.sql.Timestamp;
@@ -32,19 +32,17 @@ public class TaskOperations extends AbstractOperation {
     }
 
     /**
-     * returns the ID of the Task
+     * returns the TaskRecord
      * @param experiment the experiment the task belongs to
      * @param platform the platform the task belongs to
-     * @return the id of the task
+     * @return the record of the task in the database
      * @throws IllegalArgumentException if the Task is not existing
      */
-    public int getTaskID(int experiment, String platform) throws IllegalArgumentException {
-        return create.select(TASK.ID_TASK)
-                .from(TASK)
+    public TaskRecord getTask(int experiment, String platform) throws IllegalArgumentException {
+        return create.selectFrom(Tables.TASK)
                 .where(TASK.EXPERIMENT.eq(experiment))
                 .and(TASK.CROWD_PLATFORM.eq(platform))
                 .fetchOptional()
-                .map(Record1::value1)
                 .orElseThrow(() -> new IllegalArgumentException("no Task existing for: experiment=" + experiment +
                         " and platform=" + platform));
     }

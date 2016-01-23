@@ -1,5 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
+import edu.kit.ipd.crowdcontrol.workerservice.database.OperationsHelper;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
@@ -28,6 +30,18 @@ class MockTaskChooser extends TaskChooserAlgorithm {
         super(experimentOperations, taskOperations);
         this.name = name;
         this.description = description;
+        this.finish = finish;
+        this.creative = creative;
+        this.answerAmount = answerAmount;
+        this.ratingAmount = ratingAmount;
+    }
+
+    public MockTaskChooser(boolean finish, boolean creative, ExperimentRecord experimentRecord,
+                           ExperimentOperations experimentOperations, TaskOperations taskOperations, int answerAmount,
+                           int ratingAmount) {
+        super(experimentOperations, taskOperations);
+        this.name = experimentRecord.getAlgorithmTaskChooser();
+        this.description = OperationsHelper.nextRandomString();
         this.finish = finish;
         this.creative = creative;
         this.answerAmount = answerAmount;
@@ -65,9 +79,9 @@ class MockTaskChooser extends TaskChooserAlgorithm {
             return Optional.empty();
         }
         if (creative && !skipCreative) {
-            return Optional.of(constructAnswerView(builder, experimentID, answerAmount));
+            return Optional.of(builder.setType(View.Type.ANSWER).build());
         } else if (!skipRating) {
-            return constructRatingView(builder, experimentID, ratingAmount);
+            return Optional.of(builder.setType(View.Type.RATING).build());
         }
         return Optional.empty();
     }

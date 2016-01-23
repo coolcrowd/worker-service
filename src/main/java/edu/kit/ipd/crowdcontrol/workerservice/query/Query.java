@@ -2,10 +2,12 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
+import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationAnswerOptionRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
@@ -26,15 +28,17 @@ import java.util.stream.Collectors;
 /**
  * The class query is responsible for the query-part of the CQRS-pattern. Therefore it provides the getNext-method used
  * for the /next query.
+ *
  * @author LeanderK
  * @version 1.0
  */
 public class Query implements RequestHelper {
-    private final HashMap<String, TaskChooserAlgorithm> strategies =  new HashMap<>();
+    private final HashMap<String, TaskChooserAlgorithm> strategies = new HashMap<>();
     private final PopulationsOperations populationsOperations;
     private final ExperimentOperations experimentOperations;
-    private final Communication communication;
     private final PlatformOperations platformOperations;
+    private final TaskOperations taskOperations;
+    private final Communication communication;
     private final JsonFormat.Printer printer = JsonFormat.printer();
 
     public Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
@@ -43,6 +47,7 @@ public class Query implements RequestHelper {
         this.experimentOperations = experimentOperations;
         this.platformOperations = platformOperations;
         this.communication = communication;
+        this.taskOperations = taskOperations;
         registerTaskChooser(new AntiSpoof(experimentOperations, taskOperations));
     }
 
@@ -55,6 +60,7 @@ public class Query implements RequestHelper {
 
     /**
      * used to register a new TaskStrategy.
+     *
      * @param taskChooserAlgorithm the TaskChooserAlgorithm to register
      */
     private void registerTaskChooser(TaskChooserAlgorithm taskChooserAlgorithm) {
@@ -72,9 +78,9 @@ public class Query implements RequestHelper {
     /**
      * this method returns an instance of View, determining what the worker should see next.
      * <p>
-     *     it is indented to be called when the Router gets an /next-Request.
-     * </p>
-     * @param request the SparkJava-Request
+     * it is indented to be called when the Router gets an /next-Request.
+     *
+     * @param request  the SparkJava-Request
      * @param response the SparkJava-Response
      * @return the JSON-Representation of View
      */
@@ -98,10 +104,11 @@ public class Query implements RequestHelper {
 
     /**
      * this method returns an instance of View, determining what the worker should see next.
-     * @param builder the builder of the view containing a workerID or -1 if none provided
-     * @param request the request
+     *
+     * @param builder      the builder of the view containing a workerID or -1 if none provided
+     * @param request      the request
      * @param skipCreative whether to skip the Creative-Task
-     * @param skipRating whether to skip the Rating-Task
+     * @param skipRating   whether to skip the Rating-Task
      * @return an instance of View
      */
     private View getNext(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
@@ -127,6 +134,7 @@ public class Query implements RequestHelper {
 
     /**
      * initializes a new ViewBuilder
+     *
      * @param request the Request
      * @return an instance of view with the workerID or -1 if none provided
      */
@@ -137,7 +145,7 @@ public class Query implements RequestHelper {
             try {
                 builder.setWorkerId(Integer.parseInt(worker));
             } catch (NumberFormatException e) {
-                throw new InternalServerErrorException("workerID mus be an integer");
+                throw new BadRequestException("workerID mus be an Integer");
             }
         } else {
             builder.setWorkerId(-1);
@@ -148,6 +156,7 @@ public class Query implements RequestHelper {
     /**
      * handels the case where no workerID was provided (workerID = -1).
      * This method just asks the Platform what to ID the worker should have and then calls getNext.
+     *
      * @param builder the builder to use
      * @param request the request
      * @return an instance of View.
@@ -162,6 +171,7 @@ public class Query implements RequestHelper {
 
     /**
      * checks if the worker does not belong to the wrong population
+     *
      * @param builder the builder to use
      * @param request the request
      * @return true if the worker does not already belong got the wrong population
@@ -174,6 +184,7 @@ public class Query implements RequestHelper {
 
     /**
      * may returns the Calibration if there are needed Calibration left unanswered.
+     *
      * @param builder the builder to use
      * @param request the request
      * @return an instance of view if the worker has to fill in some Calibration, or empty if not.
@@ -196,11 +207,13 @@ public class Query implements RequestHelper {
 
     /**
      * constructs the Calibration view from the qualifications-data.
+     *
      * @param qualifications the qualifications
-     * @param builder the builder to use
+     * @param builder        the builder to use
      * @return an instance of View with the Type Calibration and the Calibration set.
      */
-    private View constructCalibrationView(Map<PopulationRecord, Result<PopulationAnswerOptionRecord>> qualifications, View.Builder builder) {
+    private View constructCalibrationView(Map<PopulationRecord, Result<PopulationAnswerOptionRecord>> qualifications,
+                                          View.Builder builder) {
         Function<PopulationAnswerOptionRecord, View.CalibrationAnswerOption> constructAnswerOption = record ->
                 View.CalibrationAnswerOption.newBuilder()
                         .setId(record.getIdPopulationAnswerOption())
@@ -223,10 +236,11 @@ public class Query implements RequestHelper {
 
     /**
      * may returns the next TaskView if the worker has not finished the assignment.
-     * @param builder the builder to use
-     * @param request the request
+     *
+     * @param builder      the builder to use
+     * @param request      the request
      * @param skipCreative whether to skip the Creative-Task
-     * @param skipRating whether to skip the Rating-Task
+     * @param skipRating   whether to skip the Rating-Task
      * @return a Task-View filled with the assignment, or empty if finished
      */
     private Optional<View> getStrategyStep(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
@@ -234,13 +248,25 @@ public class Query implements RequestHelper {
         String platformName = assertParameter(request, "platform");
         if (skipCreative && skipRating)
             return Optional.empty();
+        boolean skipCreativeTemp = skipCreative;
+        boolean skipRatingTemp = skipRating;
+        TaskStopgap stopgap = taskOperations.getTask(experiment, platformName).getStopgap();
+        if (TaskStopgap.answer.equals(stopgap)) {
+            skipRatingTemp = true;
+        } else if (TaskStopgap.rating.equals(stopgap)) {
+            skipCreativeTemp = true;
+        }
+        boolean resultingSkipCreative = skipCreativeTemp;
+        boolean resultingSkipRating = skipRatingTemp;
         String algorithmTaskChooser = experimentOperations.getExperiment(experiment).getAlgorithmTaskChooser();
         return Optional.ofNullable(strategies.get(algorithmTaskChooser))
-                .flatMap(strategy -> strategy.next(builder, request, experiment, platformName, skipCreative, skipRating));
+                .flatMap(strategy -> strategy.next(builder, request, experiment, platformName,
+                        resultingSkipCreative, resultingSkipRating));
     }
 
     /**
      * may returns a View with the Type email if the platform needs an email and the user lacks one
+     *
      * @param builder the builder to use
      * @param request the request
      * @return an instance of view with the type email or empty
@@ -259,6 +285,7 @@ public class Query implements RequestHelper {
 
     /**
      * notifies the platform that the worker has finished the assignment and constructs the Finished View
+     *
      * @param builder the builder to use
      * @param request the request
      * @return an View with the Type FINISHED

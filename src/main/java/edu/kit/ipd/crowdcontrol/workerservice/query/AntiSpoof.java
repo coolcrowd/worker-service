@@ -20,14 +20,14 @@ import java.util.stream.Stream;
  * @version 1.0
  */
 public class AntiSpoof extends TaskChooserAlgorithm {
-    private static final String NAME = "AntiSpoof";
-    private static final String DESCRIPTION = "This algorithm divides the runtime of the experiment into 3 phases. In " +
+    static final String NAME = "AntiSpoof";
+    static final String DESCRIPTION = "This algorithm divides the runtime of the experiment into 3 phases. In " +
             "the first phase the workers are only allowed to work on creative tasks. Then in the second " +
             "phase, the worker can work on both the creative and the rating task. The last phase consists only of the " +
             "assignment to rate.";
     private static final String REGEX_ABSOLUTE = "ab";
     private static final String REGEX_PERCENTAGE = "pc";
-    private static final String REGEX = "([0-9]+"+ REGEX_ABSOLUTE +"|[0-9]?[0-9]"+ REGEX_PERCENTAGE +")";
+    static final String REGEX = "(([0-9]+"+ REGEX_ABSOLUTE +")|((100|[0-9]?[0-9])"+ REGEX_PERCENTAGE +"))";
     private static final String PARAM_DESCRIPTION = "Set the amount of answers the phase %d represents. The following " +
             "formats are supported: [0-9]+ab for setting an absolute number of answers. An Example: 123ab sets the" +
             "duration of the phase to 123 answers. Another way to set duration is the percentage of all answers and " +
@@ -126,7 +126,7 @@ public class AntiSpoof extends TaskChooserAlgorithm {
      * @param experimentID the experiment the parameter belongs to
      * @return the absolute number of answers the value represents
      */
-    private int getParameterValue(String value, int experimentID) {
+    int getParameterValue(String value, int experimentID) {
         if (value.contains(REGEX_ABSOLUTE)) {
             return Integer.parseInt(value.replace(REGEX_ABSOLUTE, ""));
         } else {

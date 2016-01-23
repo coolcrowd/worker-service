@@ -162,7 +162,7 @@ public abstract class TaskChooserAlgorithm {
         while(matcher.find()) {
             Matcher urlLicense = pictureUrlLicensePattern.matcher(matcher.group());
             if (!urlLicense.matches()) {
-                throw new InternalServerErrorException("the reges to capture the picture url and license failed" + matcher.group());
+                throw new InternalServerErrorException("the regex to capture the picture url and license failed" + matcher.group());
             }
 
             View.Picture.Builder pictureBuilder = View.Picture.newBuilder()
