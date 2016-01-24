@@ -245,6 +245,7 @@ public class CommandsTest {
         buildCommunication.accept(communication);
         Commands commands = prepareCommands(answerType, task,communication);
         Request request = mock(Request.class);
+        when(request.headers("accept")).thenReturn("application/json");
         buildRequest.accept(request);
         Response response = mock(Response.class);
         T apply = func.apply(commands, request, response);

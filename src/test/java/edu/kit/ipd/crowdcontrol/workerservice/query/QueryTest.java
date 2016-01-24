@@ -20,10 +20,7 @@ import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.assertTrue;
@@ -278,6 +275,7 @@ public class QueryTest {
         QueryParamsMap queryParamsMap = mock(QueryParamsMap.class);
         when(queryParamsMap.toMap()).thenReturn(null);
         when(mock.queryMap()).thenReturn(queryParamsMap);
+        when(mock.headers("accept")).thenReturn("application/json");
         return mock;
     }
 

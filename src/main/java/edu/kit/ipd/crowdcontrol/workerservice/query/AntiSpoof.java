@@ -109,7 +109,8 @@ public class AntiSpoof extends TaskChooserAlgorithm {
             //phase 2: rating + creative
             return constructView(builder, experimentID, skipCreative, skipRating);
         } else if (answersCount < experiment.getNeededAnswers()){
-            System.err.println("AntiSpoof should be in phase 3, but there are answers missing");
+            System.err.println(String.format("AntiSpoof should be in phase 3, but there are answers missing, " +
+                    "experiment = %d, worker = %d, answersCount = %d", experimentID, builder.getWorkerId(), answersCount));
             //phase 3: if the user made an error we would be missing some of the creative-answers
             return constructView(builder, experimentID, skipCreative, skipRating);
         } else {
