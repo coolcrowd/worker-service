@@ -3799,10 +3799,10 @@ public  final class View extends
     }
   }
 
-  public static final int MAXANSWERS_TO_GIVE_FIELD_NUMBER = 5;
+  public static final int MAX_ANSWERS_TO_GIVE_FIELD_NUMBER = 5;
   private int maxAnswersToGive_;
   /**
-   * <code>optional int32 maxAnswers_to_give = 5;</code>
+   * <code>optional int32 max_answers_to_give = 5;</code>
    */
   public int getMaxAnswersToGive() {
     return maxAnswersToGive_;
@@ -4700,13 +4700,13 @@ public  final class View extends
 
     private int maxAnswersToGive_ ;
     /**
-     * <code>optional int32 maxAnswers_to_give = 5;</code>
+     * <code>optional int32 max_answers_to_give = 5;</code>
      */
     public int getMaxAnswersToGive() {
       return maxAnswersToGive_;
     }
     /**
-     * <code>optional int32 maxAnswers_to_give = 5;</code>
+     * <code>optional int32 max_answers_to_give = 5;</code>
      */
     public Builder setMaxAnswersToGive(int value) {
       
@@ -4715,7 +4715,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>optional int32 maxAnswers_to_give = 5;</code>
+     * <code>optional int32 max_answers_to_give = 5;</code>
      */
     public Builder clearMaxAnswersToGive() {
       

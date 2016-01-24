@@ -1,15 +1,35 @@
 package edu.kit.ipd.crowdcontrol.workerservice;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.util.JsonFormat;
 import spark.Request;
+import spark.Response;
+import spark.utils.MimeParse;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * this interface contains various methods to help to deal with SparkJava-Requests.
+ * this interface contains various convenience-methods to help to deal with SparkJava-Requests.
  * @author LeanderK
  * @version 1.0
  */
 public interface RequestHelper {
+    //TODO: wait till java 9 or expose printer?
+    class Const {
+        private static JsonFormat.Printer PRINTER = JsonFormat.printer();
+    }
+
+    String TYPE_JSON = "application/json";
+    String TYPE_PROTOBUF = "application/protobuf";
+    List<String> SUPPORTED_TYPES = Collections.unmodifiableList(Arrays.asList(
+            "application/protobuf",
+            "application/json"
+    ));
+
     /**
      * if the predicate ist false, this method will throw an BadRequestException with the provided message as a cause.
      * @param request the request to check
@@ -89,4 +109,36 @@ public interface RequestHelper {
             throw new BadRequestException("Request needs Query-Parameter: " + parameter + " as an Integer");
         }
     }
+
+    /**
+     * Transforms a protocol buffer object into an JSON / protocol buffer response based on the
+     * accept header of the request.
+     *
+     * @param request
+     *         Request provided by Spark.
+     * @param response
+     *         Response provided by Spark.
+     * @param message
+     *         Protocol buffer to transform.
+     */
+   default String transform(Request request, Response response, Message message) {
+        String bestMatch = MimeParse.bestMatch(SUPPORTED_TYPES, request.headers("accept"));
+
+        try {
+            switch (bestMatch) {
+                case TYPE_JSON:
+                    response.type(TYPE_JSON);
+                    return Const.PRINTER.print(message);
+                case TYPE_PROTOBUF:
+                    response.type(TYPE_PROTOBUF);
+                    return new String(message.toByteArray());
+                default:
+                    throw new NotAcceptableException(request.headers("accept"), TYPE_JSON, TYPE_PROTOBUF);
+            }
+        } catch (InvalidProtocolBufferException e) {
+            // Can't happen, because we don't use any "Any" fields.
+            // https://developers.google.com/protocol-buffers/docs/proto3#any
+            throw new InternalServerErrorException("Attempt to transform an invalid protocol buffer into JSON.");
+        }
+   }
 }

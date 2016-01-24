@@ -29,7 +29,6 @@ import java.util.function.BiFunction;
  */
 public class Commands implements RequestHelper {
     private final Communication communication;
-    private final JsonFormat.Printer printer = JsonFormat.printer();
     private final JsonFormat.Parser parser = JsonFormat.parser();
     private final ExperimentOperations experimentOperations;
 
@@ -60,13 +59,7 @@ public class Commands implements RequestHelper {
         }
         return communication.submitWorker(email, platform)
                 .thenApply(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
-                .thenApply(emailAnswer -> {
-                    try {
-                        return printer.print(emailAnswer);
-                    } catch (InvalidProtocolBufferException e) {
-                        throw new InternalServerErrorException("unable to print emailAnswer", e);
-                    }
-                })
+                .thenApply(emailAnswer -> transform(request, response, emailAnswer))
                 .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, response))
                 .join();
     }

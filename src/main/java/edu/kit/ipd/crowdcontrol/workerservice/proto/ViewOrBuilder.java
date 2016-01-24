@@ -42,7 +42,7 @@ public interface ViewOrBuilder extends
       getDescriptionBytes();
 
   /**
-   * <code>optional int32 maxAnswers_to_give = 5;</code>
+   * <code>optional int32 max_answers_to_give = 5;</code>
    */
   int getMaxAnswersToGive();
 

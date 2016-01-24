@@ -1,7 +1,5 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.util.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
@@ -39,7 +37,6 @@ public class Query implements RequestHelper {
     private final PlatformOperations platformOperations;
     private final TaskOperations taskOperations;
     private final Communication communication;
-    private final JsonFormat.Printer printer = JsonFormat.printer();
 
     public Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
                  PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations) {
@@ -95,11 +92,7 @@ public class Query implements RequestHelper {
         }
         View next = getNext(prepareView(request), request, skipCreative, skipRating);
         response.status(200);
-        try {
-            return printer.print(next);
-        } catch (InvalidProtocolBufferException e) {
-            throw new InternalServerErrorException("unable to print response", e);
-        }
+        return transform(request, response, next);
     }
 
     /**
