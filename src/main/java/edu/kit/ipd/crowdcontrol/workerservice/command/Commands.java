@@ -19,11 +19,16 @@ import spark.Response;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 
 /**
- * The class commands is responsible for the command-part of the CQRS-pattern. Therefore it provides the submit methods matching the available REST-POST commands.
+ * The class commands is responsible for the command-part of the CQRS-pattern. Therefore it provides the submit methods
+ * matching the available REST-POST commands.
+ *
  * @author LeanderK
  * @version 1.0
  */
@@ -34,7 +39,8 @@ public class Commands implements RequestHelper {
 
     /**
      * creates an instance of Commands
-     * @param communication the communication used to communicate with the object-service
+     *
+     * @param communication        the communication used to communicate with the object-service
      * @param experimentOperations the experiment-operations used to communicate with the database
      */
     public Commands(Communication communication, ExperimentOperations experimentOperations) {
@@ -47,6 +53,7 @@ public class Commands implements RequestHelper {
      * create a new if none specified.
      * this method expects the JSON-Representation of the protobuf-message email in the body of the request.
      * the response is the corresponding workerID for the email.
+     *
      * @param request  The request providing information about the HTTP request
      * @param response The response providing functionality for modifying the response
      * @return an the JSON-Representation of of the EmailAnswer protobuf-message
@@ -65,8 +72,10 @@ public class Commands implements RequestHelper {
     }
 
     /**
-     * The POST-command /calibration, where this method corresponds to, persists the answer of an worker to the calibration querstions.
+     * The POST-command /calibration, where this method corresponds to, persists the answer of an worker to the
+     * calibration questions.
      * this method expects the JSON-Representation of the protobuf-message calibration.
+     *
      * @param request  The request providing information about the HTTP request
      * @param response The response providing functionality for modifying the response
      * @return empty body (null)
@@ -80,6 +89,7 @@ public class Commands implements RequestHelper {
     /**
      * The POST-command /answer, where this method corresponds to, persists the answer of an worker to a creative-task.
      * this method expects the JSON-Representation of the protobuf-message answer.
+     *
      * @param request  The request providing information about the HTTP request
      * @param response The response providing functionality for modifying the response
      * @return empty body (null)
@@ -88,7 +98,6 @@ public class Commands implements RequestHelper {
         doSubmit(request, response, Answer.newBuilder(), (answer, workerID) -> {
             String answerType = experimentOperations.getExperiment(answer.getExperiment()).getAnswerType();
             try {
-                //TODO try this out
                 if (answerType != null && !getContentType(answer.getAnswer()).startsWith(answerType)) {
                     throw new BadRequestException("the content-type of the URL does not match the desired type: " + answerType);
                 }
@@ -103,23 +112,25 @@ public class Commands implements RequestHelper {
     /**
      * The POST-command /rating, where this method corresponds to, persists the rating of an answer.
      * this method expects the JSON-Representation of the protobuf-message rating.
+     *
      * @param request  The request providing information about the HTTP request
      * @param response The response providing functionality for modifying the response
      * @return empty body (null)
      */
     public Object submitRating(Request request, Response response) {
-        doSubmit(request, response, Rating.newBuilder(), (rating, workerID) ->
-                communication.submitRating(rating.getRating(), rating.getExperiment(), rating.getAnswerId(), workerID));
+        doSubmit(request, response, Rating.newBuilder(), Collections.singletonList(Rating.FEEDBACK_FIELD_NUMBER), (rating, workerID) ->
+                communication.submitRating(rating.getRating(), rating.getFeedback(), rating.getExperiment(), rating.getAnswerId(), workerID));
         return null;
     }
 
     /**
      * if the throwable is not null it wraps the throwable into an InternalServerErrorException, or else it sets the
      * response to 201 Created.
-     * @param t the Data to pass
+     *
+     * @param t         the Data to pass
      * @param throwable the throwable to wrap
-     * @param response the response to set 201 to
-     * @param <T> the type of the data
+     * @param response  the response to set 201 to
+     * @param <T>       the type of the data
      * @return maybe the data (if the throwable is not null
      */
     private <T> T wrapExceptionOr201(T t, Throwable throwable, Response response) {
@@ -133,46 +144,67 @@ public class Commands implements RequestHelper {
 
     /**
      * merges the requests body with the Builder
+     *
      * @param request the request with the JSON Representation of the Message as a Body
-     * @param t the builder
-     * @param checkFields whether to check if all fields have been set
-     * @param <T> the type of the builder
+     * @param t       the builder
+     * @param excluded the field numbers of the optional fields
+     * @param <T>     the type of the builder
      * @return the builder with everything set
      * @throws BadRequestException if an error occurred while parsing the JSON or wrong content-type
      */
-    private <T extends Message.Builder> T merge(Request request, T t, boolean checkFields) throws BadRequestException {
+    private <T extends Message.Builder> T merge(Request request, T t, List<Integer> excluded) throws BadRequestException {
         assertJson(request);
         try {
             parser.merge(request.body(), t);
         } catch (InvalidProtocolBufferException e) {
             throw new BadRequestException("error while parsing JSON", e);
         }
-        if (checkFields) {
-            t.getDescriptorForType().getFields().stream()
-                    .filter(field -> !t.hasField(field))
-                    .findAny()
-                    .ifPresent(field -> {
-                        throw new BadRequestException("field must be set:" + field.getFullName());
-                    });
-        }
+        t.getDescriptorForType().getFields().stream()
+                .filter(field -> !t.hasField(field))
+                .filter(field -> !excluded.contains(field.getNumber()))
+                .findAny()
+                .ifPresent(field -> {
+                    throw new BadRequestException("field must be set:" + field.getFullName());
+                });
         return t;
     }
 
     /**
      * the abstraction for the usual submit.
-     * merges the body of the request with the builder, checks the fields and then calls the function. After calling the function it wraps
+     * merges the body of the request with the builder, checks the fields and then calls the function. After calling
+     * the function it wraps
      * the eventual exception, sets the status accordingly and blocks for return.
-     * @param request the request
+     *
+     * @param request  the request
      * @param response the response
-     * @param x the builder for the expected message
-     * @param func the function to execute
-     * @param <X> the type of the builder
-     * @param <T> the type of the return data
+     * @param x        the builder for the expected message
+     * @param func     the function to execute
+     * @param <X>      the type of the builder
+     * @param <T>      the type of the return data
      * @return an instance of T or an exception
      */
-    private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x, BiFunction<X, Integer,  CompletableFuture<T>> func) {
+    private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x,  BiFunction<X, Integer, CompletableFuture<T>> func) {
+        return doSubmit(request, response, x, new ArrayList<>(), func);
+    }
+
+    /**
+     * the abstraction for the usual submit.
+     * merges the body of the request with the builder, checks the fields and then calls the function. After calling
+     * the function it wraps
+     * the eventual exception, sets the status accordingly and blocks for return.
+     *
+     * @param request  the request
+     * @param response the response
+     * @param x        the builder for the expected message
+     * @param excluded the field numbers of the optional fields
+     * @param func     the function to execute
+     * @param <X>      the type of the builder
+     * @param <T>      the type of the return data
+     * @return an instance of T or an exception
+     */
+    private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x, List<Integer> excluded, BiFunction<X, Integer, CompletableFuture<T>> func) {
         int workerID = assertParameterInt(request, "workerID");
-        X builder = merge(request, x, true);
+        X builder = merge(request, x, excluded);
         return func.apply(builder, workerID)
                 .handle((t, throwable) -> wrapExceptionOr201(t, throwable, response))
                 .join();
