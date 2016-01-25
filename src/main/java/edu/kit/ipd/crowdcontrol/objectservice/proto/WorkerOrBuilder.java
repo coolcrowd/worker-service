@@ -31,4 +31,14 @@ public interface WorkerOrBuilder extends
    */
   com.google.protobuf.ByteString
       getEmailBytes();
+
+  /**
+   * <code>optional string identity = 4;</code>
+   */
+  java.lang.String getIdentity();
+  /**
+   * <code>optional string identity = 4;</code>
+   */
+  com.google.protobuf.ByteString
+      getIdentityBytes();
 }

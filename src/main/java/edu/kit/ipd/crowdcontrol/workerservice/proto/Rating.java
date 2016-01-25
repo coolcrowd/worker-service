@@ -18,6 +18,7 @@ public  final class Rating extends
     rating_ = 0;
     experiment_ = 0;
     answerId_ = 0;
+    feedback_ = "";
   }
 
   @java.lang.Override
@@ -57,6 +58,12 @@ public  final class Rating extends
           case 24: {
 
             answerId_ = input.readInt32();
+            break;
+          }
+          case 34: {
+            String s = input.readStringRequireUtf8();
+
+            feedback_ = s;
             break;
           }
         }
@@ -110,6 +117,40 @@ public  final class Rating extends
     return answerId_;
   }
 
+  public static final int FEEDBACK_FIELD_NUMBER = 4;
+  private volatile java.lang.Object feedback_;
+  /**
+   * <code>optional string feedback = 4;</code>
+   */
+  public java.lang.String getFeedback() {
+    java.lang.Object ref = feedback_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      feedback_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>optional string feedback = 4;</code>
+   */
+  public com.google.protobuf.ByteString
+      getFeedbackBytes() {
+    java.lang.Object ref = feedback_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      feedback_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -131,6 +172,9 @@ public  final class Rating extends
     if (answerId_ != 0) {
       output.writeInt32(3, answerId_);
     }
+    if (!getFeedbackBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessage.writeString(output, 4, feedback_);
+    }
   }
 
   public int getSerializedSize() {
@@ -149,6 +193,9 @@ public  final class Rating extends
     if (answerId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(3, answerId_);
+    }
+    if (!getFeedbackBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(4, feedback_);
     }
     memoizedSize = size;
     return size;
@@ -267,6 +314,8 @@ public  final class Rating extends
 
       answerId_ = 0;
 
+      feedback_ = "";
+
       return this;
     }
 
@@ -292,6 +341,7 @@ public  final class Rating extends
       result.rating_ = rating_;
       result.experiment_ = experiment_;
       result.answerId_ = answerId_;
+      result.feedback_ = feedback_;
       onBuilt();
       return result;
     }
@@ -315,6 +365,10 @@ public  final class Rating extends
       }
       if (other.getAnswerId() != 0) {
         setAnswerId(other.getAnswerId());
+      }
+      if (!other.getFeedback().isEmpty()) {
+        feedback_ = other.feedback_;
+        onChanged();
       }
       onChanged();
       return this;
@@ -416,6 +470,75 @@ public  final class Rating extends
     public Builder clearAnswerId() {
       
       answerId_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object feedback_ = "";
+    /**
+     * <code>optional string feedback = 4;</code>
+     */
+    public java.lang.String getFeedback() {
+      java.lang.Object ref = feedback_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        feedback_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string feedback = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFeedbackBytes() {
+      java.lang.Object ref = feedback_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        feedback_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string feedback = 4;</code>
+     */
+    public Builder setFeedback(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      feedback_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string feedback = 4;</code>
+     */
+    public Builder clearFeedback() {
+      
+      feedback_ = getDefaultInstance().getFeedback();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string feedback = 4;</code>
+     */
+    public Builder setFeedbackBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      feedback_ = value;
       onChanged();
       return this;
     }

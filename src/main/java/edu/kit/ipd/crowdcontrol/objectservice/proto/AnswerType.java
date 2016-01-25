@@ -9,24 +9,32 @@ package edu.kit.ipd.crowdcontrol.objectservice.proto;
 public enum AnswerType
     implements com.google.protobuf.ProtocolMessageEnum {
   /**
-   * <code>TEXT = 0;</code>
+   * <code>INVALID = 0;</code>
    */
-  TEXT(0, 0),
+  INVALID(0, 0),
   /**
-   * <code>IMAGE = 1;</code>
+   * <code>TEXT = 1;</code>
    */
-  IMAGE(1, 1),
+  TEXT(1, 1),
+  /**
+   * <code>IMAGE = 2;</code>
+   */
+  IMAGE(2, 2),
   UNRECOGNIZED(-1, -1),
   ;
 
   /**
-   * <code>TEXT = 0;</code>
+   * <code>INVALID = 0;</code>
    */
-  public static final int TEXT_VALUE = 0;
+  public static final int INVALID_VALUE = 0;
   /**
-   * <code>IMAGE = 1;</code>
+   * <code>TEXT = 1;</code>
    */
-  public static final int IMAGE_VALUE = 1;
+  public static final int TEXT_VALUE = 1;
+  /**
+   * <code>IMAGE = 2;</code>
+   */
+  public static final int IMAGE_VALUE = 2;
 
 
   public final int getNumber() {
@@ -39,8 +47,9 @@ public enum AnswerType
 
   public static AnswerType valueOf(int value) {
     switch (value) {
-      case 0: return TEXT;
-      case 1: return IMAGE;
+      case 0: return INVALID;
+      case 1: return TEXT;
+      case 2: return IMAGE;
       default: return null;
     }
   }

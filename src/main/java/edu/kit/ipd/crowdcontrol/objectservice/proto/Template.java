@@ -206,7 +206,7 @@ public  final class Template extends
     if (!getContentBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessage.writeString(output, 3, content_);
     }
-    if (answerType_ != edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerType.TEXT.getNumber()) {
+    if (answerType_ != edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerType.INVALID.getNumber()) {
       output.writeEnum(4, answerType_);
     }
   }
@@ -226,7 +226,7 @@ public  final class Template extends
     if (!getContentBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(3, content_);
     }
-    if (answerType_ != edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerType.TEXT.getNumber()) {
+    if (answerType_ != edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerType.INVALID.getNumber()) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(4, answerType_);
     }

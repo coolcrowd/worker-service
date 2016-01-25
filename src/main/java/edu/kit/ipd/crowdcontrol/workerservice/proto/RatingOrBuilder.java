@@ -21,4 +21,14 @@ public interface RatingOrBuilder extends
    * <code>optional int32 answer_id = 3;</code>
    */
   int getAnswerId();
+
+  /**
+   * <code>optional string feedback = 4;</code>
+   */
+  java.lang.String getFeedback();
+  /**
+   * <code>optional string feedback = 4;</code>
+   */
+  com.google.protobuf.ByteString
+      getFeedbackBytes();
 }

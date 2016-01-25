@@ -101,19 +101,22 @@ public class Communication {
     /**
      * submits an rating for the worker.
      * Calls 'PUT /populations/ratings' from the Object-Service.
-     * @param rating the rating to submit
+     * @param chosenRating the rating to submit
+     * @param feedback the feedback or null
      * @param experiment the experiment working on
      * @param worker the worker responsible
      * @param answer the rated answer
      * @return an completable future representing the request with the location of the answer in the database
      */
-    public CompletableFuture<Void> submitRating(int rating, int experiment, int answer, int worker) {
-        Rating ratingProto = Rating.newBuilder()
-                .setRating(rating)
-                .setWorker(worker)
-                .build();
+    public CompletableFuture<Void> submitRating(int chosenRating, String feedback, int experiment, int answer, int worker) {
+        Rating.Builder ratingBuilder = Rating.newBuilder()
+                .setRating(chosenRating)
+                .setWorker(worker);
+        if (feedback != null)
+            ratingBuilder = ratingBuilder.setFeedback(feedback);
+        Rating rating = ratingBuilder.build();
         return putRequest("/experiments/"+experiment+"/answers/"+answer+"/ratings", builder -> builder
-                .body(printer.print(ratingProto))
+                .body(printer.print(rating))
                 .asJson()
         ).thenApply(response -> null);
     }

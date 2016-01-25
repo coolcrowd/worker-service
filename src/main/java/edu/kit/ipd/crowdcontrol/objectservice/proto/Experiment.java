@@ -209,40 +209,48 @@ public  final class Experiment extends
   public enum State
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>DRAFT = 0;</code>
+     * <code>INVALID = 0;</code>
      */
-    DRAFT(0, 0),
+    INVALID(0, 0),
     /**
-     * <code>PUBLISHED = 1;</code>
+     * <code>DRAFT = 1;</code>
      */
-    PUBLISHED(1, 1),
+    DRAFT(1, 1),
     /**
-     * <code>STOPPING = 2;</code>
+     * <code>PUBLISHED = 2;</code>
      */
-    STOPPING(2, 2),
+    PUBLISHED(2, 2),
     /**
-     * <code>STOPPED = 3;</code>
+     * <code>STOPPING = 3;</code>
      */
-    STOPPED(3, 3),
+    STOPPING(3, 3),
+    /**
+     * <code>STOPPED = 4;</code>
+     */
+    STOPPED(4, 4),
     UNRECOGNIZED(-1, -1),
     ;
 
     /**
-     * <code>DRAFT = 0;</code>
+     * <code>INVALID = 0;</code>
      */
-    public static final int DRAFT_VALUE = 0;
+    public static final int INVALID_VALUE = 0;
     /**
-     * <code>PUBLISHED = 1;</code>
+     * <code>DRAFT = 1;</code>
      */
-    public static final int PUBLISHED_VALUE = 1;
+    public static final int DRAFT_VALUE = 1;
     /**
-     * <code>STOPPING = 2;</code>
+     * <code>PUBLISHED = 2;</code>
      */
-    public static final int STOPPING_VALUE = 2;
+    public static final int PUBLISHED_VALUE = 2;
     /**
-     * <code>STOPPED = 3;</code>
+     * <code>STOPPING = 3;</code>
      */
-    public static final int STOPPED_VALUE = 3;
+    public static final int STOPPING_VALUE = 3;
+    /**
+     * <code>STOPPED = 4;</code>
+     */
+    public static final int STOPPED_VALUE = 4;
 
 
     public final int getNumber() {
@@ -255,10 +263,11 @@ public  final class Experiment extends
 
     public static State valueOf(int value) {
       switch (value) {
-        case 0: return DRAFT;
-        case 1: return PUBLISHED;
-        case 2: return STOPPING;
-        case 3: return STOPPED;
+        case 0: return INVALID;
+        case 1: return DRAFT;
+        case 2: return PUBLISHED;
+        case 3: return STOPPING;
+        case 4: return STOPPED;
         default: return null;
       }
     }
@@ -717,10 +726,10 @@ public  final class Experiment extends
     if (!getDescriptionBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessage.writeString(output, 3, description_);
     }
-    if (state_ != edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.State.DRAFT.getNumber()) {
+    if (state_ != edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.State.INVALID.getNumber()) {
       output.writeEnum(4, state_);
     }
-    if (answerType_ != edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerType.TEXT.getNumber()) {
+    if (answerType_ != edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerType.INVALID.getNumber()) {
       output.writeEnum(5, answerType_);
     }
     if (!getAlgorithmTaskChooserBytes().isEmpty()) {
@@ -779,11 +788,11 @@ public  final class Experiment extends
     if (!getDescriptionBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(3, description_);
     }
-    if (state_ != edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.State.DRAFT.getNumber()) {
+    if (state_ != edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.State.INVALID.getNumber()) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(4, state_);
     }
-    if (answerType_ != edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerType.TEXT.getNumber()) {
+    if (answerType_ != edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerType.INVALID.getNumber()) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(5, answerType_);
     }

@@ -13,12 +13,22 @@ public interface RatingOrBuilder extends
   int getRating();
 
   /**
-   * <code>optional int32 worker = 2;</code>
+   * <code>optional string feedback = 2;</code>
+   */
+  java.lang.String getFeedback();
+  /**
+   * <code>optional string feedback = 2;</code>
+   */
+  com.google.protobuf.ByteString
+      getFeedbackBytes();
+
+  /**
+   * <code>optional int32 worker = 3;</code>
    */
   int getWorker();
 
   /**
-   * <code>optional int32 time = 3;</code>
+   * <code>optional int32 time = 4;</code>
    */
   int getTime();
 }

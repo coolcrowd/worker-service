@@ -22,10 +22,10 @@ public final class RatingOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014rating.proto\022\014crowdcontrol\"6\n\006Rating\022\016" +
-      "\n\006rating\030\001 \001(\005\022\016\n\006worker\030\002 \001(\005\022\014\n\004time\030\003" +
-      " \001(\005B0\n,edu.kit.ipd.crowdcontrol.objects" +
-      "ervice.protoP\001b\006proto3"
+      "\n\014rating.proto\022\014crowdcontrol\"H\n\006Rating\022\016" +
+      "\n\006rating\030\001 \001(\005\022\020\n\010feedback\030\002 \001(\t\022\016\n\006work" +
+      "er\030\003 \001(\005\022\014\n\004time\030\004 \001(\005B0\n,edu.kit.ipd.cr" +
+      "owdcontrol.objectservice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -44,7 +44,7 @@ public final class RatingOuterClass {
     internal_static_crowdcontrol_Rating_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Rating_descriptor,
-        new java.lang.String[] { "Rating", "Worker", "Time", });
+        new java.lang.String[] { "Rating", "Feedback", "Worker", "Time", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

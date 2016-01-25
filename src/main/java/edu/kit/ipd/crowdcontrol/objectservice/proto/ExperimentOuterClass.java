@@ -29,7 +29,7 @@ public final class ExperimentOuterClass {
     java.lang.String[] descriptorData = {
       "\n\020experiment.proto\022\014crowdcontrol\032\021answer" +
       "_type.proto\032\020constraint.proto\032\020populatio" +
-      "n.proto\032\ttag.proto\"\224\005\n\nExperiment\022\n\n\002id\030" +
+      "n.proto\032\ttag.proto\"\241\005\n\nExperiment\022\n\n\002id\030" +
       "\001 \001(\005\022\r\n\005title\030\002 \001(\t\022\023\n\013description\030\003 \001(" +
       "\t\022-\n\005state\030\004 \001(\0162\036.crowdcontrol.Experime" +
       "nt.State\022-\n\013answer_type\030\005 \001(\0162\030.crowdcon" +
@@ -44,10 +44,10 @@ public final class ExperimentOuterClass {
       "wdcontrol.Population\022@\n\014placeholders\030\020 \003" +
       "(\0132*.crowdcontrol.Experiment.Placeholder" +
       "sEntry\0323\n\021PlaceholdersEntry\022\013\n\003key\030\001 \001(\t" +
-      "\022\r\n\005value\030\002 \001(\t:\0028\001\"<\n\005State\022\t\n\005DRAFT\020\000\022" +
-      "\r\n\tPUBLISHED\020\001\022\014\n\010STOPPING\020\002\022\013\n\007STOPPED\020" +
-      "\003B0\n,edu.kit.ipd.crowdcontrol.objectserv",
-      "ice.protoP\001b\006proto3"
+      "\022\r\n\005value\030\002 \001(\t:\0028\001\"I\n\005State\022\013\n\007INVALID\020" +
+      "\000\022\t\n\005DRAFT\020\001\022\r\n\tPUBLISHED\020\002\022\014\n\010STOPPING\020" +
+      "\003\022\013\n\007STOPPED\020\004B0\n,edu.kit.ipd.crowdcontr",
+      "ol.objectservice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

@@ -22,10 +22,10 @@ public final class WorkerOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014worker.proto\022\014crowdcontrol\"5\n\006Worker\022\n" +
+      "\n\014worker.proto\022\014crowdcontrol\"G\n\006Worker\022\n" +
       "\n\002id\030\001 \001(\005\022\020\n\010platform\030\002 \001(\t\022\r\n\005email\030\003 " +
-      "\001(\tB0\n,edu.kit.ipd.crowdcontrol.objectse" +
-      "rvice.protoP\001b\006proto3"
+      "\001(\t\022\020\n\010identity\030\004 \001(\tB0\n,edu.kit.ipd.cro" +
+      "wdcontrol.objectservice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -44,7 +44,7 @@ public final class WorkerOuterClass {
     internal_static_crowdcontrol_Worker_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Worker_descriptor,
-        new java.lang.String[] { "Id", "Platform", "Email", });
+        new java.lang.String[] { "Id", "Platform", "Email", "Identity", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

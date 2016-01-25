@@ -28,6 +28,7 @@ public class AntiSpoof extends TaskChooserAlgorithm {
     private static final String REGEX_ABSOLUTE = "ab";
     private static final String REGEX_PERCENTAGE = "pc";
     static final String REGEX = "(([0-9]+"+ REGEX_ABSOLUTE +")|((100|[0-9]?[0-9])"+ REGEX_PERCENTAGE +"))";
+    static final String DB_REGEX = "^" + REGEX + "$";
     private static final String PARAM_DESCRIPTION = "Set the amount of answers the phase %d represents. The following " +
             "formats are supported: [0-9]+ab for setting an absolute number of answers. An Example: 123ab sets the" +
             "duration of the phase to 123 answers. Another way to set duration is the percentage of all answers and " +
@@ -75,7 +76,7 @@ public class AntiSpoof extends TaskChooserAlgorithm {
         //TODO: we don't need the second phase?!
         return Stream.of(1, 2)
                 .map(phase -> new Tuple2<>(String.format(PARAM_DESCRIPTION, phase), String.valueOf(phase)))
-                .map(descriptionPhase -> new TaskChooserParameter(descriptionPhase.v1, REGEX, descriptionPhase.v2))
+                .map(descriptionPhase -> new TaskChooserParameter(descriptionPhase.v1, DB_REGEX, descriptionPhase.v2))
                 .collect(Collectors.toList());
     }
 

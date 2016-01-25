@@ -17,10 +17,10 @@ public final class AnswerTypeOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021answer_type.proto\022\014crowdcontrol*!\n\nAns" +
-      "werType\022\010\n\004TEXT\020\000\022\t\n\005IMAGE\020\001B0\n,edu.kit." +
-      "ipd.crowdcontrol.objectservice.protoP\001b\006" +
-      "proto3"
+      "\n\021answer_type.proto\022\014crowdcontrol*.\n\nAns" +
+      "werType\022\013\n\007INVALID\020\000\022\010\n\004TEXT\020\001\022\t\n\005IMAGE\020" +
+      "\002B0\n,edu.kit.ipd.crowdcontrol.objectserv" +
+      "ice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
