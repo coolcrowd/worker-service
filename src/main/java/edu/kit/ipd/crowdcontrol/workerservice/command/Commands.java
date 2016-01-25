@@ -99,7 +99,8 @@ public class Commands implements RequestHelper {
             String answerType = experimentOperations.getExperiment(answer.getExperiment()).getAnswerType();
             try {
                 if (answerType != null && !getContentType(answer.getAnswer()).startsWith(answerType)) {
-                    throw new BadRequestException("the content-type of the URL does not match the desired type: " + answerType);
+                    throw new BadRequestException("the content-type of the URL does not match the desired type: " +
+                            answerType);
                 }
             } catch (IOException e) {
                 throw new InternalServerErrorException("unable to probe Content-type, aborting", e);
@@ -118,8 +119,15 @@ public class Commands implements RequestHelper {
      * @return empty body (null)
      */
     public Object submitRating(Request request, Response response) {
-        doSubmit(request, response, Rating.newBuilder(), Collections.singletonList(Rating.FEEDBACK_FIELD_NUMBER), (rating, workerID) ->
-                communication.submitRating(rating.getRating(), rating.getFeedback(), rating.getExperiment(), rating.getAnswerId(), workerID));
+        doSubmit(request, response, Rating.newBuilder(), Collections.singletonList(Rating.FEEDBACK_FIELD_NUMBER),
+                (rating, workerID) ->
+                communication.submitRating(
+                        rating.getRating(),
+                        rating.getFeedback(),
+                        rating.getExperiment(),
+                        rating.getAnswerId(),
+                        workerID)
+        );
         return null;
     }
 
@@ -183,7 +191,8 @@ public class Commands implements RequestHelper {
      * @param <T>      the type of the return data
      * @return an instance of T or an exception
      */
-    private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x,  BiFunction<X, Integer, CompletableFuture<T>> func) {
+    private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x,
+                                                      BiFunction<X, Integer, CompletableFuture<T>> func) {
         return doSubmit(request, response, x, new ArrayList<>(), func);
     }
 
@@ -202,7 +211,9 @@ public class Commands implements RequestHelper {
      * @param <T>      the type of the return data
      * @return an instance of T or an exception
      */
-    private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x, List<Integer> excluded, BiFunction<X, Integer, CompletableFuture<T>> func) {
+    private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x,
+                                                      List<Integer> excluded,
+                                                      BiFunction<X, Integer, CompletableFuture<T>> func) {
         int workerID = assertParameterInt(request, "workerID");
         X builder = merge(request, x, excluded);
         return func.apply(builder, workerID)
