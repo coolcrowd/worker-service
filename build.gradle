@@ -70,7 +70,7 @@ sourceSets {
             runtimeClasspath += main.output + test.output
             srcDir file('src/integrTest/java')
         }
-        resources.srcDir file('src/integration-test/resources')
+        resources.srcDir file('src/integrTest/resources')
     }
 }
 
@@ -94,9 +94,9 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it,
-                    exclude: ['src/main/java/edu/kit/ipd/crowdcontrol/objectservice/proto/**',
-                              'src/main/java/edu/kit/ipd/crowdcontrol/workerservice/proto/**',
-                              'src/main/java/edu/kit/ipd/crowdcontrol/workerservice/database/model/**'])
+                    exclude: ['edu/kit/ipd/crowdcontrol/objectservice/proto/**',
+                              'edu/kit/ipd/crowdcontrol/workerservice/proto/**',
+                              'edu/kit/ipd/crowdcontrol/workerservice/database/model/**'])
         })
     }
 }
