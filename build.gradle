@@ -3,8 +3,29 @@ version '0.5-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'nu.studer.jooq'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath 'mysql:mysql-connector-java:5.+'
+        classpath 'nu.studer:gradle-jooq-plugin:1.0.5'
+        classpath "net.saliman:gradle-cobertura-plugin:2.3.0"
+        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.0"
+    }
+}
 
 sourceCompatibility = 1.8
+
 
 repositories {
     mavenCentral()
@@ -28,19 +49,6 @@ dependencies {
     testCompile "org.mockito:mockito-core:1.+"
 }
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'mysql:mysql-connector-java:5.+'
-        classpath 'nu.studer:gradle-jooq-plugin:1.0.5'
-    }
-}
-
 //tests
 
 test {
@@ -62,7 +70,23 @@ task integrTest(type: Test) {
     classpath = sourceSets.integrTest.runtimeClasspath
 }
 
-//check.dependsOn integrTest
+check.dependsOn integrTest
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['/src/main/java/edu/kit/ipd/crowdcontrol/objectservice/proto/**',
+                              '/src/main/java/edu/kit/ipd/crowdcontrol/workerservice/proto/**',
+                              '/src/main/java/edu/kit/ipd/crowdcontrol/workerservice/database/model/**'])
+        })
+    }
+}
 
 
 //database-model
