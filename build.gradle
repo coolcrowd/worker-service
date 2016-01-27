@@ -94,9 +94,9 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it,
-                    exclude: ['src/main/java/edu/kit/ipd/crowdcontrol/objectservice/proto/*',
-                              'src/main/java/edu/kit/ipd/crowdcontrol/workerservice/proto/*',
-                              'src/main/java/edu/kit/ipd/crowdcontrol/workerservice/database/model/*'])
+                    exclude: ['src/main/java/edu/kit/ipd/crowdcontrol/objectservice/proto/**',
+                              'src/main/java/edu/kit/ipd/crowdcontrol/workerservice/proto/**',
+                              'src/main/java/edu/kit/ipd/crowdcontrol/workerservice/database/model/**'])
         })
     }
 }
