@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AlgorithmAnswerQuality extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmAnswerQualityRecord> {
 
-	private static final long serialVersionUID = -737630636;
+	private static final long serialVersionUID = -600447615;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Algorithm_Answer_Quality</code>
@@ -30,6 +30,11 @@ public class AlgorithmAnswerQuality extends org.jooq.impl.TableImpl<edu.kit.ipd.
 	 * The column <code>crowdcontrol.Algorithm_Answer_Quality.id_Algorithm_Answer_Quality</code>.
 	 */
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmAnswerQualityRecord, java.lang.String> ID_ALGORITHM_ANSWER_QUALITY = createField("id_Algorithm_Answer_Quality", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Algorithm_Answer_Quality.description</code>.
+	 */
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmAnswerQualityRecord, java.lang.String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB.length(65535).nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Algorithm_Answer_Quality</code> table reference

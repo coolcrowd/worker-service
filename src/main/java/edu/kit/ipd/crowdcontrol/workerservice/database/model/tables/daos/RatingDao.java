@@ -76,6 +76,13 @@ public class RatingDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.wo
 	}
 
 	/**
+	 * Fetch records that have <code>feedback IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Rating> fetchByFeedback(java.lang.String... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING.FEEDBACK, values);
+	}
+
+	/**
 	 * Fetch records that have <code>worker_id IN (values)</code>
 	 */
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Rating> fetchByWorkerId(java.lang.Integer... values) {

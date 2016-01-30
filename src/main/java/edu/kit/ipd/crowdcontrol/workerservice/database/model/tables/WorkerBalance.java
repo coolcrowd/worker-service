@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class WorkerBalance extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.WorkerBalanceRecord> {
 
-	private static final long serialVersionUID = 30468892;
+	private static final long serialVersionUID = 794444413;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Worker_Balance</code>
@@ -44,7 +44,7 @@ public class WorkerBalance extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcont
 	/**
 	 * The column <code>crowdcontrol.Worker_Balance.experiment</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.WorkerBalanceRecord, java.lang.Integer> EXPERIMENT = createField("experiment", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.WorkerBalanceRecord, java.lang.Integer> EXPERIMENT = createField("experiment", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Worker_Balance.gift_code</code>.

@@ -11,16 +11,19 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AlgorithmAnswerQuality implements java.io.Serializable {
 
-	private static final long serialVersionUID = -896657405;
+	private static final long serialVersionUID = -346051431;
 
 	private java.lang.String idAlgorithmAnswerQuality;
+	private java.lang.String description;
 
 	public AlgorithmAnswerQuality() {}
 
 	public AlgorithmAnswerQuality(
-		java.lang.String idAlgorithmAnswerQuality
+		java.lang.String idAlgorithmAnswerQuality,
+		java.lang.String description
 	) {
 		this.idAlgorithmAnswerQuality = idAlgorithmAnswerQuality;
+		this.description = description;
 	}
 
 	public java.lang.String getIdAlgorithmAnswerQuality() {
@@ -29,5 +32,13 @@ public class AlgorithmAnswerQuality implements java.io.Serializable {
 
 	public void setIdAlgorithmAnswerQuality(java.lang.String idAlgorithmAnswerQuality) {
 		this.idAlgorithmAnswerQuality = idAlgorithmAnswerQuality;
+	}
+
+	public java.lang.String getDescription() {
+		return this.description;
+	}
+
+	public void setDescription(java.lang.String description) {
+		this.description = description;
 	}
 }

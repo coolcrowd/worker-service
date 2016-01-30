@@ -46,4 +46,11 @@ public class AlgorithmAnswerQualityDao extends org.jooq.impl.DAOImpl<edu.kit.ipd
 	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.AlgorithmAnswerQuality fetchOneByIdAlgorithmAnswerQuality(java.lang.String value) {
 		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmAnswerQuality.ALGORITHM_ANSWER_QUALITY.ID_ALGORITHM_ANSWER_QUALITY, value);
 	}
+
+	/**
+	 * Fetch records that have <code>description IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.AlgorithmAnswerQuality> fetchByDescription(java.lang.String... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmAnswerQuality.ALGORITHM_ANSWER_QUALITY.DESCRIPTION, values);
+	}
 }

@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment implements java.io.Serializable {
 
-	private static final long serialVersionUID = -433385120;
+	private static final long serialVersionUID = 1631883644;
 
 	private java.lang.Integer idExperiment;
 	private java.lang.String  titel;
@@ -29,6 +29,7 @@ public class Experiment implements java.io.Serializable {
 	private java.lang.Integer bonusRating;
 	private java.lang.String  templateData;
 	private java.lang.Integer template;
+	private java.lang.Integer workerQualityThreshold;
 
 	public Experiment() {}
 
@@ -48,7 +49,8 @@ public class Experiment implements java.io.Serializable {
 		java.lang.Integer bonusAnswer,
 		java.lang.Integer bonusRating,
 		java.lang.String  templateData,
-		java.lang.Integer template
+		java.lang.Integer template,
+		java.lang.Integer workerQualityThreshold
 	) {
 		this.idExperiment = idExperiment;
 		this.titel = titel;
@@ -66,6 +68,7 @@ public class Experiment implements java.io.Serializable {
 		this.bonusRating = bonusRating;
 		this.templateData = templateData;
 		this.template = template;
+		this.workerQualityThreshold = workerQualityThreshold;
 	}
 
 	public java.lang.Integer getIdExperiment() {
@@ -194,5 +197,13 @@ public class Experiment implements java.io.Serializable {
 
 	public void setTemplate(java.lang.Integer template) {
 		this.template = template;
+	}
+
+	public java.lang.Integer getWorkerQualityThreshold() {
+		return this.workerQualityThreshold;
+	}
+
+	public void setWorkerQualityThreshold(java.lang.Integer workerQualityThreshold) {
+		this.workerQualityThreshold = workerQualityThreshold;
 	}
 }

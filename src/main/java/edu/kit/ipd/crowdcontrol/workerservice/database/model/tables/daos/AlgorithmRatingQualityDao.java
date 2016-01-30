@@ -46,4 +46,11 @@ public class AlgorithmRatingQualityDao extends org.jooq.impl.DAOImpl<edu.kit.ipd
 	public edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.AlgorithmRatingQuality fetchOneByIdAlgorithmRatingQuality(java.lang.String value) {
 		return fetchOne(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmRatingQuality.ALGORITHM_RATING_QUALITY.ID_ALGORITHM_RATING_QUALITY, value);
 	}
+
+	/**
+	 * Fetch records that have <code>description IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.AlgorithmRatingQuality> fetchByDescription(java.lang.String... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.AlgorithmRatingQuality.ALGORITHM_RATING_QUALITY.DESCRIPTION, values);
+	}
 }
