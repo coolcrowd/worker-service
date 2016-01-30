@@ -18,7 +18,6 @@ public  final class Worker extends
     id_ = 0;
     platform_ = "";
     email_ = "";
-    identity_ = "";
   }
 
   @java.lang.Override
@@ -60,12 +59,6 @@ public  final class Worker extends
             String s = input.readStringRequireUtf8();
 
             email_ = s;
-            break;
-          }
-          case 34: {
-            String s = input.readStringRequireUtf8();
-
-            identity_ = s;
             break;
           }
         }
@@ -169,40 +162,6 @@ public  final class Worker extends
     }
   }
 
-  public static final int IDENTITY_FIELD_NUMBER = 4;
-  private volatile java.lang.Object identity_;
-  /**
-   * <code>optional string identity = 4;</code>
-   */
-  public java.lang.String getIdentity() {
-    java.lang.Object ref = identity_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      identity_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>optional string identity = 4;</code>
-   */
-  public com.google.protobuf.ByteString
-      getIdentityBytes() {
-    java.lang.Object ref = identity_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      identity_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -224,9 +183,6 @@ public  final class Worker extends
     if (!getEmailBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessage.writeString(output, 3, email_);
     }
-    if (!getIdentityBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 4, identity_);
-    }
   }
 
   public int getSerializedSize() {
@@ -243,9 +199,6 @@ public  final class Worker extends
     }
     if (!getEmailBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(3, email_);
-    }
-    if (!getIdentityBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(4, identity_);
     }
     memoizedSize = size;
     return size;
@@ -364,8 +317,6 @@ public  final class Worker extends
 
       email_ = "";
 
-      identity_ = "";
-
       return this;
     }
 
@@ -391,7 +342,6 @@ public  final class Worker extends
       result.id_ = id_;
       result.platform_ = platform_;
       result.email_ = email_;
-      result.identity_ = identity_;
       onBuilt();
       return result;
     }
@@ -416,10 +366,6 @@ public  final class Worker extends
       }
       if (!other.getEmail().isEmpty()) {
         email_ = other.email_;
-        onChanged();
-      }
-      if (!other.getIdentity().isEmpty()) {
-        identity_ = other.identity_;
         onChanged();
       }
       onChanged();
@@ -608,75 +554,6 @@ public  final class Worker extends
   checkByteStringIsUtf8(value);
       
       email_ = value;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object identity_ = "";
-    /**
-     * <code>optional string identity = 4;</code>
-     */
-    public java.lang.String getIdentity() {
-      java.lang.Object ref = identity_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        identity_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>optional string identity = 4;</code>
-     */
-    public com.google.protobuf.ByteString
-        getIdentityBytes() {
-      java.lang.Object ref = identity_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        identity_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>optional string identity = 4;</code>
-     */
-    public Builder setIdentity(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      identity_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>optional string identity = 4;</code>
-     */
-    public Builder clearIdentity() {
-      
-      identity_ = getDefaultInstance().getIdentity();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>optional string identity = 4;</code>
-     */
-    public Builder setIdentityBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      identity_ = value;
       onChanged();
       return this;
     }

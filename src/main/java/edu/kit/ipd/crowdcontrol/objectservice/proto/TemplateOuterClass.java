@@ -13,6 +13,11 @@ public final class TemplateOuterClass {
   static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_crowdcontrol_Template_fieldAccessorTable;
+  static com.google.protobuf.Descriptors.Descriptor
+    internal_static_crowdcontrol_Template_RatingOption_descriptor;
+  static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_crowdcontrol_Template_RatingOption_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -23,11 +28,14 @@ public final class TemplateOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\016template.proto\022\014crowdcontrol\032\021answer_t" +
-      "ype.proto\"d\n\010Template\022\n\n\002id\030\001 \001(\005\022\014\n\004nam" +
-      "e\030\002 \001(\t\022\017\n\007content\030\003 \001(\t\022-\n\013answer_type\030" +
-      "\004 \001(\0162\030.crowdcontrol.AnswerTypeB0\n,edu.k" +
-      "it.ipd.crowdcontrol.objectservice.protoP" +
-      "\001b\006proto3"
+      "ype.proto\"\352\001\n\010Template\022\n\n\002id\030\001 \001(\005\022\014\n\004na" +
+      "me\030\002 \001(\t\022\017\n\007content\030\003 \001(\t\022-\n\013answer_type" +
+      "\030\004 \001(\0162\030.crowdcontrol.AnswerType\022;\n\016rati" +
+      "ng_options\030\005 \003(\0132#.crowdcontrol.Template" +
+      ".RatingOption\032G\n\014RatingOption\022\032\n\022templat" +
+      "e_rating_id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\r\n\005value" +
+      "\030\003 \001(\005B0\n,edu.kit.ipd.crowdcontrol.objec" +
+      "tservice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -47,7 +55,13 @@ public final class TemplateOuterClass {
     internal_static_crowdcontrol_Template_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Template_descriptor,
-        new java.lang.String[] { "Id", "Name", "Content", "AnswerType", });
+        new java.lang.String[] { "Id", "Name", "Content", "AnswerType", "RatingOptions", });
+    internal_static_crowdcontrol_Template_RatingOption_descriptor =
+      internal_static_crowdcontrol_Template_descriptor.getNestedTypes().get(0);
+    internal_static_crowdcontrol_Template_RatingOption_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_crowdcontrol_Template_RatingOption_descriptor,
+        new java.lang.String[] { "TemplateRatingId", "Name", "Value", });
     edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerTypeOuterClass.getDescriptor();
   }
 

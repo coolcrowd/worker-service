@@ -15,6 +15,8 @@ public  final class Calibration extends
     super(builder);
   }
   private Calibration() {
+    id_ = 0;
+    name_ = "";
     question_ = "";
     answers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     acceptedAnswers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -44,26 +46,37 @@ public  final class Calibration extends
             }
             break;
           }
-          case 10: {
+          case 8: {
+
+            id_ = input.readInt32();
+            break;
+          }
+          case 18: {
+            String s = input.readStringRequireUtf8();
+
+            name_ = s;
+            break;
+          }
+          case 26: {
             String s = input.readStringRequireUtf8();
 
             question_ = s;
             break;
           }
-          case 18: {
+          case 34: {
             String s = input.readStringRequireUtf8();
-            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+            if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
               answers_ = new com.google.protobuf.LazyStringArrayList();
-              mutable_bitField0_ |= 0x00000002;
+              mutable_bitField0_ |= 0x00000008;
             }
             answers_.add(s);
             break;
           }
-          case 26: {
+          case 42: {
             String s = input.readStringRequireUtf8();
-            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+            if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
               acceptedAnswers_ = new com.google.protobuf.LazyStringArrayList();
-              mutable_bitField0_ |= 0x00000004;
+              mutable_bitField0_ |= 0x00000010;
             }
             acceptedAnswers_.add(s);
             break;
@@ -77,10 +90,10 @@ public  final class Calibration extends
           new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this));
     } finally {
-      if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
         answers_ = answers_.getUnmodifiableView();
       }
-      if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
         acceptedAnswers_ = acceptedAnswers_.getUnmodifiableView();
       }
       makeExtensionsImmutable();
@@ -99,10 +112,53 @@ public  final class Calibration extends
   }
 
   private int bitField0_;
-  public static final int QUESTION_FIELD_NUMBER = 1;
+  public static final int ID_FIELD_NUMBER = 1;
+  private int id_;
+  /**
+   * <code>optional int32 id = 1;</code>
+   */
+  public int getId() {
+    return id_;
+  }
+
+  public static final int NAME_FIELD_NUMBER = 2;
+  private volatile java.lang.Object name_;
+  /**
+   * <code>optional string name = 2;</code>
+   */
+  public java.lang.String getName() {
+    java.lang.Object ref = name_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      name_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>optional string name = 2;</code>
+   */
+  public com.google.protobuf.ByteString
+      getNameBytes() {
+    java.lang.Object ref = name_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      name_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int QUESTION_FIELD_NUMBER = 3;
   private volatile java.lang.Object question_;
   /**
-   * <code>optional string question = 1;</code>
+   * <code>optional string question = 3;</code>
    */
   public java.lang.String getQuestion() {
     java.lang.Object ref = question_;
@@ -117,7 +173,7 @@ public  final class Calibration extends
     }
   }
   /**
-   * <code>optional string question = 1;</code>
+   * <code>optional string question = 3;</code>
    */
   public com.google.protobuf.ByteString
       getQuestionBytes() {
@@ -133,58 +189,58 @@ public  final class Calibration extends
     }
   }
 
-  public static final int ANSWERS_FIELD_NUMBER = 2;
+  public static final int ANSWERS_FIELD_NUMBER = 4;
   private com.google.protobuf.LazyStringList answers_;
   /**
-   * <code>repeated string answers = 2;</code>
+   * <code>repeated string answers = 4;</code>
    */
   public com.google.protobuf.ProtocolStringList
       getAnswersList() {
     return answers_;
   }
   /**
-   * <code>repeated string answers = 2;</code>
+   * <code>repeated string answers = 4;</code>
    */
   public int getAnswersCount() {
     return answers_.size();
   }
   /**
-   * <code>repeated string answers = 2;</code>
+   * <code>repeated string answers = 4;</code>
    */
   public java.lang.String getAnswers(int index) {
     return answers_.get(index);
   }
   /**
-   * <code>repeated string answers = 2;</code>
+   * <code>repeated string answers = 4;</code>
    */
   public com.google.protobuf.ByteString
       getAnswersBytes(int index) {
     return answers_.getByteString(index);
   }
 
-  public static final int ACCEPTED_ANSWERS_FIELD_NUMBER = 3;
+  public static final int ACCEPTED_ANSWERS_FIELD_NUMBER = 5;
   private com.google.protobuf.LazyStringList acceptedAnswers_;
   /**
-   * <code>repeated string accepted_answers = 3;</code>
+   * <code>repeated string accepted_answers = 5;</code>
    */
   public com.google.protobuf.ProtocolStringList
       getAcceptedAnswersList() {
     return acceptedAnswers_;
   }
   /**
-   * <code>repeated string accepted_answers = 3;</code>
+   * <code>repeated string accepted_answers = 5;</code>
    */
   public int getAcceptedAnswersCount() {
     return acceptedAnswers_.size();
   }
   /**
-   * <code>repeated string accepted_answers = 3;</code>
+   * <code>repeated string accepted_answers = 5;</code>
    */
   public java.lang.String getAcceptedAnswers(int index) {
     return acceptedAnswers_.get(index);
   }
   /**
-   * <code>repeated string accepted_answers = 3;</code>
+   * <code>repeated string accepted_answers = 5;</code>
    */
   public com.google.protobuf.ByteString
       getAcceptedAnswersBytes(int index) {
@@ -203,14 +259,20 @@ public  final class Calibration extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (id_ != 0) {
+      output.writeInt32(1, id_);
+    }
+    if (!getNameBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessage.writeString(output, 2, name_);
+    }
     if (!getQuestionBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 1, question_);
+      com.google.protobuf.GeneratedMessage.writeString(output, 3, question_);
     }
     for (int i = 0; i < answers_.size(); i++) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, answers_.getRaw(i));
+      com.google.protobuf.GeneratedMessage.writeString(output, 4, answers_.getRaw(i));
     }
     for (int i = 0; i < acceptedAnswers_.size(); i++) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 3, acceptedAnswers_.getRaw(i));
+      com.google.protobuf.GeneratedMessage.writeString(output, 5, acceptedAnswers_.getRaw(i));
     }
   }
 
@@ -219,8 +281,15 @@ public  final class Calibration extends
     if (size != -1) return size;
 
     size = 0;
+    if (id_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, id_);
+    }
+    if (!getNameBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, name_);
+    }
     if (!getQuestionBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(1, question_);
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(3, question_);
     }
     {
       int dataSize = 0;
@@ -349,12 +418,16 @@ public  final class Calibration extends
     }
     public Builder clear() {
       super.clear();
+      id_ = 0;
+
+      name_ = "";
+
       question_ = "";
 
       answers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000008);
       acceptedAnswers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000010);
       return this;
     }
 
@@ -379,15 +452,17 @@ public  final class Calibration extends
       edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration result = new edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
+      result.id_ = id_;
+      result.name_ = name_;
       result.question_ = question_;
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         answers_ = answers_.getUnmodifiableView();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000008);
       }
       result.answers_ = answers_;
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         acceptedAnswers_ = acceptedAnswers_.getUnmodifiableView();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000010);
       }
       result.acceptedAnswers_ = acceptedAnswers_;
       result.bitField0_ = to_bitField0_;
@@ -406,6 +481,13 @@ public  final class Calibration extends
 
     public Builder mergeFrom(edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration other) {
       if (other == edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.getDefaultInstance()) return this;
+      if (other.getId() != 0) {
+        setId(other.getId());
+      }
+      if (!other.getName().isEmpty()) {
+        name_ = other.name_;
+        onChanged();
+      }
       if (!other.getQuestion().isEmpty()) {
         question_ = other.question_;
         onChanged();
@@ -413,7 +495,7 @@ public  final class Calibration extends
       if (!other.answers_.isEmpty()) {
         if (answers_.isEmpty()) {
           answers_ = other.answers_;
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           ensureAnswersIsMutable();
           answers_.addAll(other.answers_);
@@ -423,7 +505,7 @@ public  final class Calibration extends
       if (!other.acceptedAnswers_.isEmpty()) {
         if (acceptedAnswers_.isEmpty()) {
           acceptedAnswers_ = other.acceptedAnswers_;
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000010);
         } else {
           ensureAcceptedAnswersIsMutable();
           acceptedAnswers_.addAll(other.acceptedAnswers_);
@@ -457,9 +539,104 @@ public  final class Calibration extends
     }
     private int bitField0_;
 
+    private int id_ ;
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    public Builder setId(int value) {
+      
+      id_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    public Builder clearId() {
+      
+      id_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object name_ = "";
+    /**
+     * <code>optional string name = 2;</code>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string name = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string name = 2;</code>
+     */
+    public Builder setName(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      name_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string name = 2;</code>
+     */
+    public Builder clearName() {
+      
+      name_ = getDefaultInstance().getName();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string name = 2;</code>
+     */
+    public Builder setNameBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      name_ = value;
+      onChanged();
+      return this;
+    }
+
     private java.lang.Object question_ = "";
     /**
-     * <code>optional string question = 1;</code>
+     * <code>optional string question = 3;</code>
      */
     public java.lang.String getQuestion() {
       java.lang.Object ref = question_;
@@ -474,7 +651,7 @@ public  final class Calibration extends
       }
     }
     /**
-     * <code>optional string question = 1;</code>
+     * <code>optional string question = 3;</code>
      */
     public com.google.protobuf.ByteString
         getQuestionBytes() {
@@ -490,7 +667,7 @@ public  final class Calibration extends
       }
     }
     /**
-     * <code>optional string question = 1;</code>
+     * <code>optional string question = 3;</code>
      */
     public Builder setQuestion(
         java.lang.String value) {
@@ -503,7 +680,7 @@ public  final class Calibration extends
       return this;
     }
     /**
-     * <code>optional string question = 1;</code>
+     * <code>optional string question = 3;</code>
      */
     public Builder clearQuestion() {
       
@@ -512,7 +689,7 @@ public  final class Calibration extends
       return this;
     }
     /**
-     * <code>optional string question = 1;</code>
+     * <code>optional string question = 3;</code>
      */
     public Builder setQuestionBytes(
         com.google.protobuf.ByteString value) {
@@ -528,39 +705,39 @@ public  final class Calibration extends
 
     private com.google.protobuf.LazyStringList answers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     private void ensureAnswersIsMutable() {
-      if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (!((bitField0_ & 0x00000008) == 0x00000008)) {
         answers_ = new com.google.protobuf.LazyStringArrayList(answers_);
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000008;
        }
     }
     /**
-     * <code>repeated string answers = 2;</code>
+     * <code>repeated string answers = 4;</code>
      */
     public com.google.protobuf.ProtocolStringList
         getAnswersList() {
       return answers_.getUnmodifiableView();
     }
     /**
-     * <code>repeated string answers = 2;</code>
+     * <code>repeated string answers = 4;</code>
      */
     public int getAnswersCount() {
       return answers_.size();
     }
     /**
-     * <code>repeated string answers = 2;</code>
+     * <code>repeated string answers = 4;</code>
      */
     public java.lang.String getAnswers(int index) {
       return answers_.get(index);
     }
     /**
-     * <code>repeated string answers = 2;</code>
+     * <code>repeated string answers = 4;</code>
      */
     public com.google.protobuf.ByteString
         getAnswersBytes(int index) {
       return answers_.getByteString(index);
     }
     /**
-     * <code>repeated string answers = 2;</code>
+     * <code>repeated string answers = 4;</code>
      */
     public Builder setAnswers(
         int index, java.lang.String value) {
@@ -573,7 +750,7 @@ public  final class Calibration extends
       return this;
     }
     /**
-     * <code>repeated string answers = 2;</code>
+     * <code>repeated string answers = 4;</code>
      */
     public Builder addAnswers(
         java.lang.String value) {
@@ -586,7 +763,7 @@ public  final class Calibration extends
       return this;
     }
     /**
-     * <code>repeated string answers = 2;</code>
+     * <code>repeated string answers = 4;</code>
      */
     public Builder addAllAnswers(
         java.lang.Iterable<java.lang.String> values) {
@@ -597,16 +774,16 @@ public  final class Calibration extends
       return this;
     }
     /**
-     * <code>repeated string answers = 2;</code>
+     * <code>repeated string answers = 4;</code>
      */
     public Builder clearAnswers() {
       answers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000008);
       onChanged();
       return this;
     }
     /**
-     * <code>repeated string answers = 2;</code>
+     * <code>repeated string answers = 4;</code>
      */
     public Builder addAnswersBytes(
         com.google.protobuf.ByteString value) {
@@ -622,39 +799,39 @@ public  final class Calibration extends
 
     private com.google.protobuf.LazyStringList acceptedAnswers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     private void ensureAcceptedAnswersIsMutable() {
-      if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (!((bitField0_ & 0x00000010) == 0x00000010)) {
         acceptedAnswers_ = new com.google.protobuf.LazyStringArrayList(acceptedAnswers_);
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000010;
        }
     }
     /**
-     * <code>repeated string accepted_answers = 3;</code>
+     * <code>repeated string accepted_answers = 5;</code>
      */
     public com.google.protobuf.ProtocolStringList
         getAcceptedAnswersList() {
       return acceptedAnswers_.getUnmodifiableView();
     }
     /**
-     * <code>repeated string accepted_answers = 3;</code>
+     * <code>repeated string accepted_answers = 5;</code>
      */
     public int getAcceptedAnswersCount() {
       return acceptedAnswers_.size();
     }
     /**
-     * <code>repeated string accepted_answers = 3;</code>
+     * <code>repeated string accepted_answers = 5;</code>
      */
     public java.lang.String getAcceptedAnswers(int index) {
       return acceptedAnswers_.get(index);
     }
     /**
-     * <code>repeated string accepted_answers = 3;</code>
+     * <code>repeated string accepted_answers = 5;</code>
      */
     public com.google.protobuf.ByteString
         getAcceptedAnswersBytes(int index) {
       return acceptedAnswers_.getByteString(index);
     }
     /**
-     * <code>repeated string accepted_answers = 3;</code>
+     * <code>repeated string accepted_answers = 5;</code>
      */
     public Builder setAcceptedAnswers(
         int index, java.lang.String value) {
@@ -667,7 +844,7 @@ public  final class Calibration extends
       return this;
     }
     /**
-     * <code>repeated string accepted_answers = 3;</code>
+     * <code>repeated string accepted_answers = 5;</code>
      */
     public Builder addAcceptedAnswers(
         java.lang.String value) {
@@ -680,7 +857,7 @@ public  final class Calibration extends
       return this;
     }
     /**
-     * <code>repeated string accepted_answers = 3;</code>
+     * <code>repeated string accepted_answers = 5;</code>
      */
     public Builder addAllAcceptedAnswers(
         java.lang.Iterable<java.lang.String> values) {
@@ -691,16 +868,16 @@ public  final class Calibration extends
       return this;
     }
     /**
-     * <code>repeated string accepted_answers = 3;</code>
+     * <code>repeated string accepted_answers = 5;</code>
      */
     public Builder clearAcceptedAnswers() {
       acceptedAnswers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000010);
       onChanged();
       return this;
     }
     /**
-     * <code>repeated string accepted_answers = 3;</code>
+     * <code>repeated string accepted_answers = 5;</code>
      */
     public Builder addAcceptedAnswersBytes(
         com.google.protobuf.ByteString value) {

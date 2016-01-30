@@ -8,27 +8,37 @@ public interface RatingOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional int32 rating = 1;</code>
+   * <code>optional int32 experiment_id = 1;</code>
+   */
+  int getExperimentId();
+
+  /**
+   * <code>optional int32 rating = 2;</code>
    */
   int getRating();
 
   /**
-   * <code>optional string feedback = 2;</code>
+   * <code>optional string feedback = 3;</code>
    */
   java.lang.String getFeedback();
   /**
-   * <code>optional string feedback = 2;</code>
+   * <code>optional string feedback = 3;</code>
    */
   com.google.protobuf.ByteString
       getFeedbackBytes();
 
   /**
-   * <code>optional int32 worker = 3;</code>
+   * <code>optional int32 worker = 4;</code>
    */
   int getWorker();
 
   /**
-   * <code>optional int32 time = 4;</code>
+   * <code>optional int32 quality = 5;</code>
+   */
+  int getQuality();
+
+  /**
+   * <code>optional int32 time = 6;</code>
    */
   int getTime();
 }

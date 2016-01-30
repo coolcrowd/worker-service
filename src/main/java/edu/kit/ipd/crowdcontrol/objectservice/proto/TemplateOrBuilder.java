@@ -40,4 +40,28 @@ public interface TemplateOrBuilder extends
    * <code>optional .crowdcontrol.AnswerType answer_type = 4;</code>
    */
   edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerType getAnswerType();
+
+  /**
+   * <code>repeated .crowdcontrol.Template.RatingOption rating_options = 5;</code>
+   */
+  java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption> 
+      getRatingOptionsList();
+  /**
+   * <code>repeated .crowdcontrol.Template.RatingOption rating_options = 5;</code>
+   */
+  edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption getRatingOptions(int index);
+  /**
+   * <code>repeated .crowdcontrol.Template.RatingOption rating_options = 5;</code>
+   */
+  int getRatingOptionsCount();
+  /**
+   * <code>repeated .crowdcontrol.Template.RatingOption rating_options = 5;</code>
+   */
+  java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOptionOrBuilder> 
+      getRatingOptionsOrBuilderList();
+  /**
+   * <code>repeated .crowdcontrol.Template.RatingOption rating_options = 5;</code>
+   */
+  edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOptionOrBuilder getRatingOptionsOrBuilder(
+      int index);
 }

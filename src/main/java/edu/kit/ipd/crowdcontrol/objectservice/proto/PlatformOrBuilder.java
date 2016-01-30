@@ -26,4 +26,9 @@ public interface PlatformOrBuilder extends
    */
   com.google.protobuf.ByteString
       getNameBytes();
+
+  /**
+   * <code>optional bool has_calibrations = 3;</code>
+   */
+  boolean getHasCalibrations();
 }

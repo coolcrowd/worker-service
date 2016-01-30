@@ -22,11 +22,11 @@ public final class CalibrationOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021calibration.proto\022\014crowdcontrol\"J\n\013Cal" +
-      "ibration\022\020\n\010question\030\001 \001(\t\022\017\n\007answers\030\002 " +
-      "\003(\t\022\030\n\020accepted_answers\030\003 \003(\tB0\n,edu.kit" +
-      ".ipd.crowdcontrol.objectservice.protoP\001b" +
-      "\006proto3"
+      "\n\021calibration.proto\022\014crowdcontrol\"d\n\013Cal" +
+      "ibration\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\020\n\010qu" +
+      "estion\030\003 \001(\t\022\017\n\007answers\030\004 \003(\t\022\030\n\020accepte" +
+      "d_answers\030\005 \003(\tB0\n,edu.kit.ipd.crowdcont" +
+      "rol.objectservice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -45,7 +45,7 @@ public final class CalibrationOuterClass {
     internal_static_crowdcontrol_Calibration_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Calibration_descriptor,
-        new java.lang.String[] { "Question", "Answers", "AcceptedAnswers", });
+        new java.lang.String[] { "Id", "Name", "Question", "Answers", "AcceptedAnswers", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
