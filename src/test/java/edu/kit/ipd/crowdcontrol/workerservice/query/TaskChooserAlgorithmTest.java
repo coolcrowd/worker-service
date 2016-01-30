@@ -79,7 +79,7 @@ public class TaskChooserAlgorithmTest {
         View.Builder builder = prepareBuilder();
         ExperimentRecord experiment = this.experiment.copy();
         experiment.setIdExperiment(this.experiment.getIdExperiment());
-        experiment.setTitel(title);
+        experiment.setTitle(title);
         experiment.setDescription(resultingDescription);
         ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experiment,
                 mockTaskChooserDescription, constraints, null);
