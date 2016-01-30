@@ -67,7 +67,7 @@ public class AntiSpoofTest {
     @Test
     public void testParameterValuePercentage() throws Exception {
         double percentage = Math.round(Math.random() * 100.0) / 100.0;
-        int amount = (int) (100 * percentage);
+        int amount = (int) Math.round(100 * percentage);
         String parameter = amount + "pc";
         int result = antiSpoof.getParameterValue(parameter, experiment.getIdExperiment());
         int expected = (int) (percentage * experiment.getNeededAnswers());
