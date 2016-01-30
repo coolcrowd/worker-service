@@ -20,8 +20,8 @@ import java.util.stream.Stream;
  * @version 1.0
  */
 public class AntiSpoof extends TaskChooserAlgorithm {
-    static final String NAME = "AntiSpoof";
-    static final String DESCRIPTION = "This algorithm divides the runtime of the experiment into 3 phases. In " +
+    static final String NAME = "anti-spoof";
+    static final String DESCRIPTION = "This AntiSpoof algorithm divides the runtime of the experiment into 3 phases. In " +
             "the first phase the workers are only allowed to work on creative tasks. Then in the second " +
             "phase, the worker can work on both the creative and the rating task. The last phase consists only of the " +
             "assignment to rate.";

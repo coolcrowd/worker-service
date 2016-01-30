@@ -5,9 +5,9 @@ import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.OperationsHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationAnswerOptionRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
@@ -132,7 +132,7 @@ public class QueryTest {
         Response response = mock(Response.class);
         PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
         Communication communication = prepareCommunication(platform, Optional.empty());
-        Map<PopulationRecord, Result<PopulationAnswerOptionRecord>> calibrations = operationsHelper.generatePopulations(experimentID);
+        Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations = operationsHelper.generatePopulations(experimentID);
         PopulationsOperations populationsOperations = operationsHelper.preparePopulationOperations(experimentID, platform, workerID, false, calibrations);
         ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
@@ -141,17 +141,17 @@ public class QueryTest {
         parser.merge(json, builder);
         assertTrue(builder.getType().equals(View.Type.CALIBRATION));
         assertTrue(builder.getCalibrationsList().size() == calibrations.size());
-        Optional<Map.Entry<PopulationRecord, Result<PopulationAnswerOptionRecord>>> res = calibrations.entrySet().stream()
+        Optional<Map.Entry<CalibrationRecord, Result<CalibrationAnswerOptionRecord>>> res = calibrations.entrySet().stream()
                 .filter(entry -> !builder.getCalibrationsList().stream()
                         .filter(calibration -> calibration.getQuestion().equals(entry.getKey().getProperty()))
-                        .filter(calibration -> calibration.getId() == entry.getKey().getIdPopulation())
+                        .filter(calibration -> calibration.getId() == entry.getKey().getIdCalibration())
                         .flatMap(calibration -> calibration.getAnswerOptionsList().stream())
                         .filter(answerOption ->
                                 entry.getValue().stream().anyMatch(record ->
                                         record.getAnswer().equals(answerOption.getOption())))
                         .anyMatch(answerOption ->
                                 entry.getValue().stream().anyMatch(record ->
-                                        record.getIdPopulationAnswerOption().equals(answerOption.getId())))
+                                        record.getIdCalibrationAnswerOption().equals(answerOption.getId())))
                 ).findAny();
         assertTrue(!res.isPresent());
     }

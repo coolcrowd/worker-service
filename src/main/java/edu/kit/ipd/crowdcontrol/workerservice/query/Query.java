@@ -4,8 +4,8 @@ import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationAnswerOptionRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PopulationRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
@@ -186,7 +186,7 @@ public class Query implements RequestHelper {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
         if (platformOperations.getPlatform(platformName).getRenderCalibrations()) {
-            Map<PopulationRecord, Result<PopulationAnswerOptionRecord>> calibrations =
+            Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations =
                     populationsOperations.getCalibrations(experiment, platformName, builder.getWorkerId());
             if (calibrations.isEmpty()) {
                 return Optional.empty();
@@ -205,18 +205,18 @@ public class Query implements RequestHelper {
      * @param builder        the builder to use
      * @return an instance of View with the Type Calibration and the Calibration set.
      */
-    private View constructCalibrationView(Map<PopulationRecord, Result<PopulationAnswerOptionRecord>> qualifications,
+    private View constructCalibrationView(Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> qualifications,
                                           View.Builder builder) {
-        Function<PopulationAnswerOptionRecord, View.CalibrationAnswerOption> constructAnswerOption = record ->
+        Function<CalibrationAnswerOptionRecord, View.CalibrationAnswerOption> constructAnswerOption = record ->
                 View.CalibrationAnswerOption.newBuilder()
-                        .setId(record.getIdPopulationAnswerOption())
+                        .setId(record.getIdCalibrationAnswerOption())
                         .setOption(record.getAnswer())
                         .build();
 
         List<View.Calibration> Calibration = qualifications.entrySet().stream()
                 .map(entry -> View.Calibration.newBuilder()
                         .setQuestion(entry.getKey().getProperty())
-                        .setId(entry.getKey().getIdPopulation())
+                        .setId(entry.getKey().getIdCalibration())
                         .addAllAnswerOptions(entry.getValue().map(constructAnswerOption::apply))
                         .build()
                 )
