@@ -90,8 +90,8 @@ public interface RequestHelper {
      * @throws BadRequestException if the query-parameter is not present
      */
     default String assertQuery(Request request, String parameter) throws BadRequestException {
-        assertRequest(request, request1 -> request1.queryMap(parameter) != null, "Request needs Query-Parameter:" + parameter);
-        return request.params(parameter);
+        assertRequest(request, request1 -> request1.queryParamsValues(parameter).length != 0, "Request needs Query-Parameter:" + parameter);
+        return request.queryParamsValues(parameter)[0];
     }
 
     /**
@@ -102,9 +102,9 @@ public interface RequestHelper {
      * @throws BadRequestException if the query parameter is not present or is not an int
      */
     default int assertQueryInt(Request request, String parameter) throws BadRequestException {
-        assertRequest(request, request1 -> request1.queryMap(parameter) != null, "Request needs Query-Parameter:" + parameter);
+        assertRequest(request, request1 -> request1.queryParamsValues(parameter).length != 0, "Request needs Query-Parameter:" + parameter);
         try {
-            return Integer.parseInt(request.params(parameter));
+            return Integer.parseInt(request.queryParamsValues(parameter)[0]);
         } catch (NumberFormatException e) {
             throw new BadRequestException("Request needs Query-Parameter: " + parameter + " as an Integer");
         }
