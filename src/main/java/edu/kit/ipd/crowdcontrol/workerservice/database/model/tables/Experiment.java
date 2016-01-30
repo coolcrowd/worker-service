@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> {
 
-	private static final long serialVersionUID = -1531522261;
+	private static final long serialVersionUID = -958567463;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiment</code>
@@ -32,9 +32,9 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.Integer> ID_EXPERIMENT = createField("id_experiment", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Experiment.titel</code>.
+	 * The column <code>crowdcontrol.Experiment.title</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> TITEL = createField("titel", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> TITLE = createField("title", org.jooq.impl.SQLDataType.VARCHAR.length(191), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.description</code>.

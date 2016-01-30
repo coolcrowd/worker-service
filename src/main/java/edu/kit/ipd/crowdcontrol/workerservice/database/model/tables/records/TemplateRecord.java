@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateRecord> implements org.jooq.Record4<java.lang.Integer, java.lang.String, java.lang.String, java.lang.String> {
 
-	private static final long serialVersionUID = 746382617;
+	private static final long serialVersionUID = 25989027;
 
 	/**
 	 * Setter for <code>crowdcontrol.Template.id_template</code>.
@@ -42,16 +42,16 @@ public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	}
 
 	/**
-	 * Setter for <code>crowdcontrol.Template.titel</code>.
+	 * Setter for <code>crowdcontrol.Template.title</code>.
 	 */
-	public void setTitel(java.lang.String value) {
+	public void setTitle(java.lang.String value) {
 		setValue(2, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Template.titel</code>.
+	 * Getter for <code>crowdcontrol.Template.title</code>.
 	 */
-	public java.lang.String getTitel() {
+	public java.lang.String getTitle() {
 		return (java.lang.String) getValue(2);
 	}
 
@@ -122,7 +122,7 @@ public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	 */
 	@Override
 	public org.jooq.Field<java.lang.String> field3() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.TITEL;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE.TITLE;
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	 */
 	@Override
 	public java.lang.String value3() {
-		return getTitel();
+		return getTitle();
 	}
 
 	/**
@@ -188,7 +188,7 @@ public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	 */
 	@Override
 	public TemplateRecord value3(java.lang.String value) {
-		setTitel(value);
+		setTitle(value);
 		return this;
 	}
 
@@ -223,12 +223,12 @@ public class TemplateRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ip
 	/**
 	 * Create a detached, initialised TemplateRecord
 	 */
-	public TemplateRecord(java.lang.Integer idTemplate, java.lang.String template, java.lang.String titel, java.lang.String answerType) {
+	public TemplateRecord(java.lang.Integer idTemplate, java.lang.String template, java.lang.String title, java.lang.String answerType) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE);
 
 		setValue(0, idTemplate);
 		setValue(1, template);
-		setValue(2, titel);
+		setValue(2, title);
 		setValue(3, answerType);
 	}
 }

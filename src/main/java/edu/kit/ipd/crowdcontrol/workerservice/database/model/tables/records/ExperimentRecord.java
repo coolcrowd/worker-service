@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> implements org.jooq.Record17<java.lang.Integer, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.Integer, java.lang.Integer> {
 
-	private static final long serialVersionUID = -2101646327;
+	private static final long serialVersionUID = -1522430941;
 
 	/**
 	 * Setter for <code>crowdcontrol.Experiment.id_experiment</code>.
@@ -28,16 +28,16 @@ public class ExperimentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	}
 
 	/**
-	 * Setter for <code>crowdcontrol.Experiment.titel</code>.
+	 * Setter for <code>crowdcontrol.Experiment.title</code>.
 	 */
-	public void setTitel(java.lang.String value) {
+	public void setTitle(java.lang.String value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Experiment.titel</code>.
+	 * Getter for <code>crowdcontrol.Experiment.title</code>.
 	 */
-	public java.lang.String getTitel() {
+	public java.lang.String getTitle() {
 		return (java.lang.String) getValue(1);
 	}
 
@@ -296,7 +296,7 @@ public class ExperimentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	 */
 	@Override
 	public org.jooq.Field<java.lang.String> field2() {
-		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.TITEL;
+		return edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.TITLE;
 	}
 
 	/**
@@ -432,7 +432,7 @@ public class ExperimentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	 */
 	@Override
 	public java.lang.String value2() {
-		return getTitel();
+		return getTitle();
 	}
 
 	/**
@@ -569,7 +569,7 @@ public class ExperimentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	 */
 	@Override
 	public ExperimentRecord value2(java.lang.String value) {
-		setTitel(value);
+		setTitle(value);
 		return this;
 	}
 
@@ -730,11 +730,11 @@ public class ExperimentRecord extends org.jooq.impl.UpdatableRecordImpl<edu.kit.
 	/**
 	 * Create a detached, initialised ExperimentRecord
 	 */
-	public ExperimentRecord(java.lang.Integer idExperiment, java.lang.String titel, java.lang.String description, java.lang.Integer neededAnswers, java.lang.Integer ratingsPerAnswer, java.lang.Integer anwersPerWorker, java.lang.Integer ratingsPerWorker, java.lang.String answerType, java.lang.String algorithmTaskChooser, java.lang.String algorithmQualityAnswer, java.lang.String algorithmQualityRating, java.lang.Integer basePayment, java.lang.Integer bonusAnswer, java.lang.Integer bonusRating, java.lang.String templateData, java.lang.Integer template, java.lang.Integer workerQualityThreshold) {
+	public ExperimentRecord(java.lang.Integer idExperiment, java.lang.String title, java.lang.String description, java.lang.Integer neededAnswers, java.lang.Integer ratingsPerAnswer, java.lang.Integer anwersPerWorker, java.lang.Integer ratingsPerWorker, java.lang.String answerType, java.lang.String algorithmTaskChooser, java.lang.String algorithmQualityAnswer, java.lang.String algorithmQualityRating, java.lang.Integer basePayment, java.lang.Integer bonusAnswer, java.lang.Integer bonusRating, java.lang.String templateData, java.lang.Integer template, java.lang.Integer workerQualityThreshold) {
 		super(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT);
 
 		setValue(0, idExperiment);
-		setValue(1, titel);
+		setValue(1, title);
 		setValue(2, description);
 		setValue(3, neededAnswers);
 		setValue(4, ratingsPerAnswer);

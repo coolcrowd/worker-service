@@ -48,10 +48,10 @@ public class ExperimentDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontro
 	}
 
 	/**
-	 * Fetch records that have <code>titel IN (values)</code>
+	 * Fetch records that have <code>title IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByTitel(java.lang.String... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.TITEL, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByTitle(java.lang.String... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.TITLE, values);
 	}
 
 	/**

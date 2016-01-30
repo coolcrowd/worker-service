@@ -11,10 +11,10 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1631883644;
+	private static final long serialVersionUID = -1701936564;
 
 	private java.lang.Integer idExperiment;
-	private java.lang.String  titel;
+	private java.lang.String  title;
 	private java.lang.String  description;
 	private java.lang.Integer neededAnswers;
 	private java.lang.Integer ratingsPerAnswer;
@@ -35,7 +35,7 @@ public class Experiment implements java.io.Serializable {
 
 	public Experiment(
 		java.lang.Integer idExperiment,
-		java.lang.String  titel,
+		java.lang.String  title,
 		java.lang.String  description,
 		java.lang.Integer neededAnswers,
 		java.lang.Integer ratingsPerAnswer,
@@ -53,7 +53,7 @@ public class Experiment implements java.io.Serializable {
 		java.lang.Integer workerQualityThreshold
 	) {
 		this.idExperiment = idExperiment;
-		this.titel = titel;
+		this.title = title;
 		this.description = description;
 		this.neededAnswers = neededAnswers;
 		this.ratingsPerAnswer = ratingsPerAnswer;
@@ -79,12 +79,12 @@ public class Experiment implements java.io.Serializable {
 		this.idExperiment = idExperiment;
 	}
 
-	public java.lang.String getTitel() {
-		return this.titel;
+	public java.lang.String getTitle() {
+		return this.title;
 	}
 
-	public void setTitel(java.lang.String titel) {
-		this.titel = titel;
+	public void setTitle(java.lang.String title) {
+		this.title = title;
 	}
 
 	public java.lang.String getDescription() {
