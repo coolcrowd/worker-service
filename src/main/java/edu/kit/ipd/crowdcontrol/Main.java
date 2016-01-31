@@ -8,7 +8,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperat
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
-import edu.kit.ipd.crowdcontrol.workerservice.query.Query;
+import edu.kit.ipd.crowdcontrol.workerservice.query.Queries;
 import org.jooq.SQLDialect;
 
 import javax.naming.NamingException;
@@ -65,9 +65,9 @@ public class Main {
                 config.getProperty("os_username"),
                 config.getProperty("os_password")
         );
-        Query query = new Query(populationsOperations, experimentOperations, platformOperations, communication, taskOperations);
+        Queries queries = new Queries(populationsOperations, experimentOperations, platformOperations, communication, taskOperations);
         Commands commands = new Commands(communication, experimentOperations);
-        Router router = new Router(query, commands);
+        Router router = new Router(queries, commands);
         router.init();
     }
 }

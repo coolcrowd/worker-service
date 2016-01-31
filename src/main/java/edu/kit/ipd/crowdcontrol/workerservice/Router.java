@@ -2,7 +2,7 @@ package edu.kit.ipd.crowdcontrol.workerservice;
 
 import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.ErrorResponse;
-import edu.kit.ipd.crowdcontrol.workerservice.query.Query;
+import edu.kit.ipd.crowdcontrol.workerservice.query.Queries;
 import spark.Request;
 import spark.Response;
 import spark.servlet.SparkApplication;
@@ -15,16 +15,16 @@ import static spark.Spark.*;
  * @version 1.0
  */
 public class Router implements SparkApplication, RequestHelper {
-    private final Query query;
+    private final Queries queries;
     private final Commands commands;
 
     /**
      * creates a new Router.
-     * @param query the query to call
+     * @param queries the query to call
      * @param commands the commands to call
      */
-    public Router(Query query, Commands commands) {
-        this.query = query;
+    public Router(Queries queries, Commands commands) {
+        this.queries = queries;
         this.commands = commands;
     }
 
@@ -55,7 +55,9 @@ public class Router implements SparkApplication, RequestHelper {
             response.body("notAcceptable: " + exception.getMessage());
         });
 
-        get("/next/:platform/:experiment", query::getNext);
+        get("/preview/:experiment", queries::preview);
+
+        get("/next/:platform/:experiment", queries::getNext);
 
         post("/email/:platform", commands::submitEmail);
 

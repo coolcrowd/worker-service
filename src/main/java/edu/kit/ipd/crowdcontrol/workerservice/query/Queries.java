@@ -25,32 +25,34 @@ import java.util.stream.Collectors;
 
 /**
  * The class query is responsible for the query-part of the CQRS-pattern. Therefore it provides the getNext-method used
- * for the /next query.
+ * for the /next query and getPreview used for the /preview-query.
  *
  * @author LeanderK
  * @version 1.0
  */
-public class Query implements RequestHelper {
+public class Queries implements RequestHelper {
     private final HashMap<String, TaskChooserAlgorithm> strategies = new HashMap<>();
     private final PopulationsOperations populationsOperations;
     private final ExperimentOperations experimentOperations;
     private final PlatformOperations platformOperations;
     private final TaskOperations taskOperations;
     private final Communication communication;
+    private final PreviewTaskChooser previewTaskChooser;
 
-    public Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
-                 PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations) {
+    public Queries(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
+                   PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations) {
         this.populationsOperations = populationsOperations;
         this.experimentOperations = experimentOperations;
         this.platformOperations = platformOperations;
         this.communication = communication;
         this.taskOperations = taskOperations;
+        previewTaskChooser = new PreviewTaskChooser(experimentOperations, taskOperations);
         registerTaskChooser(new AntiSpoof(experimentOperations, taskOperations));
     }
 
-    Query(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
-          PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
-          TaskChooserAlgorithm mockUp) {
+    Queries(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
+            PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
+            TaskChooserAlgorithm mockUp) {
         this(populationsOperations, experimentOperations, platformOperations, communication, taskOperations);
         if (mockUp != null)
             registerTaskChooser(mockUp);
@@ -71,6 +73,20 @@ public class Query implements RequestHelper {
                         parameter.getRegex(),
                         parameter.getData())
                 );
+    }
+
+    /**
+     * this method returns an overview over the assignment, an instance of view, where containing only information
+     * about the experiment.
+     * @param request the SparkJava-Request
+     * @param response the SparkJava-Response
+     * @return the JSON-Representation of View
+     */
+    public String preview(Request request, Response response) {
+        int experimentId = assertParameterInt(request, "experiment");
+        return previewTaskChooser.next(View.newBuilder(), request, experimentId, "", false, false)
+                .map(view -> transform(request, response, view))
+                .orElseThrow(() -> new InternalServerErrorException("Unable to create Preview!"));
     }
 
     /**
