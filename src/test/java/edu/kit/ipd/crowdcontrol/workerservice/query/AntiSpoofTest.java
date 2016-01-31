@@ -21,41 +21,42 @@ public class AntiSpoofTest {
     Predicate<String> regex = input -> input.matches(AntiSpoof.REGEX);
 
     private AntiSpoof antiSpoof;
-    private OperationsDataHolder operationsDataHolder;
+    private OperationsDataHolder data;
     private ExperimentRecord experiment;
 
     @Before
     public void setUp() {
-        operationsDataHolder = new OperationsDataHolder();
-        experiment = operationsDataHolder.getExperimentRecord();
-        antiSpoof = new AntiSpoof(operationsDataHolder.createExperimentOperations(), operationsDataHolder.createTaskOperations());
+        data = new OperationsDataHolder();
+        experiment = data.getExperimentRecord();
+        antiSpoof = new AntiSpoof(data.createExperimentOperations(), data.createTaskOperations());
     }
 
     @Test
     public void testNextPhase1() throws Exception {
-        View.Type type = testNextHelper(experiment.getNeededAnswers(), 0, experiment.getNeededAnswers() / 2, false).get();
+        View.Type type = testNextHelper(experiment.getNeededAnswers(), 0, false).get();
         assertTrue(type.equals(View.Type.ANSWER));
+
+        Optional<View.Type> optional = testNextHelper(experiment.getNeededAnswers(), 0, true);
+        assertTrue(!optional.isPresent());
     }
 
     @Test
     public void testNextPhase2() throws Exception {
-        View.Type type = testNextHelper(0, experiment.getNeededAnswers(), experiment.getNeededAnswers() / 2, false).get();
+        View.Type type = testNextHelper(0, experiment.getNeededAnswers()/ 2, false).get();
         assertTrue(type.equals(View.Type.ANSWER));
 
-        type = testNextHelper(0, experiment.getNeededAnswers(), experiment.getNeededAnswers() / 2, true).get();
-        assertTrue(type.equals(View.Type.RATING));
+        View.Type type2 = testNextHelper(0, experiment.getNeededAnswers()/ 2, true).get();
+        assertTrue(type2.equals(View.Type.RATING));
     }
 
     @Test
     public void testNextPhase3() throws Exception {
-        View.Type type = testNextHelper(0, experiment.getNeededAnswers() / 2, experiment.getNeededAnswers(), false).get();
+        View.Type type = testNextHelper(0, experiment.getNeededAnswers(), false).get();
         assertTrue(type.equals(View.Type.RATING));
-    }
 
-    @Test
-    public void testNextPhase3NeedingAnswers() throws Exception {
-        View.Type type = testNextHelper(0, experiment.getNeededAnswers() / 2, experiment.getNeededAnswers()-1, false).get();
-        assertTrue(type.equals(View.Type.ANSWER));
+        data.setAvailableAnswers(0);
+        Optional<View.Type> optional = testNextHelper(0, experiment.getNeededAnswers(), false);
+        assertTrue(!optional.isPresent());
     }
 
     @Test
@@ -113,17 +114,16 @@ public class AntiSpoofTest {
         }
     }
 
-    private Optional<View.Type> testNextHelper(int phase1, int phase2, int givenTotalAnswers, boolean disableAnswer) throws Exception {
+    private Optional<View.Type> testNextHelper(int phase1, int givenTotalAnswers, boolean disableAnswer) throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put(String.valueOf(1), phase1 + "ab");
-        map.put(String.valueOf(2), phase2 + "ab");
         if (disableAnswer) {
-            operationsDataHolder.setAnswerGiveCountWorker(experiment.getAnwersPerWorker());
+            data.setAnswerGiveCountWorker(experiment.getAnwersPerWorker());
         }
-        operationsDataHolder.setAnswerCountTotal(givenTotalAnswers);
-        operationsDataHolder.setTaskChooserParams(map);
-        TaskOperations taskOperations = operationsDataHolder.createTaskOperations();
-        ExperimentOperations experimentOperations = operationsDataHolder.createExperimentOperations();
+        data.setAnswerCountTotal(givenTotalAnswers);
+        data.setTaskChooserParams(map);
+        TaskOperations taskOperations = data.createTaskOperations();
+        ExperimentOperations experimentOperations = data.createExperimentOperations();
         AntiSpoof antiSpoof = new AntiSpoof(experimentOperations, taskOperations);
         return antiSpoof.next(prepareBuilder(), null, experiment.getIdExperiment(), null, false, false)
                 .map(View::getType);
@@ -131,6 +131,6 @@ public class AntiSpoofTest {
 
     private View.Builder prepareBuilder() {
         return View.newBuilder()
-                .setWorkerId(operationsDataHolder.getWorkerID());
+                .setWorkerId(data.getWorkerID());
     }
 }

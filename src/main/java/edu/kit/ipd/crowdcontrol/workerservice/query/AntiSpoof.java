@@ -7,9 +7,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.lambda.tuple.Tuple2;
 import spark.Request;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,16 +22,17 @@ public class AntiSpoof extends TaskChooserAlgorithm {
     static final String DESCRIPTION = "This AntiSpoof algorithm divides the runtime of the experiment into 3 phases. In " +
             "the first phase the workers are only allowed to work on creative tasks. Then in the second " +
             "phase, the worker can work on both the creative and the rating task. The last phase consists only of the " +
-            "assignment to rate.";
+            "assignment to rate. You can set the duration of the first phase either as an absolute number or as an " +
+            "percentage of the total needed answers of the experiment. The duration of the second phase is defined as " +
+            "the difference of the first phase and the total number of answers needed. The third phase will then run " +
+            "until all the remaining ratings got collected.";
     private static final String REGEX_ABSOLUTE = "ab";
     private static final String REGEX_PERCENTAGE = "pc";
     static final String REGEX = "(([0-9]+"+ REGEX_ABSOLUTE +")|((100|[0-9]?[0-9])"+ REGEX_PERCENTAGE +"))";
     static final String DB_REGEX = "^" + REGEX + "$";
-    private static final String PARAM_DESCRIPTION = "Set the amount of answers the phase %d represents. The following " +
-            "formats are supported: [0-9]+ab for setting an absolute number of answers. An Example: 123ab sets the" +
-            "duration of the phase to 123 answers. Another way to set duration is the percentage of all answers and " +
-            "letters 'pc'. For this format an example would be 30pc, which sets the duration of the phase to 30 percent" +
-            " of the total answers of the experiment";
+    private static final String PARAM_DESCRIPTION = "Set the amount of answers in the first phase. To set the absolute " +
+            "number just type the number followed by ab, example \"150ab\" for 150 answers. To set the parameter to a " +
+            "percentage type first the percentage followed by pc, example \"30pc\" for 30 percent.";
 
 
     /**
@@ -73,11 +72,7 @@ public class AntiSpoof extends TaskChooserAlgorithm {
      */
     @Override
     public List<TaskChooserParameter> getParameters() {
-        //TODO: we don't need the second phase?!
-        return Stream.of(1, 2)
-                .map(phase -> new Tuple2<>(String.format(PARAM_DESCRIPTION, phase), String.valueOf(phase)))
-                .map(descriptionPhase -> new TaskChooserParameter(descriptionPhase.v1, DB_REGEX, descriptionPhase.v2))
-                .collect(Collectors.toList());
+        return Collections.singletonList(new TaskChooserParameter(PARAM_DESCRIPTION, DB_REGEX, "1"));
     }
 
     /**
@@ -103,16 +98,11 @@ public class AntiSpoof extends TaskChooserAlgorithm {
                         entry -> getParameterValue(entry.getValue(), experimentID)
                 ));
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
-        if (answersCount <= phases.get(1)) {
+        if ((answersCount <= phases.get(1)) && (answersCount < experiment.getNeededAnswers())) {
             //phase 1: no rating
             return constructView(builder, experimentID, skipCreative, true);
-        } else if (answersCount <= (phases.get(1) + phases.get(2))) {
+        } else if (answersCount < experiment.getNeededAnswers()) {
             //phase 2: rating + creative
-            return constructView(builder, experimentID, skipCreative, skipRating);
-        } else if (answersCount < experiment.getNeededAnswers()){
-            System.err.println(String.format("AntiSpoof should be in phase 3, but there are answers missing, " +
-                    "experiment = %d, worker = %d, answersCount = %d", experimentID, builder.getWorkerId(), answersCount));
-            //phase 3: if the user made an error we would be missing some of the creative-answers
             return constructView(builder, experimentID, skipCreative, skipRating);
         } else {
             return constructView(builder, experimentID, true, skipRating);
