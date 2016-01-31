@@ -57,10 +57,11 @@ public class TaskOperations extends AbstractOperation {
      * @return the list of answers to rate
      */
     public List<AnswerRecord> prepareRating(int worker, int experiment, int amount) {
+        return create.transactionResult(config -> {
             LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
             Timestamp timestamp = Timestamp.valueOf(limit);
             Field<Integer> count = DSL.count(RATING.ID_RATING).as("count");
-            List<AnswerRecord> toRate = create.select()
+            List<AnswerRecord> toRate = DSL.using(config).select()
                     .select(ANSWER.fields())
                     .select(count)
                     .from(ANSWER)
@@ -88,9 +89,10 @@ public class TaskOperations extends AbstractOperation {
                     })
                     .collect(Collectors.toList());
 
-            create.batchInsert(emptyRatings).execute();
+            DSL.using(config).batchInsert(emptyRatings).execute();
 
             return toRate;
+        });
     }
 
     /**
