@@ -1,7 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice;
 
 import com.google.protobuf.util.JsonFormat;
-import edu.kit.ipd.crowdcontrol.workerservice.database.OperationsHelper;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.junit.Test;
 import spark.Request;
@@ -19,7 +19,7 @@ public class RequestHelperTest implements RequestHelper {
 
     @Test
     public void testAssertQuery() throws Exception {
-        String test1 = OperationsHelper.nextRandomString();
+        String test1 = OperationsDataHolder.nextRandomString();
         Request request = prepareRequest(test1, false, true);
         String result = assertQuery(request, "test");
         assertTrue(test1.equals(result));
@@ -27,7 +27,7 @@ public class RequestHelperTest implements RequestHelper {
 
     @Test(expected = BadRequestException.class)
     public void testAssertQueryBadRequest() throws Exception {
-        String test1 = OperationsHelper.nextRandomString();
+        String test1 = OperationsDataHolder.nextRandomString();
         Request request = prepareRequest(test1, true, true);
         assertQuery(request, "test");
     }
@@ -52,7 +52,7 @@ public class RequestHelperTest implements RequestHelper {
         Request request = prepareRequest(null, false, true);
         Response mock = mock(Response.class);
         JsonFormat.Parser parser = JsonFormat.parser();
-        String test1 = OperationsHelper.nextRandomString();
+        String test1 = OperationsDataHolder.nextRandomString();
         View build = View.newBuilder().setDescription(test1).build();
         String transform = transform(request, mock, build);
         View.Builder result = View.newBuilder();
@@ -64,7 +64,7 @@ public class RequestHelperTest implements RequestHelper {
     public void testTransformNotAcceptable() throws Exception {
         Request request = prepareRequest(null, false, false);
         Response mock = mock(Response.class);
-        String test1 = OperationsHelper.nextRandomString();
+        String test1 = OperationsDataHolder.nextRandomString();
         View build = View.newBuilder().setDescription(test1).build();
         transform(request, mock, build);
     }

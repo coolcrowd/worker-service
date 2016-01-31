@@ -77,7 +77,7 @@ public class ExperimentOperations extends AbstractOperation {
                         .and(Tables.ALGORITHM_TASK_CHOOSER_PARAM.REGEX.eq(regex))
         );
         if (!exists) {
-            return DSL.insertInto(Tables.ALGORITHM_TASK_CHOOSER_PARAM)
+            return create.insertInto(Tables.ALGORITHM_TASK_CHOOSER_PARAM)
                     .set(new AlgorithmTaskChooserParamRecord(null, description, regex, taskChooser, data))
                     .execute() == 1;
         }

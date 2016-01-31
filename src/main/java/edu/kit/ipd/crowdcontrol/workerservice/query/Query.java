@@ -52,7 +52,8 @@ public class Query implements RequestHelper {
           PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
           TaskChooserAlgorithm mockUp) {
         this(populationsOperations, experimentOperations, platformOperations, communication, taskOperations);
-        registerTaskChooser(mockUp);
+        if (mockUp != null)
+            registerTaskChooser(mockUp);
     }
 
     /**
@@ -147,7 +148,7 @@ public class Query implements RequestHelper {
     }
 
     /**
-     * handels the case where no workerID was provided (workerID = -1).
+     * handles the case where no workerID was provided (workerID = -1).
      * This method just asks the Platform what to ID the worker should have and then calls getNext.
      *
      * @param builder the builder to use
@@ -266,7 +267,7 @@ public class Query implements RequestHelper {
      */
     private Optional<View> getEmail(View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
-        if (platformOperations.getPlatform(platformName).getNeedsEmail()) {
+        if (platformOperations.getPlatform(platformName).getNeedsEmail() && builder.getWorkerId() == -1) {
             return Optional.of(builder.setType(View.Type.EMAIL).build());
         } else if (builder.getWorkerId() == -1) {
             throw new InternalServerErrorException("internal server error: did not get a workerID" +

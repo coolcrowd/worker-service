@@ -1,11 +1,11 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.OperationsHelper;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
@@ -18,16 +18,18 @@ import static org.junit.Assert.assertTrue;
  * @version 1.0
  */
 public class AntiSpoofTest {
-    private final OperationsHelper operationsHelper = new OperationsHelper();
-    private final ExperimentRecord experiment = operationsHelper.generateExperimentRecord(AntiSpoof.NAME);
-    private final ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experiment,
-            AntiSpoof.DESCRIPTION, new ArrayList<>(), null);
-    private final List<AnswerRecord> answerRecords = operationsHelper.generateAnswers(experiment.getRatingsPerWorker(), experiment.getIdExperiment());
-    private final int workerID = (int) (100 * (Math.random()));
-    private final int givenAnswers = experiment.getAnwersPerWorker()/4;
-    private final int givenRatings = experiment.getRatingsPerWorker()/4;
-    private final AntiSpoof antiSpoof = new AntiSpoof(experimentOperations, null);
     Predicate<String> regex = input -> input.matches(AntiSpoof.REGEX);
+
+    private AntiSpoof antiSpoof;
+    private OperationsDataHolder operationsDataHolder;
+    private ExperimentRecord experiment;
+
+    @Before
+    public void setUp() {
+        operationsDataHolder = new OperationsDataHolder();
+        experiment = operationsDataHolder.getExperimentRecord();
+        antiSpoof = new AntiSpoof(operationsDataHolder.createExperimentOperations(), operationsDataHolder.createTaskOperations());
+    }
 
     @Test
     public void testNextPhase1() throws Exception {
@@ -104,7 +106,7 @@ public class AntiSpoofTest {
     @Test
     public void testRegexRandom() throws Exception {
         for (int i = 0; i < 100; i++) {
-            String random = OperationsHelper.nextRandomString();
+            String random = OperationsDataHolder.nextRandomString();
             if (!random.contains("ab") && !random.contains("pc")) {
                 assertTrue(!regex.test(random));
             }
@@ -115,14 +117,13 @@ public class AntiSpoofTest {
         Map<String, String> map = new HashMap<>();
         map.put(String.valueOf(1), phase1 + "ab");
         map.put(String.valueOf(2), phase2 + "ab");
-        int givenAnswers = this.givenAnswers;
         if (disableAnswer) {
-            givenAnswers = experiment.getAnwersPerWorker();
+            operationsDataHolder.setAnswerGiveCountWorker(experiment.getAnwersPerWorker());
         }
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experiment, workerID, givenTotalAnswers,
-                givenAnswers, givenRatings, answerRecords, null, null);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experiment, AntiSpoof.DESCRIPTION,
-                new ArrayList<>(), map);
+        operationsDataHolder.setAnswerCountTotal(givenTotalAnswers);
+        operationsDataHolder.setTaskChooserParams(map);
+        TaskOperations taskOperations = operationsDataHolder.createTaskOperations();
+        ExperimentOperations experimentOperations = operationsDataHolder.createExperimentOperations();
         AntiSpoof antiSpoof = new AntiSpoof(experimentOperations, taskOperations);
         return antiSpoof.next(prepareBuilder(), null, experiment.getIdExperiment(), null, false, false)
                 .map(View::getType);
@@ -130,6 +131,6 @@ public class AntiSpoofTest {
 
     private View.Builder prepareBuilder() {
         return View.newBuilder()
-                .setWorkerId(workerID);
+                .setWorkerId(operationsDataHolder.getWorkerID());
     }
 }

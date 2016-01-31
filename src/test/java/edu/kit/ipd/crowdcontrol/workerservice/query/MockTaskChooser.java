@@ -1,8 +1,8 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.OperationsHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
@@ -21,31 +21,23 @@ class MockTaskChooser extends TaskChooserAlgorithm {
     private final String description;
     private final boolean creative;
     private final boolean finish;
-    private final int answerAmount;
-    private final int ratingAmount;
 
     public MockTaskChooser(String name, String description, boolean finish, boolean creative,
-                           ExperimentOperations experimentOperations, TaskOperations taskOperations, int answerAmount,
-                           int ratingAmount) {
+                           ExperimentOperations experimentOperations, TaskOperations taskOperations) {
         super(experimentOperations, taskOperations);
         this.name = name;
         this.description = description;
         this.finish = finish;
         this.creative = creative;
-        this.answerAmount = answerAmount;
-        this.ratingAmount = ratingAmount;
     }
 
     public MockTaskChooser(boolean finish, boolean creative, ExperimentRecord experimentRecord,
-                           ExperimentOperations experimentOperations, TaskOperations taskOperations, int answerAmount,
-                           int ratingAmount) {
+                           ExperimentOperations experimentOperations, TaskOperations taskOperations) {
         super(experimentOperations, taskOperations);
         this.name = experimentRecord.getAlgorithmTaskChooser();
-        this.description = OperationsHelper.nextRandomString();
+        this.description = OperationsDataHolder.nextRandomString();
         this.finish = finish;
         this.creative = creative;
-        this.answerAmount = answerAmount;
-        this.ratingAmount = ratingAmount;
     }
 
     @Override

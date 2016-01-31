@@ -3,18 +3,15 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 import com.google.protobuf.util.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
-import edu.kit.ipd.crowdcontrol.workerservice.database.OperationsHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.*;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.Result;
+import org.junit.Before;
 import org.junit.Test;
 import spark.QueryParamsMap;
 import spark.Request;
@@ -24,6 +21,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.doubleThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,19 +31,19 @@ import static org.mockito.Mockito.when;
  */
 public class QueryTest {
     private final JsonFormat.Parser parser = JsonFormat.parser();
-    private final OperationsHelper operationsHelper = new OperationsHelper();
 
+    private OperationsDataHolder data;
+
+    @Before
+    public void setUp() {
+        data = new OperationsDataHolder();
+    }
 
     @Test
     public void testExpectEmail() throws Exception {
-        int experimentID = 1;
-        String platform = "a";
-        Request request = prepareRequest(experimentID, platform, -1);
+        Request request = prepareRequest(data.getExperimentRecord().getIdExperiment(), data.getPlatformRecord().getIdPlatform(), -1);
         Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, true, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
-        Query query =  new Query(null, experimentOperations, platformOperations, communication, null);
+        Query query =  prepareQuery(data, Optional.empty(), null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
         parser.merge(json, builder);
@@ -54,50 +52,33 @@ public class QueryTest {
 
     @Test(expected = InternalServerErrorException.class)
     public void testExpectEmailFail() throws Exception {
-        int experimentID = 1;
-        String platform = "a";
-        Request request = prepareRequest(experimentID, platform, -1);
+        data.getPlatformRecord().setNeedsEmail(false);
+        Request request = prepareRequest(data.getExperimentRecord().getIdExperiment(), data.getPlatformRecord().getIdPlatform(), -1);
         Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
-        Query query =  new Query(null, experimentOperations, platformOperations, communication, null);
-        String json = query.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.EMAIL));
+        Query query =  prepareQuery(data, Optional.empty(), null);
+        query.getNext(request, response);
     }
 
     @Test
     public void testExpectGetWorkerID() throws Exception {
-        int experimentID = 1;
-        String platform = "a";
-        int workerID = 3;
-        Request request = prepareRequest(experimentID, platform, workerID);
+        data.setBelongsToWrongPopulation(true);
+        data.getPlatformRecord().setNeedsEmail(false);
+        Request request = prepareRequest(data.getExperimentRecord().getIdExperiment(), data.getPlatformRecord().getIdPlatform(), -1);
         Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.of(workerID));
-        PopulationsOperations populationsOperations = operationsHelper.preparePopulationOperations(experimentID, platform, workerID, true, null);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
-        Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
+        Query query =  prepareQuery(data, Optional.of(data.getWorkerID()), null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
         parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.FINISHED));
+        assertTrue(builder.getWorkerId() == data.getWorkerID());
     }
+
 
     @Test
     public void testProvideWorkerID() throws Exception {
-        int experimentID = 1;
-        String platform = "a";
-        int workerID = 3;
-        Request request = prepareRequest(experimentID, platform, workerID);
+        data.setBelongsToWrongPopulation(true);
+        Request request = prepareRequest(data);
         Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        PopulationsOperations populationsOperations = operationsHelper.preparePopulationOperations(experimentID, platform, workerID, true, null);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
-        Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
+        Query query = prepareQuery(data, Optional.empty(), null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
         parser.merge(json, builder);
@@ -106,36 +87,21 @@ public class QueryTest {
 
     @Test(expected= BadRequestException.class)
     public void testProvideStringWorkerID() throws Exception {
-        int experimentID = 1;
-        String platform = "a";
         String workerID = "af";
-        Request request = prepareRequest(experimentID, platform, -1);
+        Request request = prepareRequest(data);
         when(request.queryParams("worker")).thenReturn(workerID);
         Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        PopulationsOperations populationsOperations = operationsHelper.preparePopulationOperations(experimentID, platform, 3, true, null);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
-        Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
-        String json = query.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.FINISHED));
+        Query query =  prepareQuery(data, Optional.empty(), null);
+        query.getNext(request, response);
     }
+
 
     @Test
     public void testCalibrations() throws Exception {
-        int experimentID = 1;
-        String platform = "a";
-        int workerID = 3;
-        Request request = prepareRequest(experimentID, platform, workerID);
+        Request request = prepareRequest(data);
+        Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations = data.getCalibrations();
         Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations = operationsHelper.generatePopulations(experimentID);
-        PopulationsOperations populationsOperations = operationsHelper.preparePopulationOperations(experimentID, platform, workerID, false, calibrations);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
-        Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
+        Query query =  prepareQuery(data, Optional.empty(), null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
         parser.merge(json, builder);
@@ -156,21 +122,15 @@ public class QueryTest {
         assertTrue(!res.isPresent());
     }
 
+
     @Test
     public void testSkipAll() throws Exception {
-        int experimentID = 1;
-        String platform = "a";
-        int workerID = 3;
-        Request request = prepareRequest(experimentID, platform, workerID);
+        data.setCalibrations(new HashMap<>());
+        Request request = prepareRequest(data);
         when(request.queryParams("answer")).thenReturn("skip");
         when(request.queryParams("rating")).thenReturn("skip");
         Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        PopulationsOperations populationsOperations =
-                operationsHelper.preparePopulationOperations(experimentID, platform, workerID, false, new HashMap<>());
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentID);
-        Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, null);
+        Query query =  prepareQuery(data, Optional.empty(), null);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
         parser.merge(json, builder);
@@ -179,91 +139,57 @@ public class QueryTest {
 
     @Test
     public void testCreative() throws Exception {
-        ExperimentRecord experimentRecord = operationsHelper.generateExperimentRecord();
-        String platform = "a";
-        int workerID = 3;
-        Request request = prepareRequest(experimentRecord.getIdExperiment(), platform, workerID);
-        Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        PopulationsOperations populationsOperations =
-                operationsHelper.preparePopulationOperations(experimentRecord.getIdExperiment(), platform, workerID, false, new HashMap<>());
-        String mockTaskChooserDescription = "mockTaskChooserDescription";
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentRecord, mockTaskChooserDescription, new ArrayList<>(), null);
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentRecord, workerID, 0, 0, 0, new ArrayList<>(), platform, null);
-        MockTaskChooser mockTaskChooser = new MockTaskChooser(false, true, experimentRecord, experimentOperations, taskOperations, 10, 10);
-        Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, taskOperations, mockTaskChooser);
-        String json = query.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
+        View.Builder builder = testWithTaskChooser(false, true);
         assertTrue(builder.getType().equals(View.Type.ANSWER));
     }
 
     @Test
     public void testRating() throws Exception {
-        ExperimentRecord experimentRecord = operationsHelper.generateExperimentRecord();
-        String platform = "a";
-        int workerID = 3;
-        Request request = prepareRequest(experimentRecord.getIdExperiment(), platform, workerID);
-        Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        PopulationsOperations populationsOperations =
-                operationsHelper.preparePopulationOperations(experimentRecord.getIdExperiment(), platform, workerID, false, new HashMap<>());
-        String mockTaskChooserDescription = "mockTaskChooserDescription";
-        int ratingAmount = (int) (100 * (Math.random()));
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentRecord, mockTaskChooserDescription, new ArrayList<>(), null);
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentRecord, workerID, 100, 10, 10, new ArrayList<>(), platform, null);
-        MockTaskChooser mockTaskChooser = new MockTaskChooser(experimentRecord.getAlgorithmTaskChooser(), mockTaskChooserDescription, false, false, experimentOperations, taskOperations, 0, ratingAmount);
-        Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, taskOperations, mockTaskChooser);
-        String json = query.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
+        View.Builder builder = testWithTaskChooser(false, false);
         assertTrue(builder.getType().equals(View.Type.RATING));
     }
 
     @Test
     public void testStopgapAnswer() throws Exception {
-        ExperimentRecord experimentRecord = operationsHelper.generateExperimentRecord();
-        String platform = "a";
-        int workerID = 3;
-        Request request = prepareRequest(experimentRecord.getIdExperiment(), platform, workerID);
-        Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        PopulationsOperations populationsOperations =
-                operationsHelper.preparePopulationOperations(experimentRecord.getIdExperiment(), platform, workerID, false, new HashMap<>());
-        String mockTaskChooserDescription = "mockTaskChooserDescription";
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentRecord, mockTaskChooserDescription, new ArrayList<>(), null);
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentRecord, workerID, 0, 0, 0, new ArrayList<>(), platform, TaskStopgap.answer);
-        MockTaskChooser mockTaskChooser = new MockTaskChooser(false, false, experimentRecord, experimentOperations, taskOperations, 10, 10);
-        Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, taskOperations, mockTaskChooser);
-        String json = query.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
+        data.getTaskRecord().setStopgap(TaskStopgap.answer);
+        View.Builder builder = testWithTaskChooser(false, false);
         assertTrue(builder.getType().equals(View.Type.FINISHED));
     }
 
     @Test
     public void testStopgapAnswerRating() throws Exception {
-        ExperimentRecord experimentRecord = operationsHelper.generateExperimentRecord();
-        String platform = "a";
-        int workerID = 3;
-        Request request = prepareRequest(experimentRecord.getIdExperiment(), platform, workerID);
+        data.getTaskRecord().setStopgap(TaskStopgap.rating);
+        View.Builder builder = testWithTaskChooser(false, true);
+        assertTrue(builder.getType().equals(View.Type.RATING));
+    }
+
+    private View.Builder testWithTaskChooser(boolean finish, boolean creative) throws Exception {
+        data.setCalibrations(new HashMap<>());
+        Request request = prepareRequest(data);
         Response response = mock(Response.class);
-        PlatformOperations platformOperations = operationsHelper.preparePlatformOperations(platform, false, true);
-        Communication communication = prepareCommunication(platform, Optional.empty());
-        PopulationsOperations populationsOperations =
-                operationsHelper.preparePopulationOperations(experimentRecord.getIdExperiment(), platform, workerID, false, new HashMap<>());
         String mockTaskChooserDescription = "mockTaskChooserDescription";
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experimentRecord, mockTaskChooserDescription, new ArrayList<>(), null);
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experimentRecord, workerID, 0, 0, 0, new ArrayList<>(), platform, TaskStopgap.rating);
-        MockTaskChooser mockTaskChooser = new MockTaskChooser(false, true, experimentRecord, experimentOperations, taskOperations, 10, 10);
+        data.getExperimentRecord().setAlgorithmTaskChooser(mockTaskChooserDescription);
+        ExperimentOperations experimentOperations = data.createExperimentOperations();
+        TaskOperations taskOperations = data.createTaskOperations();
+        PopulationsOperations populationsOperations = data.createPopulationsOperations();
+        PlatformOperations platformOperations = data.createPlatformOperations();
+        Communication communication = prepareCommunication(data.getPlatformRecord(), Optional.empty());
+        MockTaskChooser mockTaskChooser = new MockTaskChooser(finish, creative, data.getExperimentRecord(), experimentOperations, taskOperations);
         Query query =  new Query(populationsOperations, experimentOperations, platformOperations, communication, taskOperations, mockTaskChooser);
         String json = query.getNext(request, response);
         View.Builder builder = View.newBuilder();
         parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.RATING));
+        return builder;
+    }
+
+    private Query prepareQuery(OperationsDataHolder data,  Optional<Integer> communicationReturn, TaskChooserAlgorithm taskChooserAlgorithm) {
+        Communication communication = prepareCommunication(data.getPlatformRecord(), communicationReturn);
+        return new Query(data.createPopulationsOperations(), data.createExperimentOperations(), data.createPlatformOperations(),
+                communication, data.createTaskOperations(), taskChooserAlgorithm);
+    }
+
+    private Request prepareRequest(OperationsDataHolder dataHolder) {
+        return prepareRequest(dataHolder.getExperimentRecord().getIdExperiment(), dataHolder.getPlatformRecord().getIdPlatform(), dataHolder.getWorkerID());
     }
 
     private Request prepareRequest(int experimentID, String platform, int workerID) {
@@ -279,9 +205,9 @@ public class QueryTest {
         return mock;
     }
 
-    private Communication prepareCommunication(String platform, Optional<Integer> workerID) {
+    private Communication prepareCommunication(PlatformRecord platformRecord, Optional<Integer> workerID) {
         Communication communication = mock(Communication.class);
-        when(communication.tryGetWorkerID(platform, null))
+        when(communication.tryGetWorkerID(platformRecord.getIdPlatform(), null))
                 .thenReturn(CompletableFuture.completedFuture(workerID));
         return communication;
     }

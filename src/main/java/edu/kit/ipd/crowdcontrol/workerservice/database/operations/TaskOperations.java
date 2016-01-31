@@ -4,6 +4,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
@@ -71,7 +72,7 @@ public class TaskOperations extends AbstractOperation {
                     .and(ANSWER.WORKER_ID.notEqual(worker))
                     .and(ANSWER.ID_ANSWER.notIn(
                             DSL.select(RATING.ANSWER_R).where(RATING.WORKER_ID.eq(worker).and(RATING.EXPERIMENT.eq(experiment)))))
-                    .and(ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.notEqual(0)).or(true))
+                    .and(ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.notEqual(0)).or(DSL.condition(true)))
                     .groupBy(ANSWER.fields())
                     .having(count.lessThan(
                             DSL.select(EXPERIMENT.RATINGS_PER_ANSWER).from(EXPERIMENT).where(EXPERIMENT.ID_EXPERIMENT.eq(experiment))))

@@ -1,17 +1,14 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.OperationsHelper;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -23,48 +20,58 @@ public class TaskChooserAlgorithmTest {
     private final String mockTaskChooserName = "mockTaskChooser";
     private final String mockTaskChooserDescription= "mockTaskChooserDescription";
 
-    private final OperationsHelper operationsHelper = new OperationsHelper();
-    private final ExperimentRecord experiment = operationsHelper.generateExperimentRecord(mockTaskChooserName);
-    private final ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experiment, mockTaskChooserDescription, new ArrayList<>(), null);
-    private final List<AnswerRecord> answerRecords = operationsHelper.generateAnswers(experiment.getRatingsPerWorker(), experiment.getIdExperiment());
-    private final int workerID = (int) (100 * (Math.random()));
-    private final int givenAnswers = experiment.getAnwersPerWorker()/4;
-    private final int neededAnswersFromWorker = experiment.getAnwersPerWorker() - givenAnswers;
-    private final int givenTotalRatings = experiment.getRatingsPerWorker()/2;
-    private final int givenRatings = experiment.getRatingsPerWorker()/4;
-    private final int neededRatings = experiment.getRatingsPerWorker() - givenRatings;
-    private final TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experiment, workerID, experiment.getNeededAnswers()/2,
-            givenAnswers, givenRatings, answerRecords, null, null);
-    TaskChooserAlgorithm taskChooserAlgorithm = prepareTaskChooser(false, true, neededAnswersFromWorker, neededRatings);
+    TaskChooserAlgorithm taskChooserAlgorithm;
+    private OperationsDataHolder data;
+    int experimentID;
+    int neededRatings;
+    int neededAnswers;
+
+    @Before
+    public void setUp() {
+        data = new OperationsDataHolder();
+        taskChooserAlgorithm = prepareTaskChooser(false, true);
+        experimentID = data.getExperimentRecord().getIdExperiment();
+        int ratingGivenCountWorker = data.getRatingFivenCountWorker();
+        int totalRatingsPerWorker = data.getExperimentRecord().getRatingsPerWorker();
+        neededRatings = totalRatingsPerWorker - ratingGivenCountWorker;
+        int answerGivenCountWorker = data.getAnswerGiveCountWorker();
+        int answersTotalPerWorker = data.getExperimentRecord().getAnwersPerWorker();
+        neededAnswers = answersTotalPerWorker - answerGivenCountWorker;
+        assertTrue(neededAnswers > 0);
+        assertTrue(neededRatings > 0);
+    }
 
     @Test
     public void testConstructAnswerView() throws Exception {
+        data.setAnswerGiveCountWorker(0);
         View.Builder builder = prepareBuilder();
-        View view = taskChooserAlgorithm.constructAnswerView(builder, experiment.getIdExperiment(), neededAnswersFromWorker);
+        View view = taskChooserAlgorithm.constructAnswerView(builder, experimentID, neededAnswers);
         assertTrue(view.getType().equals(View.Type.ANSWER));
-        assertTrue(view.getMaxAnswersToGive() == neededAnswersFromWorker);
+        assertTrue(view.getMaxAnswersToGive() == neededAnswers);
     }
+
 
     @Test
     public void testConstructRatingView() throws Exception {
         View.Builder builder = prepareBuilder();
-        View view = taskChooserAlgorithm.constructRatingView(builder, experiment.getIdExperiment(), neededRatings).get();
+        View view = taskChooserAlgorithm.constructRatingView(builder, experimentID, neededRatings).get();
         assertTrue(view.getType().equals(View.Type.RATING));
-        assertTrue(builder.getAnswersToRateCount() != 0);
+        assertTrue(builder.getAnswersToRateCount() != neededRatings);
         for (View.Answer answer : builder.getAnswersToRateList()) {
-            assertTrue(answerRecords.get(answer.getId()).getAnswer().equals(answer.getAnswer()));
+            assertTrue(data.getAnswerRecords().get(answer.getId()).getAnswer().equals(answer.getAnswer()));
         }
     }
+
 
     @Test
     public void testConstructEmptyRatingView() throws Exception {
         View.Builder builder = prepareBuilder();
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experiment, workerID, givenTotalRatings,
-                givenAnswers, givenRatings, new ArrayList<>(), null, null);
-        MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(experimentOperations, taskOperations);
-        Optional<View> optional = taskChooserAlgorithm.constructRatingView(builder, experiment.getIdExperiment(), neededRatings);
+        data.setAvailableAnswers(0);
+        taskChooserAlgorithm = prepareTaskChooser(false, true);
+        Optional<View> optional = taskChooserAlgorithm.constructRatingView(builder, experimentID, neededRatings);
         assertTrue(!optional.isPresent());
     }
+
 
     @Test
     public void testPrepareBuilder() throws Exception {
@@ -74,15 +81,13 @@ public class TaskChooserAlgorithmTest {
         String pictureLUrl = "ww.xyz.de";
         String pictures = "{!" + pictureUrl + " " + pictureLUrl + "} {!" + pictureUrl + "}";
         String resultingDescription = description+ pictures;
-        List<String> constraints = Arrays.asList("const1", "const2");
 
         View.Builder builder = prepareBuilder();
-        ExperimentRecord experiment = this.experiment.copy();
-        experiment.setIdExperiment(this.experiment.getIdExperiment());
+        ExperimentRecord experiment = data.getExperimentRecord();
         experiment.setTitle(title);
         experiment.setDescription(resultingDescription);
-        ExperimentOperations experimentOperations = operationsHelper.prepareExperimentOperations(experiment,
-                mockTaskChooserDescription, constraints, null);
+        ExperimentOperations experimentOperations = data.createExperimentOperations();
+        TaskOperations taskOperations = data.createTaskOperations();
         MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(experimentOperations, taskOperations);
         View view = taskChooserAlgorithm.prepareBuilder(builder, experiment.getIdExperiment()).build();
         assertTrue(view.getTitle().equals(title));
@@ -91,52 +96,55 @@ public class TaskChooserAlgorithmTest {
         assertTrue(view.getPictures(0).getUrl().equals(pictureUrl));
         assertTrue(view.getPictures(0).getUrlLicense().equals(pictureLUrl));
         assertTrue(view.getPictures(1).getUrl().equals(pictureUrl));
-        assertTrue(view.getConstraintsCount() != 0);
-        assertTrue(view.getConstraints(0).getName().equals(constraints.get(0)));
-        assertTrue(view.getConstraints(1).getName().equals(constraints.get(1)));
+        assertTrue(view.getConstraintsCount() == data.getConstraints().size());
+        Set<String> originalConstraints = new HashSet<>(data.getConstraints());
+        for (View.Constraint constraint : view.getConstraintsList()) {
+            assertTrue(originalConstraints.contains(constraint.getName()));
+        }
     }
+
 
     @Test
     public void testConstructViewSkipSkip() throws Exception {
         View.Builder builder = prepareBuilder();
-        Optional<View> optional = taskChooserAlgorithm.constructView(builder, experiment.getIdExperiment(), true, true);
+        Optional<View> optional = taskChooserAlgorithm.constructView(builder, data.getExperimentRecord().getIdExperiment(), true, true);
         assertTrue(!optional.isPresent());
     }
+
 
     @Test
     public void testConstructViewReturningAnswer() throws Exception {
         View.Builder builder = prepareBuilder();
-        View view = taskChooserAlgorithm.constructView(builder, experiment.getIdExperiment(), false, false).get();
+        View view = taskChooserAlgorithm.constructView(builder, data.getExperimentRecord().getIdExperiment(), false, false).get();
         assertTrue(view.getType().equals(View.Type.ANSWER));
-        assertTrue(view.getMaxAnswersToGive() == (experiment.getAnwersPerWorker() - givenAnswers));
+        assertTrue(view.getMaxAnswersToGive() == (neededAnswers));
     }
 
     @Test
     public void testConstructViewReturningRatingEnoughAnswers() throws Exception {
         View.Builder builder = prepareBuilder();
-        TaskOperations taskOperations = operationsHelper.prepareTaskOperations(experiment, workerID, givenTotalRatings,
-                experiment.getAnwersPerWorker(), givenRatings, answerRecords, null, null);
-        MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(experimentOperations, taskOperations);
-        View view = taskChooserAlgorithm.constructView(builder, experiment.getIdExperiment(), false, false).get();
+        data.setAnswerGiveCountWorker(data.getExperimentRecord().getAnwersPerWorker());
+        MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(data.createExperimentOperations(), data.createTaskOperations());
+        View view = taskChooserAlgorithm.constructView(builder, data.getExperimentRecord().getIdExperiment(), false, false).get();
         assertTrue(view.getType().equals(View.Type.RATING));
     }
 
     private View.Builder prepareBuilder() {
         return View.newBuilder()
-                .setWorkerId(workerID);
+                .setWorkerId(data.getWorkerID());
     }
 
     private MockTaskChooser prepareTaskChooser(ExperimentOperations experimentOperations, TaskOperations taskOperations) {
-        return prepareTaskChooser(false, true, 0, 0, experimentOperations, taskOperations);
+        return prepareTaskChooser(false, true, experimentOperations, taskOperations);
     }
 
-    private MockTaskChooser prepareTaskChooser(boolean finish, boolean creative, int requestAnswersAmount, int requestRatingAmount) {
-        return prepareTaskChooser(finish, creative, requestAnswersAmount, requestRatingAmount, experimentOperations, taskOperations);
+    private MockTaskChooser prepareTaskChooser(boolean finish, boolean creative) {
+        return prepareTaskChooser(finish, creative, data.createExperimentOperations(), data.createTaskOperations());
     }
 
-    private MockTaskChooser prepareTaskChooser(boolean finish, boolean creative, int requestAnswersAmount, int requestRatingAmount,
+    private MockTaskChooser prepareTaskChooser(boolean finish, boolean creative,
                                                ExperimentOperations experimentOperations, TaskOperations taskOperations) {
         return new MockTaskChooser(mockTaskChooserName, mockTaskChooserDescription, finish, creative, experimentOperations,
-                taskOperations, requestAnswersAmount, requestRatingAmount);
+                taskOperations);
     }
 }

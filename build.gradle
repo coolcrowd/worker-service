@@ -32,9 +32,9 @@ repositories {
 }
 
 dependencies {
-    compile 'org.jooq:jooq:3.7.1'
-    compile 'org.jooq:jooq-meta:3.7.1'
-    compile 'org.jooq:jool:0.9.7'
+    compile 'org.jooq:jooq:3.+'
+    compile 'org.jooq:jooq-meta:3.+'
+    compile 'org.jooq:jool:0.9.+'
     compile 'mysql:mysql-connector-java:5.+'
     compile 'org.mybatis:mybatis:3.+'
     compile 'com.mchange:c3p0:0.9.5.2'
