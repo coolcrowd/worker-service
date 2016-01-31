@@ -43,10 +43,11 @@ public class PopulationsOperations extends AbstractOperation {
                 .join(Tables.CALIBRATION_RESULT).onKey()
                 .where(Tables.CALIBRATION_RESULT.ID_CALIBRATION_RESULT.in(answered));
 
-        Map<CalibrationRecord, Result<Record>> populationAndAnswers = create.select()
+        Map<CalibrationRecord, Result<Record>> populationAndAnswers = create.select(CALIBRATION.fields())
+                .select(CALIBRATION_ANSWER_OPTION.fields())
                 .from(Tables.CALIBRATION_ANSWER_OPTION)
                 .join(Tables.CALIBRATION).onKey()
-                .join(Tables.EXPERIMENTS_CALIBRATION).onKey()
+                .join(Tables.EXPERIMENTS_CALIBRATION).on(EXPERIMENTS_CALIBRATION.ANSWER.eq(CALIBRATION_ANSWER_OPTION.ID_CALIBRATION_ANSWER_OPTION))
                 .where(Tables.EXPERIMENTS_CALIBRATION.ID_EXPERIMENTS_CALIBRATION.eq(experimentID))
                 .and(Tables.EXPERIMENTS_CALIBRATION.REFERENCED_PLATFORM.eq(platformID))
                 .and(Tables.CALIBRATION.ID_CALIBRATION.notIn(alreadyBelongingPopulations))
