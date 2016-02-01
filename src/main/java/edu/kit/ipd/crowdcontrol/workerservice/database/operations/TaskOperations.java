@@ -40,7 +40,7 @@ public class TaskOperations extends AbstractOperation {
      * @throws IllegalArgumentException if the Task is not existing
      */
     public TaskRecord getTask(int experiment, String platform) throws IllegalArgumentException {
-        return create.selectFrom(Tables.TASK)
+        return create.selectFrom(TASK)
                 .where(TASK.EXPERIMENT.eq(experiment))
                 .and(TASK.CROWD_PLATFORM.eq(platform))
                 .fetchOptional()
@@ -103,10 +103,12 @@ public class TaskOperations extends AbstractOperation {
      * @return the number of answers submitted
      */
     public int getAnswersCount(int experimentID) {
-        //TODO duplicates?
         return create.fetchCount(
-                DSL.selectFrom(Tables.ANSWER)
-                        .where(Tables.ANSWER.EXPERIMENT.eq(experimentID))
+                DSL.selectFrom(ANSWER)
+                        .where(ANSWER.EXPERIMENT.eq(experimentID))
+                        .and(ANSWER.QUALITY_ASSURED.eq(true).and(Tables.ANSWER.QUALITY.notEqual(0))
+                                .or(DSL.condition(true))
+                        )
         );
     }
 
@@ -117,7 +119,6 @@ public class TaskOperations extends AbstractOperation {
      * @return the number of answers submitted
      */
     public int getAnswersCount(int experimentID, int workerID) {
-        //TODO duplicates?
         return create.fetchCount(
                 DSL.selectFrom(Tables.ANSWER)
                         .where(Tables.ANSWER.EXPERIMENT.eq(experimentID))
@@ -132,7 +133,6 @@ public class TaskOperations extends AbstractOperation {
      * @return the number of ratings submitted
      */
     public int getRatingsCount(int experimentID, int workerID) {
-        //TODO duplicates?
         return create.fetchCount(
                 DSL.selectFrom(Tables.RATING)
                         .where(Tables.RATING.EXPERIMENT.eq(experimentID))
