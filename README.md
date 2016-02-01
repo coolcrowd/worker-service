@@ -1,6 +1,7 @@
 # Worker-Service
 
 [![Build Status](https://travis-ci.org/coolcrowd/worker-service.svg?branch=master)](https://travis-ci.org/coolcrowd/worker-service)
+[![Coverage Status](https://coveralls.io/repos/github/coolcrowd/worker-service/badge.svg?branch=master)](https://coveralls.io/github/coolcrowd/worker-service?branch=master)
 
 ## Installation
 
