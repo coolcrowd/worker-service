@@ -5,6 +5,7 @@ apply plugin: 'java'
 apply plugin: 'nu.studer.jooq'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'application'
 
 buildscript {
     repositories {
