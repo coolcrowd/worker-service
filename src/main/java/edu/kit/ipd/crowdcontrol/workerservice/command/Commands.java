@@ -64,7 +64,7 @@ public class Commands implements RequestHelper {
         if (!EmailValidator.getInstance(false).isValid(email)) {
             throw new BadRequestException("invalid email: " + email);
         }
-        return communication.submitWorker(email, platform)
+        return communication.submitWorker(email, platform, request.queryMap().toMap())
                 .thenApply(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
                 .thenApply(emailAnswer -> transform(request, response, emailAnswer))
                 .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, response))
