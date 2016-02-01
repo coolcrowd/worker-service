@@ -123,7 +123,7 @@ public class MockProvider implements MockDataProvider {
             result.add(dataHolder.getTaskRecord());
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT COUNT(*) AS `C` FROM (SELECT `CROWDCONTROL`.`ANSWER`.`ID_ANSWER`, ")) {
-            if (ctx.bindings().length == 1) {
+            if (ctx.bindings().length == 4) {
                 Param<BigInteger> c = DSL.val("C", BigInteger.class);
                 Result<Record1<BigInteger>> result = create.newResult(c);
                 Record1<BigInteger> record = create.newRecord(c);
