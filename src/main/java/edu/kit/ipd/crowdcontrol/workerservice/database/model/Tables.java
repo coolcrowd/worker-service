@@ -94,6 +94,11 @@ public class Tables {
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsCalibration EXPERIMENTS_CALIBRATION = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsCalibration.EXPERIMENTS_CALIBRATION;
 
 	/**
+	 * The table crowdcontrol.Experiments_Platforms
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatforms EXPERIMENTS_PLATFORMS = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatforms.EXPERIMENTS_PLATFORMS;
+
+	/**
 	 * The table crowdcontrol.Gift_Code
 	 */
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.GiftCode GIFT_CODE = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.GiftCode.GIFT_CODE;

@@ -67,4 +67,11 @@ public class WorkerDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.wo
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByEmail(java.lang.String... values) {
 		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.EMAIL, values);
 	}
+
+	/**
+	 * Fetch records that have <code>quality IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Worker> fetchByQuality(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker.WORKER.QUALITY, values);
+	}
 }
