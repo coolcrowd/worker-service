@@ -76,6 +76,7 @@ public class TaskOperations extends AbstractOperation {
                     .groupBy(ANSWER.fields())
                     .having(count.lessThan(
                             DSL.select(EXPERIMENT.RATINGS_PER_ANSWER).from(EXPERIMENT).where(EXPERIMENT.ID_EXPERIMENT.eq(experiment))))
+                    .orderBy(ANSWER.QUALITY_ASSURED.desc())
                     .limit(amount)
                     .fetch()
                     .map(record -> record.into(Tables.ANSWER));
