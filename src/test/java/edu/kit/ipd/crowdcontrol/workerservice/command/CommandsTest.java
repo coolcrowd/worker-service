@@ -14,9 +14,11 @@ import org.jooq.lambda.function.Function3;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -39,7 +41,7 @@ public class CommandsTest {
         String email =  "x.y@z.de";
         String platform = "a";
         submit(communication -> {
-                    when(communication.submitWorker(email, platform)).thenReturn(CompletableFuture.supplyAsync(() -> {
+                    when(communication.submitWorker(email, platform, new HashMap<>())).thenReturn(CompletableFuture.supplyAsync(() -> {
                         throw new RuntimeException("example Exception");
                     }));
                 },
@@ -246,6 +248,8 @@ public class CommandsTest {
         Commands commands = prepareCommands(answerType, task,communication);
         Request request = mock(Request.class);
         when(request.headers("accept")).thenReturn("application/json");
+        QueryParamsMap query = mock(QueryParamsMap.class);
+        when(request.queryMap()).thenReturn(query);
         buildRequest.accept(request);
         Response response = mock(Response.class);
         T apply = func.apply(commands, request, response);
@@ -262,7 +266,7 @@ public class CommandsTest {
 
     String submitEmailHelper(String email, String platform, int workerID, Consumer<Response> responseVerifier) {
         return submit(communication -> {
-                    when(communication.submitWorker(email, platform)).thenReturn(CompletableFuture.completedFuture(workerID));
+                    when(communication.submitWorker(email, platform, new HashMap<>())).thenReturn(CompletableFuture.completedFuture(workerID));
                 },
                 request -> {
                     when(request.params("platform")).thenReturn(platform);
