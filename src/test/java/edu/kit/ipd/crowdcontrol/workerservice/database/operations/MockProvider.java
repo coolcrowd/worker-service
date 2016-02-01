@@ -142,7 +142,7 @@ public class MockProvider implements MockDataProvider {
             Param<BigInteger> c = DSL.val("C", BigInteger.class);
             Result<Record1<BigInteger>> result = create.newResult(c);
             Record1<BigInteger> record = create.newRecord(c);
-            record.value1(BigInteger.valueOf(dataHolder.getRatingFivenCountWorker()));
+            record.value1(BigInteger.valueOf(dataHolder.getRatingGivenCountWorker()));
             result.add(record);
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER`.`ID_ANSWER`, `CROWDCONTROL`.`ANSWER`.`EXPERIMENT`, ")) {
@@ -161,6 +161,12 @@ public class MockProvider implements MockDataProvider {
                         return record;
                     })
                     .forEach(result::add);
+            mock[0] = new MockResult(1, result);
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`WORKER`.`QUALITY` FROM `CROWDCONTROL`.`WORKER` ")) {
+            Result<Record1<Integer>> result = create.newResult(WORKER.QUALITY);
+            Record1<Integer> record = create.newRecord(WORKER.QUALITY);
+            record.value1(dataHolder.getWorkerQuality());
+            result.add(record);
             mock[0] = new MockResult(1, result);
         }
 

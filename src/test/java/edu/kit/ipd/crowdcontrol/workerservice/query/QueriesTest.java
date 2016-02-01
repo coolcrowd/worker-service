@@ -21,7 +21,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.doubleThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -75,14 +74,13 @@ public class QueriesTest {
 
     @Test
     public void testProvideWorkerID() throws Exception {
-        data.setBelongsToWrongPopulation(true);
         Request request = prepareRequest(data);
         Response response = mock(Response.class);
         Queries queries = prepareQuery(data, Optional.empty(), null);
         String json = queries.getNext(request, response);
         View.Builder builder = View.newBuilder();
         parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.FINISHED));
+        assertTrue(builder.getType().equals(View.Type.CALIBRATION));
     }
 
     @Test(expected= BadRequestException.class)
@@ -122,6 +120,29 @@ public class QueriesTest {
         assertTrue(!res.isPresent());
     }
 
+    @Test
+    public void testWrongCalibration() throws Exception {
+        data.setBelongsToWrongPopulation(true);
+        Request request = prepareRequest(data);
+        Response response = mock(Response.class);
+        Queries queries = prepareQuery(data, Optional.empty(), null);
+        String json = queries.getNext(request, response);
+        View.Builder builder = View.newBuilder();
+        parser.merge(json, builder);
+        assertTrue(builder.getType().equals(View.Type.FINISHED));
+    }
+
+    @Test
+    public void testInvalidQuality() throws Exception {
+        data.setWorkerQuality(data.getExperimentRecord().getWorkerQualityThreshold() - 1);
+        Request request = prepareRequest(data);
+        Response response = mock(Response.class);
+        Queries queries = prepareQuery(data, Optional.empty(), null);
+        String json = queries.getNext(request, response);
+        View.Builder builder = View.newBuilder();
+        parser.merge(json, builder);
+        assertTrue(builder.getType().equals(View.Type.FINISHED));
+    }
 
     @Test
     public void testSkipAll() throws Exception {
@@ -185,11 +206,11 @@ public class QueriesTest {
         data.getExperimentRecord().setAlgorithmTaskChooser(mockTaskChooserDescription);
         ExperimentOperations experimentOperations = data.createExperimentOperations();
         TaskOperations taskOperations = data.createTaskOperations();
-        PopulationsOperations populationsOperations = data.createPopulationsOperations();
+        CalibrationsOperations calibrationsOperations = data.createPopulationsOperations();
         PlatformOperations platformOperations = data.createPlatformOperations();
         Communication communication = prepareCommunication(data.getPlatformRecord(), Optional.empty());
         MockTaskChooser mockTaskChooser = new MockTaskChooser(finish, creative, data.getExperimentRecord(), experimentOperations, taskOperations);
-        Queries queries =  new Queries(populationsOperations, experimentOperations, platformOperations, communication, taskOperations, mockTaskChooser);
+        Queries queries =  new Queries(calibrationsOperations, experimentOperations, platformOperations, communication, taskOperations, mockTaskChooser, data.createWorkerOperations());
         String json = queries.getNext(request, response);
         View.Builder builder = View.newBuilder();
         parser.merge(json, builder);
@@ -199,7 +220,7 @@ public class QueriesTest {
     private Queries prepareQuery(OperationsDataHolder data, Optional<Integer> communicationReturn, TaskChooserAlgorithm taskChooserAlgorithm) {
         Communication communication = prepareCommunication(data.getPlatformRecord(), communicationReturn);
         return new Queries(data.createPopulationsOperations(), data.createExperimentOperations(), data.createPlatformOperations(),
-                communication, data.createTaskOperations(), taskChooserAlgorithm);
+                communication, data.createTaskOperations(), taskChooserAlgorithm, data.createWorkerOperations());
     }
 
     private Request prepareRequest(OperationsDataHolder dataHolder) {

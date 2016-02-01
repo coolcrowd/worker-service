@@ -6,10 +6,8 @@ import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.*;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.Result;
@@ -32,28 +30,30 @@ import java.util.stream.Collectors;
  */
 public class Queries implements RequestHelper {
     private final HashMap<String, TaskChooserAlgorithm> strategies = new HashMap<>();
-    private final PopulationsOperations populationsOperations;
+    private final CalibrationsOperations calibrationsOperations;
     private final ExperimentOperations experimentOperations;
     private final PlatformOperations platformOperations;
     private final TaskOperations taskOperations;
+    private final WorkerOperations workerOperations;
     private final Communication communication;
     private final PreviewTaskChooser previewTaskChooser;
 
-    public Queries(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
-                   PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations) {
-        this.populationsOperations = populationsOperations;
+    public Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
+                   PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations, WorkerOperations workerOperations) {
+        this.calibrationsOperations = calibrationsOperations;
         this.experimentOperations = experimentOperations;
         this.platformOperations = platformOperations;
         this.communication = communication;
         this.taskOperations = taskOperations;
+        this.workerOperations = workerOperations;
         previewTaskChooser = new PreviewTaskChooser(experimentOperations, taskOperations);
         registerTaskChooser(new AntiSpoof(experimentOperations, taskOperations));
     }
 
-    Queries(PopulationsOperations populationsOperations, ExperimentOperations experimentOperations,
+    Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
             PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
-            TaskChooserAlgorithm mockUp) {
-        this(populationsOperations, experimentOperations, platformOperations, communication, taskOperations);
+            TaskChooserAlgorithm mockUp, WorkerOperations workerOperations) {
+        this(calibrationsOperations, experimentOperations, platformOperations, communication, taskOperations, workerOperations);
         if (mockUp != null)
             registerTaskChooser(mockUp);
     }
@@ -129,7 +129,7 @@ public class Queries implements RequestHelper {
         if (email.isPresent()) {
             return email.get();
         }
-        if (checkPopulation(builder, request)) {
+        if (checkCalibrationAndQuality(builder, request)) {
             Optional<View> Calibration = getCalibration(builder, request);
             if (Calibration.isPresent()) {
                 return Calibration.get();
@@ -180,16 +180,19 @@ public class Queries implements RequestHelper {
     }
 
     /**
-     * checks if the worker does not belong to the wrong population
+     * checks if the worker has submitted the wrong calibration or whether the workers quality is under the
+     * threshold.
      *
      * @param builder the builder to use
      * @param request the request
-     * @return true if the worker does not already belong got the wrong population
+     * @return true if the worker is eligible for working on the assignment
      */
-    private boolean checkPopulation(View.Builder builder, Request request) {
+    private boolean checkCalibrationAndQuality(View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
-        return !populationsOperations.belongsToWrongPopulation(experiment, platformName, builder.getWorkerId());
+        ExperimentRecord experimentRecord = experimentOperations.getExperiment(experiment);
+        return !(calibrationsOperations.hasSubmittedWrongCalibrations(experiment, platformName, builder.getWorkerId())
+                || workerOperations.isUnderThreshold(experimentRecord.getWorkerQualityThreshold(), builder.getWorkerId()));
     }
 
     /**
@@ -204,7 +207,7 @@ public class Queries implements RequestHelper {
         int experiment = assertParameterInt(request, "experiment");
         if (platformOperations.getPlatform(platformName).getRenderCalibrations()) {
             Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations =
-                    populationsOperations.getCalibrations(experiment, platformName, builder.getWorkerId());
+                    calibrationsOperations.getCalibrations(experiment, platformName, builder.getWorkerId());
             if (calibrations.isEmpty()) {
                 return Optional.empty();
             } else {

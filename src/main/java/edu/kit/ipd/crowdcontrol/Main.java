@@ -3,10 +3,7 @@ package edu.kit.ipd.crowdcontrol;
 import edu.kit.ipd.crowdcontrol.workerservice.database.DatabaseManager;
 import edu.kit.ipd.crowdcontrol.workerservice.Router;
 import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PopulationsOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.*;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.query.Queries;
 import org.jooq.SQLDialect;
@@ -55,17 +52,18 @@ public class Main {
         }
 
         databaseManager.initDatabase();
-        PopulationsOperations populationsOperations = new PopulationsOperations(databaseManager.getContext());
+        CalibrationsOperations calibrationsOperations = new CalibrationsOperations(databaseManager.getContext());
         ExperimentOperations experimentOperations = new ExperimentOperations(databaseManager.getContext());
         PlatformOperations platformOperations = new PlatformOperations(databaseManager.getContext());
         TaskOperations taskOperations = new TaskOperations(databaseManager.getContext());
+        WorkerOperations workerOperations = new WorkerOperations(databaseManager.getContext());
 
         Communication communication = new Communication(
                 config.getProperty("os_url"),
                 config.getProperty("os_username"),
                 config.getProperty("os_password")
         );
-        Queries queries = new Queries(populationsOperations, experimentOperations, platformOperations, communication, taskOperations);
+        Queries queries = new Queries(calibrationsOperations, experimentOperations, platformOperations, communication, taskOperations, workerOperations);
         Commands commands = new Commands(communication, experimentOperations);
         Router router = new Router(queries, commands);
         router.init();

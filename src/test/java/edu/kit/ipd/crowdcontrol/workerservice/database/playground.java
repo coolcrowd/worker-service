@@ -18,8 +18,8 @@ public class playground {
     public void test() {
         // Initialise your data provider (implementation further down):
         OperationsDataHolder data = new OperationsDataHolder();
-        boolean b = data.createExperimentOperations()
-                .insertTaskChooserParamOrIgnore("test1", "test2", "aaf", "aafaf");
+        boolean b = data.createWorkerOperations()
+                .isUnderThreshold(10, 1);
         System.out.println("test");
     }
 }

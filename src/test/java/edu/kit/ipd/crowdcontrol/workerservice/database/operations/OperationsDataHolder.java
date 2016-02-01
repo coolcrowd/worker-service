@@ -25,6 +25,7 @@ import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
  */
 public class OperationsDataHolder {
     private int workerID;
+    private int workerQuality;
     private final DSLContext create = DSL.using(SQLDialect.MYSQL);
     private final AlgorithmTaskChooserRecord algorithmTaskChooserRecord;
     private final ExperimentRecord experimentRecord;
@@ -37,7 +38,7 @@ public class OperationsDataHolder {
     private final TaskRecord taskRecord;
     private int answerCountTotal;
     private int answerGiveCountWorker;
-    private int ratingFivenCountWorker;
+    private int ratingGivenCountWorker;
     private int availableAnswers;
     private List<AnswerRecord> answerRecords;
 
@@ -53,6 +54,7 @@ public class OperationsDataHolder {
 
     public OperationsDataHolder() {
         workerID = nextRandomInt();
+        workerQuality = 9;
         algorithmTaskChooserRecord = generateTaskChooserRecord();
         experimentRecord = generateExperimentRecord(algorithmTaskChooserRecord);
         constraints = generateStringList();
@@ -63,7 +65,7 @@ public class OperationsDataHolder {
         taskRecord = generateTaskRecord(experimentRecord);
         answerCountTotal = experimentRecord.getNeededAnswers() / 2;
         answerGiveCountWorker = experimentRecord.getAnwersPerWorker() / 2;
-        ratingFivenCountWorker = experimentRecord.getRatingsPerWorker() / 2;
+        ratingGivenCountWorker = experimentRecord.getRatingsPerWorker() / 2;
         availableAnswers = experimentRecord.getRatingsPerWorker() + 1;
         answerRecords = generateAnswers(availableAnswers, experimentRecord);
     }
@@ -91,10 +93,11 @@ public class OperationsDataHolder {
         int answersPerWorkerAmount = neededAnswerAmount / 4;
         int ratingsPerWorkerAmount = Math.abs((int) (100 * (Math.random())) + 40);
         int ratingsPerAnswer = Math.abs((int) (100 * (Math.random())) + 40);
+        int qualityThreshold = 0;
 
         return new ExperimentRecord(experimentID, title, description, neededAnswerAmount, ratingsPerAnswer,
                 answersPerWorkerAmount, ratingsPerWorkerAmount,
-                null, algorithmTaskChooserRecord.getIdTaskChooser(), null, null, null, null, null, null, null, null);
+                null, algorithmTaskChooserRecord.getIdTaskChooser(), null, null, null, null, null, null, null, qualityThreshold);
     }
 
     private Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> generateCalibrations(ExperimentRecord experiment) {
@@ -155,6 +158,10 @@ public class OperationsDataHolder {
         this.workerID = workerID;
     }
 
+    public void setWorkerQuality(int workerQuality) {
+        this.workerQuality = workerQuality;
+    }
+
     public void setBelongsToWrongPopulation(boolean belongsToWrongPopulation) {
         this.belongsToWrongPopulation = belongsToWrongPopulation;
     }
@@ -167,8 +174,8 @@ public class OperationsDataHolder {
         this.answerGiveCountWorker = answerGiveCountWorker;
     }
 
-    public void setRatingFivenCountWorker(int ratingFivenCountWorker) {
-        this.ratingFivenCountWorker = ratingFivenCountWorker;
+    public void setRatingGivenCountWorker(int ratingGivenCountWorker) {
+        this.ratingGivenCountWorker = ratingGivenCountWorker;
     }
 
     public void setAvailableAnswers(int availableAnswers) {
@@ -214,6 +221,10 @@ public class OperationsDataHolder {
         return workerID;
     }
 
+    public int getWorkerQuality() {
+        return workerQuality;
+    }
+
     public boolean belongsToWrongPopulation() {
         return belongsToWrongPopulation;
     }
@@ -234,8 +245,8 @@ public class OperationsDataHolder {
         return answerGiveCountWorker;
     }
 
-    public int getRatingFivenCountWorker() {
-        return ratingFivenCountWorker;
+    public int getRatingGivenCountWorker() {
+        return ratingGivenCountWorker;
     }
 
     public int getAvailableAnswers() {
@@ -256,11 +267,15 @@ public class OperationsDataHolder {
         return new PlatformOperations(mockProvider.getMockCreate());
     }
 
-    public PopulationsOperations createPopulationsOperations() {
-        return new PopulationsOperations(mockProvider.getMockCreate());
+    public CalibrationsOperations createPopulationsOperations() {
+        return new CalibrationsOperations(mockProvider.getMockCreate());
     }
 
     public TaskOperations createTaskOperations() {
         return new TaskOperations(mockProvider.getMockCreate());
+    }
+
+    public WorkerOperations createWorkerOperations() {
+        return new WorkerOperations(mockProvider.getMockCreate());
     }
 }

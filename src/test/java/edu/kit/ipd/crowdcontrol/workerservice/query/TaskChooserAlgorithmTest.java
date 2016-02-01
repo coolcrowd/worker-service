@@ -31,7 +31,7 @@ public class TaskChooserAlgorithmTest {
         data = new OperationsDataHolder();
         taskChooserAlgorithm = prepareTaskChooser(false, true);
         experimentID = data.getExperimentRecord().getIdExperiment();
-        int ratingGivenCountWorker = data.getRatingFivenCountWorker();
+        int ratingGivenCountWorker = data.getRatingGivenCountWorker();
         int totalRatingsPerWorker = data.getExperimentRecord().getRatingsPerWorker();
         neededRatings = totalRatingsPerWorker - ratingGivenCountWorker;
         int answerGivenCountWorker = data.getAnswerGiveCountWorker();
