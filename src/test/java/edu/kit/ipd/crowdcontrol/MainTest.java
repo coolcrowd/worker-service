@@ -1,8 +1,7 @@
 package edu.kit.ipd.crowdcontrol;
 
+import edu.kit.ipd.crowdcontrol.workerservice.Main;
 import org.junit.Test;
-
-import javax.naming.NoInitialContextException;
 
 /**
  * @author LeanderK

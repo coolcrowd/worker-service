@@ -1,4 +1,4 @@
-package edu.kit.ipd.crowdcontrol;
+package edu.kit.ipd.crowdcontrol.workerservice;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.DatabaseManager;
 import edu.kit.ipd.crowdcontrol.workerservice.Router;
