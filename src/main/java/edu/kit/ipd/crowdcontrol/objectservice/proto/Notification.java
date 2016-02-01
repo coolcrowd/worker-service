@@ -53,19 +53,19 @@ public  final class Notification extends
             break;
           }
           case 18: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             name_ = s;
             break;
           }
           case 26: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             description_ = s;
             break;
           }
           case 34: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             query_ = s;
             break;

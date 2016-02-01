@@ -52,19 +52,19 @@ public  final class Calibration extends
             break;
           }
           case 18: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             name_ = s;
             break;
           }
           case 26: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             question_ = s;
             break;
           }
           case 34: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
             if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
               answers_ = new com.google.protobuf.LazyStringArrayList();
               mutable_bitField0_ |= 0x00000008;
@@ -73,7 +73,7 @@ public  final class Calibration extends
             break;
           }
           case 42: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
             if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
               acceptedAnswers_ = new com.google.protobuf.LazyStringArrayList();
               mutable_bitField0_ |= 0x00000010;

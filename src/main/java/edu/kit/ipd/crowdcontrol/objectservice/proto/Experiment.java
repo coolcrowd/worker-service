@@ -65,13 +65,13 @@ public  final class Experiment extends
             break;
           }
           case 18: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             title_ = s;
             break;
           }
           case 26: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             description_ = s;
             break;
@@ -397,27 +397,27 @@ public  final class Experiment extends
         getPlatformIdBytes();
 
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
     java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> 
-        getCalibrationList();
+        getCalibrationsList();
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
-    edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration getCalibration(int index);
+    edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration getCalibrations(int index);
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
-    int getCalibrationCount();
+    int getCalibrationsCount();
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
     java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder> 
-        getCalibrationOrBuilderList();
+        getCalibrationsOrBuilderList();
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
-    edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder getCalibrationOrBuilder(
+    edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder getCalibrationsOrBuilder(
         int index);
   }
   /**
@@ -433,7 +433,7 @@ public  final class Experiment extends
     }
     private Population() {
       platformId_ = "";
-      calibration_ = java.util.Collections.emptyList();
+      calibrations_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -461,17 +461,17 @@ public  final class Experiment extends
               break;
             }
             case 10: {
-              String s = input.readStringRequireUtf8();
+              java.lang.String s = input.readStringRequireUtf8();
 
               platformId_ = s;
               break;
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                calibration_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration>();
+                calibrations_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              calibration_.add(input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.parser(), extensionRegistry));
+              calibrations_.add(input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.parser(), extensionRegistry));
               break;
             }
           }
@@ -484,7 +484,7 @@ public  final class Experiment extends
                 e.getMessage()).setUnfinishedMessage(this));
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          calibration_ = java.util.Collections.unmodifiableList(calibration_);
+          calibrations_ = java.util.Collections.unmodifiableList(calibrations_);
         }
         makeExtensionsImmutable();
       }
@@ -536,39 +536,39 @@ public  final class Experiment extends
       }
     }
 
-    public static final int CALIBRATION_FIELD_NUMBER = 2;
-    private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> calibration_;
+    public static final int CALIBRATIONS_FIELD_NUMBER = 2;
+    private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> calibrations_;
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
-    public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> getCalibrationList() {
-      return calibration_;
+    public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> getCalibrationsList() {
+      return calibrations_;
     }
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
     public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder> 
-        getCalibrationOrBuilderList() {
-      return calibration_;
+        getCalibrationsOrBuilderList() {
+      return calibrations_;
     }
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
-    public int getCalibrationCount() {
-      return calibration_.size();
+    public int getCalibrationsCount() {
+      return calibrations_.size();
     }
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
-    public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration getCalibration(int index) {
-      return calibration_.get(index);
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration getCalibrations(int index) {
+      return calibrations_.get(index);
     }
     /**
-     * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+     * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
      */
-    public edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder getCalibrationOrBuilder(
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder getCalibrationsOrBuilder(
         int index) {
-      return calibration_.get(index);
+      return calibrations_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -586,8 +586,8 @@ public  final class Experiment extends
       if (!getPlatformIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessage.writeString(output, 1, platformId_);
       }
-      for (int i = 0; i < calibration_.size(); i++) {
-        output.writeMessage(2, calibration_.get(i));
+      for (int i = 0; i < calibrations_.size(); i++) {
+        output.writeMessage(2, calibrations_.get(i));
       }
     }
 
@@ -599,9 +599,9 @@ public  final class Experiment extends
       if (!getPlatformIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessage.computeStringSize(1, platformId_);
       }
-      for (int i = 0; i < calibration_.size(); i++) {
+      for (int i = 0; i < calibrations_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, calibration_.get(i));
+          .computeMessageSize(2, calibrations_.get(i));
       }
       memoizedSize = size;
       return size;
@@ -710,18 +710,18 @@ public  final class Experiment extends
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getCalibrationFieldBuilder();
+          getCalibrationsFieldBuilder();
         }
       }
       public Builder clear() {
         super.clear();
         platformId_ = "";
 
-        if (calibrationBuilder_ == null) {
-          calibration_ = java.util.Collections.emptyList();
+        if (calibrationsBuilder_ == null) {
+          calibrations_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000002);
         } else {
-          calibrationBuilder_.clear();
+          calibrationsBuilder_.clear();
         }
         return this;
       }
@@ -748,14 +748,14 @@ public  final class Experiment extends
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.platformId_ = platformId_;
-        if (calibrationBuilder_ == null) {
+        if (calibrationsBuilder_ == null) {
           if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            calibration_ = java.util.Collections.unmodifiableList(calibration_);
+            calibrations_ = java.util.Collections.unmodifiableList(calibrations_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
-          result.calibration_ = calibration_;
+          result.calibrations_ = calibrations_;
         } else {
-          result.calibration_ = calibrationBuilder_.build();
+          result.calibrations_ = calibrationsBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -777,29 +777,29 @@ public  final class Experiment extends
           platformId_ = other.platformId_;
           onChanged();
         }
-        if (calibrationBuilder_ == null) {
-          if (!other.calibration_.isEmpty()) {
-            if (calibration_.isEmpty()) {
-              calibration_ = other.calibration_;
+        if (calibrationsBuilder_ == null) {
+          if (!other.calibrations_.isEmpty()) {
+            if (calibrations_.isEmpty()) {
+              calibrations_ = other.calibrations_;
               bitField0_ = (bitField0_ & ~0x00000002);
             } else {
-              ensureCalibrationIsMutable();
-              calibration_.addAll(other.calibration_);
+              ensureCalibrationsIsMutable();
+              calibrations_.addAll(other.calibrations_);
             }
             onChanged();
           }
         } else {
-          if (!other.calibration_.isEmpty()) {
-            if (calibrationBuilder_.isEmpty()) {
-              calibrationBuilder_.dispose();
-              calibrationBuilder_ = null;
-              calibration_ = other.calibration_;
+          if (!other.calibrations_.isEmpty()) {
+            if (calibrationsBuilder_.isEmpty()) {
+              calibrationsBuilder_.dispose();
+              calibrationsBuilder_ = null;
+              calibrations_ = other.calibrations_;
               bitField0_ = (bitField0_ & ~0x00000002);
-              calibrationBuilder_ = 
+              calibrationsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getCalibrationFieldBuilder() : null;
+                   getCalibrationsFieldBuilder() : null;
             } else {
-              calibrationBuilder_.addAllMessages(other.calibration_);
+              calibrationsBuilder_.addAllMessages(other.calibrations_);
             }
           }
         }
@@ -899,244 +899,244 @@ public  final class Experiment extends
         return this;
       }
 
-      private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> calibration_ =
+      private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> calibrations_ =
         java.util.Collections.emptyList();
-      private void ensureCalibrationIsMutable() {
+      private void ensureCalibrationsIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          calibration_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration>(calibration_);
+          calibrations_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration>(calibrations_);
           bitField0_ |= 0x00000002;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration, edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder> calibrationBuilder_;
+          edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration, edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder> calibrationsBuilder_;
 
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> getCalibrationList() {
-        if (calibrationBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(calibration_);
+      public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> getCalibrationsList() {
+        if (calibrationsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(calibrations_);
         } else {
-          return calibrationBuilder_.getMessageList();
+          return calibrationsBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public int getCalibrationCount() {
-        if (calibrationBuilder_ == null) {
-          return calibration_.size();
+      public int getCalibrationsCount() {
+        if (calibrationsBuilder_ == null) {
+          return calibrations_.size();
         } else {
-          return calibrationBuilder_.getCount();
+          return calibrationsBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration getCalibration(int index) {
-        if (calibrationBuilder_ == null) {
-          return calibration_.get(index);
+      public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration getCalibrations(int index) {
+        if (calibrationsBuilder_ == null) {
+          return calibrations_.get(index);
         } else {
-          return calibrationBuilder_.getMessage(index);
+          return calibrationsBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public Builder setCalibration(
+      public Builder setCalibrations(
           int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration value) {
-        if (calibrationBuilder_ == null) {
+        if (calibrationsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureCalibrationIsMutable();
-          calibration_.set(index, value);
+          ensureCalibrationsIsMutable();
+          calibrations_.set(index, value);
           onChanged();
         } else {
-          calibrationBuilder_.setMessage(index, value);
+          calibrationsBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public Builder setCalibration(
+      public Builder setCalibrations(
           int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder builderForValue) {
-        if (calibrationBuilder_ == null) {
-          ensureCalibrationIsMutable();
-          calibration_.set(index, builderForValue.build());
+        if (calibrationsBuilder_ == null) {
+          ensureCalibrationsIsMutable();
+          calibrations_.set(index, builderForValue.build());
           onChanged();
         } else {
-          calibrationBuilder_.setMessage(index, builderForValue.build());
+          calibrationsBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public Builder addCalibration(edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration value) {
-        if (calibrationBuilder_ == null) {
+      public Builder addCalibrations(edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration value) {
+        if (calibrationsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureCalibrationIsMutable();
-          calibration_.add(value);
+          ensureCalibrationsIsMutable();
+          calibrations_.add(value);
           onChanged();
         } else {
-          calibrationBuilder_.addMessage(value);
+          calibrationsBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public Builder addCalibration(
+      public Builder addCalibrations(
           int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration value) {
-        if (calibrationBuilder_ == null) {
+        if (calibrationsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureCalibrationIsMutable();
-          calibration_.add(index, value);
+          ensureCalibrationsIsMutable();
+          calibrations_.add(index, value);
           onChanged();
         } else {
-          calibrationBuilder_.addMessage(index, value);
+          calibrationsBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public Builder addCalibration(
+      public Builder addCalibrations(
           edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder builderForValue) {
-        if (calibrationBuilder_ == null) {
-          ensureCalibrationIsMutable();
-          calibration_.add(builderForValue.build());
+        if (calibrationsBuilder_ == null) {
+          ensureCalibrationsIsMutable();
+          calibrations_.add(builderForValue.build());
           onChanged();
         } else {
-          calibrationBuilder_.addMessage(builderForValue.build());
+          calibrationsBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public Builder addCalibration(
+      public Builder addCalibrations(
           int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder builderForValue) {
-        if (calibrationBuilder_ == null) {
-          ensureCalibrationIsMutable();
-          calibration_.add(index, builderForValue.build());
+        if (calibrationsBuilder_ == null) {
+          ensureCalibrationsIsMutable();
+          calibrations_.add(index, builderForValue.build());
           onChanged();
         } else {
-          calibrationBuilder_.addMessage(index, builderForValue.build());
+          calibrationsBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public Builder addAllCalibration(
+      public Builder addAllCalibrations(
           java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration> values) {
-        if (calibrationBuilder_ == null) {
-          ensureCalibrationIsMutable();
+        if (calibrationsBuilder_ == null) {
+          ensureCalibrationsIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, calibration_);
+              values, calibrations_);
           onChanged();
         } else {
-          calibrationBuilder_.addAllMessages(values);
+          calibrationsBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public Builder clearCalibration() {
-        if (calibrationBuilder_ == null) {
-          calibration_ = java.util.Collections.emptyList();
+      public Builder clearCalibrations() {
+        if (calibrationsBuilder_ == null) {
+          calibrations_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
-          calibrationBuilder_.clear();
+          calibrationsBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public Builder removeCalibration(int index) {
-        if (calibrationBuilder_ == null) {
-          ensureCalibrationIsMutable();
-          calibration_.remove(index);
+      public Builder removeCalibrations(int index) {
+        if (calibrationsBuilder_ == null) {
+          ensureCalibrationsIsMutable();
+          calibrations_.remove(index);
           onChanged();
         } else {
-          calibrationBuilder_.remove(index);
+          calibrationsBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder getCalibrationBuilder(
+      public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder getCalibrationsBuilder(
           int index) {
-        return getCalibrationFieldBuilder().getBuilder(index);
+        return getCalibrationsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder getCalibrationOrBuilder(
+      public edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder getCalibrationsOrBuilder(
           int index) {
-        if (calibrationBuilder_ == null) {
-          return calibration_.get(index);  } else {
-          return calibrationBuilder_.getMessageOrBuilder(index);
+        if (calibrationsBuilder_ == null) {
+          return calibrations_.get(index);  } else {
+          return calibrationsBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
       public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder> 
-           getCalibrationOrBuilderList() {
-        if (calibrationBuilder_ != null) {
-          return calibrationBuilder_.getMessageOrBuilderList();
+           getCalibrationsOrBuilderList() {
+        if (calibrationsBuilder_ != null) {
+          return calibrationsBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(calibration_);
+          return java.util.Collections.unmodifiableList(calibrations_);
         }
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder addCalibrationBuilder() {
-        return getCalibrationFieldBuilder().addBuilder(
+      public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder addCalibrationsBuilder() {
+        return getCalibrationsFieldBuilder().addBuilder(
             edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
-      public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder addCalibrationBuilder(
+      public edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder addCalibrationsBuilder(
           int index) {
-        return getCalibrationFieldBuilder().addBuilder(
+        return getCalibrationsFieldBuilder().addBuilder(
             index, edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowdcontrol.Calibration calibration = 2;</code>
+       * <code>repeated .crowdcontrol.Calibration calibrations = 2;</code>
        */
       public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder> 
-           getCalibrationBuilderList() {
-        return getCalibrationFieldBuilder().getBuilderList();
+           getCalibrationsBuilderList() {
+        return getCalibrationsFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
           edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration, edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder> 
-          getCalibrationFieldBuilder() {
-        if (calibrationBuilder_ == null) {
-          calibrationBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          getCalibrationsFieldBuilder() {
+        if (calibrationsBuilder_ == null) {
+          calibrationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration, edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOrBuilder>(
-                  calibration_,
+                  calibrations_,
                   ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
                   isClean());
-          calibration_ = null;
+          calibrations_ = null;
         }
-        return calibrationBuilder_;
+        return calibrationsBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1267,7 +1267,7 @@ public  final class Experiment extends
               break;
             }
             case 18: {
-              String s = input.readStringRequireUtf8();
+              java.lang.String s = input.readStringRequireUtf8();
 
               name_ = s;
               break;

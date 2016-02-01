@@ -50,13 +50,13 @@ public  final class Worker extends
             break;
           }
           case 18: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             platform_ = s;
             break;
           }
           case 26: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             email_ = s;
             break;

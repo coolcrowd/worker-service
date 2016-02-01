@@ -58,7 +58,7 @@ public  final class Rating extends
             break;
           }
           case 26: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             feedback_ = s;
             break;
