@@ -6,14 +6,14 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.http.options.Option;
+import com.mashape.unirest.request.GetRequest;
+import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
-import edu.kit.ipd.crowdcontrol.objectservice.proto.Answer;
-import edu.kit.ipd.crowdcontrol.objectservice.proto.Rating;
-import edu.kit.ipd.crowdcontrol.objectservice.proto.Worker;
+import edu.kit.ipd.crowdcontrol.objectservice.proto.*;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -46,25 +46,33 @@ public class Communication {
      * @param platform the current platform
      * @return an completable future representing the request with the resulting workerID
      */
-    public CompletableFuture<Integer> submitWorker(String email, String platform) {
-        //TODO Rewrite -> tryGetWorkerID mit email!
-        Worker worker = Worker.newBuilder()
-                .setPlatform(platform)
-                .setEmail(email)
-                .build();
+    public CompletableFuture<Integer> submitWorker(String email, String platform, Map<String, String[]> originalQueryParameter) {
+        HashMap<String, String[]> queryParameter = new HashMap<>(originalQueryParameter);
+        queryParameter.put("email", new String[]{"true"});
 
-        return putRequest("/workers", builder -> builder
-                .body(printer.print(worker))
-                .asJson()
-        ).thenApply(response -> {
-            if (response.getStatus() == 201) {
-                return response.getBody().getObject().getInt("id");
-            } else if (response.getStatus() == 409) {
-                return Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", ""));
-            } else {
-                throw new RuntimeException("illegal Response, status : " + response.getStatus());
-            }
-        });
+        return tryGetWorkerID(platform, queryParameter)
+                .thenApply(optional -> {
+                    if (optional.isPresent()) {
+                        return optional.get();
+                    } else {
+                        throw new InternalServerErrorException("unable to get new worker!");
+                    }
+                })
+                .thenApply(workerID -> Worker.newBuilder().setId(workerID).setPlatform(platform).setEmail(email).build())
+                .thenCompose(worker ->
+                        patchRequest("/workers", builder -> builder
+                        .body(printer.print(worker))
+                        .asJson())
+                )
+                .thenApply(response -> {
+                    if (response.getStatus() == 201) {
+                        return response.getBody().getObject().getInt("id");
+                    } else if (response.getStatus() == 409) {
+                        return Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", ""));
+                    } else {
+                        throw new RuntimeException("illegal Response, status : " + response.getStatus());
+                    }
+                });
     }
 
     /**
@@ -80,7 +88,7 @@ public class Communication {
                 .setContent(answer)
                 .setWorker(worker)
                 .build();
-        return putRequest("/experiments/"+experiment+"/answers", builder -> builder
+        return putRequest("/experiments/" + experiment + "/answers", builder -> builder
                 .body(printer.print(answerProto))
                 .asJson()
         ).thenApply(response -> {
@@ -106,7 +114,7 @@ public class Communication {
      * @param experiment the experiment working on
      * @param worker the worker responsible
      * @param answer the rated answer
-     * @return an completable future representing the request with the location of the answer in the database
+     * @return an completable future representing the request
      */
     public CompletableFuture<Void> submitRating(int chosenRating, String feedback, int experiment, int answer, int worker) {
         Rating.Builder ratingBuilder = Rating.newBuilder()
@@ -129,8 +137,15 @@ public class Communication {
      * @return an completable future representing the request with the resulting location in the database
      */
     public CompletableFuture<HttpResponse<JsonNode>> submitCalibration(int option, int worker) {
-        //TODO
-        return null;
+        CalibrationAnswer calibrationAnswer = CalibrationAnswer.newBuilder()
+                .setAnswerId(option)
+                .build();
+
+        return putRequest("/workers/" + worker + "/calibrations/", builder -> builder
+                .body(printer.print(calibrationAnswer))
+                .asJson()
+        )
+        .thenApply(response -> null);
     }
 
     /**
@@ -141,8 +156,21 @@ public class Communication {
      * @return an completable future representing the request with the resulting location in the database
      */
     public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, Map<String, String[]> queryParameter) {
-        //TODO
-        return null;
+        return getRequest("/workers/"+platform+"/identity", builder -> {
+            HttpRequest request = builder.getHttpRequest();
+            for (Map.Entry<String, String[]> entry : queryParameter.entrySet()) {
+                request = builder.queryString(entry.getKey(), Collections.singletonList(entry.getKey()));
+            }
+            return request.asJson();
+        }).thenApply(response -> {
+            if (response.getStatus() == 201) {
+                return Optional.of(response.getBody().getObject().getInt("id"));
+            } else if (response.getStatus() == 409) {
+                return Optional.of(Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", "")));
+            } else {
+                return Optional.empty();
+            }
+        });
     }
 
     /**
@@ -151,7 +179,7 @@ public class Communication {
      * @param func the function to complete the prepared put-request
      * @return an CompletableFuture containing the result of the put-request
      */
-    private CompletableFuture<HttpResponse<JsonNode>> putRequest(String route, UnirestFunction func) {
+    private CompletableFuture<HttpResponse<JsonNode>> putRequest(String route, UnirestFunction<HttpRequestWithBody> func) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 HttpRequestWithBody request = Unirest.put(url + route)
@@ -166,10 +194,50 @@ public class Communication {
     }
 
     /**
+     * creates a put-request with the specified route and the function applied
+     * @param route the route of the put-request
+     * @param func the function to complete the prepared put-request
+     * @return an CompletableFuture containing the result of the put-request
+     */
+    private CompletableFuture<HttpResponse<JsonNode>> patchRequest(String route, UnirestFunction<HttpRequestWithBody> func) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                HttpRequestWithBody request = Unirest.patch(url + route)
+                        .basicAuth(username, password);
+                return func.apply(request);
+            } catch (UnirestException e) {
+                throw new InternalServerErrorException("an error occurred while trying to communicate with the object-service", e);
+            } catch (InvalidProtocolBufferException e) {
+                throw new InternalServerErrorException("unable to print JSON for request", e);
+            }
+        });
+    }
+
+    /**
+     * creates a put-request with the specified route and the function applied
+     * @param route the route of the put-request
+     * @param func the function to complete the prepared put-request
+     * @return an CompletableFuture containing the result of the put-request
+     */
+    private CompletableFuture<HttpResponse<JsonNode>> getRequest(String route, UnirestFunction<GetRequest> func) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                GetRequest request = Unirest.get(url + route)
+                        .basicAuth(username, password);
+                return func.apply(request);
+            } catch (UnirestException e) {
+                throw new InternalServerErrorException("an error occurred while trying to communicate with the object-service", e);
+            } catch (InvalidProtocolBufferException e) {
+                throw new InternalServerErrorException("unable to print JSON for request", e);
+            }
+        });
+    }
+
+    /**
      * defines the function to complete the prepared put-request.
      */
     @FunctionalInterface
-    private interface UnirestFunction {
-        HttpResponse<JsonNode> apply(HttpRequestWithBody requestWithBody) throws UnirestException, InvalidProtocolBufferException;
+    private interface UnirestFunction<T> {
+        HttpResponse<JsonNode> apply(T request) throws UnirestException, InvalidProtocolBufferException;
     }
 }
