@@ -33,43 +33,18 @@ public class DatabaseManager {
 
     /**
      * creates new DatabaseManager.
-     * @param providedDBPoolName the name of the provided ConnectionPool
-     * @param sqlDialect the dialect to use
-     * @throws NamingException if there was a problem establishing a connection to the provided database-pool
-     * @throws SQLException if there was a problem establishing a connection to the database
-     */
-    public DatabaseManager(String providedDBPoolName, SQLDialect sqlDialect) throws NamingException, SQLException {
-        this(null, null, null, Objects.requireNonNull(providedDBPoolName), sqlDialect);
-    }
-
-    /**
-     * creates new DatabaseManager.
-     * <p>
-     * if the system-property 'providedDBPool' is set, it will use the ConnectionPool provided by the application-server
-     * instead of creating an own connection-pool.
-     * @param userName the username for the database
-     * @param password the password for the database
-     * @param url the url to the database
-     * @param sqlDialect the dialect to use
-     * @throws NamingException if there was a problem establishing a connection to the provided database-pool
-     * @throws SQLException if there was a problem establishing a connection to the database
-     */
-    public DatabaseManager(String userName, String password, String url, SQLDialect sqlDialect) throws NamingException, SQLException {
-        this(userName, password, url, System.getProperty("providedDBPool"), sqlDialect);
-    }
-
-    /**
-     * creates new DatabaseManager.
      *
      * @param userName the username for the database
      * @param password the password for the database
      * @param url the url to the database
      * @param providedDBPoolName if not null, it will use the built in Connection pool with the passed Name
      * @param sqlDialect the dialect to use
+     * @param disableConnection true to disable the connection, used for testing
      * @throws NamingException if there was a problem establishing a connection to the provided database-pool
      * @throws SQLException if there was a problem establishing a connection to the database
      */
-    public DatabaseManager(String userName, String password, String url, String providedDBPoolName, SQLDialect sqlDialect) throws NamingException, SQLException {
+    public DatabaseManager(String userName, String password, String url, String providedDBPoolName, SQLDialect sqlDialect,
+                           boolean disableConnection) throws NamingException, SQLException {
         this.url = url;
         DataSource ds = null;
         if (providedDBPoolName != null) {
@@ -83,8 +58,13 @@ public class DatabaseManager {
             ds = cpds;
         }
         this.ds = ds;
-        this.connection = ds.getConnection();
-        context = DSL.using(this.ds, sqlDialect);
+        if (!disableConnection) {
+            this.connection = ds.getConnection();
+            context = DSL.using(this.ds, sqlDialect);
+        } else {
+            this.connection = null;
+            context = DSL.using(sqlDialect);
+        }
     }
 
     /**

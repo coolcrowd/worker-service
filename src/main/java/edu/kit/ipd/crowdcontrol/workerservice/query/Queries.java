@@ -39,7 +39,14 @@ public class Queries implements RequestHelper {
     private final PreviewTaskChooser previewTaskChooser;
 
     public Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
-                   PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations, WorkerOperations workerOperations) {
+                   PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
+                   WorkerOperations workerOperations) {
+        this(calibrationsOperations, experimentOperations, platformOperations, communication, taskOperations, workerOperations, false);
+    }
+
+    public Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
+                   PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
+                   WorkerOperations workerOperations, boolean disableRegistering) {
         this.calibrationsOperations = calibrationsOperations;
         this.experimentOperations = experimentOperations;
         this.platformOperations = platformOperations;
@@ -47,13 +54,15 @@ public class Queries implements RequestHelper {
         this.taskOperations = taskOperations;
         this.workerOperations = workerOperations;
         previewTaskChooser = new PreviewTaskChooser(experimentOperations, taskOperations);
-        registerTaskChooser(new AntiSpoof(experimentOperations, taskOperations));
+        if (!disableRegistering) {
+            registerTaskChooser(new AntiSpoof(experimentOperations, taskOperations));
+        }
     }
 
     Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
             PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
             TaskChooserAlgorithm mockUp, WorkerOperations workerOperations) {
-        this(calibrationsOperations, experimentOperations, platformOperations, communication, taskOperations, workerOperations);
+        this(calibrationsOperations, experimentOperations, platformOperations, communication, taskOperations, workerOperations, false);
         if (mockUp != null)
             registerTaskChooser(mockUp);
     }
