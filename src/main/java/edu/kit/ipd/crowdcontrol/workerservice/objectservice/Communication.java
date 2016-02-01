@@ -161,7 +161,9 @@ public class Communication {
             for (Map.Entry<String, String[]> entry : queryParameter.entrySet()) {
                 request = builder.queryString(entry.getKey(), Collections.singletonList(entry.getKey()));
             }
-            return request.asJson();
+            return request
+                    .queryString("a", "b")
+                    .asJson();
         }).thenApply(response -> {
             if (response.getStatus() == 201) {
                 return Optional.of(response.getBody().getObject().getInt("id"));
@@ -183,6 +185,7 @@ public class Communication {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 HttpRequestWithBody request = Unirest.put(url + route)
+                        .header("accept", "application/json")
                         .basicAuth(username, password);
                 return func.apply(request);
             } catch (UnirestException e) {
@@ -203,6 +206,7 @@ public class Communication {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 HttpRequestWithBody request = Unirest.patch(url + route)
+                        .header("accept", "application/json")
                         .basicAuth(username, password);
                 return func.apply(request);
             } catch (UnirestException e) {
@@ -223,6 +227,7 @@ public class Communication {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 GetRequest request = Unirest.get(url + route)
+                        .header("accept", "application/json")
                         .basicAuth(username, password);
                 return func.apply(request);
             } catch (UnirestException e) {
