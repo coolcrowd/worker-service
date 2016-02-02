@@ -3,8 +3,8 @@
 
 package edu.kit.ipd.crowdcontrol.workerservice.proto;
 
-public interface EmailAnswersOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:crowdcontrol.EmailAnswers)
+public interface EmailAnswerOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:crowdcontrol.EmailAnswer)
     com.google.protobuf.MessageOrBuilder {
 
   /**
