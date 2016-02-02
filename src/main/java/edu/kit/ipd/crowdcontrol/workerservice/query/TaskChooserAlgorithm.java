@@ -176,7 +176,12 @@ public abstract class TaskChooserAlgorithm {
 
         String cleanDescription = mixedDescription.replaceAll("" + pictureRegex + "\\s?", "");
         List<View.Constraint> constraints = experimentOperations.getConstraints(experimentID)
-                .map(constraint -> View.Constraint.newBuilder().setName(constraint.getConstraint()).build());
+                .map(constraint ->
+                        View.Constraint.newBuilder()
+                                .setId(constraint.getIdConstraint())
+                                .setName(constraint.getConstraint())
+                                .build()
+                );
 
         return builder
                 .setTitle(experimentRecord.getTitle())
