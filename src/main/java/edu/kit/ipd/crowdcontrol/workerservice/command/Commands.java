@@ -168,7 +168,7 @@ public class Commands implements RequestHelper {
             throw new BadRequestException("error while parsing JSON", e);
         }
         t.getDescriptorForType().getFields().stream()
-                .filter(field -> !t.hasField(field))
+                .filter(field -> !field.isRepeated() && !t.hasField(field))
                 .filter(field -> !excluded.contains(field.getNumber()))
                 .findAny()
                 .ifPresent(field -> {
