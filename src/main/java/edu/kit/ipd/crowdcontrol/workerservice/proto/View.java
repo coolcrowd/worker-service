@@ -63,13 +63,13 @@ public  final class View extends
             break;
           }
           case 26: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             title_ = s;
             break;
           }
           case 34: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             description_ = s;
             break;
@@ -282,11 +282,16 @@ public  final class View extends
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional string name = 1;</code>
+     * <code>optional int32 id = 1;</code>
+     */
+    int getId();
+
+    /**
+     * <code>optional string name = 2;</code>
      */
     java.lang.String getName();
     /**
-     * <code>optional string name = 1;</code>
+     * <code>optional string name = 2;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -303,6 +308,7 @@ public  final class View extends
       super(builder);
     }
     private Constraint() {
+      id_ = 0;
       name_ = "";
     }
 
@@ -330,8 +336,13 @@ public  final class View extends
               }
               break;
             }
-            case 10: {
-              String s = input.readStringRequireUtf8();
+            case 8: {
+
+              id_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
 
               name_ = s;
               break;
@@ -360,10 +371,19 @@ public  final class View extends
               edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.class, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder.class);
     }
 
-    public static final int NAME_FIELD_NUMBER = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    public static final int NAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object name_;
     /**
-     * <code>optional string name = 1;</code>
+     * <code>optional string name = 2;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -378,7 +398,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>optional string name = 1;</code>
+     * <code>optional string name = 2;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -406,8 +426,11 @@ public  final class View extends
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (id_ != 0) {
+        output.writeInt32(1, id_);
+      }
       if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, name_);
       }
     }
 
@@ -416,8 +439,12 @@ public  final class View extends
       if (size != -1) return size;
 
       size = 0;
+      if (id_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
       if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, name_);
       }
       memoizedSize = size;
       return size;
@@ -530,6 +557,8 @@ public  final class View extends
       }
       public Builder clear() {
         super.clear();
+        id_ = 0;
+
         name_ = "";
 
         return this;
@@ -554,6 +583,7 @@ public  final class View extends
 
       public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint buildPartial() {
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint result = new edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint(this);
+        result.id_ = id_;
         result.name_ = name_;
         onBuilt();
         return result;
@@ -570,6 +600,9 @@ public  final class View extends
 
       public Builder mergeFrom(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint other) {
         if (other == edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.getDefaultInstance()) return this;
+        if (other.getId() != 0) {
+          setId(other.getId());
+        }
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
           onChanged();
@@ -600,9 +633,35 @@ public  final class View extends
         return this;
       }
 
+      private int id_ ;
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public Builder setId(int value) {
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public Builder clearId() {
+        
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object name_ = "";
       /**
-       * <code>optional string name = 1;</code>
+       * <code>optional string name = 2;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -617,7 +676,7 @@ public  final class View extends
         }
       }
       /**
-       * <code>optional string name = 1;</code>
+       * <code>optional string name = 2;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -633,7 +692,7 @@ public  final class View extends
         }
       }
       /**
-       * <code>optional string name = 1;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -646,7 +705,7 @@ public  final class View extends
         return this;
       }
       /**
-       * <code>optional string name = 1;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder clearName() {
         
@@ -655,7 +714,7 @@ public  final class View extends
         return this;
       }
       /**
-       * <code>optional string name = 1;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -791,13 +850,13 @@ public  final class View extends
               break;
             }
             case 10: {
-              String s = input.readStringRequireUtf8();
+              java.lang.String s = input.readStringRequireUtf8();
 
               url_ = s;
               break;
             }
             case 18: {
-              String s = input.readStringRequireUtf8();
+              java.lang.String s = input.readStringRequireUtf8();
 
               urlLicense_ = s;
               break;
@@ -1393,7 +1452,7 @@ public  final class View extends
               break;
             }
             case 10: {
-              String s = input.readStringRequireUtf8();
+              java.lang.String s = input.readStringRequireUtf8();
 
               question_ = s;
               break;
@@ -2241,7 +2300,7 @@ public  final class View extends
               break;
             }
             case 10: {
-              String s = input.readStringRequireUtf8();
+              java.lang.String s = input.readStringRequireUtf8();
 
               option_ = s;
               break;
@@ -2754,7 +2813,7 @@ public  final class View extends
               break;
             }
             case 18: {
-              String s = input.readStringRequireUtf8();
+              java.lang.String s = input.readStringRequireUtf8();
 
               answer_ = s;
               break;
@@ -3262,7 +3321,7 @@ public  final class View extends
               break;
             }
             case 18: {
-              String s = input.readStringRequireUtf8();
+              java.lang.String s = input.readStringRequireUtf8();
 
               description_ = s;
               break;

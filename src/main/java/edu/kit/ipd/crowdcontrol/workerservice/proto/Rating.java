@@ -19,6 +19,7 @@ public  final class Rating extends
     experiment_ = 0;
     answerId_ = 0;
     feedback_ = "";
+    constraints_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -61,9 +62,30 @@ public  final class Rating extends
             break;
           }
           case 34: {
-            String s = input.readStringRequireUtf8();
+            java.lang.String s = input.readStringRequireUtf8();
 
             feedback_ = s;
+            break;
+          }
+          case 40: {
+            if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+              constraints_ = new java.util.ArrayList<java.lang.Integer>();
+              mutable_bitField0_ |= 0x00000010;
+            }
+            constraints_.add(input.readInt32());
+            break;
+          }
+          case 42: {
+            int length = input.readRawVarint32();
+            int limit = input.pushLimit(length);
+            if (!((mutable_bitField0_ & 0x00000010) == 0x00000010) && input.getBytesUntilLimit() > 0) {
+              constraints_ = new java.util.ArrayList<java.lang.Integer>();
+              mutable_bitField0_ |= 0x00000010;
+            }
+            while (input.getBytesUntilLimit() > 0) {
+              constraints_.add(input.readInt32());
+            }
+            input.popLimit(limit);
             break;
           }
         }
@@ -75,6 +97,9 @@ public  final class Rating extends
           new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this));
     } finally {
+      if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        constraints_ = java.util.Collections.unmodifiableList(constraints_);
+      }
       makeExtensionsImmutable();
     }
   }
@@ -90,6 +115,7 @@ public  final class Rating extends
             edu.kit.ipd.crowdcontrol.workerservice.proto.Rating.class, edu.kit.ipd.crowdcontrol.workerservice.proto.Rating.Builder.class);
   }
 
+  private int bitField0_;
   public static final int RATING_FIELD_NUMBER = 1;
   private int rating_;
   /**
@@ -151,6 +177,29 @@ public  final class Rating extends
     }
   }
 
+  public static final int CONSTRAINTS_FIELD_NUMBER = 5;
+  private java.util.List<java.lang.Integer> constraints_;
+  /**
+   * <code>repeated int32 constraints = 5;</code>
+   */
+  public java.util.List<java.lang.Integer>
+      getConstraintsList() {
+    return constraints_;
+  }
+  /**
+   * <code>repeated int32 constraints = 5;</code>
+   */
+  public int getConstraintsCount() {
+    return constraints_.size();
+  }
+  /**
+   * <code>repeated int32 constraints = 5;</code>
+   */
+  public int getConstraints(int index) {
+    return constraints_.get(index);
+  }
+  private int constraintsMemoizedSerializedSize = -1;
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -163,6 +212,7 @@ public  final class Rating extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    getSerializedSize();
     if (rating_ != 0) {
       output.writeInt32(1, rating_);
     }
@@ -174,6 +224,13 @@ public  final class Rating extends
     }
     if (!getFeedbackBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessage.writeString(output, 4, feedback_);
+    }
+    if (getConstraintsList().size() > 0) {
+      output.writeRawVarint32(42);
+      output.writeRawVarint32(constraintsMemoizedSerializedSize);
+    }
+    for (int i = 0; i < constraints_.size(); i++) {
+      output.writeInt32NoTag(constraints_.get(i));
     }
   }
 
@@ -196,6 +253,20 @@ public  final class Rating extends
     }
     if (!getFeedbackBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(4, feedback_);
+    }
+    {
+      int dataSize = 0;
+      for (int i = 0; i < constraints_.size(); i++) {
+        dataSize += com.google.protobuf.CodedOutputStream
+          .computeInt32SizeNoTag(constraints_.get(i));
+      }
+      size += dataSize;
+      if (!getConstraintsList().isEmpty()) {
+        size += 1;
+        size += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(dataSize);
+      }
+      constraintsMemoizedSerializedSize = dataSize;
     }
     memoizedSize = size;
     return size;
@@ -316,6 +387,8 @@ public  final class Rating extends
 
       feedback_ = "";
 
+      constraints_ = java.util.Collections.emptyList();
+      bitField0_ = (bitField0_ & ~0x00000010);
       return this;
     }
 
@@ -338,10 +411,18 @@ public  final class Rating extends
 
     public edu.kit.ipd.crowdcontrol.workerservice.proto.Rating buildPartial() {
       edu.kit.ipd.crowdcontrol.workerservice.proto.Rating result = new edu.kit.ipd.crowdcontrol.workerservice.proto.Rating(this);
+      int from_bitField0_ = bitField0_;
+      int to_bitField0_ = 0;
       result.rating_ = rating_;
       result.experiment_ = experiment_;
       result.answerId_ = answerId_;
       result.feedback_ = feedback_;
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        constraints_ = java.util.Collections.unmodifiableList(constraints_);
+        bitField0_ = (bitField0_ & ~0x00000010);
+      }
+      result.constraints_ = constraints_;
+      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -370,6 +451,16 @@ public  final class Rating extends
         feedback_ = other.feedback_;
         onChanged();
       }
+      if (!other.constraints_.isEmpty()) {
+        if (constraints_.isEmpty()) {
+          constraints_ = other.constraints_;
+          bitField0_ = (bitField0_ & ~0x00000010);
+        } else {
+          ensureConstraintsIsMutable();
+          constraints_.addAll(other.constraints_);
+        }
+        onChanged();
+      }
       onChanged();
       return this;
     }
@@ -395,6 +486,7 @@ public  final class Rating extends
       }
       return this;
     }
+    private int bitField0_;
 
     private int rating_ ;
     /**
@@ -539,6 +631,72 @@ public  final class Rating extends
   checkByteStringIsUtf8(value);
       
       feedback_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.util.List<java.lang.Integer> constraints_ = java.util.Collections.emptyList();
+    private void ensureConstraintsIsMutable() {
+      if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        constraints_ = new java.util.ArrayList<java.lang.Integer>(constraints_);
+        bitField0_ |= 0x00000010;
+       }
+    }
+    /**
+     * <code>repeated int32 constraints = 5;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getConstraintsList() {
+      return java.util.Collections.unmodifiableList(constraints_);
+    }
+    /**
+     * <code>repeated int32 constraints = 5;</code>
+     */
+    public int getConstraintsCount() {
+      return constraints_.size();
+    }
+    /**
+     * <code>repeated int32 constraints = 5;</code>
+     */
+    public int getConstraints(int index) {
+      return constraints_.get(index);
+    }
+    /**
+     * <code>repeated int32 constraints = 5;</code>
+     */
+    public Builder setConstraints(
+        int index, int value) {
+      ensureConstraintsIsMutable();
+      constraints_.set(index, value);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated int32 constraints = 5;</code>
+     */
+    public Builder addConstraints(int value) {
+      ensureConstraintsIsMutable();
+      constraints_.add(value);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated int32 constraints = 5;</code>
+     */
+    public Builder addAllConstraints(
+        java.lang.Iterable<? extends java.lang.Integer> values) {
+      ensureConstraintsIsMutable();
+      com.google.protobuf.AbstractMessageLite.Builder.addAll(
+          values, constraints_);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated int32 constraints = 5;</code>
+     */
+    public Builder clearConstraints() {
+      constraints_ = java.util.Collections.emptyList();
+      bitField0_ = (bitField0_ & ~0x00000010);
       onChanged();
       return this;
     }

@@ -72,16 +72,12 @@ public class Router implements SparkApplication, RequestHelper {
     /**
      * Creates an error response and encodes it into JSON / protocol buffers.
      *
-     * @param request
-     *         Request provided by Spark.
-     * @param response
-     *         Response provided by Spark.
-     * @param code
-     *         Short error code to make errors machine readable.
-     * @param detail
-     *         Detailed error message for humans.
+     * @param request Request provided by Spark
+     * @param response Response provided by Spark
+     * @param code Short error code to make errors machine readable
+     * @param detail Detailed error message for humans
      *
-     * @return Encoded message.
+     * @return Encoded message
      */
     private String error(Request request, Response response, String code, String detail) {
         ErrorResponse error = ErrorResponse.newBuilder().setCode(code).setDetail(detail).build();

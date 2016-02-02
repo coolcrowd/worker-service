@@ -31,4 +31,17 @@ public interface RatingOrBuilder extends
    */
   com.google.protobuf.ByteString
       getFeedbackBytes();
+
+  /**
+   * <code>repeated int32 constraints = 5;</code>
+   */
+  java.util.List<java.lang.Integer> getConstraintsList();
+  /**
+   * <code>repeated int32 constraints = 5;</code>
+   */
+  int getConstraintsCount();
+  /**
+   * <code>repeated int32 constraints = 5;</code>
+   */
+  int getConstraints(int index);
 }
