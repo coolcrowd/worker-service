@@ -137,6 +137,7 @@ public class Communication {
      * @return an completable future representing the request with the resulting location in the database
      */
     public CompletableFuture<HttpResponse<JsonNode>> submitCalibration(int option, int worker) {
+        //TODO: add calibrations
         CalibrationAnswer calibrationAnswer = CalibrationAnswer.newBuilder()
                 .setAnswerId(option)
                 .build();
