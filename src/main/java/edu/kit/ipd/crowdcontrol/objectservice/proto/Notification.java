@@ -20,7 +20,7 @@ public  final class Notification extends
     description_ = "";
     query_ = "";
     checkPeriod_ = 0;
-    sendThreshold_ = 0;
+    emails_ = com.google.protobuf.LazyStringArrayList.EMPTY;
   }
 
   @java.lang.Override
@@ -75,9 +75,26 @@ public  final class Notification extends
             checkPeriod_ = input.readInt32();
             break;
           }
-          case 48: {
+          case 50: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.Builder subBuilder = null;
+            if (sendOnce_ != null) {
+              subBuilder = sendOnce_.toBuilder();
+            }
+            sendOnce_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(sendOnce_);
+              sendOnce_ = subBuilder.buildPartial();
+            }
 
-            sendThreshold_ = input.readInt32();
+            break;
+          }
+          case 58: {
+            java.lang.String s = input.readStringRequireUtf8();
+            if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              emails_ = new com.google.protobuf.LazyStringArrayList();
+              mutable_bitField0_ |= 0x00000040;
+            }
+            emails_.add(s);
             break;
           }
         }
@@ -89,6 +106,9 @@ public  final class Notification extends
           new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this));
     } finally {
+      if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        emails_ = emails_.getUnmodifiableView();
+      }
       makeExtensionsImmutable();
     }
   }
@@ -104,6 +124,7 @@ public  final class Notification extends
             edu.kit.ipd.crowdcontrol.objectservice.proto.Notification.class, edu.kit.ipd.crowdcontrol.objectservice.proto.Notification.Builder.class);
   }
 
+  private int bitField0_;
   public static final int ID_FIELD_NUMBER = 1;
   private int id_;
   /**
@@ -224,13 +245,54 @@ public  final class Notification extends
     return checkPeriod_;
   }
 
-  public static final int SEND_THRESHOLD_FIELD_NUMBER = 6;
-  private int sendThreshold_;
+  public static final int SEND_ONCE_FIELD_NUMBER = 6;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean sendOnce_;
   /**
-   * <code>optional int32 send_threshold = 6;</code>
+   * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
    */
-  public int getSendThreshold() {
-    return sendThreshold_;
+  public boolean hasSendOnce() {
+    return sendOnce_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean getSendOnce() {
+    return sendOnce_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.getDefaultInstance() : sendOnce_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.BooleanOrBuilder getSendOnceOrBuilder() {
+    return getSendOnce();
+  }
+
+  public static final int EMAILS_FIELD_NUMBER = 7;
+  private com.google.protobuf.LazyStringList emails_;
+  /**
+   * <code>repeated string emails = 7;</code>
+   */
+  public com.google.protobuf.ProtocolStringList
+      getEmailsList() {
+    return emails_;
+  }
+  /**
+   * <code>repeated string emails = 7;</code>
+   */
+  public int getEmailsCount() {
+    return emails_.size();
+  }
+  /**
+   * <code>repeated string emails = 7;</code>
+   */
+  public java.lang.String getEmails(int index) {
+    return emails_.get(index);
+  }
+  /**
+   * <code>repeated string emails = 7;</code>
+   */
+  public com.google.protobuf.ByteString
+      getEmailsBytes(int index) {
+    return emails_.getByteString(index);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -260,8 +322,11 @@ public  final class Notification extends
     if (checkPeriod_ != 0) {
       output.writeInt32(5, checkPeriod_);
     }
-    if (sendThreshold_ != 0) {
-      output.writeInt32(6, sendThreshold_);
+    if (sendOnce_ != null) {
+      output.writeMessage(6, getSendOnce());
+    }
+    for (int i = 0; i < emails_.size(); i++) {
+      com.google.protobuf.GeneratedMessage.writeString(output, 7, emails_.getRaw(i));
     }
   }
 
@@ -287,9 +352,17 @@ public  final class Notification extends
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(5, checkPeriod_);
     }
-    if (sendThreshold_ != 0) {
+    if (sendOnce_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(6, sendThreshold_);
+        .computeMessageSize(6, getSendOnce());
+    }
+    {
+      int dataSize = 0;
+      for (int i = 0; i < emails_.size(); i++) {
+        dataSize += computeStringSizeNoTag(emails_.getRaw(i));
+      }
+      size += dataSize;
+      size += 1 * getEmailsList().size();
     }
     memoizedSize = size;
     return size;
@@ -412,8 +485,14 @@ public  final class Notification extends
 
       checkPeriod_ = 0;
 
-      sendThreshold_ = 0;
-
+      if (sendOnceBuilder_ == null) {
+        sendOnce_ = null;
+      } else {
+        sendOnce_ = null;
+        sendOnceBuilder_ = null;
+      }
+      emails_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000040);
       return this;
     }
 
@@ -436,12 +515,24 @@ public  final class Notification extends
 
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Notification buildPartial() {
       edu.kit.ipd.crowdcontrol.objectservice.proto.Notification result = new edu.kit.ipd.crowdcontrol.objectservice.proto.Notification(this);
+      int from_bitField0_ = bitField0_;
+      int to_bitField0_ = 0;
       result.id_ = id_;
       result.name_ = name_;
       result.description_ = description_;
       result.query_ = query_;
       result.checkPeriod_ = checkPeriod_;
-      result.sendThreshold_ = sendThreshold_;
+      if (sendOnceBuilder_ == null) {
+        result.sendOnce_ = sendOnce_;
+      } else {
+        result.sendOnce_ = sendOnceBuilder_.build();
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        emails_ = emails_.getUnmodifiableView();
+        bitField0_ = (bitField0_ & ~0x00000040);
+      }
+      result.emails_ = emails_;
+      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -475,8 +566,18 @@ public  final class Notification extends
       if (other.getCheckPeriod() != 0) {
         setCheckPeriod(other.getCheckPeriod());
       }
-      if (other.getSendThreshold() != 0) {
-        setSendThreshold(other.getSendThreshold());
+      if (other.hasSendOnce()) {
+        mergeSendOnce(other.getSendOnce());
+      }
+      if (!other.emails_.isEmpty()) {
+        if (emails_.isEmpty()) {
+          emails_ = other.emails_;
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          ensureEmailsIsMutable();
+          emails_.addAll(other.emails_);
+        }
+        onChanged();
       }
       onChanged();
       return this;
@@ -503,6 +604,7 @@ public  final class Notification extends
       }
       return this;
     }
+    private int bitField0_;
 
     private int id_ ;
     /**
@@ -763,28 +865,213 @@ public  final class Notification extends
       return this;
     }
 
-    private int sendThreshold_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean sendOnce_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean, edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.BooleanOrBuilder> sendOnceBuilder_;
     /**
-     * <code>optional int32 send_threshold = 6;</code>
+     * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
      */
-    public int getSendThreshold() {
-      return sendThreshold_;
+    public boolean hasSendOnce() {
+      return sendOnceBuilder_ != null || sendOnce_ != null;
     }
     /**
-     * <code>optional int32 send_threshold = 6;</code>
+     * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
      */
-    public Builder setSendThreshold(int value) {
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean getSendOnce() {
+      if (sendOnceBuilder_ == null) {
+        return sendOnce_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.getDefaultInstance() : sendOnce_;
+      } else {
+        return sendOnceBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
+     */
+    public Builder setSendOnce(edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean value) {
+      if (sendOnceBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        sendOnce_ = value;
+        onChanged();
+      } else {
+        sendOnceBuilder_.setMessage(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
+     */
+    public Builder setSendOnce(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.Builder builderForValue) {
+      if (sendOnceBuilder_ == null) {
+        sendOnce_ = builderForValue.build();
+        onChanged();
+      } else {
+        sendOnceBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
+     */
+    public Builder mergeSendOnce(edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean value) {
+      if (sendOnceBuilder_ == null) {
+        if (sendOnce_ != null) {
+          sendOnce_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.newBuilder(sendOnce_).mergeFrom(value).buildPartial();
+        } else {
+          sendOnce_ = value;
+        }
+        onChanged();
+      } else {
+        sendOnceBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
+     */
+    public Builder clearSendOnce() {
+      if (sendOnceBuilder_ == null) {
+        sendOnce_ = null;
+        onChanged();
+      } else {
+        sendOnce_ = null;
+        sendOnceBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.Builder getSendOnceBuilder() {
       
-      sendThreshold_ = value;
+      onChanged();
+      return getSendOnceFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.BooleanOrBuilder getSendOnceOrBuilder() {
+      if (sendOnceBuilder_ != null) {
+        return sendOnceBuilder_.getMessageOrBuilder();
+      } else {
+        return sendOnce_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.getDefaultInstance() : sendOnce_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Boolean send_once = 6;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean, edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.BooleanOrBuilder> 
+        getSendOnceFieldBuilder() {
+      if (sendOnceBuilder_ == null) {
+        sendOnceBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean, edu.kit.ipd.crowdcontrol.objectservice.proto.Boolean.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.BooleanOrBuilder>(
+                getSendOnce(),
+                getParentForChildren(),
+                isClean());
+        sendOnce_ = null;
+      }
+      return sendOnceBuilder_;
+    }
+
+    private com.google.protobuf.LazyStringList emails_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    private void ensureEmailsIsMutable() {
+      if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        emails_ = new com.google.protobuf.LazyStringArrayList(emails_);
+        bitField0_ |= 0x00000040;
+       }
+    }
+    /**
+     * <code>repeated string emails = 7;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getEmailsList() {
+      return emails_.getUnmodifiableView();
+    }
+    /**
+     * <code>repeated string emails = 7;</code>
+     */
+    public int getEmailsCount() {
+      return emails_.size();
+    }
+    /**
+     * <code>repeated string emails = 7;</code>
+     */
+    public java.lang.String getEmails(int index) {
+      return emails_.get(index);
+    }
+    /**
+     * <code>repeated string emails = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getEmailsBytes(int index) {
+      return emails_.getByteString(index);
+    }
+    /**
+     * <code>repeated string emails = 7;</code>
+     */
+    public Builder setEmails(
+        int index, java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureEmailsIsMutable();
+      emails_.set(index, value);
       onChanged();
       return this;
     }
     /**
-     * <code>optional int32 send_threshold = 6;</code>
+     * <code>repeated string emails = 7;</code>
      */
-    public Builder clearSendThreshold() {
-      
-      sendThreshold_ = 0;
+    public Builder addEmails(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureEmailsIsMutable();
+      emails_.add(value);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string emails = 7;</code>
+     */
+    public Builder addAllEmails(
+        java.lang.Iterable<java.lang.String> values) {
+      ensureEmailsIsMutable();
+      com.google.protobuf.AbstractMessageLite.Builder.addAll(
+          values, emails_);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string emails = 7;</code>
+     */
+    public Builder clearEmails() {
+      emails_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000040);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string emails = 7;</code>
+     */
+    public Builder addEmailsBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      ensureEmailsIsMutable();
+      emails_.add(value);
       onChanged();
       return this;
     }

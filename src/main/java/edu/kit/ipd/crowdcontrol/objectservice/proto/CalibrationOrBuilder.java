@@ -33,40 +33,50 @@ public interface CalibrationOrBuilder extends
       getQuestionBytes();
 
   /**
-   * <code>repeated string answers = 4;</code>
+   * <code>repeated .crowdcontrol.Calibration.Answer answers = 4;</code>
    */
-  com.google.protobuf.ProtocolStringList
+  java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Answer> 
       getAnswersList();
   /**
-   * <code>repeated string answers = 4;</code>
+   * <code>repeated .crowdcontrol.Calibration.Answer answers = 4;</code>
+   */
+  edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Answer getAnswers(int index);
+  /**
+   * <code>repeated .crowdcontrol.Calibration.Answer answers = 4;</code>
    */
   int getAnswersCount();
   /**
-   * <code>repeated string answers = 4;</code>
+   * <code>repeated .crowdcontrol.Calibration.Answer answers = 4;</code>
    */
-  java.lang.String getAnswers(int index);
+  java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.AnswerOrBuilder> 
+      getAnswersOrBuilderList();
   /**
-   * <code>repeated string answers = 4;</code>
+   * <code>repeated .crowdcontrol.Calibration.Answer answers = 4;</code>
    */
-  com.google.protobuf.ByteString
-      getAnswersBytes(int index);
+  edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.AnswerOrBuilder getAnswersOrBuilder(
+      int index);
 
   /**
-   * <code>repeated string accepted_answers = 5;</code>
+   * <code>repeated .crowdcontrol.Calibration.Answer accepted_answers = 5;</code>
    */
-  com.google.protobuf.ProtocolStringList
+  java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Answer> 
       getAcceptedAnswersList();
   /**
-   * <code>repeated string accepted_answers = 5;</code>
+   * <code>repeated .crowdcontrol.Calibration.Answer accepted_answers = 5;</code>
+   */
+  edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.Answer getAcceptedAnswers(int index);
+  /**
+   * <code>repeated .crowdcontrol.Calibration.Answer accepted_answers = 5;</code>
    */
   int getAcceptedAnswersCount();
   /**
-   * <code>repeated string accepted_answers = 5;</code>
+   * <code>repeated .crowdcontrol.Calibration.Answer accepted_answers = 5;</code>
    */
-  java.lang.String getAcceptedAnswers(int index);
+  java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.AnswerOrBuilder> 
+      getAcceptedAnswersOrBuilderList();
   /**
-   * <code>repeated string accepted_answers = 5;</code>
+   * <code>repeated .crowdcontrol.Calibration.Answer accepted_answers = 5;</code>
    */
-  com.google.protobuf.ByteString
-      getAcceptedAnswersBytes(int index);
+  edu.kit.ipd.crowdcontrol.objectservice.proto.Calibration.AnswerOrBuilder getAcceptedAnswersOrBuilder(
+      int index);
 }

@@ -8,11 +8,16 @@ public interface ConstraintOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional string name = 1;</code>
+   * <code>optional int32 id = 1;</code>
+   */
+  int getId();
+
+  /**
+   * <code>optional string name = 2;</code>
    */
   java.lang.String getName();
   /**
-   * <code>optional string name = 1;</code>
+   * <code>optional string name = 2;</code>
    */
   com.google.protobuf.ByteString
       getNameBytes();

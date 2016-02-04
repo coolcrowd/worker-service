@@ -20,6 +20,8 @@ public  final class Template extends
     content_ = "";
     answerType_ = 0;
     ratingOptions_ = java.util.Collections.emptyList();
+    constraints_ = java.util.Collections.emptyList();
+    tags_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -77,6 +79,22 @@ public  final class Template extends
             ratingOptions_.add(input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption.parser(), extensionRegistry));
             break;
           }
+          case 50: {
+            if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+              constraints_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint>();
+              mutable_bitField0_ |= 0x00000020;
+            }
+            constraints_.add(input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.parser(), extensionRegistry));
+            break;
+          }
+          case 58: {
+            if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              tags_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Tag>();
+              mutable_bitField0_ |= 0x00000040;
+            }
+            tags_.add(input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.parser(), extensionRegistry));
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -88,6 +106,12 @@ public  final class Template extends
     } finally {
       if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
         ratingOptions_ = java.util.Collections.unmodifiableList(ratingOptions_);
+      }
+      if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        constraints_ = java.util.Collections.unmodifiableList(constraints_);
+      }
+      if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        tags_ = java.util.Collections.unmodifiableList(tags_);
       }
       makeExtensionsImmutable();
     }
@@ -800,6 +824,76 @@ public  final class Template extends
     return ratingOptions_.get(index);
   }
 
+  public static final int CONSTRAINTS_FIELD_NUMBER = 6;
+  private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> constraints_;
+  /**
+   * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+   */
+  public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> getConstraintsList() {
+    return constraints_;
+  }
+  /**
+   * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+   */
+  public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> 
+      getConstraintsOrBuilderList() {
+    return constraints_;
+  }
+  /**
+   * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+   */
+  public int getConstraintsCount() {
+    return constraints_.size();
+  }
+  /**
+   * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint getConstraints(int index) {
+    return constraints_.get(index);
+  }
+  /**
+   * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder getConstraintsOrBuilder(
+      int index) {
+    return constraints_.get(index);
+  }
+
+  public static final int TAGS_FIELD_NUMBER = 7;
+  private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Tag> tags_;
+  /**
+   * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+   */
+  public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Tag> getTagsList() {
+    return tags_;
+  }
+  /**
+   * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+   */
+  public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.TagOrBuilder> 
+      getTagsOrBuilderList() {
+    return tags_;
+  }
+  /**
+   * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+   */
+  public int getTagsCount() {
+    return tags_.size();
+  }
+  /**
+   * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Tag getTags(int index) {
+    return tags_.get(index);
+  }
+  /**
+   * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.TagOrBuilder getTagsOrBuilder(
+      int index) {
+    return tags_.get(index);
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -827,6 +921,12 @@ public  final class Template extends
     for (int i = 0; i < ratingOptions_.size(); i++) {
       output.writeMessage(5, ratingOptions_.get(i));
     }
+    for (int i = 0; i < constraints_.size(); i++) {
+      output.writeMessage(6, constraints_.get(i));
+    }
+    for (int i = 0; i < tags_.size(); i++) {
+      output.writeMessage(7, tags_.get(i));
+    }
   }
 
   public int getSerializedSize() {
@@ -851,6 +951,14 @@ public  final class Template extends
     for (int i = 0; i < ratingOptions_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(5, ratingOptions_.get(i));
+    }
+    for (int i = 0; i < constraints_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, constraints_.get(i));
+    }
+    for (int i = 0; i < tags_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(7, tags_.get(i));
     }
     memoizedSize = size;
     return size;
@@ -960,6 +1068,8 @@ public  final class Template extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         getRatingOptionsFieldBuilder();
+        getConstraintsFieldBuilder();
+        getTagsFieldBuilder();
       }
     }
     public Builder clear() {
@@ -977,6 +1087,18 @@ public  final class Template extends
         bitField0_ = (bitField0_ & ~0x00000010);
       } else {
         ratingOptionsBuilder_.clear();
+      }
+      if (constraintsBuilder_ == null) {
+        constraints_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+      } else {
+        constraintsBuilder_.clear();
+      }
+      if (tagsBuilder_ == null) {
+        tags_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000040);
+      } else {
+        tagsBuilder_.clear();
       }
       return this;
     }
@@ -1014,6 +1136,24 @@ public  final class Template extends
         result.ratingOptions_ = ratingOptions_;
       } else {
         result.ratingOptions_ = ratingOptionsBuilder_.build();
+      }
+      if (constraintsBuilder_ == null) {
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          constraints_ = java.util.Collections.unmodifiableList(constraints_);
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.constraints_ = constraints_;
+      } else {
+        result.constraints_ = constraintsBuilder_.build();
+      }
+      if (tagsBuilder_ == null) {
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          tags_ = java.util.Collections.unmodifiableList(tags_);
+          bitField0_ = (bitField0_ & ~0x00000040);
+        }
+        result.tags_ = tags_;
+      } else {
+        result.tags_ = tagsBuilder_.build();
       }
       result.bitField0_ = to_bitField0_;
       onBuilt();
@@ -1068,6 +1208,58 @@ public  final class Template extends
                  getRatingOptionsFieldBuilder() : null;
           } else {
             ratingOptionsBuilder_.addAllMessages(other.ratingOptions_);
+          }
+        }
+      }
+      if (constraintsBuilder_ == null) {
+        if (!other.constraints_.isEmpty()) {
+          if (constraints_.isEmpty()) {
+            constraints_ = other.constraints_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureConstraintsIsMutable();
+            constraints_.addAll(other.constraints_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.constraints_.isEmpty()) {
+          if (constraintsBuilder_.isEmpty()) {
+            constraintsBuilder_.dispose();
+            constraintsBuilder_ = null;
+            constraints_ = other.constraints_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+            constraintsBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getConstraintsFieldBuilder() : null;
+          } else {
+            constraintsBuilder_.addAllMessages(other.constraints_);
+          }
+        }
+      }
+      if (tagsBuilder_ == null) {
+        if (!other.tags_.isEmpty()) {
+          if (tags_.isEmpty()) {
+            tags_ = other.tags_;
+            bitField0_ = (bitField0_ & ~0x00000040);
+          } else {
+            ensureTagsIsMutable();
+            tags_.addAll(other.tags_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.tags_.isEmpty()) {
+          if (tagsBuilder_.isEmpty()) {
+            tagsBuilder_.dispose();
+            tagsBuilder_ = null;
+            tags_ = other.tags_;
+            bitField0_ = (bitField0_ & ~0x00000040);
+            tagsBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getTagsFieldBuilder() : null;
+          } else {
+            tagsBuilder_.addAllMessages(other.tags_);
           }
         }
       }
@@ -1544,6 +1736,486 @@ public  final class Template extends
         ratingOptions_ = null;
       }
       return ratingOptionsBuilder_;
+    }
+
+    private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> constraints_ =
+      java.util.Collections.emptyList();
+    private void ensureConstraintsIsMutable() {
+      if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        constraints_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint>(constraints_);
+        bitField0_ |= 0x00000020;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> constraintsBuilder_;
+
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> getConstraintsList() {
+      if (constraintsBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(constraints_);
+      } else {
+        return constraintsBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public int getConstraintsCount() {
+      if (constraintsBuilder_ == null) {
+        return constraints_.size();
+      } else {
+        return constraintsBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint getConstraints(int index) {
+      if (constraintsBuilder_ == null) {
+        return constraints_.get(index);
+      } else {
+        return constraintsBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public Builder setConstraints(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint value) {
+      if (constraintsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureConstraintsIsMutable();
+        constraints_.set(index, value);
+        onChanged();
+      } else {
+        constraintsBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public Builder setConstraints(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder builderForValue) {
+      if (constraintsBuilder_ == null) {
+        ensureConstraintsIsMutable();
+        constraints_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        constraintsBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public Builder addConstraints(edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint value) {
+      if (constraintsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureConstraintsIsMutable();
+        constraints_.add(value);
+        onChanged();
+      } else {
+        constraintsBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public Builder addConstraints(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint value) {
+      if (constraintsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureConstraintsIsMutable();
+        constraints_.add(index, value);
+        onChanged();
+      } else {
+        constraintsBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public Builder addConstraints(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder builderForValue) {
+      if (constraintsBuilder_ == null) {
+        ensureConstraintsIsMutable();
+        constraints_.add(builderForValue.build());
+        onChanged();
+      } else {
+        constraintsBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public Builder addConstraints(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder builderForValue) {
+      if (constraintsBuilder_ == null) {
+        ensureConstraintsIsMutable();
+        constraints_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        constraintsBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public Builder addAllConstraints(
+        java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> values) {
+      if (constraintsBuilder_ == null) {
+        ensureConstraintsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, constraints_);
+        onChanged();
+      } else {
+        constraintsBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public Builder clearConstraints() {
+      if (constraintsBuilder_ == null) {
+        constraints_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+      } else {
+        constraintsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public Builder removeConstraints(int index) {
+      if (constraintsBuilder_ == null) {
+        ensureConstraintsIsMutable();
+        constraints_.remove(index);
+        onChanged();
+      } else {
+        constraintsBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder getConstraintsBuilder(
+        int index) {
+      return getConstraintsFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder getConstraintsOrBuilder(
+        int index) {
+      if (constraintsBuilder_ == null) {
+        return constraints_.get(index);  } else {
+        return constraintsBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> 
+         getConstraintsOrBuilderList() {
+      if (constraintsBuilder_ != null) {
+        return constraintsBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(constraints_);
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder addConstraintsBuilder() {
+      return getConstraintsFieldBuilder().addBuilder(
+          edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder addConstraintsBuilder(
+        int index) {
+      return getConstraintsFieldBuilder().addBuilder(
+          index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint constraints = 6;</code>
+     */
+    public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder> 
+         getConstraintsBuilderList() {
+      return getConstraintsFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> 
+        getConstraintsFieldBuilder() {
+      if (constraintsBuilder_ == null) {
+        constraintsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder>(
+                constraints_,
+                ((bitField0_ & 0x00000020) == 0x00000020),
+                getParentForChildren(),
+                isClean());
+        constraints_ = null;
+      }
+      return constraintsBuilder_;
+    }
+
+    private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Tag> tags_ =
+      java.util.Collections.emptyList();
+    private void ensureTagsIsMutable() {
+      if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        tags_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Tag>(tags_);
+        bitField0_ |= 0x00000040;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Tag, edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.TagOrBuilder> tagsBuilder_;
+
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Tag> getTagsList() {
+      if (tagsBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(tags_);
+      } else {
+        return tagsBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public int getTagsCount() {
+      if (tagsBuilder_ == null) {
+        return tags_.size();
+      } else {
+        return tagsBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Tag getTags(int index) {
+      if (tagsBuilder_ == null) {
+        return tags_.get(index);
+      } else {
+        return tagsBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public Builder setTags(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Tag value) {
+      if (tagsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureTagsIsMutable();
+        tags_.set(index, value);
+        onChanged();
+      } else {
+        tagsBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public Builder setTags(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder builderForValue) {
+      if (tagsBuilder_ == null) {
+        ensureTagsIsMutable();
+        tags_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        tagsBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public Builder addTags(edu.kit.ipd.crowdcontrol.objectservice.proto.Tag value) {
+      if (tagsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureTagsIsMutable();
+        tags_.add(value);
+        onChanged();
+      } else {
+        tagsBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public Builder addTags(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Tag value) {
+      if (tagsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureTagsIsMutable();
+        tags_.add(index, value);
+        onChanged();
+      } else {
+        tagsBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public Builder addTags(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder builderForValue) {
+      if (tagsBuilder_ == null) {
+        ensureTagsIsMutable();
+        tags_.add(builderForValue.build());
+        onChanged();
+      } else {
+        tagsBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public Builder addTags(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder builderForValue) {
+      if (tagsBuilder_ == null) {
+        ensureTagsIsMutable();
+        tags_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        tagsBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public Builder addAllTags(
+        java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Tag> values) {
+      if (tagsBuilder_ == null) {
+        ensureTagsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, tags_);
+        onChanged();
+      } else {
+        tagsBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public Builder clearTags() {
+      if (tagsBuilder_ == null) {
+        tags_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000040);
+        onChanged();
+      } else {
+        tagsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public Builder removeTags(int index) {
+      if (tagsBuilder_ == null) {
+        ensureTagsIsMutable();
+        tags_.remove(index);
+        onChanged();
+      } else {
+        tagsBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder getTagsBuilder(
+        int index) {
+      return getTagsFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.TagOrBuilder getTagsOrBuilder(
+        int index) {
+      if (tagsBuilder_ == null) {
+        return tags_.get(index);  } else {
+        return tagsBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.TagOrBuilder> 
+         getTagsOrBuilderList() {
+      if (tagsBuilder_ != null) {
+        return tagsBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(tags_);
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder addTagsBuilder() {
+      return getTagsFieldBuilder().addBuilder(
+          edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder addTagsBuilder(
+        int index) {
+      return getTagsFieldBuilder().addBuilder(
+          index, edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .crowdcontrol.Tag tags = 7;</code>
+     */
+    public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder> 
+         getTagsBuilderList() {
+      return getTagsFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Tag, edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.TagOrBuilder> 
+        getTagsFieldBuilder() {
+      if (tagsBuilder_ == null) {
+        tagsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Tag, edu.kit.ipd.crowdcontrol.objectservice.proto.Tag.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.TagOrBuilder>(
+                tags_,
+                ((bitField0_ & 0x00000040) == 0x00000040),
+                getParentForChildren(),
+                isClean());
+        tags_ = null;
+      }
+      return tagsBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

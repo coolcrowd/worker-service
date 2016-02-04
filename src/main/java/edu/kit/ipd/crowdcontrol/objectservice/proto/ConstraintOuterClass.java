@@ -22,9 +22,10 @@ public final class ConstraintOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020constraint.proto\022\014crowdcontrol\"\032\n\nCons" +
-      "traint\022\014\n\004name\030\001 \001(\tB0\n,edu.kit.ipd.crow" +
-      "dcontrol.objectservice.protoP\001b\006proto3"
+      "\n\020constraint.proto\022\014crowdcontrol\"&\n\nCons" +
+      "traint\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\tB0\n,edu." +
+      "kit.ipd.crowdcontrol.objectservice.proto" +
+      "P\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -43,7 +44,7 @@ public final class ConstraintOuterClass {
     internal_static_crowdcontrol_Constraint_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Constraint_descriptor,
-        new java.lang.String[] { "Name", });
+        new java.lang.String[] { "Id", "Name", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

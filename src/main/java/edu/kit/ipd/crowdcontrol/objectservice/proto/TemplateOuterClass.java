@@ -28,14 +28,17 @@ public final class TemplateOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\016template.proto\022\014crowdcontrol\032\021answer_t" +
-      "ype.proto\"\352\001\n\010Template\022\n\n\002id\030\001 \001(\005\022\014\n\004na" +
-      "me\030\002 \001(\t\022\017\n\007content\030\003 \001(\t\022-\n\013answer_type" +
-      "\030\004 \001(\0162\030.crowdcontrol.AnswerType\022;\n\016rati" +
-      "ng_options\030\005 \003(\0132#.crowdcontrol.Template" +
-      ".RatingOption\032G\n\014RatingOption\022\032\n\022templat" +
-      "e_rating_id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\r\n\005value" +
-      "\030\003 \001(\005B0\n,edu.kit.ipd.crowdcontrol.objec" +
-      "tservice.protoP\001b\006proto3"
+      "ype.proto\032\020constraint.proto\032\ttag.proto\"\272" +
+      "\002\n\010Template\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\017\n" +
+      "\007content\030\003 \001(\t\022-\n\013answer_type\030\004 \001(\0162\030.cr" +
+      "owdcontrol.AnswerType\022;\n\016rating_options\030" +
+      "\005 \003(\0132#.crowdcontrol.Template.RatingOpti" +
+      "on\022-\n\013constraints\030\006 \003(\0132\030.crowdcontrol.C" +
+      "onstraint\022\037\n\004tags\030\007 \003(\0132\021.crowdcontrol.T" +
+      "ag\032G\n\014RatingOption\022\032\n\022template_rating_id" +
+      "\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\r\n\005value\030\003 \001(\005B0\n,e",
+      "du.kit.ipd.crowdcontrol.objectservice.pr" +
+      "otoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -49,13 +52,15 @@ public final class TemplateOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerTypeOuterClass.getDescriptor(),
+          edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOuterClass.getDescriptor(),
+          edu.kit.ipd.crowdcontrol.objectservice.proto.TagOuterClass.getDescriptor(),
         }, assigner);
     internal_static_crowdcontrol_Template_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_crowdcontrol_Template_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Template_descriptor,
-        new java.lang.String[] { "Id", "Name", "Content", "AnswerType", "RatingOptions", });
+        new java.lang.String[] { "Id", "Name", "Content", "AnswerType", "RatingOptions", "Constraints", "Tags", });
     internal_static_crowdcontrol_Template_RatingOption_descriptor =
       internal_static_crowdcontrol_Template_descriptor.getNestedTypes().get(0);
     internal_static_crowdcontrol_Template_RatingOption_fieldAccessorTable = new
@@ -63,6 +68,8 @@ public final class TemplateOuterClass {
         internal_static_crowdcontrol_Template_RatingOption_descriptor,
         new java.lang.String[] { "TemplateRatingId", "Name", "Value", });
     edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerTypeOuterClass.getDescriptor();
+    edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOuterClass.getDescriptor();
+    edu.kit.ipd.crowdcontrol.objectservice.proto.TagOuterClass.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -21,6 +21,7 @@ public  final class Rating extends
     worker_ = 0;
     quality_ = 0;
     time_ = 0;
+    violatedConstraints_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -78,6 +79,14 @@ public  final class Rating extends
             time_ = input.readInt32();
             break;
           }
+          case 58: {
+            if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              violatedConstraints_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint>();
+              mutable_bitField0_ |= 0x00000040;
+            }
+            violatedConstraints_.add(input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.parser(), extensionRegistry));
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -87,6 +96,9 @@ public  final class Rating extends
           new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this));
     } finally {
+      if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        violatedConstraints_ = java.util.Collections.unmodifiableList(violatedConstraints_);
+      }
       makeExtensionsImmutable();
     }
   }
@@ -102,6 +114,7 @@ public  final class Rating extends
             edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.class, edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder.class);
   }
 
+  private int bitField0_;
   public static final int EXPERIMENT_ID_FIELD_NUMBER = 1;
   private int experimentId_;
   /**
@@ -181,6 +194,41 @@ public  final class Rating extends
     return time_;
   }
 
+  public static final int VIOLATED_CONSTRAINTS_FIELD_NUMBER = 7;
+  private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> violatedConstraints_;
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> getViolatedConstraintsList() {
+    return violatedConstraints_;
+  }
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> 
+      getViolatedConstraintsOrBuilderList() {
+    return violatedConstraints_;
+  }
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  public int getViolatedConstraintsCount() {
+    return violatedConstraints_.size();
+  }
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint getViolatedConstraints(int index) {
+    return violatedConstraints_.get(index);
+  }
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder getViolatedConstraintsOrBuilder(
+      int index) {
+    return violatedConstraints_.get(index);
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -211,6 +259,9 @@ public  final class Rating extends
     if (time_ != 0) {
       output.writeInt32(6, time_);
     }
+    for (int i = 0; i < violatedConstraints_.size(); i++) {
+      output.writeMessage(7, violatedConstraints_.get(i));
+    }
   }
 
   public int getSerializedSize() {
@@ -240,6 +291,10 @@ public  final class Rating extends
     if (time_ != 0) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(6, time_);
+    }
+    for (int i = 0; i < violatedConstraints_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(7, violatedConstraints_.get(i));
     }
     memoizedSize = size;
     return size;
@@ -348,6 +403,7 @@ public  final class Rating extends
     }
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        getViolatedConstraintsFieldBuilder();
       }
     }
     public Builder clear() {
@@ -364,6 +420,12 @@ public  final class Rating extends
 
       time_ = 0;
 
+      if (violatedConstraintsBuilder_ == null) {
+        violatedConstraints_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000040);
+      } else {
+        violatedConstraintsBuilder_.clear();
+      }
       return this;
     }
 
@@ -386,12 +448,24 @@ public  final class Rating extends
 
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Rating buildPartial() {
       edu.kit.ipd.crowdcontrol.objectservice.proto.Rating result = new edu.kit.ipd.crowdcontrol.objectservice.proto.Rating(this);
+      int from_bitField0_ = bitField0_;
+      int to_bitField0_ = 0;
       result.experimentId_ = experimentId_;
       result.rating_ = rating_;
       result.feedback_ = feedback_;
       result.worker_ = worker_;
       result.quality_ = quality_;
       result.time_ = time_;
+      if (violatedConstraintsBuilder_ == null) {
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          violatedConstraints_ = java.util.Collections.unmodifiableList(violatedConstraints_);
+          bitField0_ = (bitField0_ & ~0x00000040);
+        }
+        result.violatedConstraints_ = violatedConstraints_;
+      } else {
+        result.violatedConstraints_ = violatedConstraintsBuilder_.build();
+      }
+      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -426,6 +500,32 @@ public  final class Rating extends
       if (other.getTime() != 0) {
         setTime(other.getTime());
       }
+      if (violatedConstraintsBuilder_ == null) {
+        if (!other.violatedConstraints_.isEmpty()) {
+          if (violatedConstraints_.isEmpty()) {
+            violatedConstraints_ = other.violatedConstraints_;
+            bitField0_ = (bitField0_ & ~0x00000040);
+          } else {
+            ensureViolatedConstraintsIsMutable();
+            violatedConstraints_.addAll(other.violatedConstraints_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.violatedConstraints_.isEmpty()) {
+          if (violatedConstraintsBuilder_.isEmpty()) {
+            violatedConstraintsBuilder_.dispose();
+            violatedConstraintsBuilder_ = null;
+            violatedConstraints_ = other.violatedConstraints_;
+            bitField0_ = (bitField0_ & ~0x00000040);
+            violatedConstraintsBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 getViolatedConstraintsFieldBuilder() : null;
+          } else {
+            violatedConstraintsBuilder_.addAllMessages(other.violatedConstraints_);
+          }
+        }
+      }
       onChanged();
       return this;
     }
@@ -451,6 +551,7 @@ public  final class Rating extends
       }
       return this;
     }
+    private int bitField0_;
 
     private int experimentId_ ;
     /**
@@ -649,6 +750,246 @@ public  final class Rating extends
       time_ = 0;
       onChanged();
       return this;
+    }
+
+    private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> violatedConstraints_ =
+      java.util.Collections.emptyList();
+    private void ensureViolatedConstraintsIsMutable() {
+      if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        violatedConstraints_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint>(violatedConstraints_);
+        bitField0_ |= 0x00000040;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> violatedConstraintsBuilder_;
+
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> getViolatedConstraintsList() {
+      if (violatedConstraintsBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(violatedConstraints_);
+      } else {
+        return violatedConstraintsBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public int getViolatedConstraintsCount() {
+      if (violatedConstraintsBuilder_ == null) {
+        return violatedConstraints_.size();
+      } else {
+        return violatedConstraintsBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint getViolatedConstraints(int index) {
+      if (violatedConstraintsBuilder_ == null) {
+        return violatedConstraints_.get(index);
+      } else {
+        return violatedConstraintsBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public Builder setViolatedConstraints(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint value) {
+      if (violatedConstraintsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureViolatedConstraintsIsMutable();
+        violatedConstraints_.set(index, value);
+        onChanged();
+      } else {
+        violatedConstraintsBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public Builder setViolatedConstraints(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder builderForValue) {
+      if (violatedConstraintsBuilder_ == null) {
+        ensureViolatedConstraintsIsMutable();
+        violatedConstraints_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        violatedConstraintsBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public Builder addViolatedConstraints(edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint value) {
+      if (violatedConstraintsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureViolatedConstraintsIsMutable();
+        violatedConstraints_.add(value);
+        onChanged();
+      } else {
+        violatedConstraintsBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public Builder addViolatedConstraints(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint value) {
+      if (violatedConstraintsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureViolatedConstraintsIsMutable();
+        violatedConstraints_.add(index, value);
+        onChanged();
+      } else {
+        violatedConstraintsBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public Builder addViolatedConstraints(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder builderForValue) {
+      if (violatedConstraintsBuilder_ == null) {
+        ensureViolatedConstraintsIsMutable();
+        violatedConstraints_.add(builderForValue.build());
+        onChanged();
+      } else {
+        violatedConstraintsBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public Builder addViolatedConstraints(
+        int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder builderForValue) {
+      if (violatedConstraintsBuilder_ == null) {
+        ensureViolatedConstraintsIsMutable();
+        violatedConstraints_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        violatedConstraintsBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public Builder addAllViolatedConstraints(
+        java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> values) {
+      if (violatedConstraintsBuilder_ == null) {
+        ensureViolatedConstraintsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, violatedConstraints_);
+        onChanged();
+      } else {
+        violatedConstraintsBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public Builder clearViolatedConstraints() {
+      if (violatedConstraintsBuilder_ == null) {
+        violatedConstraints_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000040);
+        onChanged();
+      } else {
+        violatedConstraintsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public Builder removeViolatedConstraints(int index) {
+      if (violatedConstraintsBuilder_ == null) {
+        ensureViolatedConstraintsIsMutable();
+        violatedConstraints_.remove(index);
+        onChanged();
+      } else {
+        violatedConstraintsBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder getViolatedConstraintsBuilder(
+        int index) {
+      return getViolatedConstraintsFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder getViolatedConstraintsOrBuilder(
+        int index) {
+      if (violatedConstraintsBuilder_ == null) {
+        return violatedConstraints_.get(index);  } else {
+        return violatedConstraintsBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> 
+         getViolatedConstraintsOrBuilderList() {
+      if (violatedConstraintsBuilder_ != null) {
+        return violatedConstraintsBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(violatedConstraints_);
+      }
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder addViolatedConstraintsBuilder() {
+      return getViolatedConstraintsFieldBuilder().addBuilder(
+          edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder addViolatedConstraintsBuilder(
+        int index) {
+      return getViolatedConstraintsFieldBuilder().addBuilder(
+          index, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+     */
+    public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder> 
+         getViolatedConstraintsBuilderList() {
+      return getViolatedConstraintsFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> 
+        getViolatedConstraintsFieldBuilder() {
+      if (violatedConstraintsBuilder_ == null) {
+        violatedConstraintsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder>(
+                violatedConstraints_,
+                ((bitField0_ & 0x00000040) == 0x00000040),
+                getParentForChildren(),
+                isClean());
+        violatedConstraints_ = null;
+      }
+      return violatedConstraintsBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

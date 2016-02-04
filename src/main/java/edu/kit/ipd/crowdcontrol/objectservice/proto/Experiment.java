@@ -20,18 +20,9 @@ public  final class Experiment extends
     description_ = "";
     state_ = 0;
     answerType_ = 0;
-    answersPerWorker_ = 0;
-    ratingsPerWorker_ = 0;
-    ratingsPerAnswer_ = 0;
-    neededAnswers_ = 0;
-    paymentBase_ = 0;
-    paymentAnswer_ = 0;
-    paymentRating_ = 0;
     constraints_ = java.util.Collections.emptyList();
     tags_ = java.util.Collections.emptyList();
     populations_ = java.util.Collections.emptyList();
-    workerQualityThreshold_ = 0;
-    templateId_ = 0;
     ratingOptions_ = java.util.Collections.emptyList();
   }
 
@@ -127,39 +118,95 @@ public  final class Experiment extends
 
             break;
           }
-          case 72: {
+          case 74: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (answersPerWorker_ != null) {
+              subBuilder = answersPerWorker_.toBuilder();
+            }
+            answersPerWorker_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(answersPerWorker_);
+              answersPerWorker_ = subBuilder.buildPartial();
+            }
 
-            answersPerWorker_ = input.readInt32();
             break;
           }
-          case 80: {
+          case 82: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (ratingsPerWorker_ != null) {
+              subBuilder = ratingsPerWorker_.toBuilder();
+            }
+            ratingsPerWorker_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(ratingsPerWorker_);
+              ratingsPerWorker_ = subBuilder.buildPartial();
+            }
 
-            ratingsPerWorker_ = input.readInt32();
             break;
           }
-          case 88: {
+          case 90: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (ratingsPerAnswer_ != null) {
+              subBuilder = ratingsPerAnswer_.toBuilder();
+            }
+            ratingsPerAnswer_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(ratingsPerAnswer_);
+              ratingsPerAnswer_ = subBuilder.buildPartial();
+            }
 
-            ratingsPerAnswer_ = input.readInt32();
             break;
           }
-          case 96: {
+          case 98: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (neededAnswers_ != null) {
+              subBuilder = neededAnswers_.toBuilder();
+            }
+            neededAnswers_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(neededAnswers_);
+              neededAnswers_ = subBuilder.buildPartial();
+            }
 
-            neededAnswers_ = input.readInt32();
             break;
           }
-          case 104: {
+          case 106: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (paymentBase_ != null) {
+              subBuilder = paymentBase_.toBuilder();
+            }
+            paymentBase_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(paymentBase_);
+              paymentBase_ = subBuilder.buildPartial();
+            }
 
-            paymentBase_ = input.readInt32();
             break;
           }
-          case 112: {
+          case 114: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (paymentAnswer_ != null) {
+              subBuilder = paymentAnswer_.toBuilder();
+            }
+            paymentAnswer_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(paymentAnswer_);
+              paymentAnswer_ = subBuilder.buildPartial();
+            }
 
-            paymentAnswer_ = input.readInt32();
             break;
           }
-          case 120: {
+          case 122: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (paymentRating_ != null) {
+              subBuilder = paymentRating_.toBuilder();
+            }
+            paymentRating_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(paymentRating_);
+              paymentRating_ = subBuilder.buildPartial();
+            }
 
-            paymentRating_ = input.readInt32();
             break;
           }
           case 130: {
@@ -198,20 +245,49 @@ public  final class Experiment extends
             placeholders_.getMutableMap().put(placeholders.getKey(), placeholders.getValue());
             break;
           }
-          case 160: {
+          case 162: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (paymentQualityThreshold_ != null) {
+              subBuilder = paymentQualityThreshold_.toBuilder();
+            }
+            paymentQualityThreshold_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(paymentQualityThreshold_);
+              paymentQualityThreshold_ = subBuilder.buildPartial();
+            }
 
-            workerQualityThreshold_ = input.readInt32();
             break;
           }
-          case 168: {
+          case 170: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (workerQualityThreshold_ != null) {
+              subBuilder = workerQualityThreshold_.toBuilder();
+            }
+            workerQualityThreshold_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(workerQualityThreshold_);
+              workerQualityThreshold_ = subBuilder.buildPartial();
+            }
 
-            templateId_ = input.readInt32();
             break;
           }
           case 178: {
-            if (!((mutable_bitField0_ & 0x00200000) == 0x00200000)) {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (templateId_ != null) {
+              subBuilder = templateId_.toBuilder();
+            }
+            templateId_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(templateId_);
+              templateId_ = subBuilder.buildPartial();
+            }
+
+            break;
+          }
+          case 186: {
+            if (!((mutable_bitField0_ & 0x00400000) == 0x00400000)) {
               ratingOptions_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption>();
-              mutable_bitField0_ |= 0x00200000;
+              mutable_bitField0_ |= 0x00400000;
             }
             ratingOptions_.add(input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.parser(), extensionRegistry));
             break;
@@ -234,7 +310,7 @@ public  final class Experiment extends
       if (((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
         populations_ = java.util.Collections.unmodifiableList(populations_);
       }
-      if (((mutable_bitField0_ & 0x00200000) == 0x00200000)) {
+      if (((mutable_bitField0_ & 0x00400000) == 0x00400000)) {
         ratingOptions_ = java.util.Collections.unmodifiableList(ratingOptions_);
       }
       makeExtensionsImmutable();
@@ -1937,66 +2013,150 @@ public  final class Experiment extends
   }
 
   public static final int ANSWERS_PER_WORKER_FIELD_NUMBER = 9;
-  private int answersPerWorker_;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer answersPerWorker_;
   /**
-   * <code>optional int32 answers_per_worker = 9;</code>
+   * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
    */
-  public int getAnswersPerWorker() {
-    return answersPerWorker_;
+  public boolean hasAnswersPerWorker() {
+    return answersPerWorker_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getAnswersPerWorker() {
+    return answersPerWorker_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : answersPerWorker_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getAnswersPerWorkerOrBuilder() {
+    return getAnswersPerWorker();
   }
 
   public static final int RATINGS_PER_WORKER_FIELD_NUMBER = 10;
-  private int ratingsPerWorker_;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer ratingsPerWorker_;
   /**
-   * <code>optional int32 ratings_per_worker = 10;</code>
+   * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
    */
-  public int getRatingsPerWorker() {
-    return ratingsPerWorker_;
+  public boolean hasRatingsPerWorker() {
+    return ratingsPerWorker_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getRatingsPerWorker() {
+    return ratingsPerWorker_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : ratingsPerWorker_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getRatingsPerWorkerOrBuilder() {
+    return getRatingsPerWorker();
   }
 
   public static final int RATINGS_PER_ANSWER_FIELD_NUMBER = 11;
-  private int ratingsPerAnswer_;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer ratingsPerAnswer_;
   /**
-   * <code>optional int32 ratings_per_answer = 11;</code>
+   * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
    */
-  public int getRatingsPerAnswer() {
-    return ratingsPerAnswer_;
+  public boolean hasRatingsPerAnswer() {
+    return ratingsPerAnswer_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getRatingsPerAnswer() {
+    return ratingsPerAnswer_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : ratingsPerAnswer_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getRatingsPerAnswerOrBuilder() {
+    return getRatingsPerAnswer();
   }
 
   public static final int NEEDED_ANSWERS_FIELD_NUMBER = 12;
-  private int neededAnswers_;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer neededAnswers_;
   /**
-   * <code>optional int32 needed_answers = 12;</code>
+   * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
    */
-  public int getNeededAnswers() {
-    return neededAnswers_;
+  public boolean hasNeededAnswers() {
+    return neededAnswers_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getNeededAnswers() {
+    return neededAnswers_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : neededAnswers_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getNeededAnswersOrBuilder() {
+    return getNeededAnswers();
   }
 
   public static final int PAYMENT_BASE_FIELD_NUMBER = 13;
-  private int paymentBase_;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer paymentBase_;
   /**
-   * <code>optional int32 payment_base = 13;</code>
+   * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
    */
-  public int getPaymentBase() {
-    return paymentBase_;
+  public boolean hasPaymentBase() {
+    return paymentBase_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getPaymentBase() {
+    return paymentBase_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentBase_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getPaymentBaseOrBuilder() {
+    return getPaymentBase();
   }
 
   public static final int PAYMENT_ANSWER_FIELD_NUMBER = 14;
-  private int paymentAnswer_;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer paymentAnswer_;
   /**
-   * <code>optional int32 payment_answer = 14;</code>
+   * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
    */
-  public int getPaymentAnswer() {
-    return paymentAnswer_;
+  public boolean hasPaymentAnswer() {
+    return paymentAnswer_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getPaymentAnswer() {
+    return paymentAnswer_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentAnswer_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getPaymentAnswerOrBuilder() {
+    return getPaymentAnswer();
   }
 
   public static final int PAYMENT_RATING_FIELD_NUMBER = 15;
-  private int paymentRating_;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer paymentRating_;
   /**
-   * <code>optional int32 payment_rating = 15;</code>
+   * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
    */
-  public int getPaymentRating() {
-    return paymentRating_;
+  public boolean hasPaymentRating() {
+    return paymentRating_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getPaymentRating() {
+    return paymentRating_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentRating_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getPaymentRatingOrBuilder() {
+    return getPaymentRating();
   }
 
   public static final int CONSTRAINTS_FIELD_NUMBER = 16;
@@ -2134,53 +2294,98 @@ public  final class Experiment extends
     return internalGetPlaceholders().getMap();
   }
 
-  public static final int WORKER_QUALITY_THRESHOLD_FIELD_NUMBER = 20;
-  private int workerQualityThreshold_;
+  public static final int PAYMENT_QUALITY_THRESHOLD_FIELD_NUMBER = 20;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer paymentQualityThreshold_;
   /**
-   * <code>optional int32 worker_quality_threshold = 20;</code>
+   * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
    */
-  public int getWorkerQualityThreshold() {
-    return workerQualityThreshold_;
+  public boolean hasPaymentQualityThreshold() {
+    return paymentQualityThreshold_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getPaymentQualityThreshold() {
+    return paymentQualityThreshold_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentQualityThreshold_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getPaymentQualityThresholdOrBuilder() {
+    return getPaymentQualityThreshold();
   }
 
-  public static final int TEMPLATE_ID_FIELD_NUMBER = 21;
-  private int templateId_;
+  public static final int WORKER_QUALITY_THRESHOLD_FIELD_NUMBER = 21;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer workerQualityThreshold_;
   /**
-   * <code>optional int32 template_id = 21;</code>
+   * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
    */
-  public int getTemplateId() {
-    return templateId_;
+  public boolean hasWorkerQualityThreshold() {
+    return workerQualityThreshold_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getWorkerQualityThreshold() {
+    return workerQualityThreshold_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : workerQualityThreshold_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getWorkerQualityThresholdOrBuilder() {
+    return getWorkerQualityThreshold();
   }
 
-  public static final int RATING_OPTIONS_FIELD_NUMBER = 22;
+  public static final int TEMPLATE_ID_FIELD_NUMBER = 22;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer templateId_;
+  /**
+   * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+   */
+  public boolean hasTemplateId() {
+    return templateId_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getTemplateId() {
+    return templateId_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : templateId_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getTemplateIdOrBuilder() {
+    return getTemplateId();
+  }
+
+  public static final int RATING_OPTIONS_FIELD_NUMBER = 23;
   private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption> ratingOptions_;
   /**
-   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
    */
   public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption> getRatingOptionsList() {
     return ratingOptions_;
   }
   /**
-   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
    */
   public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOptionOrBuilder> 
       getRatingOptionsOrBuilderList() {
     return ratingOptions_;
   }
   /**
-   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
    */
   public int getRatingOptionsCount() {
     return ratingOptions_.size();
   }
   /**
-   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
    */
   public edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption getRatingOptions(int index) {
     return ratingOptions_.get(index);
   }
   /**
-   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+   * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
    */
   public edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOptionOrBuilder getRatingOptionsOrBuilder(
       int index) {
@@ -2223,26 +2428,26 @@ public  final class Experiment extends
     if (algorithmQualityRating_ != null) {
       output.writeMessage(8, getAlgorithmQualityRating());
     }
-    if (answersPerWorker_ != 0) {
-      output.writeInt32(9, answersPerWorker_);
+    if (answersPerWorker_ != null) {
+      output.writeMessage(9, getAnswersPerWorker());
     }
-    if (ratingsPerWorker_ != 0) {
-      output.writeInt32(10, ratingsPerWorker_);
+    if (ratingsPerWorker_ != null) {
+      output.writeMessage(10, getRatingsPerWorker());
     }
-    if (ratingsPerAnswer_ != 0) {
-      output.writeInt32(11, ratingsPerAnswer_);
+    if (ratingsPerAnswer_ != null) {
+      output.writeMessage(11, getRatingsPerAnswer());
     }
-    if (neededAnswers_ != 0) {
-      output.writeInt32(12, neededAnswers_);
+    if (neededAnswers_ != null) {
+      output.writeMessage(12, getNeededAnswers());
     }
-    if (paymentBase_ != 0) {
-      output.writeInt32(13, paymentBase_);
+    if (paymentBase_ != null) {
+      output.writeMessage(13, getPaymentBase());
     }
-    if (paymentAnswer_ != 0) {
-      output.writeInt32(14, paymentAnswer_);
+    if (paymentAnswer_ != null) {
+      output.writeMessage(14, getPaymentAnswer());
     }
-    if (paymentRating_ != 0) {
-      output.writeInt32(15, paymentRating_);
+    if (paymentRating_ != null) {
+      output.writeMessage(15, getPaymentRating());
     }
     for (int i = 0; i < constraints_.size(); i++) {
       output.writeMessage(16, constraints_.get(i));
@@ -2262,14 +2467,17 @@ public  final class Experiment extends
           .build();
       output.writeMessage(19, placeholders);
     }
-    if (workerQualityThreshold_ != 0) {
-      output.writeInt32(20, workerQualityThreshold_);
+    if (paymentQualityThreshold_ != null) {
+      output.writeMessage(20, getPaymentQualityThreshold());
     }
-    if (templateId_ != 0) {
-      output.writeInt32(21, templateId_);
+    if (workerQualityThreshold_ != null) {
+      output.writeMessage(21, getWorkerQualityThreshold());
+    }
+    if (templateId_ != null) {
+      output.writeMessage(22, getTemplateId());
     }
     for (int i = 0; i < ratingOptions_.size(); i++) {
-      output.writeMessage(22, ratingOptions_.get(i));
+      output.writeMessage(23, ratingOptions_.get(i));
     }
   }
 
@@ -2308,33 +2516,33 @@ public  final class Experiment extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(8, getAlgorithmQualityRating());
     }
-    if (answersPerWorker_ != 0) {
+    if (answersPerWorker_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(9, answersPerWorker_);
+        .computeMessageSize(9, getAnswersPerWorker());
     }
-    if (ratingsPerWorker_ != 0) {
+    if (ratingsPerWorker_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(10, ratingsPerWorker_);
+        .computeMessageSize(10, getRatingsPerWorker());
     }
-    if (ratingsPerAnswer_ != 0) {
+    if (ratingsPerAnswer_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(11, ratingsPerAnswer_);
+        .computeMessageSize(11, getRatingsPerAnswer());
     }
-    if (neededAnswers_ != 0) {
+    if (neededAnswers_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(12, neededAnswers_);
+        .computeMessageSize(12, getNeededAnswers());
     }
-    if (paymentBase_ != 0) {
+    if (paymentBase_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(13, paymentBase_);
+        .computeMessageSize(13, getPaymentBase());
     }
-    if (paymentAnswer_ != 0) {
+    if (paymentAnswer_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(14, paymentAnswer_);
+        .computeMessageSize(14, getPaymentAnswer());
     }
-    if (paymentRating_ != 0) {
+    if (paymentRating_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(15, paymentRating_);
+        .computeMessageSize(15, getPaymentRating());
     }
     for (int i = 0; i < constraints_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
@@ -2358,17 +2566,21 @@ public  final class Experiment extends
       size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(19, placeholders);
     }
-    if (workerQualityThreshold_ != 0) {
+    if (paymentQualityThreshold_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(20, workerQualityThreshold_);
+        .computeMessageSize(20, getPaymentQualityThreshold());
     }
-    if (templateId_ != 0) {
+    if (workerQualityThreshold_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(21, templateId_);
+        .computeMessageSize(21, getWorkerQualityThreshold());
+    }
+    if (templateId_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(22, getTemplateId());
     }
     for (int i = 0; i < ratingOptions_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(22, ratingOptions_.get(i));
+        .computeMessageSize(23, ratingOptions_.get(i));
     }
     memoizedSize = size;
     return size;
@@ -2535,20 +2747,48 @@ public  final class Experiment extends
         algorithmQualityRating_ = null;
         algorithmQualityRatingBuilder_ = null;
       }
-      answersPerWorker_ = 0;
-
-      ratingsPerWorker_ = 0;
-
-      ratingsPerAnswer_ = 0;
-
-      neededAnswers_ = 0;
-
-      paymentBase_ = 0;
-
-      paymentAnswer_ = 0;
-
-      paymentRating_ = 0;
-
+      if (answersPerWorkerBuilder_ == null) {
+        answersPerWorker_ = null;
+      } else {
+        answersPerWorker_ = null;
+        answersPerWorkerBuilder_ = null;
+      }
+      if (ratingsPerWorkerBuilder_ == null) {
+        ratingsPerWorker_ = null;
+      } else {
+        ratingsPerWorker_ = null;
+        ratingsPerWorkerBuilder_ = null;
+      }
+      if (ratingsPerAnswerBuilder_ == null) {
+        ratingsPerAnswer_ = null;
+      } else {
+        ratingsPerAnswer_ = null;
+        ratingsPerAnswerBuilder_ = null;
+      }
+      if (neededAnswersBuilder_ == null) {
+        neededAnswers_ = null;
+      } else {
+        neededAnswers_ = null;
+        neededAnswersBuilder_ = null;
+      }
+      if (paymentBaseBuilder_ == null) {
+        paymentBase_ = null;
+      } else {
+        paymentBase_ = null;
+        paymentBaseBuilder_ = null;
+      }
+      if (paymentAnswerBuilder_ == null) {
+        paymentAnswer_ = null;
+      } else {
+        paymentAnswer_ = null;
+        paymentAnswerBuilder_ = null;
+      }
+      if (paymentRatingBuilder_ == null) {
+        paymentRating_ = null;
+      } else {
+        paymentRating_ = null;
+        paymentRatingBuilder_ = null;
+      }
       if (constraintsBuilder_ == null) {
         constraints_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00008000);
@@ -2568,13 +2808,27 @@ public  final class Experiment extends
         populationsBuilder_.clear();
       }
       internalGetMutablePlaceholders().clear();
-      workerQualityThreshold_ = 0;
-
-      templateId_ = 0;
-
+      if (paymentQualityThresholdBuilder_ == null) {
+        paymentQualityThreshold_ = null;
+      } else {
+        paymentQualityThreshold_ = null;
+        paymentQualityThresholdBuilder_ = null;
+      }
+      if (workerQualityThresholdBuilder_ == null) {
+        workerQualityThreshold_ = null;
+      } else {
+        workerQualityThreshold_ = null;
+        workerQualityThresholdBuilder_ = null;
+      }
+      if (templateIdBuilder_ == null) {
+        templateId_ = null;
+      } else {
+        templateId_ = null;
+        templateIdBuilder_ = null;
+      }
       if (ratingOptionsBuilder_ == null) {
         ratingOptions_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00200000);
+        bitField0_ = (bitField0_ & ~0x00400000);
       } else {
         ratingOptionsBuilder_.clear();
       }
@@ -2622,13 +2876,41 @@ public  final class Experiment extends
       } else {
         result.algorithmQualityRating_ = algorithmQualityRatingBuilder_.build();
       }
-      result.answersPerWorker_ = answersPerWorker_;
-      result.ratingsPerWorker_ = ratingsPerWorker_;
-      result.ratingsPerAnswer_ = ratingsPerAnswer_;
-      result.neededAnswers_ = neededAnswers_;
-      result.paymentBase_ = paymentBase_;
-      result.paymentAnswer_ = paymentAnswer_;
-      result.paymentRating_ = paymentRating_;
+      if (answersPerWorkerBuilder_ == null) {
+        result.answersPerWorker_ = answersPerWorker_;
+      } else {
+        result.answersPerWorker_ = answersPerWorkerBuilder_.build();
+      }
+      if (ratingsPerWorkerBuilder_ == null) {
+        result.ratingsPerWorker_ = ratingsPerWorker_;
+      } else {
+        result.ratingsPerWorker_ = ratingsPerWorkerBuilder_.build();
+      }
+      if (ratingsPerAnswerBuilder_ == null) {
+        result.ratingsPerAnswer_ = ratingsPerAnswer_;
+      } else {
+        result.ratingsPerAnswer_ = ratingsPerAnswerBuilder_.build();
+      }
+      if (neededAnswersBuilder_ == null) {
+        result.neededAnswers_ = neededAnswers_;
+      } else {
+        result.neededAnswers_ = neededAnswersBuilder_.build();
+      }
+      if (paymentBaseBuilder_ == null) {
+        result.paymentBase_ = paymentBase_;
+      } else {
+        result.paymentBase_ = paymentBaseBuilder_.build();
+      }
+      if (paymentAnswerBuilder_ == null) {
+        result.paymentAnswer_ = paymentAnswer_;
+      } else {
+        result.paymentAnswer_ = paymentAnswerBuilder_.build();
+      }
+      if (paymentRatingBuilder_ == null) {
+        result.paymentRating_ = paymentRating_;
+      } else {
+        result.paymentRating_ = paymentRatingBuilder_.build();
+      }
       if (constraintsBuilder_ == null) {
         if (((bitField0_ & 0x00008000) == 0x00008000)) {
           constraints_ = java.util.Collections.unmodifiableList(constraints_);
@@ -2658,12 +2940,25 @@ public  final class Experiment extends
       }
       result.placeholders_ = internalGetPlaceholders();
       result.placeholders_.makeImmutable();
-      result.workerQualityThreshold_ = workerQualityThreshold_;
-      result.templateId_ = templateId_;
+      if (paymentQualityThresholdBuilder_ == null) {
+        result.paymentQualityThreshold_ = paymentQualityThreshold_;
+      } else {
+        result.paymentQualityThreshold_ = paymentQualityThresholdBuilder_.build();
+      }
+      if (workerQualityThresholdBuilder_ == null) {
+        result.workerQualityThreshold_ = workerQualityThreshold_;
+      } else {
+        result.workerQualityThreshold_ = workerQualityThresholdBuilder_.build();
+      }
+      if (templateIdBuilder_ == null) {
+        result.templateId_ = templateId_;
+      } else {
+        result.templateId_ = templateIdBuilder_.build();
+      }
       if (ratingOptionsBuilder_ == null) {
-        if (((bitField0_ & 0x00200000) == 0x00200000)) {
+        if (((bitField0_ & 0x00400000) == 0x00400000)) {
           ratingOptions_ = java.util.Collections.unmodifiableList(ratingOptions_);
-          bitField0_ = (bitField0_ & ~0x00200000);
+          bitField0_ = (bitField0_ & ~0x00400000);
         }
         result.ratingOptions_ = ratingOptions_;
       } else {
@@ -2711,26 +3006,26 @@ public  final class Experiment extends
       if (other.hasAlgorithmQualityRating()) {
         mergeAlgorithmQualityRating(other.getAlgorithmQualityRating());
       }
-      if (other.getAnswersPerWorker() != 0) {
-        setAnswersPerWorker(other.getAnswersPerWorker());
+      if (other.hasAnswersPerWorker()) {
+        mergeAnswersPerWorker(other.getAnswersPerWorker());
       }
-      if (other.getRatingsPerWorker() != 0) {
-        setRatingsPerWorker(other.getRatingsPerWorker());
+      if (other.hasRatingsPerWorker()) {
+        mergeRatingsPerWorker(other.getRatingsPerWorker());
       }
-      if (other.getRatingsPerAnswer() != 0) {
-        setRatingsPerAnswer(other.getRatingsPerAnswer());
+      if (other.hasRatingsPerAnswer()) {
+        mergeRatingsPerAnswer(other.getRatingsPerAnswer());
       }
-      if (other.getNeededAnswers() != 0) {
-        setNeededAnswers(other.getNeededAnswers());
+      if (other.hasNeededAnswers()) {
+        mergeNeededAnswers(other.getNeededAnswers());
       }
-      if (other.getPaymentBase() != 0) {
-        setPaymentBase(other.getPaymentBase());
+      if (other.hasPaymentBase()) {
+        mergePaymentBase(other.getPaymentBase());
       }
-      if (other.getPaymentAnswer() != 0) {
-        setPaymentAnswer(other.getPaymentAnswer());
+      if (other.hasPaymentAnswer()) {
+        mergePaymentAnswer(other.getPaymentAnswer());
       }
-      if (other.getPaymentRating() != 0) {
-        setPaymentRating(other.getPaymentRating());
+      if (other.hasPaymentRating()) {
+        mergePaymentRating(other.getPaymentRating());
       }
       if (constraintsBuilder_ == null) {
         if (!other.constraints_.isEmpty()) {
@@ -2812,17 +3107,20 @@ public  final class Experiment extends
       }
       internalGetMutablePlaceholders().mergeFrom(
           other.internalGetPlaceholders());
-      if (other.getWorkerQualityThreshold() != 0) {
-        setWorkerQualityThreshold(other.getWorkerQualityThreshold());
+      if (other.hasPaymentQualityThreshold()) {
+        mergePaymentQualityThreshold(other.getPaymentQualityThreshold());
       }
-      if (other.getTemplateId() != 0) {
-        setTemplateId(other.getTemplateId());
+      if (other.hasWorkerQualityThreshold()) {
+        mergeWorkerQualityThreshold(other.getWorkerQualityThreshold());
+      }
+      if (other.hasTemplateId()) {
+        mergeTemplateId(other.getTemplateId());
       }
       if (ratingOptionsBuilder_ == null) {
         if (!other.ratingOptions_.isEmpty()) {
           if (ratingOptions_.isEmpty()) {
             ratingOptions_ = other.ratingOptions_;
-            bitField0_ = (bitField0_ & ~0x00200000);
+            bitField0_ = (bitField0_ & ~0x00400000);
           } else {
             ensureRatingOptionsIsMutable();
             ratingOptions_.addAll(other.ratingOptions_);
@@ -2835,7 +3133,7 @@ public  final class Experiment extends
             ratingOptionsBuilder_.dispose();
             ratingOptionsBuilder_ = null;
             ratingOptions_ = other.ratingOptions_;
-            bitField0_ = (bitField0_ & ~0x00200000);
+            bitField0_ = (bitField0_ & ~0x00400000);
             ratingOptionsBuilder_ = 
               com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                  getRatingOptionsFieldBuilder() : null;
@@ -3474,186 +3772,823 @@ public  final class Experiment extends
       return algorithmQualityRatingBuilder_;
     }
 
-    private int answersPerWorker_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer answersPerWorker_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> answersPerWorkerBuilder_;
     /**
-     * <code>optional int32 answers_per_worker = 9;</code>
+     * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
      */
-    public int getAnswersPerWorker() {
-      return answersPerWorker_;
+    public boolean hasAnswersPerWorker() {
+      return answersPerWorkerBuilder_ != null || answersPerWorker_ != null;
     }
     /**
-     * <code>optional int32 answers_per_worker = 9;</code>
+     * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
      */
-    public Builder setAnswersPerWorker(int value) {
-      
-      answersPerWorker_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getAnswersPerWorker() {
+      if (answersPerWorkerBuilder_ == null) {
+        return answersPerWorker_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : answersPerWorker_;
+      } else {
+        return answersPerWorkerBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
+     */
+    public Builder setAnswersPerWorker(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (answersPerWorkerBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        answersPerWorker_ = value;
+        onChanged();
+      } else {
+        answersPerWorkerBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 answers_per_worker = 9;</code>
+     * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
+     */
+    public Builder setAnswersPerWorker(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (answersPerWorkerBuilder_ == null) {
+        answersPerWorker_ = builderForValue.build();
+        onChanged();
+      } else {
+        answersPerWorkerBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
+     */
+    public Builder mergeAnswersPerWorker(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (answersPerWorkerBuilder_ == null) {
+        if (answersPerWorker_ != null) {
+          answersPerWorker_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(answersPerWorker_).mergeFrom(value).buildPartial();
+        } else {
+          answersPerWorker_ = value;
+        }
+        onChanged();
+      } else {
+        answersPerWorkerBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
      */
     public Builder clearAnswersPerWorker() {
-      
-      answersPerWorker_ = 0;
-      onChanged();
+      if (answersPerWorkerBuilder_ == null) {
+        answersPerWorker_ = null;
+        onChanged();
+      } else {
+        answersPerWorker_ = null;
+        answersPerWorkerBuilder_ = null;
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getAnswersPerWorkerBuilder() {
+      
+      onChanged();
+      return getAnswersPerWorkerFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getAnswersPerWorkerOrBuilder() {
+      if (answersPerWorkerBuilder_ != null) {
+        return answersPerWorkerBuilder_.getMessageOrBuilder();
+      } else {
+        return answersPerWorker_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : answersPerWorker_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer answers_per_worker = 9;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getAnswersPerWorkerFieldBuilder() {
+      if (answersPerWorkerBuilder_ == null) {
+        answersPerWorkerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getAnswersPerWorker(),
+                getParentForChildren(),
+                isClean());
+        answersPerWorker_ = null;
+      }
+      return answersPerWorkerBuilder_;
     }
 
-    private int ratingsPerWorker_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer ratingsPerWorker_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> ratingsPerWorkerBuilder_;
     /**
-     * <code>optional int32 ratings_per_worker = 10;</code>
+     * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
      */
-    public int getRatingsPerWorker() {
-      return ratingsPerWorker_;
+    public boolean hasRatingsPerWorker() {
+      return ratingsPerWorkerBuilder_ != null || ratingsPerWorker_ != null;
     }
     /**
-     * <code>optional int32 ratings_per_worker = 10;</code>
+     * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
      */
-    public Builder setRatingsPerWorker(int value) {
-      
-      ratingsPerWorker_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getRatingsPerWorker() {
+      if (ratingsPerWorkerBuilder_ == null) {
+        return ratingsPerWorker_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : ratingsPerWorker_;
+      } else {
+        return ratingsPerWorkerBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
+     */
+    public Builder setRatingsPerWorker(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (ratingsPerWorkerBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ratingsPerWorker_ = value;
+        onChanged();
+      } else {
+        ratingsPerWorkerBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 ratings_per_worker = 10;</code>
+     * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
+     */
+    public Builder setRatingsPerWorker(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (ratingsPerWorkerBuilder_ == null) {
+        ratingsPerWorker_ = builderForValue.build();
+        onChanged();
+      } else {
+        ratingsPerWorkerBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
+     */
+    public Builder mergeRatingsPerWorker(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (ratingsPerWorkerBuilder_ == null) {
+        if (ratingsPerWorker_ != null) {
+          ratingsPerWorker_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(ratingsPerWorker_).mergeFrom(value).buildPartial();
+        } else {
+          ratingsPerWorker_ = value;
+        }
+        onChanged();
+      } else {
+        ratingsPerWorkerBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
      */
     public Builder clearRatingsPerWorker() {
-      
-      ratingsPerWorker_ = 0;
-      onChanged();
+      if (ratingsPerWorkerBuilder_ == null) {
+        ratingsPerWorker_ = null;
+        onChanged();
+      } else {
+        ratingsPerWorker_ = null;
+        ratingsPerWorkerBuilder_ = null;
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getRatingsPerWorkerBuilder() {
+      
+      onChanged();
+      return getRatingsPerWorkerFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getRatingsPerWorkerOrBuilder() {
+      if (ratingsPerWorkerBuilder_ != null) {
+        return ratingsPerWorkerBuilder_.getMessageOrBuilder();
+      } else {
+        return ratingsPerWorker_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : ratingsPerWorker_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_worker = 10;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getRatingsPerWorkerFieldBuilder() {
+      if (ratingsPerWorkerBuilder_ == null) {
+        ratingsPerWorkerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getRatingsPerWorker(),
+                getParentForChildren(),
+                isClean());
+        ratingsPerWorker_ = null;
+      }
+      return ratingsPerWorkerBuilder_;
     }
 
-    private int ratingsPerAnswer_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer ratingsPerAnswer_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> ratingsPerAnswerBuilder_;
     /**
-     * <code>optional int32 ratings_per_answer = 11;</code>
+     * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
      */
-    public int getRatingsPerAnswer() {
-      return ratingsPerAnswer_;
+    public boolean hasRatingsPerAnswer() {
+      return ratingsPerAnswerBuilder_ != null || ratingsPerAnswer_ != null;
     }
     /**
-     * <code>optional int32 ratings_per_answer = 11;</code>
+     * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
      */
-    public Builder setRatingsPerAnswer(int value) {
-      
-      ratingsPerAnswer_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getRatingsPerAnswer() {
+      if (ratingsPerAnswerBuilder_ == null) {
+        return ratingsPerAnswer_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : ratingsPerAnswer_;
+      } else {
+        return ratingsPerAnswerBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
+     */
+    public Builder setRatingsPerAnswer(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (ratingsPerAnswerBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ratingsPerAnswer_ = value;
+        onChanged();
+      } else {
+        ratingsPerAnswerBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 ratings_per_answer = 11;</code>
+     * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
+     */
+    public Builder setRatingsPerAnswer(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (ratingsPerAnswerBuilder_ == null) {
+        ratingsPerAnswer_ = builderForValue.build();
+        onChanged();
+      } else {
+        ratingsPerAnswerBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
+     */
+    public Builder mergeRatingsPerAnswer(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (ratingsPerAnswerBuilder_ == null) {
+        if (ratingsPerAnswer_ != null) {
+          ratingsPerAnswer_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(ratingsPerAnswer_).mergeFrom(value).buildPartial();
+        } else {
+          ratingsPerAnswer_ = value;
+        }
+        onChanged();
+      } else {
+        ratingsPerAnswerBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
      */
     public Builder clearRatingsPerAnswer() {
-      
-      ratingsPerAnswer_ = 0;
-      onChanged();
+      if (ratingsPerAnswerBuilder_ == null) {
+        ratingsPerAnswer_ = null;
+        onChanged();
+      } else {
+        ratingsPerAnswer_ = null;
+        ratingsPerAnswerBuilder_ = null;
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getRatingsPerAnswerBuilder() {
+      
+      onChanged();
+      return getRatingsPerAnswerFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getRatingsPerAnswerOrBuilder() {
+      if (ratingsPerAnswerBuilder_ != null) {
+        return ratingsPerAnswerBuilder_.getMessageOrBuilder();
+      } else {
+        return ratingsPerAnswer_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : ratingsPerAnswer_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer ratings_per_answer = 11;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getRatingsPerAnswerFieldBuilder() {
+      if (ratingsPerAnswerBuilder_ == null) {
+        ratingsPerAnswerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getRatingsPerAnswer(),
+                getParentForChildren(),
+                isClean());
+        ratingsPerAnswer_ = null;
+      }
+      return ratingsPerAnswerBuilder_;
     }
 
-    private int neededAnswers_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer neededAnswers_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> neededAnswersBuilder_;
     /**
-     * <code>optional int32 needed_answers = 12;</code>
+     * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
      */
-    public int getNeededAnswers() {
-      return neededAnswers_;
+    public boolean hasNeededAnswers() {
+      return neededAnswersBuilder_ != null || neededAnswers_ != null;
     }
     /**
-     * <code>optional int32 needed_answers = 12;</code>
+     * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
      */
-    public Builder setNeededAnswers(int value) {
-      
-      neededAnswers_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getNeededAnswers() {
+      if (neededAnswersBuilder_ == null) {
+        return neededAnswers_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : neededAnswers_;
+      } else {
+        return neededAnswersBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
+     */
+    public Builder setNeededAnswers(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (neededAnswersBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        neededAnswers_ = value;
+        onChanged();
+      } else {
+        neededAnswersBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 needed_answers = 12;</code>
+     * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
+     */
+    public Builder setNeededAnswers(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (neededAnswersBuilder_ == null) {
+        neededAnswers_ = builderForValue.build();
+        onChanged();
+      } else {
+        neededAnswersBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
+     */
+    public Builder mergeNeededAnswers(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (neededAnswersBuilder_ == null) {
+        if (neededAnswers_ != null) {
+          neededAnswers_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(neededAnswers_).mergeFrom(value).buildPartial();
+        } else {
+          neededAnswers_ = value;
+        }
+        onChanged();
+      } else {
+        neededAnswersBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
      */
     public Builder clearNeededAnswers() {
-      
-      neededAnswers_ = 0;
-      onChanged();
+      if (neededAnswersBuilder_ == null) {
+        neededAnswers_ = null;
+        onChanged();
+      } else {
+        neededAnswers_ = null;
+        neededAnswersBuilder_ = null;
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getNeededAnswersBuilder() {
+      
+      onChanged();
+      return getNeededAnswersFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getNeededAnswersOrBuilder() {
+      if (neededAnswersBuilder_ != null) {
+        return neededAnswersBuilder_.getMessageOrBuilder();
+      } else {
+        return neededAnswers_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : neededAnswers_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer needed_answers = 12;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getNeededAnswersFieldBuilder() {
+      if (neededAnswersBuilder_ == null) {
+        neededAnswersBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getNeededAnswers(),
+                getParentForChildren(),
+                isClean());
+        neededAnswers_ = null;
+      }
+      return neededAnswersBuilder_;
     }
 
-    private int paymentBase_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer paymentBase_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> paymentBaseBuilder_;
     /**
-     * <code>optional int32 payment_base = 13;</code>
+     * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
      */
-    public int getPaymentBase() {
-      return paymentBase_;
+    public boolean hasPaymentBase() {
+      return paymentBaseBuilder_ != null || paymentBase_ != null;
     }
     /**
-     * <code>optional int32 payment_base = 13;</code>
+     * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
      */
-    public Builder setPaymentBase(int value) {
-      
-      paymentBase_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getPaymentBase() {
+      if (paymentBaseBuilder_ == null) {
+        return paymentBase_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentBase_;
+      } else {
+        return paymentBaseBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
+     */
+    public Builder setPaymentBase(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (paymentBaseBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        paymentBase_ = value;
+        onChanged();
+      } else {
+        paymentBaseBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 payment_base = 13;</code>
+     * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
+     */
+    public Builder setPaymentBase(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (paymentBaseBuilder_ == null) {
+        paymentBase_ = builderForValue.build();
+        onChanged();
+      } else {
+        paymentBaseBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
+     */
+    public Builder mergePaymentBase(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (paymentBaseBuilder_ == null) {
+        if (paymentBase_ != null) {
+          paymentBase_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(paymentBase_).mergeFrom(value).buildPartial();
+        } else {
+          paymentBase_ = value;
+        }
+        onChanged();
+      } else {
+        paymentBaseBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
      */
     public Builder clearPaymentBase() {
-      
-      paymentBase_ = 0;
-      onChanged();
+      if (paymentBaseBuilder_ == null) {
+        paymentBase_ = null;
+        onChanged();
+      } else {
+        paymentBase_ = null;
+        paymentBaseBuilder_ = null;
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getPaymentBaseBuilder() {
+      
+      onChanged();
+      return getPaymentBaseFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getPaymentBaseOrBuilder() {
+      if (paymentBaseBuilder_ != null) {
+        return paymentBaseBuilder_.getMessageOrBuilder();
+      } else {
+        return paymentBase_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentBase_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_base = 13;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getPaymentBaseFieldBuilder() {
+      if (paymentBaseBuilder_ == null) {
+        paymentBaseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getPaymentBase(),
+                getParentForChildren(),
+                isClean());
+        paymentBase_ = null;
+      }
+      return paymentBaseBuilder_;
     }
 
-    private int paymentAnswer_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer paymentAnswer_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> paymentAnswerBuilder_;
     /**
-     * <code>optional int32 payment_answer = 14;</code>
+     * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
      */
-    public int getPaymentAnswer() {
-      return paymentAnswer_;
+    public boolean hasPaymentAnswer() {
+      return paymentAnswerBuilder_ != null || paymentAnswer_ != null;
     }
     /**
-     * <code>optional int32 payment_answer = 14;</code>
+     * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
      */
-    public Builder setPaymentAnswer(int value) {
-      
-      paymentAnswer_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getPaymentAnswer() {
+      if (paymentAnswerBuilder_ == null) {
+        return paymentAnswer_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentAnswer_;
+      } else {
+        return paymentAnswerBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
+     */
+    public Builder setPaymentAnswer(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (paymentAnswerBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        paymentAnswer_ = value;
+        onChanged();
+      } else {
+        paymentAnswerBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 payment_answer = 14;</code>
+     * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
+     */
+    public Builder setPaymentAnswer(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (paymentAnswerBuilder_ == null) {
+        paymentAnswer_ = builderForValue.build();
+        onChanged();
+      } else {
+        paymentAnswerBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
+     */
+    public Builder mergePaymentAnswer(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (paymentAnswerBuilder_ == null) {
+        if (paymentAnswer_ != null) {
+          paymentAnswer_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(paymentAnswer_).mergeFrom(value).buildPartial();
+        } else {
+          paymentAnswer_ = value;
+        }
+        onChanged();
+      } else {
+        paymentAnswerBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
      */
     public Builder clearPaymentAnswer() {
-      
-      paymentAnswer_ = 0;
-      onChanged();
+      if (paymentAnswerBuilder_ == null) {
+        paymentAnswer_ = null;
+        onChanged();
+      } else {
+        paymentAnswer_ = null;
+        paymentAnswerBuilder_ = null;
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getPaymentAnswerBuilder() {
+      
+      onChanged();
+      return getPaymentAnswerFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getPaymentAnswerOrBuilder() {
+      if (paymentAnswerBuilder_ != null) {
+        return paymentAnswerBuilder_.getMessageOrBuilder();
+      } else {
+        return paymentAnswer_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentAnswer_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_answer = 14;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getPaymentAnswerFieldBuilder() {
+      if (paymentAnswerBuilder_ == null) {
+        paymentAnswerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getPaymentAnswer(),
+                getParentForChildren(),
+                isClean());
+        paymentAnswer_ = null;
+      }
+      return paymentAnswerBuilder_;
     }
 
-    private int paymentRating_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer paymentRating_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> paymentRatingBuilder_;
     /**
-     * <code>optional int32 payment_rating = 15;</code>
+     * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
      */
-    public int getPaymentRating() {
-      return paymentRating_;
+    public boolean hasPaymentRating() {
+      return paymentRatingBuilder_ != null || paymentRating_ != null;
     }
     /**
-     * <code>optional int32 payment_rating = 15;</code>
+     * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
      */
-    public Builder setPaymentRating(int value) {
-      
-      paymentRating_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getPaymentRating() {
+      if (paymentRatingBuilder_ == null) {
+        return paymentRating_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentRating_;
+      } else {
+        return paymentRatingBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
+     */
+    public Builder setPaymentRating(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (paymentRatingBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        paymentRating_ = value;
+        onChanged();
+      } else {
+        paymentRatingBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 payment_rating = 15;</code>
+     * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
+     */
+    public Builder setPaymentRating(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (paymentRatingBuilder_ == null) {
+        paymentRating_ = builderForValue.build();
+        onChanged();
+      } else {
+        paymentRatingBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
+     */
+    public Builder mergePaymentRating(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (paymentRatingBuilder_ == null) {
+        if (paymentRating_ != null) {
+          paymentRating_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(paymentRating_).mergeFrom(value).buildPartial();
+        } else {
+          paymentRating_ = value;
+        }
+        onChanged();
+      } else {
+        paymentRatingBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
      */
     public Builder clearPaymentRating() {
-      
-      paymentRating_ = 0;
-      onChanged();
+      if (paymentRatingBuilder_ == null) {
+        paymentRating_ = null;
+        onChanged();
+      } else {
+        paymentRating_ = null;
+        paymentRatingBuilder_ = null;
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getPaymentRatingBuilder() {
+      
+      onChanged();
+      return getPaymentRatingFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getPaymentRatingOrBuilder() {
+      if (paymentRatingBuilder_ != null) {
+        return paymentRatingBuilder_.getMessageOrBuilder();
+      } else {
+        return paymentRating_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentRating_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_rating = 15;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getPaymentRatingFieldBuilder() {
+      if (paymentRatingBuilder_ == null) {
+        paymentRatingBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getPaymentRating(),
+                getParentForChildren(),
+                isClean());
+        paymentRating_ = null;
+      }
+      return paymentRatingBuilder_;
     }
 
     private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> constraints_ =
@@ -4420,64 +5355,363 @@ public  final class Experiment extends
       return this;
     }
 
-    private int workerQualityThreshold_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer paymentQualityThreshold_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> paymentQualityThresholdBuilder_;
     /**
-     * <code>optional int32 worker_quality_threshold = 20;</code>
+     * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
      */
-    public int getWorkerQualityThreshold() {
-      return workerQualityThreshold_;
+    public boolean hasPaymentQualityThreshold() {
+      return paymentQualityThresholdBuilder_ != null || paymentQualityThreshold_ != null;
     }
     /**
-     * <code>optional int32 worker_quality_threshold = 20;</code>
+     * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
      */
-    public Builder setWorkerQualityThreshold(int value) {
-      
-      workerQualityThreshold_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getPaymentQualityThreshold() {
+      if (paymentQualityThresholdBuilder_ == null) {
+        return paymentQualityThreshold_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentQualityThreshold_;
+      } else {
+        return paymentQualityThresholdBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
+     */
+    public Builder setPaymentQualityThreshold(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (paymentQualityThresholdBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        paymentQualityThreshold_ = value;
+        onChanged();
+      } else {
+        paymentQualityThresholdBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 worker_quality_threshold = 20;</code>
+     * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
      */
-    public Builder clearWorkerQualityThreshold() {
-      
-      workerQualityThreshold_ = 0;
-      onChanged();
+    public Builder setPaymentQualityThreshold(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (paymentQualityThresholdBuilder_ == null) {
+        paymentQualityThreshold_ = builderForValue.build();
+        onChanged();
+      } else {
+        paymentQualityThresholdBuilder_.setMessage(builderForValue.build());
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
+     */
+    public Builder mergePaymentQualityThreshold(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (paymentQualityThresholdBuilder_ == null) {
+        if (paymentQualityThreshold_ != null) {
+          paymentQualityThreshold_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(paymentQualityThreshold_).mergeFrom(value).buildPartial();
+        } else {
+          paymentQualityThreshold_ = value;
+        }
+        onChanged();
+      } else {
+        paymentQualityThresholdBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
+     */
+    public Builder clearPaymentQualityThreshold() {
+      if (paymentQualityThresholdBuilder_ == null) {
+        paymentQualityThreshold_ = null;
+        onChanged();
+      } else {
+        paymentQualityThreshold_ = null;
+        paymentQualityThresholdBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getPaymentQualityThresholdBuilder() {
+      
+      onChanged();
+      return getPaymentQualityThresholdFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getPaymentQualityThresholdOrBuilder() {
+      if (paymentQualityThresholdBuilder_ != null) {
+        return paymentQualityThresholdBuilder_.getMessageOrBuilder();
+      } else {
+        return paymentQualityThreshold_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : paymentQualityThreshold_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer payment_quality_threshold = 20;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getPaymentQualityThresholdFieldBuilder() {
+      if (paymentQualityThresholdBuilder_ == null) {
+        paymentQualityThresholdBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getPaymentQualityThreshold(),
+                getParentForChildren(),
+                isClean());
+        paymentQualityThreshold_ = null;
+      }
+      return paymentQualityThresholdBuilder_;
     }
 
-    private int templateId_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer workerQualityThreshold_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> workerQualityThresholdBuilder_;
     /**
-     * <code>optional int32 template_id = 21;</code>
+     * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
      */
-    public int getTemplateId() {
-      return templateId_;
+    public boolean hasWorkerQualityThreshold() {
+      return workerQualityThresholdBuilder_ != null || workerQualityThreshold_ != null;
     }
     /**
-     * <code>optional int32 template_id = 21;</code>
+     * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
      */
-    public Builder setTemplateId(int value) {
-      
-      templateId_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getWorkerQualityThreshold() {
+      if (workerQualityThresholdBuilder_ == null) {
+        return workerQualityThreshold_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : workerQualityThreshold_;
+      } else {
+        return workerQualityThresholdBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
+     */
+    public Builder setWorkerQualityThreshold(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (workerQualityThresholdBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        workerQualityThreshold_ = value;
+        onChanged();
+      } else {
+        workerQualityThresholdBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 template_id = 21;</code>
+     * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
+     */
+    public Builder setWorkerQualityThreshold(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (workerQualityThresholdBuilder_ == null) {
+        workerQualityThreshold_ = builderForValue.build();
+        onChanged();
+      } else {
+        workerQualityThresholdBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
+     */
+    public Builder mergeWorkerQualityThreshold(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (workerQualityThresholdBuilder_ == null) {
+        if (workerQualityThreshold_ != null) {
+          workerQualityThreshold_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(workerQualityThreshold_).mergeFrom(value).buildPartial();
+        } else {
+          workerQualityThreshold_ = value;
+        }
+        onChanged();
+      } else {
+        workerQualityThresholdBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
+     */
+    public Builder clearWorkerQualityThreshold() {
+      if (workerQualityThresholdBuilder_ == null) {
+        workerQualityThreshold_ = null;
+        onChanged();
+      } else {
+        workerQualityThreshold_ = null;
+        workerQualityThresholdBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getWorkerQualityThresholdBuilder() {
+      
+      onChanged();
+      return getWorkerQualityThresholdFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getWorkerQualityThresholdOrBuilder() {
+      if (workerQualityThresholdBuilder_ != null) {
+        return workerQualityThresholdBuilder_.getMessageOrBuilder();
+      } else {
+        return workerQualityThreshold_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : workerQualityThreshold_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer worker_quality_threshold = 21;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getWorkerQualityThresholdFieldBuilder() {
+      if (workerQualityThresholdBuilder_ == null) {
+        workerQualityThresholdBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getWorkerQualityThreshold(),
+                getParentForChildren(),
+                isClean());
+        workerQualityThreshold_ = null;
+      }
+      return workerQualityThresholdBuilder_;
+    }
+
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer templateId_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> templateIdBuilder_;
+    /**
+     * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+     */
+    public boolean hasTemplateId() {
+      return templateIdBuilder_ != null || templateId_ != null;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getTemplateId() {
+      if (templateIdBuilder_ == null) {
+        return templateId_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : templateId_;
+      } else {
+        return templateIdBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+     */
+    public Builder setTemplateId(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (templateIdBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        templateId_ = value;
+        onChanged();
+      } else {
+        templateIdBuilder_.setMessage(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+     */
+    public Builder setTemplateId(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (templateIdBuilder_ == null) {
+        templateId_ = builderForValue.build();
+        onChanged();
+      } else {
+        templateIdBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+     */
+    public Builder mergeTemplateId(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (templateIdBuilder_ == null) {
+        if (templateId_ != null) {
+          templateId_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(templateId_).mergeFrom(value).buildPartial();
+        } else {
+          templateId_ = value;
+        }
+        onChanged();
+      } else {
+        templateIdBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer template_id = 22;</code>
      */
     public Builder clearTemplateId() {
-      
-      templateId_ = 0;
-      onChanged();
+      if (templateIdBuilder_ == null) {
+        templateId_ = null;
+        onChanged();
+      } else {
+        templateId_ = null;
+        templateIdBuilder_ = null;
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getTemplateIdBuilder() {
+      
+      onChanged();
+      return getTemplateIdFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getTemplateIdOrBuilder() {
+      if (templateIdBuilder_ != null) {
+        return templateIdBuilder_.getMessageOrBuilder();
+      } else {
+        return templateId_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : templateId_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer template_id = 22;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getTemplateIdFieldBuilder() {
+      if (templateIdBuilder_ == null) {
+        templateIdBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getTemplateId(),
+                getParentForChildren(),
+                isClean());
+        templateId_ = null;
+      }
+      return templateIdBuilder_;
     }
 
     private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption> ratingOptions_ =
       java.util.Collections.emptyList();
     private void ensureRatingOptionsIsMutable() {
-      if (!((bitField0_ & 0x00200000) == 0x00200000)) {
+      if (!((bitField0_ & 0x00400000) == 0x00400000)) {
         ratingOptions_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption>(ratingOptions_);
-        bitField0_ |= 0x00200000;
+        bitField0_ |= 0x00400000;
        }
     }
 
@@ -4485,7 +5719,7 @@ public  final class Experiment extends
         edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOptionOrBuilder> ratingOptionsBuilder_;
 
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption> getRatingOptionsList() {
       if (ratingOptionsBuilder_ == null) {
@@ -4495,7 +5729,7 @@ public  final class Experiment extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public int getRatingOptionsCount() {
       if (ratingOptionsBuilder_ == null) {
@@ -4505,7 +5739,7 @@ public  final class Experiment extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption getRatingOptions(int index) {
       if (ratingOptionsBuilder_ == null) {
@@ -4515,7 +5749,7 @@ public  final class Experiment extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public Builder setRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption value) {
@@ -4532,7 +5766,7 @@ public  final class Experiment extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public Builder setRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder builderForValue) {
@@ -4546,7 +5780,7 @@ public  final class Experiment extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public Builder addRatingOptions(edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption value) {
       if (ratingOptionsBuilder_ == null) {
@@ -4562,7 +5796,7 @@ public  final class Experiment extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public Builder addRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption value) {
@@ -4579,7 +5813,7 @@ public  final class Experiment extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public Builder addRatingOptions(
         edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder builderForValue) {
@@ -4593,7 +5827,7 @@ public  final class Experiment extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public Builder addRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder builderForValue) {
@@ -4607,7 +5841,7 @@ public  final class Experiment extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public Builder addAllRatingOptions(
         java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption> values) {
@@ -4622,12 +5856,12 @@ public  final class Experiment extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public Builder clearRatingOptions() {
       if (ratingOptionsBuilder_ == null) {
         ratingOptions_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00200000);
+        bitField0_ = (bitField0_ & ~0x00400000);
         onChanged();
       } else {
         ratingOptionsBuilder_.clear();
@@ -4635,7 +5869,7 @@ public  final class Experiment extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public Builder removeRatingOptions(int index) {
       if (ratingOptionsBuilder_ == null) {
@@ -4648,14 +5882,14 @@ public  final class Experiment extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder getRatingOptionsBuilder(
         int index) {
       return getRatingOptionsFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOptionOrBuilder getRatingOptionsOrBuilder(
         int index) {
@@ -4665,7 +5899,7 @@ public  final class Experiment extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOptionOrBuilder> 
          getRatingOptionsOrBuilderList() {
@@ -4676,14 +5910,14 @@ public  final class Experiment extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder addRatingOptionsBuilder() {
       return getRatingOptionsFieldBuilder().addBuilder(
           edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder addRatingOptionsBuilder(
         int index) {
@@ -4691,7 +5925,7 @@ public  final class Experiment extends
           index, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 22;</code>
+     * <code>repeated .crowdcontrol.Experiment.RatingOption rating_options = 23;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder> 
          getRatingOptionsBuilderList() {
@@ -4704,7 +5938,7 @@ public  final class Experiment extends
         ratingOptionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
             edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOptionOrBuilder>(
                 ratingOptions_,
-                ((bitField0_ & 0x00200000) == 0x00200000),
+                ((bitField0_ & 0x00400000) == 0x00400000),
                 getParentForChildren(),
                 isClean());
         ratingOptions_ = null;

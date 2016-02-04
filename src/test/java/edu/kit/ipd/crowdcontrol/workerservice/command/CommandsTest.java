@@ -18,6 +18,7 @@ import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -297,7 +298,7 @@ public class CommandsTest {
         String json = printer.print(ratingRequest);
         return submit(task, null,
                 communication -> {
-                    when(communication.submitRating(rating, "", task, answer, workerID))
+                    when(communication.submitRating(rating, "", task, answer, workerID, new ArrayList<>()))
                             .thenReturn(CompletableFuture.completedFuture(null));
                 },
                 request -> {

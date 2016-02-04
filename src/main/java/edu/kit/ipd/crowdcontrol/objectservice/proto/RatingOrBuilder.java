@@ -41,4 +41,28 @@ public interface RatingOrBuilder extends
    * <code>optional int32 time = 6;</code>
    */
   int getTime();
+
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> 
+      getViolatedConstraintsList();
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint getViolatedConstraints(int index);
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  int getViolatedConstraintsCount();
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> 
+      getViolatedConstraintsOrBuilderList();
+  /**
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   */
+  edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder getViolatedConstraintsOrBuilder(
+      int index);
 }

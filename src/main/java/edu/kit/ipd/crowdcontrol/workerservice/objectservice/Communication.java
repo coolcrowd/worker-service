@@ -13,8 +13,10 @@ import com.mashape.unirest.request.HttpRequestWithBody;
 import edu.kit.ipd.crowdcontrol.objectservice.proto.*;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 
+import java.lang.Integer;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * this class is used to communicate with the object-Service.
@@ -114,12 +116,17 @@ public class Communication {
      * @param experiment the experiment working on
      * @param worker the worker responsible
      * @param answer the rated answer
+     * @param constraints the violated constraints              
      * @return an completable future representing the request
      */
-    public CompletableFuture<Void> submitRating(int chosenRating, String feedback, int experiment, int answer, int worker) {
+    public CompletableFuture<Void> submitRating(int chosenRating, String feedback, int experiment, int answer, int worker, List<Integer> constraints) {
+        List<Constraint> constraintProtos = constraints.stream()
+                .map(constraint -> Constraint.newBuilder().setId(constraint).build())
+                .collect(Collectors.toList());
         Rating.Builder ratingBuilder = Rating.newBuilder()
                 .setRating(chosenRating)
-                .setWorker(worker);
+                .setWorker(worker)
+                .addAllViolatedConstraints(constraintProtos);
         if (feedback != null)
             ratingBuilder = ratingBuilder.setFeedback(feedback);
         Rating rating = ratingBuilder.build();
@@ -137,7 +144,6 @@ public class Communication {
      * @return an completable future representing the request with the resulting location in the database
      */
     public CompletableFuture<HttpResponse<JsonNode>> submitCalibration(int option, int worker) {
-        //TODO: add calibrations
         CalibrationAnswer calibrationAnswer = CalibrationAnswer.newBuilder()
                 .setAnswerId(option)
                 .build();

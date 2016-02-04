@@ -13,6 +13,11 @@ public final class CalibrationOuterClass {
   static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_crowdcontrol_Calibration_fieldAccessorTable;
+  static com.google.protobuf.Descriptors.Descriptor
+    internal_static_crowdcontrol_Calibration_Answer_descriptor;
+  static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_crowdcontrol_Calibration_Answer_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -22,11 +27,14 @@ public final class CalibrationOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021calibration.proto\022\014crowdcontrol\"d\n\013Cal" +
-      "ibration\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\020\n\010qu" +
-      "estion\030\003 \001(\t\022\017\n\007answers\030\004 \003(\t\022\030\n\020accepte" +
-      "d_answers\030\005 \003(\tB0\n,edu.kit.ipd.crowdcont" +
-      "rol.objectservice.protoP\001b\006proto3"
+      "\n\021calibration.proto\022\014crowdcontrol\"\316\001\n\013Ca" +
+      "libration\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\020\n\010q" +
+      "uestion\030\003 \001(\t\0221\n\007answers\030\004 \003(\0132 .crowdco" +
+      "ntrol.Calibration.Answer\022:\n\020accepted_ans" +
+      "wers\030\005 \003(\0132 .crowdcontrol.Calibration.An" +
+      "swer\032$\n\006Answer\022\n\n\002id\030\001 \001(\005\022\016\n\006answer\030\002 \001" +
+      "(\tB0\n,edu.kit.ipd.crowdcontrol.objectser" +
+      "vice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -46,6 +54,12 @@ public final class CalibrationOuterClass {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Calibration_descriptor,
         new java.lang.String[] { "Id", "Name", "Question", "Answers", "AcceptedAnswers", });
+    internal_static_crowdcontrol_Calibration_Answer_descriptor =
+      internal_static_crowdcontrol_Calibration_descriptor.getNestedTypes().get(0);
+    internal_static_crowdcontrol_Calibration_Answer_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_crowdcontrol_Calibration_Answer_descriptor,
+        new java.lang.String[] { "Id", "Answer", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

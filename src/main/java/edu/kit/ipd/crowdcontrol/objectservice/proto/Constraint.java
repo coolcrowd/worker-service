@@ -15,6 +15,7 @@ public  final class Constraint extends
     super(builder);
   }
   private Constraint() {
+    id_ = 0;
     name_ = "";
   }
 
@@ -42,7 +43,12 @@ public  final class Constraint extends
             }
             break;
           }
-          case 10: {
+          case 8: {
+
+            id_ = input.readInt32();
+            break;
+          }
+          case 18: {
             java.lang.String s = input.readStringRequireUtf8();
 
             name_ = s;
@@ -72,10 +78,19 @@ public  final class Constraint extends
             edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.class, edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.Builder.class);
   }
 
-  public static final int NAME_FIELD_NUMBER = 1;
+  public static final int ID_FIELD_NUMBER = 1;
+  private int id_;
+  /**
+   * <code>optional int32 id = 1;</code>
+   */
+  public int getId() {
+    return id_;
+  }
+
+  public static final int NAME_FIELD_NUMBER = 2;
   private volatile java.lang.Object name_;
   /**
-   * <code>optional string name = 1;</code>
+   * <code>optional string name = 2;</code>
    */
   public java.lang.String getName() {
     java.lang.Object ref = name_;
@@ -90,7 +105,7 @@ public  final class Constraint extends
     }
   }
   /**
-   * <code>optional string name = 1;</code>
+   * <code>optional string name = 2;</code>
    */
   public com.google.protobuf.ByteString
       getNameBytes() {
@@ -118,8 +133,11 @@ public  final class Constraint extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (id_ != 0) {
+      output.writeInt32(1, id_);
+    }
     if (!getNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
+      com.google.protobuf.GeneratedMessage.writeString(output, 2, name_);
     }
   }
 
@@ -128,8 +146,12 @@ public  final class Constraint extends
     if (size != -1) return size;
 
     size = 0;
+    if (id_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, id_);
+    }
     if (!getNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, name_);
     }
     memoizedSize = size;
     return size;
@@ -242,6 +264,8 @@ public  final class Constraint extends
     }
     public Builder clear() {
       super.clear();
+      id_ = 0;
+
       name_ = "";
 
       return this;
@@ -266,6 +290,7 @@ public  final class Constraint extends
 
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint buildPartial() {
       edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint result = new edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint(this);
+      result.id_ = id_;
       result.name_ = name_;
       onBuilt();
       return result;
@@ -282,6 +307,9 @@ public  final class Constraint extends
 
     public Builder mergeFrom(edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint other) {
       if (other == edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint.getDefaultInstance()) return this;
+      if (other.getId() != 0) {
+        setId(other.getId());
+      }
       if (!other.getName().isEmpty()) {
         name_ = other.name_;
         onChanged();
@@ -312,9 +340,35 @@ public  final class Constraint extends
       return this;
     }
 
+    private int id_ ;
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    public Builder setId(int value) {
+      
+      id_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    public Builder clearId() {
+      
+      id_ = 0;
+      onChanged();
+      return this;
+    }
+
     private java.lang.Object name_ = "";
     /**
-     * <code>optional string name = 1;</code>
+     * <code>optional string name = 2;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -329,7 +383,7 @@ public  final class Constraint extends
       }
     }
     /**
-     * <code>optional string name = 1;</code>
+     * <code>optional string name = 2;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -345,7 +399,7 @@ public  final class Constraint extends
       }
     }
     /**
-     * <code>optional string name = 1;</code>
+     * <code>optional string name = 2;</code>
      */
     public Builder setName(
         java.lang.String value) {
@@ -358,7 +412,7 @@ public  final class Constraint extends
       return this;
     }
     /**
-     * <code>optional string name = 1;</code>
+     * <code>optional string name = 2;</code>
      */
     public Builder clearName() {
       
@@ -367,7 +421,7 @@ public  final class Constraint extends
       return this;
     }
     /**
-     * <code>optional string name = 1;</code>
+     * <code>optional string name = 2;</code>
      */
     public Builder setNameBytes(
         com.google.protobuf.ByteString value) {

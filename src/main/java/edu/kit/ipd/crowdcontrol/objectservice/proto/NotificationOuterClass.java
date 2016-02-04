@@ -22,12 +22,13 @@ public final class NotificationOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022notification.proto\022\014crowdcontrol\"z\n\014No" +
-      "tification\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\023\n\013" +
-      "description\030\003 \001(\t\022\r\n\005query\030\004 \001(\t\022\024\n\014chec" +
-      "k_period\030\005 \001(\005\022\026\n\016send_threshold\030\006 \001(\005B0" +
-      "\n,edu.kit.ipd.crowdcontrol.objectservice" +
-      ".protoP\001b\006proto3"
+      "\n\022notification.proto\022\014crowdcontrol\032\rbool" +
+      "ean.proto\"\234\001\n\014Notification\022\n\n\002id\030\001 \001(\005\022\014" +
+      "\n\004name\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022\r\n\005que" +
+      "ry\030\004 \001(\t\022\024\n\014check_period\030\005 \001(\005\022(\n\tsend_o" +
+      "nce\030\006 \001(\0132\025.crowdcontrol.Boolean\022\016\n\006emai" +
+      "ls\030\007 \003(\tB0\n,edu.kit.ipd.crowdcontrol.obj" +
+      "ectservice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -40,13 +41,15 @@ public final class NotificationOuterClass {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          edu.kit.ipd.crowdcontrol.objectservice.proto.BooleanOuterClass.getDescriptor(),
         }, assigner);
     internal_static_crowdcontrol_Notification_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_crowdcontrol_Notification_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Notification_descriptor,
-        new java.lang.String[] { "Id", "Name", "Description", "Query", "CheckPeriod", "SendThreshold", });
+        new java.lang.String[] { "Id", "Name", "Description", "Query", "CheckPeriod", "SendOnce", "Emails", });
+    edu.kit.ipd.crowdcontrol.objectservice.proto.BooleanOuterClass.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

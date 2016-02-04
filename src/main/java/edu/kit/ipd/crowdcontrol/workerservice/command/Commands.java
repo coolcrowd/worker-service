@@ -126,7 +126,8 @@ public class Commands implements RequestHelper {
                         rating.getFeedback(),
                         rating.getExperiment(),
                         rating.getAnswerId(),
-                        workerID)
+                        workerID,
+                        rating.getConstraintsList())
         );
         return null;
     }
