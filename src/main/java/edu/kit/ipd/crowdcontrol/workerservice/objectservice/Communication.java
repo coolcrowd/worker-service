@@ -50,7 +50,7 @@ public class Communication {
      */
     public CompletableFuture<Integer> submitWorker(String email, String platform, Map<String, String[]> originalQueryParameter) {
         HashMap<String, String[]> queryParameter = new HashMap<>(originalQueryParameter);
-        queryParameter.put("email", new String[]{"true"});
+        queryParameter.put("email", new String[]{email});
 
         return tryGetWorkerID(platform, queryParameter)
                 .thenApply(optional -> {
