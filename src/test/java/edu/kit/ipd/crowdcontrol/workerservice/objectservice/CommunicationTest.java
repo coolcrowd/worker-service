@@ -25,7 +25,7 @@ public class CommunicationTest {
         Communication communication = new Communication(url, "a", "b") {
             @Override
             public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, Map<String, String[]> queryParameter) {
-                assertTrue(queryParameter.get("email")[0].equals("true"));
+                assertTrue(queryParameter.get("email")[0].equals("a"));
                 return CompletableFuture.completedFuture(Optional.of(1));
             }
         };
