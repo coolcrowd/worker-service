@@ -17,15 +17,18 @@ import static spark.Spark.*;
 public class Router implements SparkApplication, RequestHelper {
     private final Queries queries;
     private final Commands commands;
+    private final int port;
 
     /**
      * creates a new Router.
      * @param queries the query to call
      * @param commands the commands to call
+     * @param port the port the server is listening on
      */
-    public Router(Queries queries, Commands commands) {
+    public Router(Queries queries, Commands commands, int port) {
         this.queries = queries;
         this.commands = commands;
+        this.port = port;
     }
 
     /**
@@ -33,6 +36,8 @@ public class Router implements SparkApplication, RequestHelper {
      */
     @Override
     public void init() {
+        port(port);
+
         exception(BadRequestException.class, (exception, request, response) -> {
             response.status(400);
             response.body(error(request, response, "badRequest", exception.getMessage()));

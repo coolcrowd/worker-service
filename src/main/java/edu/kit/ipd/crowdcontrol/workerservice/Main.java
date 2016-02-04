@@ -1,7 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.DatabaseManager;
-import edu.kit.ipd.crowdcontrol.workerservice.Router;
 import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.*;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
@@ -82,8 +81,15 @@ public class Main {
         );
         Queries queries = new Queries(calibrationsOperations, experimentOperations, platformOperations, communication,
                 taskOperations, workerOperations, testing);
+
+        String portRaw = trimIfNotNull.apply(config.getProperty("router.port"));
+
+        int port = portRaw != null
+                ? Integer.parseInt(portRaw)
+                : 4567;
+
         Commands commands = new Commands(communication, experimentOperations);
-        Router router = new Router(queries, commands);
+        Router router = new Router(queries, commands, port);
         if (!testing) {
             router.init();
         }
