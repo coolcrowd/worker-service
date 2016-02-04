@@ -6,10 +6,7 @@ import com.mashape.unirest.http.Unirest;
 import org.apache.http.client.HttpClient;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.*;
@@ -46,7 +43,7 @@ public class CommunicationTest {
     @Test
     public void testSubmitRatingURL() throws Exception {
         Communication communication = new Communication(url, "a", "b");
-        CompletableFuture<Void> result = communication.submitRating(1, "a", 2, 3, 4);
+        CompletableFuture<Void> result = communication.submitRating(1, "a", 2, 3, 4, new ArrayList<>());
         checkURL(result, "/experiments/2/answers/3/ratings");
     }
 
