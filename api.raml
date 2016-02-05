@@ -1,0 +1,128 @@
+#%RAML 1.0
+title: Worker-Service
+version: v1
+baseUri: http://api.samplehost.com
+/next/{platform}/{experiment}:
+  uriParameters:
+    platform:
+      description: |
+         the platform  represents the platform the worker is working on.
+      type: string
+      examples:
+        dummy-platform:
+          content: dummy
+          description: The dummy platform is does not pay any workers and identifies worker by their email, it also displays calibrations. It is used for services depending on the crowdworking-platforms.
+          displayName: Dummy-Crowdworking Platform
+        mturk:
+          content: mturk
+          displayName: mTurk Crowdworking Platform
+    experiment:
+      description: |
+        the experiment the worker is currently working on.
+      type:
+        - number
+      examples:
+        - content: 13
+        - content: 55
+  get:
+    displayName: returns what the worker should be working on.
+    description: |
+      The /next commant is crucial for the worker-service. It instructs the requestor what to display next and consquentyl what the worker should be working on. Every response has a type which describes the result. There are 5 different types: FINISHED, ANSWER, RATING, CALIBRATION and EMAIL. FINISHED means there are no more assignments left, the worker can be redirected to the crowdworking-platform. ANSWER represents an Creative-Task, the client is expected to present the experiment to the worker and let the worker create one or more answers to it. RATING should present the experiment and display the answers of other workers. The worker can now rate these answers. CALIBRATION expects the client to present the returned questions and let him choose the answer from pre-defined fields. EMAIL represents the need of an email-address from a worker. Full details are explained in the responses
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            
+/preview/{platform}:
+    uriParameters:
+      platform:
+        description: |
+           the platform resource represents the platform the worker is working on.
+        type: string
+        examples:
+          dummy-platform:
+            content: dummy
+            description: The dummy platform is does not pay any workers and identifies worker by their email, it also displays calibrations. It is used for services depending on the crowdworking-platforms.
+            displayName: Dummy-Crowdworking Platform
+          mturk:
+            content: mturk
+            displayName: mTurk Crowdworking Platform
+    get:
+        displayName: Returns a preview
+        description: Some crowdplatforms require a preview for the worker. This method returns a view
+        responses:
+          200:
+            body:
+              application/json:
+                type: object
+
+
+/emails/{platform}:
+  uriParameters:
+     platform:
+       description: |
+          an platform resource represents the platform the worker is working on.
+       type: string
+       examples:
+         dummy-platform:
+           content: dummy
+           description: The dummy platform is does not pay any workers and identifies worker by their email, it also displays calibrations. It is used for services depending on the crowdworking-platforms.
+           displayName: Dummy-Crowdworking Platform
+         mturk:
+           content: mturk
+           displayName: mTurk Crowdworking Platform
+  post:
+    description: Some crowdplatforms require the email-address of the worker. Most of the time this is required because the platform has no native payment system and has to default to the built-in email based payment system in CrowdControl. If a worker wishes to not disclose his email addres, pass an empty string. This has the consequence that CrowdControl is unable to pay the worker.
+    displayName: submits an email-address
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              workerId:
+                type: number
+                displayName: the worker-id
+                description: The worker-id is used for various request in CrowdControl to identify the worker.
+            examples:
+              - content: {"workerId": 1337}
+              - content: {"workerId": 42}
+
+    body:
+      application/json:
+        type: object
+        properties:
+          email:
+            type: string
+            displayName: email-address
+            description: The email address to submit, or empty if the worker whishes to not disclose his email-address)
+        examples:
+          - content: {"email": "email.worker@example.org"}
+          - content: {"email": ""}
+
+/answers/{:workerId}:
+  uriParameters:
+     workerId:
+       description: |
+          The worker-id is used by crowdcontrol to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
+       type: number
+       example: 1882
+       displayName: worker-id
+  post:
+    displayName: Submits a creative answer
+    description: This command is used to submit a creative answer. A creative answer is the work on the /next with the type ANSWER.
+    body:
+      application/json:
+        properties:
+          answer:
+            type: string
+            displayName: answer
+            description: The answers of the worker to a creative-view.
+          experiment:
+            type: number
+            displayName: Experiment
+            description: Represents the experiment the worker is currentyl working on.
+        examples:
+          - content: {"answer" : "Why did the chicken cross the road?", "experiment" : 13}
+          - content: {"answer" : "The picture contains 3 red circles.", "experiment" : 18}
