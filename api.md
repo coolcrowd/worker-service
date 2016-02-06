@@ -73,7 +73,7 @@ Full details about the types in the next segments:
 
 ## Example: Next EMAIL [/next/example/13?exampledependent=13]
 
-Scenario: the platform needs an email from his workers and it is the first time the worker is working on our framework. Therefore the example-platform will not find us in the database and the worker-service proceeds to respond with the EMAIL type.
+Scenario: the platform needs an email from his workers and it is the first time the worker is working on our framework. Therefore the example-platform will not find us in the database and the worker-service proceeds to respond with the *EMAIL* type.
 
 Expected Behavior: Ask the Worker for his email-address and submit it. Then call /next with the worker-id obtained through the submit email request.
 
@@ -90,9 +90,9 @@ Expected Behavior: Ask the Worker for his email-address and submit it. Then call
 
 ## Example: Next CALIBRATION [/next/example/13?exampledependent=15]
 
-Scenario: the example-platform has the displaying of calibrations activated, can identify the worker from the passed, platform-dependent query parameter and the worker has already worker with our framework. The example-platform now finds the matching worker-id in the database and returns it to the worker-service. The worker-service now notices that the worker has not answered all the calibrations, so it returns the type CALIBRATION.
+Scenario: the example-platform has the displaying of calibrations activated, can identify the worker from the passed, platform-dependent query parameter and the worker has already worker with our framework. The example-platform now finds the matching worker-id in the database and returns it to the worker-service. The worker-service now notices that the worker has not answered all the calibrations, so it returns the type *CALIBRATION* and an array of calibrations as *calibrations*;
 
-Expected Behavior: Let the worker choose his answers for all the calibrations and submit them with /calibrations, then call /next with the worker-id as an parameter. Calling /next without submitting all the calibrations will result in the type CALIBRATION, where the field calibrations holds all the remaining calibrations.
+Expected Behavior: Let the worker choose his answers for all the calibrations and submit them with /calibrations, then call /next with the worker-id as an parameter. Calling /next without submitting all the calibrations will result in the type *CALIBRATION*, where the field *calibrations* holds all the remaining calibrations.
 
 ### next with type CALIBRATION [GET]
 
@@ -124,22 +124,23 @@ Expected Behavior: Let the worker choose his answers for all the calibrations an
 
 ## Example: Next ANSWER [/next/example/13?worker=15&exampledependent=15]
 
-Scenario: The worker with the worker-id 15 has completed all calibrations and the worker-service decides that he can work on an creative-Task. So it returns the type ANSWER and all the relevant information about the experiment(title, description). The experiment has some pictures and some constraints, so additionally it also adds these. The worker-service also returns maxAnswersToGive, which specifies how many creative-answers for the worker are left.
+Scenario: The worker with the worker-id 15 has completed all calibrations and the worker-service decides that he can work on an creative-Task. So it returns the type *ANSWER* and all the relevant information about the experiment(*title*, *description*). The experiment has some pictures and some constraints, so additionally it also adds these. The worker-service also returns maxAnswersToGive, which specifies how many creative-answers for the worker are left. The worker-service also passes an *answerType*.
 
-Expected Behavior: The client is expected to render the title, description and the pictures. Additionally the worker has to be warned about the constraints. The worker has now the chance to create up to maxAnswersToGive answers and the client should submit them via /answers. After submitting the client should call /next.
+Expected Behavior: The client is expected to render the title, description and the pictures. Additionally the worker has to be warned about the constraints. The worker has now the chance to create up to maxAnswersToGive answers and the client should submit them via /answers. After submitting the client should call /next. When the worker-service passes an *answerType*, the answer to the creative task is a url, pointing to a resource with the mime-type of *answerType*. It is expected that the client verifies that the answer is indeed a valid url, but it is not expected that it checks whether the mime-type matches the resource the url is pointing to.
 
 ### next with type ANSWER  [GET]
 
 + Response 200 (application/json)
-    The type is ANSWER, which requires the fields title, description and maxAnswersToGive to be set. Furthermore the fields pictures and constraints are set.
+    The type is ANSWER, which requires the fields title, description and maxAnswersToGive to be set. Furthermore the fields pictures, answerType and constraints are set.
 
     + Body
 
             {
               "type": "ANSWER",
-              "title": "Mean Tweet",
+              "title": "Find a specific Picture.",
               "description": "This is the description of the example-task. It specifies what the worker has to do.",
               "maxAnswersToGive" : 3,
+              "answerType" : "images"
               "pictures": [
                   {
                     "url": "http://example.picture.jpg",
@@ -156,7 +157,7 @@ Expected Behavior: The client is expected to render the title, description and t
 
 ## Example: Next RATING [/next/example/13?worker=18]
 
-Scenario: The example-platform does not render calibrations and the worker-service decides that the worker should do a rating-task. Therefore the type is RATING and all the relevant information about the experiment(title, description). The experiment has also some constraints, so the worker-service passes them, too. The worker-service also returns answersToRate and ratingOptions.
+Scenario: The example-platform does not render calibrations and the worker-service decides that the worker should do a rating-task. Therefore the type is *RATING* and all the relevant information about the experiment(*title*, *description*) is set. The experiment has also some constraints, so the worker-service passes them too via the field *constraints*. The worker-service also returns *answersToRate* and *ratingOptions*. The field *pictures* may be set if the experiment provides pictures, but in this example is not. Please compare Next Answer for an example where the field pictures is set.
 
 Expected Behavior: The client is expected to render the title and the description of the experiment. Additionally the calibrations have to be placed prominently. The worker has now the chance to rate the passed answers (answersToRate). For each answer he can choose *one* of the rating-options (ratingOptions) and specify *which constraints* (if any) got violated. One rating-option is a description/value pair. The description should be rendered for the worker and the value represents the chosen rating. The worker should also be encouraged to submit a feedback containing a critique of the answer. The client should submit them via /ratings. After submitting the client should call /next.
 
@@ -168,7 +169,7 @@ Expected Behavior: The client is expected to render the title and the descriptio
     + Body
 
             {
-              "type": "ANSWER",
+              "type": "RATING",
               "title": "Come up with a joke!",
               "description": "Come up with a joke about the following situation....",
               "answers": [
