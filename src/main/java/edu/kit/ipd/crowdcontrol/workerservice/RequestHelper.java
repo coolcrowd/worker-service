@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 public interface RequestHelper {
     //TODO: wait till java 9 or expose printer?
     class Const {
-        private static JsonFormat.Printer PRINTER = JsonFormat.printer();
+        private static JsonFormat.Printer PRINTER = JsonFormat.printer().includingDefaultValueFields();
     }
 
     String TYPE_JSON = "application/json";

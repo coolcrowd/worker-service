@@ -8,40 +8,45 @@ public interface RatingOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional int32 rating = 1;</code>
+   * <code>optional int32 rating_id = 1;</code>
+   */
+  int getRatingId();
+
+  /**
+   * <code>optional int32 rating = 2;</code>
    */
   int getRating();
 
   /**
-   * <code>optional int32 experiment = 2;</code>
+   * <code>optional int32 experiment = 3;</code>
    */
   int getExperiment();
 
   /**
-   * <code>optional int32 answer_id = 3;</code>
+   * <code>optional int32 answer_id = 4;</code>
    */
   int getAnswerId();
 
   /**
-   * <code>optional string feedback = 4;</code>
+   * <code>optional string feedback = 5;</code>
    */
   java.lang.String getFeedback();
   /**
-   * <code>optional string feedback = 4;</code>
+   * <code>optional string feedback = 5;</code>
    */
   com.google.protobuf.ByteString
       getFeedbackBytes();
 
   /**
-   * <code>repeated int32 constraints = 5;</code>
+   * <code>repeated int32 constraints = 6;</code>
    */
   java.util.List<java.lang.Integer> getConstraintsList();
   /**
-   * <code>repeated int32 constraints = 5;</code>
+   * <code>repeated int32 constraints = 6;</code>
    */
   int getConstraintsCount();
   /**
-   * <code>repeated int32 constraints = 5;</code>
+   * <code>repeated int32 constraints = 6;</code>
    */
   int getConstraints(int index);
 }

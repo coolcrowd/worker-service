@@ -15,6 +15,7 @@ public  final class Rating extends
     super(builder);
   }
   private Rating() {
+    ratingId_ = 0;
     rating_ = 0;
     experiment_ = 0;
     answerId_ = 0;
@@ -48,39 +49,44 @@ public  final class Rating extends
           }
           case 8: {
 
-            rating_ = input.readInt32();
+            ratingId_ = input.readInt32();
             break;
           }
           case 16: {
 
-            experiment_ = input.readInt32();
+            rating_ = input.readInt32();
             break;
           }
           case 24: {
 
+            experiment_ = input.readInt32();
+            break;
+          }
+          case 32: {
+
             answerId_ = input.readInt32();
             break;
           }
-          case 34: {
+          case 42: {
             java.lang.String s = input.readStringRequireUtf8();
 
             feedback_ = s;
             break;
           }
-          case 40: {
-            if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          case 48: {
+            if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
               constraints_ = new java.util.ArrayList<java.lang.Integer>();
-              mutable_bitField0_ |= 0x00000010;
+              mutable_bitField0_ |= 0x00000020;
             }
             constraints_.add(input.readInt32());
             break;
           }
-          case 42: {
+          case 50: {
             int length = input.readRawVarint32();
             int limit = input.pushLimit(length);
-            if (!((mutable_bitField0_ & 0x00000010) == 0x00000010) && input.getBytesUntilLimit() > 0) {
+            if (!((mutable_bitField0_ & 0x00000020) == 0x00000020) && input.getBytesUntilLimit() > 0) {
               constraints_ = new java.util.ArrayList<java.lang.Integer>();
-              mutable_bitField0_ |= 0x00000010;
+              mutable_bitField0_ |= 0x00000020;
             }
             while (input.getBytesUntilLimit() > 0) {
               constraints_.add(input.readInt32());
@@ -97,7 +103,7 @@ public  final class Rating extends
           new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this));
     } finally {
-      if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
         constraints_ = java.util.Collections.unmodifiableList(constraints_);
       }
       makeExtensionsImmutable();
@@ -116,37 +122,46 @@ public  final class Rating extends
   }
 
   private int bitField0_;
-  public static final int RATING_FIELD_NUMBER = 1;
+  public static final int RATING_ID_FIELD_NUMBER = 1;
+  private int ratingId_;
+  /**
+   * <code>optional int32 rating_id = 1;</code>
+   */
+  public int getRatingId() {
+    return ratingId_;
+  }
+
+  public static final int RATING_FIELD_NUMBER = 2;
   private int rating_;
   /**
-   * <code>optional int32 rating = 1;</code>
+   * <code>optional int32 rating = 2;</code>
    */
   public int getRating() {
     return rating_;
   }
 
-  public static final int EXPERIMENT_FIELD_NUMBER = 2;
+  public static final int EXPERIMENT_FIELD_NUMBER = 3;
   private int experiment_;
   /**
-   * <code>optional int32 experiment = 2;</code>
+   * <code>optional int32 experiment = 3;</code>
    */
   public int getExperiment() {
     return experiment_;
   }
 
-  public static final int ANSWER_ID_FIELD_NUMBER = 3;
+  public static final int ANSWER_ID_FIELD_NUMBER = 4;
   private int answerId_;
   /**
-   * <code>optional int32 answer_id = 3;</code>
+   * <code>optional int32 answer_id = 4;</code>
    */
   public int getAnswerId() {
     return answerId_;
   }
 
-  public static final int FEEDBACK_FIELD_NUMBER = 4;
+  public static final int FEEDBACK_FIELD_NUMBER = 5;
   private volatile java.lang.Object feedback_;
   /**
-   * <code>optional string feedback = 4;</code>
+   * <code>optional string feedback = 5;</code>
    */
   public java.lang.String getFeedback() {
     java.lang.Object ref = feedback_;
@@ -161,7 +176,7 @@ public  final class Rating extends
     }
   }
   /**
-   * <code>optional string feedback = 4;</code>
+   * <code>optional string feedback = 5;</code>
    */
   public com.google.protobuf.ByteString
       getFeedbackBytes() {
@@ -177,23 +192,23 @@ public  final class Rating extends
     }
   }
 
-  public static final int CONSTRAINTS_FIELD_NUMBER = 5;
+  public static final int CONSTRAINTS_FIELD_NUMBER = 6;
   private java.util.List<java.lang.Integer> constraints_;
   /**
-   * <code>repeated int32 constraints = 5;</code>
+   * <code>repeated int32 constraints = 6;</code>
    */
   public java.util.List<java.lang.Integer>
       getConstraintsList() {
     return constraints_;
   }
   /**
-   * <code>repeated int32 constraints = 5;</code>
+   * <code>repeated int32 constraints = 6;</code>
    */
   public int getConstraintsCount() {
     return constraints_.size();
   }
   /**
-   * <code>repeated int32 constraints = 5;</code>
+   * <code>repeated int32 constraints = 6;</code>
    */
   public int getConstraints(int index) {
     return constraints_.get(index);
@@ -213,20 +228,23 @@ public  final class Rating extends
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     getSerializedSize();
+    if (ratingId_ != 0) {
+      output.writeInt32(1, ratingId_);
+    }
     if (rating_ != 0) {
-      output.writeInt32(1, rating_);
+      output.writeInt32(2, rating_);
     }
     if (experiment_ != 0) {
-      output.writeInt32(2, experiment_);
+      output.writeInt32(3, experiment_);
     }
     if (answerId_ != 0) {
-      output.writeInt32(3, answerId_);
+      output.writeInt32(4, answerId_);
     }
     if (!getFeedbackBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 4, feedback_);
+      com.google.protobuf.GeneratedMessage.writeString(output, 5, feedback_);
     }
     if (getConstraintsList().size() > 0) {
-      output.writeRawVarint32(42);
+      output.writeRawVarint32(50);
       output.writeRawVarint32(constraintsMemoizedSerializedSize);
     }
     for (int i = 0; i < constraints_.size(); i++) {
@@ -239,20 +257,24 @@ public  final class Rating extends
     if (size != -1) return size;
 
     size = 0;
+    if (ratingId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, ratingId_);
+    }
     if (rating_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, rating_);
+        .computeInt32Size(2, rating_);
     }
     if (experiment_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, experiment_);
+        .computeInt32Size(3, experiment_);
     }
     if (answerId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(3, answerId_);
+        .computeInt32Size(4, answerId_);
     }
     if (!getFeedbackBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(4, feedback_);
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(5, feedback_);
     }
     {
       int dataSize = 0;
@@ -379,6 +401,8 @@ public  final class Rating extends
     }
     public Builder clear() {
       super.clear();
+      ratingId_ = 0;
+
       rating_ = 0;
 
       experiment_ = 0;
@@ -388,7 +412,7 @@ public  final class Rating extends
       feedback_ = "";
 
       constraints_ = java.util.Collections.emptyList();
-      bitField0_ = (bitField0_ & ~0x00000010);
+      bitField0_ = (bitField0_ & ~0x00000020);
       return this;
     }
 
@@ -413,13 +437,14 @@ public  final class Rating extends
       edu.kit.ipd.crowdcontrol.workerservice.proto.Rating result = new edu.kit.ipd.crowdcontrol.workerservice.proto.Rating(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
+      result.ratingId_ = ratingId_;
       result.rating_ = rating_;
       result.experiment_ = experiment_;
       result.answerId_ = answerId_;
       result.feedback_ = feedback_;
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         constraints_ = java.util.Collections.unmodifiableList(constraints_);
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
       }
       result.constraints_ = constraints_;
       result.bitField0_ = to_bitField0_;
@@ -438,6 +463,9 @@ public  final class Rating extends
 
     public Builder mergeFrom(edu.kit.ipd.crowdcontrol.workerservice.proto.Rating other) {
       if (other == edu.kit.ipd.crowdcontrol.workerservice.proto.Rating.getDefaultInstance()) return this;
+      if (other.getRatingId() != 0) {
+        setRatingId(other.getRatingId());
+      }
       if (other.getRating() != 0) {
         setRating(other.getRating());
       }
@@ -454,7 +482,7 @@ public  final class Rating extends
       if (!other.constraints_.isEmpty()) {
         if (constraints_.isEmpty()) {
           constraints_ = other.constraints_;
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           ensureConstraintsIsMutable();
           constraints_.addAll(other.constraints_);
@@ -488,15 +516,41 @@ public  final class Rating extends
     }
     private int bitField0_;
 
+    private int ratingId_ ;
+    /**
+     * <code>optional int32 rating_id = 1;</code>
+     */
+    public int getRatingId() {
+      return ratingId_;
+    }
+    /**
+     * <code>optional int32 rating_id = 1;</code>
+     */
+    public Builder setRatingId(int value) {
+      
+      ratingId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int32 rating_id = 1;</code>
+     */
+    public Builder clearRatingId() {
+      
+      ratingId_ = 0;
+      onChanged();
+      return this;
+    }
+
     private int rating_ ;
     /**
-     * <code>optional int32 rating = 1;</code>
+     * <code>optional int32 rating = 2;</code>
      */
     public int getRating() {
       return rating_;
     }
     /**
-     * <code>optional int32 rating = 1;</code>
+     * <code>optional int32 rating = 2;</code>
      */
     public Builder setRating(int value) {
       
@@ -505,7 +559,7 @@ public  final class Rating extends
       return this;
     }
     /**
-     * <code>optional int32 rating = 1;</code>
+     * <code>optional int32 rating = 2;</code>
      */
     public Builder clearRating() {
       
@@ -516,13 +570,13 @@ public  final class Rating extends
 
     private int experiment_ ;
     /**
-     * <code>optional int32 experiment = 2;</code>
+     * <code>optional int32 experiment = 3;</code>
      */
     public int getExperiment() {
       return experiment_;
     }
     /**
-     * <code>optional int32 experiment = 2;</code>
+     * <code>optional int32 experiment = 3;</code>
      */
     public Builder setExperiment(int value) {
       
@@ -531,7 +585,7 @@ public  final class Rating extends
       return this;
     }
     /**
-     * <code>optional int32 experiment = 2;</code>
+     * <code>optional int32 experiment = 3;</code>
      */
     public Builder clearExperiment() {
       
@@ -542,13 +596,13 @@ public  final class Rating extends
 
     private int answerId_ ;
     /**
-     * <code>optional int32 answer_id = 3;</code>
+     * <code>optional int32 answer_id = 4;</code>
      */
     public int getAnswerId() {
       return answerId_;
     }
     /**
-     * <code>optional int32 answer_id = 3;</code>
+     * <code>optional int32 answer_id = 4;</code>
      */
     public Builder setAnswerId(int value) {
       
@@ -557,7 +611,7 @@ public  final class Rating extends
       return this;
     }
     /**
-     * <code>optional int32 answer_id = 3;</code>
+     * <code>optional int32 answer_id = 4;</code>
      */
     public Builder clearAnswerId() {
       
@@ -568,7 +622,7 @@ public  final class Rating extends
 
     private java.lang.Object feedback_ = "";
     /**
-     * <code>optional string feedback = 4;</code>
+     * <code>optional string feedback = 5;</code>
      */
     public java.lang.String getFeedback() {
       java.lang.Object ref = feedback_;
@@ -583,7 +637,7 @@ public  final class Rating extends
       }
     }
     /**
-     * <code>optional string feedback = 4;</code>
+     * <code>optional string feedback = 5;</code>
      */
     public com.google.protobuf.ByteString
         getFeedbackBytes() {
@@ -599,7 +653,7 @@ public  final class Rating extends
       }
     }
     /**
-     * <code>optional string feedback = 4;</code>
+     * <code>optional string feedback = 5;</code>
      */
     public Builder setFeedback(
         java.lang.String value) {
@@ -612,7 +666,7 @@ public  final class Rating extends
       return this;
     }
     /**
-     * <code>optional string feedback = 4;</code>
+     * <code>optional string feedback = 5;</code>
      */
     public Builder clearFeedback() {
       
@@ -621,7 +675,7 @@ public  final class Rating extends
       return this;
     }
     /**
-     * <code>optional string feedback = 4;</code>
+     * <code>optional string feedback = 5;</code>
      */
     public Builder setFeedbackBytes(
         com.google.protobuf.ByteString value) {
@@ -637,32 +691,32 @@ public  final class Rating extends
 
     private java.util.List<java.lang.Integer> constraints_ = java.util.Collections.emptyList();
     private void ensureConstraintsIsMutable() {
-      if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (!((bitField0_ & 0x00000020) == 0x00000020)) {
         constraints_ = new java.util.ArrayList<java.lang.Integer>(constraints_);
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
        }
     }
     /**
-     * <code>repeated int32 constraints = 5;</code>
+     * <code>repeated int32 constraints = 6;</code>
      */
     public java.util.List<java.lang.Integer>
         getConstraintsList() {
       return java.util.Collections.unmodifiableList(constraints_);
     }
     /**
-     * <code>repeated int32 constraints = 5;</code>
+     * <code>repeated int32 constraints = 6;</code>
      */
     public int getConstraintsCount() {
       return constraints_.size();
     }
     /**
-     * <code>repeated int32 constraints = 5;</code>
+     * <code>repeated int32 constraints = 6;</code>
      */
     public int getConstraints(int index) {
       return constraints_.get(index);
     }
     /**
-     * <code>repeated int32 constraints = 5;</code>
+     * <code>repeated int32 constraints = 6;</code>
      */
     public Builder setConstraints(
         int index, int value) {
@@ -672,7 +726,7 @@ public  final class Rating extends
       return this;
     }
     /**
-     * <code>repeated int32 constraints = 5;</code>
+     * <code>repeated int32 constraints = 6;</code>
      */
     public Builder addConstraints(int value) {
       ensureConstraintsIsMutable();
@@ -681,7 +735,7 @@ public  final class Rating extends
       return this;
     }
     /**
-     * <code>repeated int32 constraints = 5;</code>
+     * <code>repeated int32 constraints = 6;</code>
      */
     public Builder addAllConstraints(
         java.lang.Iterable<? extends java.lang.Integer> values) {
@@ -692,11 +746,11 @@ public  final class Rating extends
       return this;
     }
     /**
-     * <code>repeated int32 constraints = 5;</code>
+     * <code>repeated int32 constraints = 6;</code>
      */
     public Builder clearConstraints() {
       constraints_ = java.util.Collections.emptyList();
-      bitField0_ = (bitField0_ & ~0x00000010);
+      bitField0_ = (bitField0_ & ~0x00000020);
       onChanged();
       return this;
     }

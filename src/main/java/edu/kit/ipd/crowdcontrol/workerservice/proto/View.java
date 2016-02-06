@@ -2765,11 +2765,16 @@ public  final class View extends
     int getId();
 
     /**
-     * <code>optional string answer = 2;</code>
+     * <code>optional int32 answer_id = 2;</code>
+     */
+    int getAnswerId();
+
+    /**
+     * <code>optional string answer = 3;</code>
      */
     java.lang.String getAnswer();
     /**
-     * <code>optional string answer = 2;</code>
+     * <code>optional string answer = 3;</code>
      */
     com.google.protobuf.ByteString
         getAnswerBytes();
@@ -2787,6 +2792,7 @@ public  final class View extends
     }
     private Answer() {
       id_ = 0;
+      answerId_ = 0;
       answer_ = "";
     }
 
@@ -2819,7 +2825,12 @@ public  final class View extends
               id_ = input.readInt32();
               break;
             }
-            case 18: {
+            case 16: {
+
+              answerId_ = input.readInt32();
+              break;
+            }
+            case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
               answer_ = s;
@@ -2858,10 +2869,19 @@ public  final class View extends
       return id_;
     }
 
-    public static final int ANSWER_FIELD_NUMBER = 2;
+    public static final int ANSWER_ID_FIELD_NUMBER = 2;
+    private int answerId_;
+    /**
+     * <code>optional int32 answer_id = 2;</code>
+     */
+    public int getAnswerId() {
+      return answerId_;
+    }
+
+    public static final int ANSWER_FIELD_NUMBER = 3;
     private volatile java.lang.Object answer_;
     /**
-     * <code>optional string answer = 2;</code>
+     * <code>optional string answer = 3;</code>
      */
     public java.lang.String getAnswer() {
       java.lang.Object ref = answer_;
@@ -2876,7 +2896,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>optional string answer = 2;</code>
+     * <code>optional string answer = 3;</code>
      */
     public com.google.protobuf.ByteString
         getAnswerBytes() {
@@ -2907,8 +2927,11 @@ public  final class View extends
       if (id_ != 0) {
         output.writeInt32(1, id_);
       }
+      if (answerId_ != 0) {
+        output.writeInt32(2, answerId_);
+      }
       if (!getAnswerBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 2, answer_);
+        com.google.protobuf.GeneratedMessage.writeString(output, 3, answer_);
       }
     }
 
@@ -2921,8 +2944,12 @@ public  final class View extends
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, id_);
       }
+      if (answerId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, answerId_);
+      }
       if (!getAnswerBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, answer_);
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(3, answer_);
       }
       memoizedSize = size;
       return size;
@@ -3037,6 +3064,8 @@ public  final class View extends
         super.clear();
         id_ = 0;
 
+        answerId_ = 0;
+
         answer_ = "";
 
         return this;
@@ -3062,6 +3091,7 @@ public  final class View extends
       public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer buildPartial() {
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer result = new edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer(this);
         result.id_ = id_;
+        result.answerId_ = answerId_;
         result.answer_ = answer_;
         onBuilt();
         return result;
@@ -3080,6 +3110,9 @@ public  final class View extends
         if (other == edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.getDefaultInstance()) return this;
         if (other.getId() != 0) {
           setId(other.getId());
+        }
+        if (other.getAnswerId() != 0) {
+          setAnswerId(other.getAnswerId());
         }
         if (!other.getAnswer().isEmpty()) {
           answer_ = other.answer_;
@@ -3137,9 +3170,35 @@ public  final class View extends
         return this;
       }
 
+      private int answerId_ ;
+      /**
+       * <code>optional int32 answer_id = 2;</code>
+       */
+      public int getAnswerId() {
+        return answerId_;
+      }
+      /**
+       * <code>optional int32 answer_id = 2;</code>
+       */
+      public Builder setAnswerId(int value) {
+        
+        answerId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 answer_id = 2;</code>
+       */
+      public Builder clearAnswerId() {
+        
+        answerId_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object answer_ = "";
       /**
-       * <code>optional string answer = 2;</code>
+       * <code>optional string answer = 3;</code>
        */
       public java.lang.String getAnswer() {
         java.lang.Object ref = answer_;
@@ -3154,7 +3213,7 @@ public  final class View extends
         }
       }
       /**
-       * <code>optional string answer = 2;</code>
+       * <code>optional string answer = 3;</code>
        */
       public com.google.protobuf.ByteString
           getAnswerBytes() {
@@ -3170,7 +3229,7 @@ public  final class View extends
         }
       }
       /**
-       * <code>optional string answer = 2;</code>
+       * <code>optional string answer = 3;</code>
        */
       public Builder setAnswer(
           java.lang.String value) {
@@ -3183,7 +3242,7 @@ public  final class View extends
         return this;
       }
       /**
-       * <code>optional string answer = 2;</code>
+       * <code>optional string answer = 3;</code>
        */
       public Builder clearAnswer() {
         
@@ -3192,7 +3251,7 @@ public  final class View extends
         return this;
       }
       /**
-       * <code>optional string answer = 2;</code>
+       * <code>optional string answer = 3;</code>
        */
       public Builder setAnswerBytes(
           com.google.protobuf.ByteString value) {
