@@ -64,13 +64,13 @@ public class Router implements SparkApplication, RequestHelper {
 
         get("/next/:platform/:experiment", queries::getNext);
 
-        post("/email/:platform", commands::submitEmail);
+        post("/emails/:platform", commands::submitEmail);
 
-        post("/answer/:workerID", commands::submitAnswer);
+        post("/answers/:workerID", commands::submitAnswer);
 
-        post("/rating/:workerID", commands::submitRating);
+        post("/ratings/:workerID", commands::submitRating);
 
-        post("/calibration/:workerID", commands::submitCalibration);
+        post("/calibrations/:workerID", commands::submitCalibration);
 
     }
 
