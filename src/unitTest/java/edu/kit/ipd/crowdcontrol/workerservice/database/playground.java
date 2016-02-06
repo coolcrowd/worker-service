@@ -1,11 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  * @author LeanderK
