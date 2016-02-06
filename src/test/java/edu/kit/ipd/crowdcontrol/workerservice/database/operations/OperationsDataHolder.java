@@ -73,7 +73,7 @@ public class OperationsDataHolder {
     private PlatformRecord generatePlatformRecord() {
         String id = nextRandomString();
         String name = nextRandomString();
-        return new PlatformRecord(name, id, true, true);
+        return new PlatformRecord(name, id, true, true, false);
     }
 
     private AlgorithmTaskChooserRecord generateTaskChooserRecord() {
@@ -97,7 +97,7 @@ public class OperationsDataHolder {
 
         return new ExperimentRecord(experimentID, title, description, neededAnswerAmount, ratingsPerAnswer,
                 answersPerWorkerAmount, ratingsPerWorkerAmount,
-                null, algorithmTaskChooserRecord.getIdTaskChooser(), null, null, null, null, null, null, null, qualityThreshold);
+                null, algorithmTaskChooserRecord.getIdTaskChooser(), null, null, null, null, null, null, null, qualityThreshold, null);
     }
 
     private Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> generateCalibrations(ExperimentRecord experiment) {

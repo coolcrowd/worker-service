@@ -183,10 +183,20 @@ public abstract class TaskChooserAlgorithm {
                                 .build()
                 );
 
+        List<View.RatingOption> ratingOptions = experimentOperations.getRatingOptions(experimentID).stream()
+                .map(record ->
+                        View.RatingOption.newBuilder()
+                                .setDescription(record.getName())
+                                .setValue(record.getValue()
+                                ).build()
+                )
+                .collect(Collectors.toList());
+
         return builder
                 .setTitle(experimentRecord.getTitle())
                 .setDescription(cleanDescription)
                 .addAllPictures(pictures)
-                .addAllConstraints(constraints);
+                .addAllConstraints(constraints)
+                .addAllRatingOptions(ratingOptions);
     }
 }

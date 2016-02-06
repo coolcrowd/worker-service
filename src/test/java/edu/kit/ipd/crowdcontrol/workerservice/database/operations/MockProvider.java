@@ -168,6 +168,9 @@ public class MockProvider implements MockDataProvider {
             record.value1(dataHolder.getWorkerQuality());
             result.add(record);
             mock[0] = new MockResult(1, result);
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_OPTION_EXPERIMENT`")) {
+            Result<RatingOptionExperimentRecord> result = create.newResult(RATING_OPTION_EXPERIMENT);
+            mock[0] = new MockResult(1, result);
         }
 
         // You can detect batch statements easily
