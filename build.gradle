@@ -54,8 +54,19 @@ dependencies {
 
 test {
     testLogging {
-        events "failed"
-        exceptionFormat "short"
+        events 'started', 'passed'
+    }
+}
+
+sourceSets {
+    unitTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/test/java')
+        }
+
+        resources.srcDir file('src/test/resources')
     }
 }
 
@@ -83,8 +94,6 @@ task integrationTest(type: Test) {
 tasks.withType(Test) {
     reports.html.destination = file("${reporting.baseDir}/${name}")
 }
-
-test.dependsOn integrationTest
 
 jacocoTestReport {
     reports {
