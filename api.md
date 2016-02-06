@@ -260,7 +260,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 + Request (application/json)
 
-      +  Attributes (Email)
+        {"email": "example.address@example.org"}
 
 + Response 201 (application/json)
 
@@ -299,7 +299,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 + Request (application/json)
 
-      +  Attributes (Answer)
+        {"answer" : "http://www.example.org/image.jpg", "experiment" : 33}
 
 + Response 200
 
@@ -329,7 +329,13 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 + Request (application/json)
 
-      +  Attributes (RATING)
+        {
+          "rating" : 0,
+          "experiment" : 15,
+          "answerId" : 22244,
+          "feedback" : "this is racist!",
+          "constraints" : [13, 18]
+        }
 
 + Response 200
 
@@ -359,16 +365,16 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 + Request (application/json)
 
-      +  Attributes (RATING)
+         {
+           "answerOption": 29
+         }
 
 + Response 200
 
 + Request (application/json)
 
         {
-          "rating": 30,
-          "experiment": 15,
-          "answerId": 22244
+          "answerOption": 88
         }
 
 + Response 200
