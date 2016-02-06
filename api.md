@@ -20,19 +20,19 @@ Resources specifying what to display the worker.
 
 ## Next [/next/{platform}/{experiment}{?worker,answer,rating}]
 
-The /next command is crucial for the worker-service. It instructs the requestor what to display next and consquentyl what the worker should be working on. Every response has a type which describes the result. There are 5 different types: **FINISHED, ANSWER, RATING, CALIBRATION** and **EMAIL**. **FINISHED** means there are no more assignments left, the worker can be redirected to the crowdworking-platform. **ANSWER** represents an Creative-Task, the client is expected to present the experiment to the worker and let the worker create one or more answers to it. **RATING** should present the experiment and display the answers of other workers. The worker can now rate these answers. **CALIBRATION** expects the client to present the returned questions and let him choose the answer from pre-defined fields. **EMAIL** represents the need of an email-address from a worker. Additional query-parameters may be required for certain platforms.
+The /next command is crucial for the worker-service. It instructs the requestor what to display next and consequently what the worker should be working on. Every response has a type which describes the result. There are 5 different types: **FINISHED, ANSWER, RATING, CALIBRATION** and **EMAIL**. **FINISHED** means there are no more assignments left, the worker can be redirected to the crowdworking-platform. **ANSWER** represents an Creative-Task, the client is expected to present the experiment to the worker and let the worker create one or more answers to it. **RATING** should present the experiment and display the answers of other workers. The worker can now rate these answers. **CALIBRATION** expects the client to present the returned questions and let him choose the answer from pre-defined fields. **EMAIL** represents the need of an email-address from a worker. Additional query-parameters may be required for certain platforms.
 
-The client may choose to persist the worker-id and pass it when the worker starts working on our framework again, on the same or on an different experiment. The worker-id identifies the worker, belongs to the worker and does not change (event between differen experiments).
+The client may choose to persist the worker-id and pass it when the worker starts working on our framework again, on the same or on an different experiment. The worker-id identifies the worker, belongs to the worker and does not change (event between different experiments).
 
 ::: note
-The worker-service expects the client to take care of checking that the user works at least on one ANSWER or RATING taks before he skips all the others. This means that if the client has at least one of the query-parameter answer or rating set to skip and gets the type FINISHED from the worker-serice he has remember whether the worker submitted an answer or rating. If he has not, the client has to try the /next command again without the query-parameter answer or rating. If the returning type is not FINISHED, the client should notify the worker that he has to work on at least one of the ANSWER or RATING tasks and act according to the returned type.
+The worker-service expects the client to take care of checking that the user works at least on one ANSWER or RATING tasks before he skips all the others. This means that if the client has at least one of the query-parameter answer or rating set to skip and gets the type FINISHED from the worker-serice he has remember whether the worker submitted an answer or rating. If he has not, the client has to try the /next command again without the query-parameter answer or rating. If the returning type is not FINISHED, the client should notify the worker that he has to work on at least one of the ANSWER or RATING tasks and act according to the returned type.
 :::
 
-The worker-service supports mutiple sessions. Depending on the time-limit of the platform and platform-specific properties, the worker can work on an experiment, finish and later start again.
+The worker-service supports multiple sessions. Depending on the time-limit of the platform and platform-specific properties, the worker can work on an experiment, finish and later start again.
 
 The protobuf definition of the resource can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/view.proto);
 
-Full details about the types in the next segements:
+Full details about the types in the next segments:
 
 +  Attributes (View)
 
@@ -75,7 +75,7 @@ Full details about the types in the next segements:
 
 Scenario: the platform needs an email from his workers and it is the first time the worker is working on our framework. Therefore the example-platform will not find us in the database and the worker-service proceeds to respond with the EMAIL type.
 
-Expected Behaviour: Ask the Worker for his email-address and submit it. Then call /next with the worker-id obtained through the submit email request.
+Expected Behavior: Ask the Worker for his email-address and submit it. Then call /next with the worker-id obtained through the submit email request.
 
 ### next with type EMAIL [GET]
 
@@ -92,7 +92,7 @@ Expected Behaviour: Ask the Worker for his email-address and submit it. Then cal
 
 Scenario: the example-platform has the displaying of calibrations activated, can identify the worker from the passed, platform-dependent query parameter and the worker has already worker with our framework. The example-platform now finds the matching worker-id in the database and returns it to the worker-service. The worker-service now notices that the worker has not answered all the calibrations, so it returns the type CALIBRATION.
 
-Expected Behaviour: Let the worker choose his answeres for all the calibrations and submit them with /calibrations, then call /next with the worker-id as an parameter. Calling /next without submitting all the calibrations will result in the type CALIBRATION, where the field calibrations holds all the remaining calibrations.
+Expected Behavior: Let the worker choose his answers for all the calibrations and submit them with /calibrations, then call /next with the worker-id as an parameter. Calling /next without submitting all the calibrations will result in the type CALIBRATION, where the field calibrations holds all the remaining calibrations.
 
 ### next with type CALIBRATION [GET]
 
@@ -126,7 +126,7 @@ Expected Behaviour: Let the worker choose his answeres for all the calibrations 
 
 Scenario: The worker with the worker-id 15 has completed all calibrations and the worker-service decides that he can work on an creative-Task. So it returns the type ANSWER and all the relevant information about the experiment(title, description). The experiment has some pictures and some constraints, so additionally it also adds these. The worker-service also returns maxAnswersToGive, which specifies how many creative-answers for the worker are left.
 
-Expected Behaviour: The client is expected to render the title, description and the pictures. Additionally the worker has to be warned about the constraints. The worker has now the chance to create up to maxAnswersToGive answers and the client should submit them via /answers. After submitting the client should call /next.
+Expected Behavior: The client is expected to render the title, description and the pictures. Additionally the worker has to be warned about the constraints. The worker has now the chance to create up to maxAnswersToGive answers and the client should submit them via /answers. After submitting the client should call /next.
 
 ### next with type ANSWER  [GET]
 
@@ -158,7 +158,7 @@ Expected Behaviour: The client is expected to render the title, description and 
 
 Scenario: The example-platform does not render calibrations and the worker-service decides that the worker should do a rating-task. Therefore the type is RATING and all the relevant information about the experiment(title, description). The experiment has also some constraints, so the worker-service passes them, too. The worker-service also returns answersToRate and ratingOptions.
 
-Expected Behaviour: The client is expected to render the title and the description of the experiment. Additionally the calibrations have to be placed prominentyl. The worker has now the chance to rate the passed answers (answersToRate). For each answer he can choose on of the rating-options (ratingOptions) and specify which constraint (if any) got violated. The worker should also be encouraged to submit a feedback containing a critique of the answer. The client should submit them via /ratings. After submitting the client should call /next.
+Expected Behavior: The client is expected to render the title and the description of the experiment. Additionally the calibrations have to be placed prominentyl. The worker has now the chance to rate the passed answers (answersToRate). For each answer he can choose on of the rating-options (ratingOptions) and specify which constraint (if any) got violated. The worker should also be encouraged to submit a feedback containing a critique of the answer. The client should submit them via /ratings. After submitting the client should call /next.
 
 ### next with type RATING [GET]
 
@@ -170,7 +170,7 @@ Expected Behaviour: The client is expected to render the title and the descripti
             {
               "type": "ANSWER",
               "title": "Come up with a joke!",
-              "description": "Come up with a joke about the follwing situation....",
+              "description": "Come up with a joke about the following situation....",
               "answers": [
                   {
                     "id": 12,
@@ -186,14 +186,24 @@ Expected Behaviour: The client is expected to render the title and the descripti
                     "id" : 55,
                     "name" : "the joke must not be racist."
                   }
+              ],
+              "ratingOptions": [
+                  {
+                    "value" : 0,
+                    "description" : "bad"
+                  },
+                  {
+                    "value" : 10,
+                    "description" : "good"
+                  }
               ]
             }
 
 ## Example: Next FINISHED [/next/example/13?worker=22&rating=skip]
 
-Scenario: The worker-service requested 5 ratings from the worker, but the worker only worked on 3. In this situation the query-parameter rating=skip can be passed, to signal that the worker wants to skip further ratings. Otherwise every new /next call would result in the type RATING with 2 answers to rate. The worker-service now detects that there is nothing else to do, so he returnes the type FINISHED.
+Scenario: The worker-service requested 5 ratings from the worker, but the worker only worked on 3. In this situation the query-parameter rating=skip can be passed, to signal that the worker wants to skip further ratings. Otherwise every new /next call would result in the type RATING with 2 answers to rate. The worker-service now detects that there is nothing else to do, so he returns the type FINISHED.
 
-Expected Behaviour: The client is expected to notice the worker that his work is finished and redirects him to the crowdworking-platform.
+Expected Behavior: The client is expected to notice the worker that his work is finished and redirects him to the crowdworking-platform.
 
 ### next with type FINISHED [GET]
 
@@ -233,14 +243,14 @@ Resources specifying the submitting of information from the worker.
 
 ## Email [/emails/{platform}]
 
-Some crowdplatforms require the email-address of the worker. Most of the time this is required because the platform has no native payment system and has to default to the built-in email based payment system in CrowdControl. If a worker wishes to not disclose his email addres, pass an empty string. This has the consequence that CrowdControl is unable to pay the worker.
+Some crowdplatforms require the email-address of the worker. Most of the time this is required because the platform has no native payment system and has to default to the built-in email based payment system in CrowdControl. If a worker wishes to not disclose his email-address, pass an empty string. This has the consequence that CrowdControl is unable to pay the worker.
 
 The protobuf definition of the resource can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/email.proto);
 
 The protobuf definition of the answer can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/email_answer.proto);
 
 + Attributes (object)
-    + email: email.worker@example.org (string, required) - The email address to submit (or empty if the worker whishes to not disclose his email-address)
+    + email: email.worker@example.org (string, required) - The email address to submit (or empty if the worker wishes to not disclose his email-address)
 
 + Parameters
     + platform: `dummy` (required, string) - represents the platform the worker is working on.
@@ -279,7 +289,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 + Attributes (object)
     + answer: Why did the chicken cross the road? (string, required) - the answer of the worker to a creative-view.
-    + experiment: 13 (number, required) - represents the experiment the worker is currentyl working on.
+    + experiment: 13 (number, required) - represents the experiment the worker is currently working on.
 
 + Parameters
     + workerId: 1882 (required, number) - The worker-id is used by crowdcontrol to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
@@ -306,10 +316,10 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 + Attributes (object)
     + rating: 18 (number, required) - the value from the chosen key value-pair from ratingOptions
-    + experiment: 11 (number, required) - the experiment currently workerd on
+    + experiment: 11 (number, required) - the experiment currently worked on
     + answerId: 13 (number, required) - the answer rated
     + feedback: the knock knock joke was not easy to understand (string) - feedback for the worker rated
-    + constraints: [11,28] (array[number]) - the ids of the contraints violated
+    + constraints: [11,28] (array[number]) - the ids of the constraints violated
 
 + Parameters
     + workerId: 1882 (required, number) - The worker-id is used by crowdcontrol to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
