@@ -22,4 +22,4 @@ script:
 
 branches:
   except:
-    - doc
+    - gh-pages

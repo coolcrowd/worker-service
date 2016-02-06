@@ -104,6 +104,8 @@ tasks.withType(Test) {
 }
 
 jacocoTestReport {
+    executionData = fileTree(dir: 'build/jacoco', include: '**/*.exec')
+
     reports {
         xml.enabled = true // coveralls plugin depends on xml format report
         html.enabled = true
