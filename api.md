@@ -90,7 +90,7 @@ Expected Behavior: Ask the Worker for his email-address and submit it. Then call
 
 ## Example: Next CALIBRATION [/next/example/13?exampledependent=15]
 
-Scenario: the example-platform has the displaying of calibrations activated, can identify the worker from the passed, platform-dependent query parameter and the worker has already worker with our framework. The example-platform now finds the matching worker-id in the database and returns it to the worker-service. The worker-service now notices that the worker has not answered all the calibrations, so it returns the type *CALIBRATION* and an array of calibrations as *calibrations*;
+Scenario: the example-platform has the displaying of calibrations activated, can identify the worker from the passed, platform-dependent query parameter and the worker has already worker with our framework. The example-platform now finds the matching worker-id in the database and returns it to the worker-service. The worker-service now notices that the worker has not answered all the calibrations, so it returns the type *CALIBRATION* and an array of calibrations as *calibrations*.
 
 Expected Behavior: Let the worker choose his answers for all the calibrations and submit them with /calibrations, then call /next with the worker-id as an parameter. Calling /next without submitting all the calibrations will result in the type *CALIBRATION*, where the field *calibrations* holds all the remaining calibrations.
 
