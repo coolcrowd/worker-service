@@ -8,6 +8,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.query.Queries;
 import org.jooq.SQLDialect;
 
 import javax.naming.NamingException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class Main {
                 config.load(DatabaseManager.class.getResourceAsStream(propertyFileLocation));
             }
         } catch (IOException e) {
-            System.err.println("unable to find file: " + config);
+            System.err.println("unable to find file: " + new File(propertyFileLocation).getAbsolutePath());
             System.exit(-1);
         }
         Function<String, String> trimIfNotNull = s -> {
