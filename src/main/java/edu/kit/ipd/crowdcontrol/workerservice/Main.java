@@ -35,7 +35,11 @@ public class Main {
                 config.load(new FileInputStream(propertyFileLocation));
             } catch (FileNotFoundException e) {
                 //used for testing
-                config.load(DatabaseManager.class.getResourceAsStream(propertyFileLocation));
+                try {
+                    config.load(DatabaseManager.class.getResourceAsStream(propertyFileLocation));
+                } catch (NullPointerException ignored) {
+                    //just means it's also not in the jar
+                }
             }
         } catch (IOException e) {
             System.err.println("unable to find file: " + new File(propertyFileLocation).getAbsolutePath());
