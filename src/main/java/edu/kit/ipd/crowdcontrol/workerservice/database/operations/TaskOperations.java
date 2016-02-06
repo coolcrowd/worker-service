@@ -4,15 +4,15 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord;
-import org.jooq.Condition;
-import org.jooq.DSLContext;
-import org.jooq.Field;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
@@ -55,14 +55,14 @@ public class TaskOperations extends AbstractOperation {
      * @param worker the worker to reserve the ratings for
      * @param experiment the experiment to reserve the ratings for
      * @param amount the amount of ratings to reserve
-     * @return the list of answers to rate
+     * @return a map where the values are the answers to rate and the keys the ids of the ratings
      */
-    public List<AnswerRecord> prepareRating(int worker, int experiment, int amount) {
-        return create.transactionResult(config -> {
+    public Map<Integer, AnswerRecord> prepareRating(int worker, int experiment, int amount) {
+        Map<Integer, AnswerRecord> answers = create.transactionResult(config -> {
             LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
             Timestamp timestamp = Timestamp.valueOf(limit);
             Field<Integer> count = DSL.count(RATING.ID_RATING).as("count");
-            List<AnswerRecord> toRate = DSL.using(config).select()
+            Map<Integer, AnswerRecord> toRate = DSL.using(config).select()
                     .select(ANSWER.fields())
                     .select(count)
                     .from(ANSWER)
@@ -78,10 +78,10 @@ public class TaskOperations extends AbstractOperation {
                             DSL.select(EXPERIMENT.RATINGS_PER_ANSWER).from(EXPERIMENT).where(EXPERIMENT.ID_EXPERIMENT.eq(experiment))))
                     .orderBy(ANSWER.QUALITY_ASSURED.desc())
                     .limit(amount)
-                    .fetch()
-                    .map(record -> record.into(Tables.ANSWER));
+                    .fetchMap(Tables.ANSWER.ID_ANSWER, record -> record.into(Tables.ANSWER));
 
-            List<RatingRecord> emptyRatings = toRate.stream()
+
+            List<RatingRecord> emptyRatings = toRate.values().stream()
                     .map(answer -> {
                         RatingRecord ratingRecord = new RatingRecord();
                         ratingRecord.setAnswerR(answer.getIdAnswer());
@@ -95,6 +95,16 @@ public class TaskOperations extends AbstractOperation {
 
             return toRate;
         });
+
+        List<Integer> answerIds = answers.values().stream().map(AnswerRecord::getIdAnswer).collect(Collectors.toList());
+
+        Result<RatingRecord> ratings = create.selectFrom(RATING)
+                .where(RATING.ANSWER_R.in(answerIds))
+                .and(RATING.WORKER_ID.eq(worker))
+                .fetch();
+
+        return ratings.stream()
+                .collect(Collectors.toMap(RatingRecord::getIdRating, record -> answers.get(record.getAnswerR())));
     }
 
     /**

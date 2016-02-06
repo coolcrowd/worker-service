@@ -298,7 +298,7 @@ public class CommandsTest {
         String json = printer.print(ratingRequest);
         return submit(task, null,
                 communication -> {
-                    when(communication.submitRating(rating, "", task, answer, workerID, new ArrayList<>()))
+                    when(communication.submitRating(ratingID, rating, "", task, answer, workerID, new ArrayList<>()))
                             .thenReturn(CompletableFuture.completedFuture(null));
                 },
                 request -> {

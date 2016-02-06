@@ -27,7 +27,7 @@ public class PlatformOperations extends AbstractOperation {
      */
     public PlatformRecord getPlatform(String name) throws PlatformNotFoundException {
         return create.selectFrom(Tables.PLATFORM)
-                .where(Tables.PLATFORM.NAME.eq(name))
+                .where(Tables.PLATFORM.ID_PLATFORM.eq(name))
                 .fetchOptional()
                 .orElseThrow(() -> new PlatformNotFoundException(name));
     }

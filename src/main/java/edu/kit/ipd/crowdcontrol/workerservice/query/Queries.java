@@ -136,6 +136,11 @@ public class Queries implements RequestHelper {
         }
         Optional<View> email = getEmail(builder, request);
         if (email.isPresent()) {
+            if (email.get().getWorkerId() == -1) {
+                return email.get().toBuilder()
+                        .clearWorkerId()
+                        .build();
+            }
             return email.get();
         }
         if (checkCalibrationAndQuality(builder, request)) {

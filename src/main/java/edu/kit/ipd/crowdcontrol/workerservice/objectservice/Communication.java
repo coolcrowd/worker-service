@@ -6,7 +6,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.http.options.Option;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
@@ -62,12 +61,12 @@ public class Communication {
                 })
                 .thenApply(workerID -> Worker.newBuilder().setId(workerID).setPlatform(platform).setEmail(email).build())
                 .thenCompose(worker ->
-                        patchRequest("/workers", builder -> builder
+                        patchRequest("/workers/"+worker.getId(), builder -> builder
                         .body(printer.print(worker))
                         .asJson())
                 )
                 .thenApply(response -> {
-                    if (response.getStatus() == 201) {
+                    if (response.getStatus() == 200) {
                         return response.getBody().getObject().getInt("id");
                     } else if (response.getStatus() == 409) {
                         return Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", ""));
@@ -89,6 +88,7 @@ public class Communication {
         Answer answerProto = Answer.newBuilder()
                 .setContent(answer)
                 .setWorker(worker)
+                .setExperimentId(experiment)
                 .build();
         return putRequest("/experiments/" + experiment + "/answers", builder -> builder
                 .body(printer.print(answerProto))
@@ -111,29 +111,32 @@ public class Communication {
     /**
      * submits an rating for the worker.
      * Calls 'PUT /populations/ratings' from the Object-Service.
+     *
+     * @param ratingId
      * @param chosenRating the rating to submit
      * @param feedback the feedback or null
      * @param experiment the experiment working on
-     * @param worker the worker responsible
      * @param answer the rated answer
-     * @param constraints the violated constraints              
-     * @return an completable future representing the request
+     * @param worker the worker responsible
+     * @param constraints the violated constraints
+     * @return an completable future representing the request, with the status the result
      */
-    public CompletableFuture<Void> submitRating(int chosenRating, String feedback, int experiment, int answer, int worker, List<Integer> constraints) {
+    public CompletableFuture<Integer> submitRating(int ratingId, int chosenRating, String feedback, int experiment, int answer, int worker, List<Integer> constraints) {
         List<Constraint> constraintProtos = constraints.stream()
                 .map(constraint -> Constraint.newBuilder().setId(constraint).build())
                 .collect(Collectors.toList());
         Rating.Builder ratingBuilder = Rating.newBuilder()
+                .setRatingId(ratingId)
                 .setRating(chosenRating)
                 .setWorker(worker)
                 .addAllViolatedConstraints(constraintProtos);
         if (feedback != null)
             ratingBuilder = ratingBuilder.setFeedback(feedback);
         Rating rating = ratingBuilder.build();
-        return putRequest("/experiments/"+experiment+"/answers/"+answer+"/ratings", builder -> builder
+        return putRequest("/experiments/"+experiment+"/answers/"+answer+"/rating", builder -> builder
                 .body(printer.print(rating))
                 .asJson()
-        ).thenApply(response -> null);
+        ).thenApply(HttpResponse::getStatus);
     }
 
     /**
@@ -166,13 +169,12 @@ public class Communication {
         return getRequest("/workers/"+platform+"/identity", builder -> {
             HttpRequest request = builder.getHttpRequest();
             for (Map.Entry<String, String[]> entry : queryParameter.entrySet()) {
-                request = builder.queryString(entry.getKey(), Collections.singletonList(entry.getKey()));
+                request = request.queryString(entry.getKey(), entry.getValue()[0]);
             }
             return request
-                    .queryString("a", "b")
                     .asJson();
         }).thenApply(response -> {
-            if (response.getStatus() == 201) {
+            if (response.getStatus() == 200) {
                 return Optional.of(response.getBody().getObject().getInt("id"));
             } else if (response.getStatus() == 409) {
                 return Optional.of(Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", "")));
@@ -192,7 +194,8 @@ public class Communication {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 HttpRequestWithBody request = Unirest.put(url + route)
-                        .header("accept", "application/json")
+                        .header("Content-Type", "application/json")
+                        .header("Accept", "application/json")
                         .basicAuth(username, password);
                 return func.apply(request);
             } catch (UnirestException e) {
@@ -213,7 +216,8 @@ public class Communication {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 HttpRequestWithBody request = Unirest.patch(url + route)
-                        .header("accept", "application/json")
+                        .header("Content-Type", "application/json")
+                        .header("Accept", "application/json")
                         .basicAuth(username, password);
                 return func.apply(request);
             } catch (UnirestException e) {

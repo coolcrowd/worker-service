@@ -122,11 +122,12 @@ public abstract class TaskChooserAlgorithm {
      * @throws BadRequestException if the experiment was not found
      */
     protected Optional<View> constructRatingView(View.Builder builder, int experimentID, int amount) throws BadRequestException {
-        List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), experimentID, amount)
+        List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), experimentID, amount).entrySet()
                 .stream()
-                .map(record -> View.Answer.newBuilder()
-                        .setAnswer(record.getAnswer())
-                        .setId(record.getIdAnswer())
+                .map(entry -> View.Answer.newBuilder()
+                        .setAnswer(entry.getValue().getAnswer())
+                        .setId(entry.getKey())
+                        .setAnswerId(entry.getValue().getIdAnswer())
                         .build())
                 .collect(Collectors.toList());
         if (toRate.isEmpty()) {

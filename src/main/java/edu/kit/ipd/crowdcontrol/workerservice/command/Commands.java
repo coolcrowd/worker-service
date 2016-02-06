@@ -8,10 +8,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.Answer;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.Calibration;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.EmailAnswer;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.Rating;
+import edu.kit.ipd.crowdcontrol.workerservice.proto.*;
 import org.apache.commons.validator.routines.EmailValidator;
 import spark.Request;
 import spark.Response;
@@ -60,11 +57,13 @@ public class Commands implements RequestHelper {
      */
     public String submitEmail(Request request, Response response) {
         String platform = assertParameter(request, "platform");
-        String email = request.body();
-        if (!EmailValidator.getInstance(false).isValid(email)) {
-            throw new BadRequestException("invalid email: " + email);
+
+        Email email = merge(request, Email.newBuilder(), new ArrayList<>()).build();
+        if (!EmailValidator.getInstance(false).isValid(email.getEmail())) {
+            throw new BadRequestException("invalid email: " + email.getEmail());
         }
-        return communication.submitWorker(email, platform, request.queryMap().toMap())
+
+        return communication.submitWorker(email.getEmail(), platform, request.queryMap().toMap())
                 .thenApply(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
                 .thenApply(emailAnswer -> transform(request, response, emailAnswer))
                 .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, response))
@@ -83,7 +82,9 @@ public class Commands implements RequestHelper {
     public Object submitCalibration(Request request, Response response) {
         doSubmit(request, response, Calibration.newBuilder(), (calibration, workerID) ->
                 communication.submitCalibration(calibration.getAnswerOption(), workerID));
-        return null;
+        response.status(201);
+        response.body("");
+        return "";
     }
 
     /**
@@ -95,7 +96,7 @@ public class Commands implements RequestHelper {
      * @return empty body (null)
      */
     public Object submitAnswer(Request request, Response response) {
-        doSubmit(request, response, Answer.newBuilder(), (answer, workerID) -> {
+        Integer integer = doSubmit(request, response, Answer.newBuilder(), (answer, workerID) -> {
             String answerType = experimentOperations.getExperiment(answer.getExperiment()).getAnswerType();
             try {
                 if (answerType != null && !getContentType(answer.getAnswer()).startsWith(answerType)) {
@@ -107,7 +108,9 @@ public class Commands implements RequestHelper {
             }
             return communication.submitAnswer(answer.getAnswer(), answer.getExperiment(), workerID);
         });
-        return null;
+        response.status(201);
+        response.body("");
+        return "";
     }
 
     /**
@@ -119,17 +122,20 @@ public class Commands implements RequestHelper {
      * @return empty body (null)
      */
     public Object submitRating(Request request, Response response) {
-        doSubmit(request, response, Rating.newBuilder(), Collections.singletonList(Rating.FEEDBACK_FIELD_NUMBER),
+        Integer status = doSubmit(request, response, Rating.newBuilder(), Collections.singletonList(Rating.FEEDBACK_FIELD_NUMBER),
                 (rating, workerID) ->
-                communication.submitRating(
-                        rating.getRating(),
-                        rating.getFeedback(),
-                        rating.getExperiment(),
-                        rating.getAnswerId(),
-                        workerID,
-                        rating.getConstraintsList())
+                        communication.submitRating(
+                                rating.getRatingId(),
+                                rating.getRating(),
+                                rating.getFeedback(),
+                                rating.getExperiment(),
+                                rating.getAnswerId(),
+                                workerID,
+                                rating.getConstraintsList())
         );
-        return null;
+        response.status(status);
+        response.body("");
+        return "";
     }
 
     /**
