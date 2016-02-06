@@ -158,7 +158,7 @@ Expected Behavior: The client is expected to render the title, description and t
 
 Scenario: The example-platform does not render calibrations and the worker-service decides that the worker should do a rating-task. Therefore the type is RATING and all the relevant information about the experiment(title, description). The experiment has also some constraints, so the worker-service passes them, too. The worker-service also returns answersToRate and ratingOptions.
 
-Expected Behavior: The client is expected to render the title and the description of the experiment. Additionally the calibrations have to be placed prominentyl. The worker has now the chance to rate the passed answers (answersToRate). For each answer he can choose on of the rating-options (ratingOptions) and specify which constraint (if any) got violated. The worker should also be encouraged to submit a feedback containing a critique of the answer. The client should submit them via /ratings. After submitting the client should call /next.
+Expected Behavior: The client is expected to render the title and the description of the experiment. Additionally the calibrations have to be placed prominently. The worker has now the chance to rate the passed answers (answersToRate). For each answer he can choose *one* of the rating-options (ratingOptions) and specify *which constraints* (if any) got violated. One rating-option is a description/value pair. The description should be rendered for the worker and the value represents the chosen rating. The worker should also be encouraged to submit a feedback containing a critique of the answer. The client should submit them via /ratings. After submitting the client should call /next.
 
 ### next with type RATING [GET]
 
