@@ -175,10 +175,12 @@ Expected Behavior: The client is expected to render the title and the descriptio
               "answers": [
                   {
                     "id": 12,
+                    "answersID" : 15,
                     "answer": "Why did the chicken cross the road? Because."
                   },
                   {
                     "id": 18,
+                    "answersID" : 87,
                     "answer": "Knock, knock. Who’s there? Not you."
                   }
                 ],
@@ -316,9 +318,10 @@ This command is used to submit a rating. A rating is the work on the /next with 
 The protobuf definition of the answer can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/rating.proto);
 
 + Attributes (object)
+    + ratingId: 52 (number, required) - the id of the rating, the id from answersToRate
     + rating: 18 (number, required) - the value from the chosen key value-pair from ratingOptions
     + experiment: 11 (number, required) - the experiment currently worked on
-    + answerId: 13 (number, required) - the answer rated
+    + answerId: 13 (number, required) - the answerId from the answersToRate
     + feedback: the knock knock joke was not easy to understand (string) - feedback for the worker rated
     + constraints: [11,28] (array[number]) - the ids of the constraints violated
 
@@ -400,6 +403,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 ## View_Answer (object)
 + id: 3 (number, required)
++ answerId: 14 (number, required)
 + answer: Sauron kills everybody. The end. (string, required)
 
 ## View_RatingOption (object)
