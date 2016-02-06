@@ -19,12 +19,12 @@ git clone https://github.com/coolcrowd/worker-service && cd worker-service
 
 # Import database schema from ./src/main/resources/db.sql
 # Create an appropriate MySQL user.
-# Copy ./src/main/resources/worker-service.properties and adjust all settings to your needs.
+# Copy ./src/main/resources/example_config.properties and adjust all settings to your needs.
 
 # Install all dependencies and compile sources.
 # Use gradle instead of ./gradlew if you have Gradle installed.
-./gradlew assemble
+./gradlew jar
 
 # Run it.
-./gradlew run PATH_TO_PROPERTIES
+java -jar build/libs/WorkerService-0.5-SNAPSHOT.jar PATH_TO_PROPERTIES
 ```
