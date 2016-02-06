@@ -54,7 +54,7 @@ dependencies {
 
 test {
     testLogging {
-        events 'started', 'passed'
+        events 'failed', 'skipped', 'passed'
     }
 }
 
@@ -68,14 +68,7 @@ sourceSets {
 
         resources.srcDir file('src/test/resources')
     }
-}
 
-configurations {
-    integrationTestCompile.extendsFrom testCompile
-    integrationTestRuntime.extendsFrom testRuntime
-}
-
-sourceSets {
     integrationTest {
         java {
             compileClasspath += main.output + test.output
@@ -86,13 +79,28 @@ sourceSets {
     }
 }
 
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
 task integrationTest(type: Test) {
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/integrationTest.exec")
+        classDumpFile = file("$buildDir/classes/integrationTest")
+    }
+
     testClassesDir = sourceSets.integrationTest.output.classesDir
     classpath = sourceSets.integrationTest.runtimeClasspath
+
+    testLogging {
+        events 'failed', 'skipped', 'passed'
+    }
 }
 
 tasks.withType(Test) {
     reports.html.destination = file("${reporting.baseDir}/${name}")
+    finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
