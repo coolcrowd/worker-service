@@ -244,7 +244,7 @@ Resources specifying the submitting of information from the worker.
 
 ## Email [/emails/{platform}]
 
-Some crowdplatforms require the email-address of the worker. Most of the time this is required because the platform has no native payment system and has to default to the built-in email based payment system in CrowdControl. If a worker wishes to not disclose his email-address, pass an empty string. This has the consequence that CrowdControl is unable to pay the worker.
+Some crowd-platforms require the email-address of the worker. Most of the time this is required because the platform has no native payment system and has to default to the built-in email based payment system in CrowdControl. If a worker wishes to not disclose his email-address, pass an empty string. This has the consequence that CrowdControl is unable to pay the worker.
 
 The protobuf definition of the resource can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/email.proto);
 
@@ -293,7 +293,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
     + experiment: 13 (number, required) - represents the experiment the worker is currently working on.
 
 + Parameters
-    + workerId: 1882 (required, number) - The worker-id is used by crowdcontrol to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
+    + workerId: 1882 (required, number) - The worker-id is used by CrowdControl to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
 
 ### Submit a creative answer [POST]
 
@@ -323,7 +323,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
     + constraints: [11,28] (array[number]) - the ids of the constraints violated
 
 + Parameters
-    + workerId: 1882 (required, number) - The worker-id is used by crowdcontrol to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
+    + workerId: 1882 (required, number) - The worker-id is used by CrowdControl to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
 
 ### Submit a rating [POST]
 
@@ -353,7 +353,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
     + answerOption: 18 (number, required) - the id of the answerOption chosen from the calibration
 
 + Parameters
-    + workerId: 1882 (required, number) - The worker-id is used by crowdcontrol to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
+    + workerId: 1882 (required, number) - The worker-id is used by CrowdControl to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
 
 ### Submit a calibration [POST]
 
