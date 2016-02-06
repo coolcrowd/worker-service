@@ -156,6 +156,10 @@ public abstract class TaskChooserAlgorithm {
             throw new BadRequestException("experiment not found : " + experimentID);
         }
 
+        if (experimentRecord.getAnswerType() != null) {
+            builder = builder.setAnswerType(experimentRecord.getAnswerType());
+        }
+
         String mixedDescription = experimentRecord.getDescription();
         Matcher matcher = picturePattern.matcher(mixedDescription);
 
