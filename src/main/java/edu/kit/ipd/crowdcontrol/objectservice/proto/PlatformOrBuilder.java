@@ -31,4 +31,9 @@ public interface PlatformOrBuilder extends
    * <code>optional bool has_calibrations = 3;</code>
    */
   boolean getHasCalibrations();
+
+  /**
+   * <code>optional bool is_inactive = 4;</code>
+   */
+  boolean getIsInactive();
 }

@@ -133,11 +133,6 @@ public  final class Template extends
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional int32 template_rating_id = 1;</code>
-     */
-    int getTemplateRatingId();
-
-    /**
      * <code>optional string name = 2;</code>
      */
     java.lang.String getName();
@@ -164,7 +159,6 @@ public  final class Template extends
       super(builder);
     }
     private RatingOption() {
-      templateRatingId_ = 0;
       name_ = "";
       value_ = 0;
     }
@@ -191,11 +185,6 @@ public  final class Template extends
               if (!input.skipField(tag)) {
                 done = true;
               }
-              break;
-            }
-            case 8: {
-
-              templateRatingId_ = input.readInt32();
               break;
             }
             case 18: {
@@ -231,15 +220,6 @@ public  final class Template extends
       return edu.kit.ipd.crowdcontrol.objectservice.proto.TemplateOuterClass.internal_static_crowdcontrol_Template_RatingOption_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption.class, edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption.Builder.class);
-    }
-
-    public static final int TEMPLATE_RATING_ID_FIELD_NUMBER = 1;
-    private int templateRatingId_;
-    /**
-     * <code>optional int32 template_rating_id = 1;</code>
-     */
-    public int getTemplateRatingId() {
-      return templateRatingId_;
     }
 
     public static final int NAME_FIELD_NUMBER = 2;
@@ -297,9 +277,6 @@ public  final class Template extends
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (templateRatingId_ != 0) {
-        output.writeInt32(1, templateRatingId_);
-      }
       if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessage.writeString(output, 2, name_);
       }
@@ -313,10 +290,6 @@ public  final class Template extends
       if (size != -1) return size;
 
       size = 0;
-      if (templateRatingId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, templateRatingId_);
-      }
       if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessage.computeStringSize(2, name_);
       }
@@ -435,8 +408,6 @@ public  final class Template extends
       }
       public Builder clear() {
         super.clear();
-        templateRatingId_ = 0;
-
         name_ = "";
 
         value_ = 0;
@@ -463,7 +434,6 @@ public  final class Template extends
 
       public edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption buildPartial() {
         edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption result = new edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption(this);
-        result.templateRatingId_ = templateRatingId_;
         result.name_ = name_;
         result.value_ = value_;
         onBuilt();
@@ -481,9 +451,6 @@ public  final class Template extends
 
       public Builder mergeFrom(edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption other) {
         if (other == edu.kit.ipd.crowdcontrol.objectservice.proto.Template.RatingOption.getDefaultInstance()) return this;
-        if (other.getTemplateRatingId() != 0) {
-          setTemplateRatingId(other.getTemplateRatingId());
-        }
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
           onChanged();
@@ -514,32 +481,6 @@ public  final class Template extends
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private int templateRatingId_ ;
-      /**
-       * <code>optional int32 template_rating_id = 1;</code>
-       */
-      public int getTemplateRatingId() {
-        return templateRatingId_;
-      }
-      /**
-       * <code>optional int32 template_rating_id = 1;</code>
-       */
-      public Builder setTemplateRatingId(int value) {
-        
-        templateRatingId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 template_rating_id = 1;</code>
-       */
-      public Builder clearTemplateRatingId() {
-        
-        templateRatingId_ = 0;
-        onChanged();
         return this;
       }
 

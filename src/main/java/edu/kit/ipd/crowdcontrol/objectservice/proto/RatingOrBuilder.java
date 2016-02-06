@@ -8,60 +8,65 @@ public interface RatingOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional int32 experiment_id = 1;</code>
+   * <code>optional int32 rating_id = 1;</code>
+   */
+  int getRatingId();
+
+  /**
+   * <code>optional int32 experiment_id = 2;</code>
    */
   int getExperimentId();
 
   /**
-   * <code>optional int32 rating = 2;</code>
+   * <code>optional int32 rating = 3;</code>
    */
   int getRating();
 
   /**
-   * <code>optional string feedback = 3;</code>
+   * <code>optional string feedback = 4;</code>
    */
   java.lang.String getFeedback();
   /**
-   * <code>optional string feedback = 3;</code>
+   * <code>optional string feedback = 4;</code>
    */
   com.google.protobuf.ByteString
       getFeedbackBytes();
 
   /**
-   * <code>optional int32 worker = 4;</code>
+   * <code>optional int32 worker = 5;</code>
    */
   int getWorker();
 
   /**
-   * <code>optional int32 quality = 5;</code>
+   * <code>optional int32 quality = 6;</code>
    */
   int getQuality();
 
   /**
-   * <code>optional int32 time = 6;</code>
+   * <code>optional int32 time = 7;</code>
    */
   int getTime();
 
   /**
-   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 8;</code>
    */
   java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint> 
       getViolatedConstraintsList();
   /**
-   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 8;</code>
    */
   edu.kit.ipd.crowdcontrol.objectservice.proto.Constraint getViolatedConstraints(int index);
   /**
-   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 8;</code>
    */
   int getViolatedConstraintsCount();
   /**
-   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 8;</code>
    */
   java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder> 
       getViolatedConstraintsOrBuilderList();
   /**
-   * <code>repeated .crowdcontrol.Constraint violated_constraints = 7;</code>
+   * <code>repeated .crowdcontrol.Constraint violated_constraints = 8;</code>
    */
   edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOrBuilder getViolatedConstraintsOrBuilder(
       int index);

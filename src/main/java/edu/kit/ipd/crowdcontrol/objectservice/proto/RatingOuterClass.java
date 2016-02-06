@@ -23,12 +23,13 @@ public final class RatingOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\014rating.proto\022\014crowdcontrol\032\020constraint" +
-      ".proto\"\250\001\n\006Rating\022\025\n\rexperiment_id\030\001 \001(\005" +
-      "\022\016\n\006rating\030\002 \001(\005\022\020\n\010feedback\030\003 \001(\t\022\016\n\006wo" +
-      "rker\030\004 \001(\005\022\017\n\007quality\030\005 \001(\005\022\014\n\004time\030\006 \001(" +
-      "\005\0226\n\024violated_constraints\030\007 \003(\0132\030.crowdc" +
-      "ontrol.ConstraintB0\n,edu.kit.ipd.crowdco" +
-      "ntrol.objectservice.protoP\001b\006proto3"
+      ".proto\"\273\001\n\006Rating\022\021\n\trating_id\030\001 \001(\005\022\025\n\r" +
+      "experiment_id\030\002 \001(\005\022\016\n\006rating\030\003 \001(\005\022\020\n\010f" +
+      "eedback\030\004 \001(\t\022\016\n\006worker\030\005 \001(\005\022\017\n\007quality" +
+      "\030\006 \001(\005\022\014\n\004time\030\007 \001(\005\0226\n\024violated_constra" +
+      "ints\030\010 \003(\0132\030.crowdcontrol.ConstraintB0\n," +
+      "edu.kit.ipd.crowdcontrol.objectservice.p" +
+      "rotoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -48,7 +49,7 @@ public final class RatingOuterClass {
     internal_static_crowdcontrol_Rating_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Rating_descriptor,
-        new java.lang.String[] { "ExperimentId", "Rating", "Feedback", "Worker", "Quality", "Time", "ViolatedConstraints", });
+        new java.lang.String[] { "RatingId", "ExperimentId", "Rating", "Feedback", "Worker", "Quality", "Time", "ViolatedConstraints", });
     edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOuterClass.getDescriptor();
   }
 

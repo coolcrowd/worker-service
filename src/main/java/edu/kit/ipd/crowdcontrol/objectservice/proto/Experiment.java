@@ -1277,22 +1277,17 @@ public  final class Experiment extends
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional int32 experiment_rating_id = 1;</code>
-     */
-    int getExperimentRatingId();
-
-    /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 1;</code>
      */
     java.lang.String getName();
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 1;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
-     * <code>optional int32 value = 3;</code>
+     * <code>optional int32 value = 2;</code>
      */
     int getValue();
   }
@@ -1308,7 +1303,6 @@ public  final class Experiment extends
       super(builder);
     }
     private RatingOption() {
-      experimentRatingId_ = 0;
       name_ = "";
       value_ = 0;
     }
@@ -1337,18 +1331,13 @@ public  final class Experiment extends
               }
               break;
             }
-            case 8: {
-
-              experimentRatingId_ = input.readInt32();
-              break;
-            }
-            case 18: {
+            case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               name_ = s;
               break;
             }
-            case 24: {
+            case 16: {
 
               value_ = input.readInt32();
               break;
@@ -1377,19 +1366,10 @@ public  final class Experiment extends
               edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.class, edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.Builder.class);
     }
 
-    public static final int EXPERIMENT_RATING_ID_FIELD_NUMBER = 1;
-    private int experimentRatingId_;
-    /**
-     * <code>optional int32 experiment_rating_id = 1;</code>
-     */
-    public int getExperimentRatingId() {
-      return experimentRatingId_;
-    }
-
-    public static final int NAME_FIELD_NUMBER = 2;
+    public static final int NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object name_;
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 1;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -1404,7 +1384,7 @@ public  final class Experiment extends
       }
     }
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string name = 1;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -1420,10 +1400,10 @@ public  final class Experiment extends
       }
     }
 
-    public static final int VALUE_FIELD_NUMBER = 3;
+    public static final int VALUE_FIELD_NUMBER = 2;
     private int value_;
     /**
-     * <code>optional int32 value = 3;</code>
+     * <code>optional int32 value = 2;</code>
      */
     public int getValue() {
       return value_;
@@ -1441,14 +1421,11 @@ public  final class Experiment extends
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (experimentRatingId_ != 0) {
-        output.writeInt32(1, experimentRatingId_);
-      }
       if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 2, name_);
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
       }
       if (value_ != 0) {
-        output.writeInt32(3, value_);
+        output.writeInt32(2, value_);
       }
     }
 
@@ -1457,16 +1434,12 @@ public  final class Experiment extends
       if (size != -1) return size;
 
       size = 0;
-      if (experimentRatingId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, experimentRatingId_);
-      }
       if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, name_);
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
       }
       if (value_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, value_);
+          .computeInt32Size(2, value_);
       }
       memoizedSize = size;
       return size;
@@ -1579,8 +1552,6 @@ public  final class Experiment extends
       }
       public Builder clear() {
         super.clear();
-        experimentRatingId_ = 0;
-
         name_ = "";
 
         value_ = 0;
@@ -1607,7 +1578,6 @@ public  final class Experiment extends
 
       public edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption buildPartial() {
         edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption result = new edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption(this);
-        result.experimentRatingId_ = experimentRatingId_;
         result.name_ = name_;
         result.value_ = value_;
         onBuilt();
@@ -1625,9 +1595,6 @@ public  final class Experiment extends
 
       public Builder mergeFrom(edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption other) {
         if (other == edu.kit.ipd.crowdcontrol.objectservice.proto.Experiment.RatingOption.getDefaultInstance()) return this;
-        if (other.getExperimentRatingId() != 0) {
-          setExperimentRatingId(other.getExperimentRatingId());
-        }
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
           onChanged();
@@ -1661,35 +1628,9 @@ public  final class Experiment extends
         return this;
       }
 
-      private int experimentRatingId_ ;
-      /**
-       * <code>optional int32 experiment_rating_id = 1;</code>
-       */
-      public int getExperimentRatingId() {
-        return experimentRatingId_;
-      }
-      /**
-       * <code>optional int32 experiment_rating_id = 1;</code>
-       */
-      public Builder setExperimentRatingId(int value) {
-        
-        experimentRatingId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 experiment_rating_id = 1;</code>
-       */
-      public Builder clearExperimentRatingId() {
-        
-        experimentRatingId_ = 0;
-        onChanged();
-        return this;
-      }
-
       private java.lang.Object name_ = "";
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 1;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -1704,7 +1645,7 @@ public  final class Experiment extends
         }
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 1;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -1720,7 +1661,7 @@ public  final class Experiment extends
         }
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 1;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -1733,7 +1674,7 @@ public  final class Experiment extends
         return this;
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 1;</code>
        */
       public Builder clearName() {
         
@@ -1742,7 +1683,7 @@ public  final class Experiment extends
         return this;
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string name = 1;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1758,13 +1699,13 @@ public  final class Experiment extends
 
       private int value_ ;
       /**
-       * <code>optional int32 value = 3;</code>
+       * <code>optional int32 value = 2;</code>
        */
       public int getValue() {
         return value_;
       }
       /**
-       * <code>optional int32 value = 3;</code>
+       * <code>optional int32 value = 2;</code>
        */
       public Builder setValue(int value) {
         
@@ -1773,7 +1714,7 @@ public  final class Experiment extends
         return this;
       }
       /**
-       * <code>optional int32 value = 3;</code>
+       * <code>optional int32 value = 2;</code>
        */
       public Builder clearValue() {
         

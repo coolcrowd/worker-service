@@ -40,7 +40,7 @@ public final class ExperimentOuterClass {
       "\n\020experiment.proto\022\014crowdcontrol\032\021answer" +
       "_type.proto\032\020constraint.proto\032\021calibrati" +
       "on.proto\032\ttag.proto\032\026algorithm_option.pr" +
-      "oto\032\rinteger.proto\"\377\n\n\nExperiment\022\n\n\002id\030" +
+      "oto\032\rinteger.proto\"\341\n\n\nExperiment\022\n\n\002id\030" +
       "\001 \001(\005\022\r\n\005title\030\002 \001(\t\022\023\n\013description\030\003 \001(" +
       "\t\022-\n\005state\030\004 \001(\0162\036.crowdcontrol.Experime" +
       "nt.State\022-\n\013answer_type\030\005 \001(\0162\030.crowdcon" +
@@ -71,13 +71,12 @@ public final class ExperimentOuterClass {
       ".RatingOption\0323\n\021PlaceholdersEntry\022\013\n\003ke" +
       "y\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\032R\n\nPopulation" +
       "\022\023\n\013platform_id\030\001 \001(\t\022/\n\014calibrations\030\002 " +
-      "\003(\0132\031.crowdcontrol.Calibration\032I\n\014Rating" +
-      "Option\022\034\n\024experiment_rating_id\030\001 \001(\005\022\014\n\004" +
-      "name\030\002 \001(\t\022\r\n\005value\030\003 \001(\005\"Q\n\005State\022\013\n\007IN" +
-      "VALID\020\000\022\t\n\005DRAFT\020\001\022\r\n\tPUBLISHED\020\002\022\024\n\020CRE" +
-      "ATIVE_STOPPED\020\003\022\013\n\007STOPPED\020\004B0\n,edu.kit." +
-      "ipd.crowdcontrol.objectservice.protoP\001b\006",
-      "proto3"
+      "\003(\0132\031.crowdcontrol.Calibration\032+\n\014Rating" +
+      "Option\022\014\n\004name\030\001 \001(\t\022\r\n\005value\030\002 \001(\005\"Q\n\005S" +
+      "tate\022\013\n\007INVALID\020\000\022\t\n\005DRAFT\020\001\022\r\n\tPUBLISHE" +
+      "D\020\002\022\024\n\020CREATIVE_STOPPED\020\003\022\013\n\007STOPPED\020\004B0" +
+      "\n,edu.kit.ipd.crowdcontrol.objectservice" +
+      ".protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -120,7 +119,7 @@ public final class ExperimentOuterClass {
     internal_static_crowdcontrol_Experiment_RatingOption_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Experiment_RatingOption_descriptor,
-        new java.lang.String[] { "ExperimentRatingId", "Name", "Value", });
+        new java.lang.String[] { "Name", "Value", });
     edu.kit.ipd.crowdcontrol.objectservice.proto.AnswerTypeOuterClass.getDescriptor();
     edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOuterClass.getDescriptor();
     edu.kit.ipd.crowdcontrol.objectservice.proto.CalibrationOuterClass.getDescriptor();
