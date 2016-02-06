@@ -77,7 +77,7 @@ public class Queries implements RequestHelper {
         experimentOperations.insertTaskChooserOrIgnore(taskChooserAlgorithm.getName(), taskChooserAlgorithm.getDescription());
         taskChooserAlgorithm.getParameters()
                 .forEach(parameter -> experimentOperations.insertTaskChooserParamOrIgnore(
-                        taskChooserAlgorithm.getDescription(),
+                        taskChooserAlgorithm.getName(),
                         parameter.getDescription(),
                         parameter.getRegex(),
                         parameter.getData())
