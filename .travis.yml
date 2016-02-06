@@ -15,7 +15,7 @@ cache:
     - $HOME/.gradle/wrapper/
 
 env:
-  - TASK=restTest
+  - TASK=check
 
 script:
   - ./gradlew $TASK --debug
