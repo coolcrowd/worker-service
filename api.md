@@ -386,6 +386,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 + description: Description of Mean Tweet Assignment (string) - the description of the experiment
 + maxAnswersToGive: 13 (number)
 + answersToRate (array[View_Answer])
++ answerType: "image" (string)
 + ratingOptions (array[View_RatingOption])
 + constraints (array[View_Constraint])
 + pictures (array[View_Picture])
