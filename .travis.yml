@@ -18,7 +18,7 @@ env:
   - TASK=check
 
 script:
-  - ./gradlew $TASK --debug
+  - ./gradlew $TASK
 
 branches:
   except:
