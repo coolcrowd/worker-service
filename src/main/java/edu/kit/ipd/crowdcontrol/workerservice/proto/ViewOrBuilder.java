@@ -47,121 +47,131 @@ public interface ViewOrBuilder extends
   int getMaxAnswersToGive();
 
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>optional string answer_type = 6;</code>
+   */
+  java.lang.String getAnswerType();
+  /**
+   * <code>optional string answer_type = 6;</code>
+   */
+  com.google.protobuf.ByteString
+      getAnswerTypeBytes();
+
+  /**
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer> 
       getAnswersToRateList();
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer getAnswersToRate(int index);
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   int getAnswersToRateCount();
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.AnswerOrBuilder> 
       getAnswersToRateOrBuilderList();
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.AnswerOrBuilder getAnswersToRateOrBuilder(
       int index);
 
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> 
       getRatingOptionsList();
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption getRatingOptions(int index);
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   int getRatingOptionsCount();
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder> 
       getRatingOptionsOrBuilderList();
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder getRatingOptionsOrBuilder(
       int index);
 
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint> 
       getConstraintsList();
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint getConstraints(int index);
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   int getConstraintsCount();
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.ConstraintOrBuilder> 
       getConstraintsOrBuilderList();
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.ConstraintOrBuilder getConstraintsOrBuilder(
       int index);
 
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture> 
       getPicturesList();
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture getPictures(int index);
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   int getPicturesCount();
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.PictureOrBuilder> 
       getPicturesOrBuilderList();
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.PictureOrBuilder getPicturesOrBuilder(
       int index);
 
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration> 
       getCalibrationsList();
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration getCalibrations(int index);
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   int getCalibrationsCount();
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.CalibrationOrBuilder> 
       getCalibrationsOrBuilderList();
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   edu.kit.ipd.crowdcontrol.workerservice.proto.View.CalibrationOrBuilder getCalibrationsOrBuilder(
       int index);

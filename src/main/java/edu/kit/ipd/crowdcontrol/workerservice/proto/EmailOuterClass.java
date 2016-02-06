@@ -22,10 +22,9 @@ public final class EmailOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013email.proto\022\014crowdcontrol\")\n\005Email\022\r\n\005" +
-      "email\030\001 \001(\t\022\021\n\tworker_id\030\002 \001(\005B0\n,edu.ki" +
-      "t.ipd.crowdcontrol.workerservice.protoP\001" +
-      "b\006proto3"
+      "\n\013email.proto\022\014crowdcontrol\"\026\n\005Email\022\r\n\005" +
+      "email\030\001 \001(\tB0\n,edu.kit.ipd.crowdcontrol." +
+      "workerservice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -44,7 +43,7 @@ public final class EmailOuterClass {
     internal_static_crowdcontrol_Email_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Email_descriptor,
-        new java.lang.String[] { "Email", "WorkerId", });
+        new java.lang.String[] { "Email", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

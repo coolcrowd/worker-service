@@ -16,9 +16,4 @@ public interface EmailOrBuilder extends
    */
   com.google.protobuf.ByteString
       getEmailBytes();
-
-  /**
-   * <code>optional int32 worker_id = 2;</code>
-   */
-  int getWorkerId();
 }

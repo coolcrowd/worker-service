@@ -55,7 +55,11 @@ public class ExperimentOperations extends AbstractOperation {
      */
     public boolean insertTaskChooserOrIgnore(String name, String description) {
         AlgorithmTaskChooserRecord record = new AlgorithmTaskChooserRecord(name, description);
-        return create.executeInsert(record) == 1;
+        return create.insertInto(Tables.ALGORITHM_TASK_CHOOSER)
+                .set(record)
+                .onDuplicateKeyUpdate()
+                .set(record)
+                .execute() == 1;
     }
 
     /**

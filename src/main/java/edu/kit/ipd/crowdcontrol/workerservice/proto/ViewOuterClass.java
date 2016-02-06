@@ -52,29 +52,29 @@ public final class ViewOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nview.proto\022\014crowdcontrol\"\246\006\n\004View\022\021\n\tw" +
+      "\n\nview.proto\022\014crowdcontrol\"\273\006\n\004View\022\021\n\tw" +
       "orker_id\030\001 \001(\005\022%\n\004type\030\002 \001(\0162\027.crowdcont" +
       "rol.View.Type\022\r\n\005title\030\003 \001(\t\022\023\n\013descript" +
-      "ion\030\004 \001(\t\022\033\n\023max_answers_to_give\030\005 \001(\005\0222" +
-      "\n\017answers_to_rate\030\006 \003(\0132\031.crowdcontrol.V" +
-      "iew.Answer\0226\n\rratingOptions\030\007 \003(\0132\037.crow" +
-      "dcontrol.View.RatingOption\0222\n\013constraint" +
-      "s\030\010 \003(\0132\035.crowdcontrol.View.Constraint\022," +
-      "\n\010pictures\030\t \003(\0132\032.crowdcontrol.View.Pic" +
-      "ture\0224\n\014calibrations\030\n \003(\0132\036.crowdcontro",
-      "l.View.Calibration\032&\n\nConstraint\022\n\n\002id\030\001" +
-      " \001(\005\022\014\n\004name\030\002 \001(\t\032+\n\007Picture\022\013\n\003url\030\001 \001" +
-      "(\t\022\023\n\013url_license\030\002 \001(\t\032o\n\013Calibration\022\020" +
-      "\n\010question\030\001 \001(\t\022B\n\016answer_options\030\002 \003(\013" +
-      "2*.crowdcontrol.View.CalibrationAnswerOp" +
-      "tion\022\n\n\002id\030\003 \001(\005\0325\n\027CalibrationAnswerOpt" +
-      "ion\022\016\n\006option\030\001 \001(\t\022\n\n\002id\030\002 \001(\005\032$\n\006Answe" +
-      "r\022\n\n\002id\030\001 \001(\005\022\016\n\006answer\030\002 \001(\t\0322\n\014RatingO" +
-      "ption\022\r\n\005value\030\001 \001(\005\022\023\n\013description\030\002 \001(" +
-      "\t\"H\n\004Type\022\014\n\010FINISHED\020\000\022\n\n\006ANSWER\020\001\022\n\n\006R",
-      "ATING\020\002\022\017\n\013CALIBRATION\020\003\022\t\n\005EMAIL\020\004B0\n,e" +
-      "du.kit.ipd.crowdcontrol.workerservice.pr" +
-      "otoP\001b\006proto3"
+      "ion\030\004 \001(\t\022\033\n\023max_answers_to_give\030\005 \001(\005\022\023" +
+      "\n\013answer_type\030\006 \001(\t\0222\n\017answers_to_rate\030\007" +
+      " \003(\0132\031.crowdcontrol.View.Answer\0226\n\rratin" +
+      "gOptions\030\010 \003(\0132\037.crowdcontrol.View.Ratin" +
+      "gOption\0222\n\013constraints\030\t \003(\0132\035.crowdcont" +
+      "rol.View.Constraint\022,\n\010pictures\030\n \003(\0132\032." +
+      "crowdcontrol.View.Picture\0224\n\014calibration",
+      "s\030\013 \003(\0132\036.crowdcontrol.View.Calibration\032" +
+      "&\n\nConstraint\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\032" +
+      "+\n\007Picture\022\013\n\003url\030\001 \001(\t\022\023\n\013url_license\030\002" +
+      " \001(\t\032o\n\013Calibration\022\020\n\010question\030\001 \001(\t\022B\n" +
+      "\016answer_options\030\002 \003(\0132*.crowdcontrol.Vie" +
+      "w.CalibrationAnswerOption\022\n\n\002id\030\003 \001(\005\0325\n" +
+      "\027CalibrationAnswerOption\022\016\n\006option\030\001 \001(\t" +
+      "\022\n\n\002id\030\002 \001(\005\032$\n\006Answer\022\n\n\002id\030\001 \001(\005\022\016\n\006an" +
+      "swer\030\002 \001(\t\0322\n\014RatingOption\022\r\n\005value\030\001 \001(" +
+      "\005\022\023\n\013description\030\002 \001(\t\"H\n\004Type\022\014\n\010FINISH",
+      "ED\020\000\022\n\n\006ANSWER\020\001\022\n\n\006RATING\020\002\022\017\n\013CALIBRAT" +
+      "ION\020\003\022\t\n\005EMAIL\020\004B0\n,edu.kit.ipd.crowdcon" +
+      "trol.workerservice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -93,7 +93,7 @@ public final class ViewOuterClass {
     internal_static_crowdcontrol_View_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_View_descriptor,
-        new java.lang.String[] { "WorkerId", "Type", "Title", "Description", "MaxAnswersToGive", "AnswersToRate", "RatingOptions", "Constraints", "Pictures", "Calibrations", });
+        new java.lang.String[] { "WorkerId", "Type", "Title", "Description", "MaxAnswersToGive", "AnswerType", "AnswersToRate", "RatingOptions", "Constraints", "Pictures", "Calibrations", });
     internal_static_crowdcontrol_View_Constraint_descriptor =
       internal_static_crowdcontrol_View_descriptor.getNestedTypes().get(0);
     internal_static_crowdcontrol_View_Constraint_fieldAccessorTable = new

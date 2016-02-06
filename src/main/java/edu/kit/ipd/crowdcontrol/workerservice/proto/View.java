@@ -20,6 +20,7 @@ public  final class View extends
     title_ = "";
     description_ = "";
     maxAnswersToGive_ = 0;
+    answerType_ = "";
     answersToRate_ = java.util.Collections.emptyList();
     ratingOptions_ = java.util.Collections.emptyList();
     constraints_ = java.util.Collections.emptyList();
@@ -80,41 +81,47 @@ public  final class View extends
             break;
           }
           case 50: {
-            if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-              answersToRate_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer>();
-              mutable_bitField0_ |= 0x00000020;
-            }
-            answersToRate_.add(input.readMessage(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.parser(), extensionRegistry));
+            java.lang.String s = input.readStringRequireUtf8();
+
+            answerType_ = s;
             break;
           }
           case 58: {
             if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-              ratingOptions_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption>();
+              answersToRate_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer>();
               mutable_bitField0_ |= 0x00000040;
             }
-            ratingOptions_.add(input.readMessage(edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.parser(), extensionRegistry));
+            answersToRate_.add(input.readMessage(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.parser(), extensionRegistry));
             break;
           }
           case 66: {
             if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
-              constraints_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint>();
+              ratingOptions_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption>();
               mutable_bitField0_ |= 0x00000080;
             }
-            constraints_.add(input.readMessage(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.parser(), extensionRegistry));
+            ratingOptions_.add(input.readMessage(edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.parser(), extensionRegistry));
             break;
           }
           case 74: {
             if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-              pictures_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture>();
+              constraints_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint>();
               mutable_bitField0_ |= 0x00000100;
             }
-            pictures_.add(input.readMessage(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.parser(), extensionRegistry));
+            constraints_.add(input.readMessage(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.parser(), extensionRegistry));
             break;
           }
           case 82: {
             if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
-              calibrations_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration>();
+              pictures_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture>();
               mutable_bitField0_ |= 0x00000200;
+            }
+            pictures_.add(input.readMessage(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.parser(), extensionRegistry));
+            break;
+          }
+          case 90: {
+            if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+              calibrations_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration>();
+              mutable_bitField0_ |= 0x00000400;
             }
             calibrations_.add(input.readMessage(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.parser(), extensionRegistry));
             break;
@@ -128,19 +135,19 @@ public  final class View extends
           new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this));
     } finally {
-      if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
         answersToRate_ = java.util.Collections.unmodifiableList(answersToRate_);
       }
-      if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
         ratingOptions_ = java.util.Collections.unmodifiableList(ratingOptions_);
       }
-      if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
         constraints_ = java.util.Collections.unmodifiableList(constraints_);
       }
-      if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
         pictures_ = java.util.Collections.unmodifiableList(pictures_);
       }
-      if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
         calibrations_ = java.util.Collections.unmodifiableList(calibrations_);
       }
       makeExtensionsImmutable();
@@ -3867,175 +3874,209 @@ public  final class View extends
     return maxAnswersToGive_;
   }
 
-  public static final int ANSWERS_TO_RATE_FIELD_NUMBER = 6;
+  public static final int ANSWER_TYPE_FIELD_NUMBER = 6;
+  private volatile java.lang.Object answerType_;
+  /**
+   * <code>optional string answer_type = 6;</code>
+   */
+  public java.lang.String getAnswerType() {
+    java.lang.Object ref = answerType_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      answerType_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>optional string answer_type = 6;</code>
+   */
+  public com.google.protobuf.ByteString
+      getAnswerTypeBytes() {
+    java.lang.Object ref = answerType_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      answerType_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int ANSWERS_TO_RATE_FIELD_NUMBER = 7;
   private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer> answersToRate_;
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer> getAnswersToRateList() {
     return answersToRate_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.AnswerOrBuilder> 
       getAnswersToRateOrBuilderList() {
     return answersToRate_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   public int getAnswersToRateCount() {
     return answersToRate_.size();
   }
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer getAnswersToRate(int index) {
     return answersToRate_.get(index);
   }
   /**
-   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+   * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.AnswerOrBuilder getAnswersToRateOrBuilder(
       int index) {
     return answersToRate_.get(index);
   }
 
-  public static final int RATINGOPTIONS_FIELD_NUMBER = 7;
+  public static final int RATINGOPTIONS_FIELD_NUMBER = 8;
   private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> ratingOptions_;
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> getRatingOptionsList() {
     return ratingOptions_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder> 
       getRatingOptionsOrBuilderList() {
     return ratingOptions_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   public int getRatingOptionsCount() {
     return ratingOptions_.size();
   }
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption getRatingOptions(int index) {
     return ratingOptions_.get(index);
   }
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder getRatingOptionsOrBuilder(
       int index) {
     return ratingOptions_.get(index);
   }
 
-  public static final int CONSTRAINTS_FIELD_NUMBER = 8;
+  public static final int CONSTRAINTS_FIELD_NUMBER = 9;
   private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint> constraints_;
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint> getConstraintsList() {
     return constraints_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.ConstraintOrBuilder> 
       getConstraintsOrBuilderList() {
     return constraints_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   public int getConstraintsCount() {
     return constraints_.size();
   }
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint getConstraints(int index) {
     return constraints_.get(index);
   }
   /**
-   * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+   * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.ConstraintOrBuilder getConstraintsOrBuilder(
       int index) {
     return constraints_.get(index);
   }
 
-  public static final int PICTURES_FIELD_NUMBER = 9;
+  public static final int PICTURES_FIELD_NUMBER = 10;
   private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture> pictures_;
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture> getPicturesList() {
     return pictures_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.PictureOrBuilder> 
       getPicturesOrBuilderList() {
     return pictures_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   public int getPicturesCount() {
     return pictures_.size();
   }
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture getPictures(int index) {
     return pictures_.get(index);
   }
   /**
-   * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+   * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.PictureOrBuilder getPicturesOrBuilder(
       int index) {
     return pictures_.get(index);
   }
 
-  public static final int CALIBRATIONS_FIELD_NUMBER = 10;
+  public static final int CALIBRATIONS_FIELD_NUMBER = 11;
   private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration> calibrations_;
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration> getCalibrationsList() {
     return calibrations_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.CalibrationOrBuilder> 
       getCalibrationsOrBuilderList() {
     return calibrations_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   public int getCalibrationsCount() {
     return calibrations_.size();
   }
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration getCalibrations(int index) {
     return calibrations_.get(index);
   }
   /**
-   * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+   * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.CalibrationOrBuilder getCalibrationsOrBuilder(
       int index) {
@@ -4069,20 +4110,23 @@ public  final class View extends
     if (maxAnswersToGive_ != 0) {
       output.writeInt32(5, maxAnswersToGive_);
     }
+    if (!getAnswerTypeBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessage.writeString(output, 6, answerType_);
+    }
     for (int i = 0; i < answersToRate_.size(); i++) {
-      output.writeMessage(6, answersToRate_.get(i));
+      output.writeMessage(7, answersToRate_.get(i));
     }
     for (int i = 0; i < ratingOptions_.size(); i++) {
-      output.writeMessage(7, ratingOptions_.get(i));
+      output.writeMessage(8, ratingOptions_.get(i));
     }
     for (int i = 0; i < constraints_.size(); i++) {
-      output.writeMessage(8, constraints_.get(i));
+      output.writeMessage(9, constraints_.get(i));
     }
     for (int i = 0; i < pictures_.size(); i++) {
-      output.writeMessage(9, pictures_.get(i));
+      output.writeMessage(10, pictures_.get(i));
     }
     for (int i = 0; i < calibrations_.size(); i++) {
-      output.writeMessage(10, calibrations_.get(i));
+      output.writeMessage(11, calibrations_.get(i));
     }
   }
 
@@ -4109,25 +4153,28 @@ public  final class View extends
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(5, maxAnswersToGive_);
     }
+    if (!getAnswerTypeBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(6, answerType_);
+    }
     for (int i = 0; i < answersToRate_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(6, answersToRate_.get(i));
+        .computeMessageSize(7, answersToRate_.get(i));
     }
     for (int i = 0; i < ratingOptions_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(7, ratingOptions_.get(i));
+        .computeMessageSize(8, ratingOptions_.get(i));
     }
     for (int i = 0; i < constraints_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(8, constraints_.get(i));
+        .computeMessageSize(9, constraints_.get(i));
     }
     for (int i = 0; i < pictures_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(9, pictures_.get(i));
+        .computeMessageSize(10, pictures_.get(i));
     }
     for (int i = 0; i < calibrations_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(10, calibrations_.get(i));
+        .computeMessageSize(11, calibrations_.get(i));
     }
     memoizedSize = size;
     return size;
@@ -4255,33 +4302,35 @@ public  final class View extends
 
       maxAnswersToGive_ = 0;
 
+      answerType_ = "";
+
       if (answersToRateBuilder_ == null) {
         answersToRate_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
       } else {
         answersToRateBuilder_.clear();
       }
       if (ratingOptionsBuilder_ == null) {
         ratingOptions_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
       } else {
         ratingOptionsBuilder_.clear();
       }
       if (constraintsBuilder_ == null) {
         constraints_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
       } else {
         constraintsBuilder_.clear();
       }
       if (picturesBuilder_ == null) {
         pictures_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
       } else {
         picturesBuilder_.clear();
       }
       if (calibrationsBuilder_ == null) {
         calibrations_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
       } else {
         calibrationsBuilder_.clear();
       }
@@ -4314,46 +4363,47 @@ public  final class View extends
       result.title_ = title_;
       result.description_ = description_;
       result.maxAnswersToGive_ = maxAnswersToGive_;
+      result.answerType_ = answerType_;
       if (answersToRateBuilder_ == null) {
-        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
           answersToRate_ = java.util.Collections.unmodifiableList(answersToRate_);
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
         }
         result.answersToRate_ = answersToRate_;
       } else {
         result.answersToRate_ = answersToRateBuilder_.build();
       }
       if (ratingOptionsBuilder_ == null) {
-        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((bitField0_ & 0x00000080) == 0x00000080)) {
           ratingOptions_ = java.util.Collections.unmodifiableList(ratingOptions_);
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000080);
         }
         result.ratingOptions_ = ratingOptions_;
       } else {
         result.ratingOptions_ = ratingOptionsBuilder_.build();
       }
       if (constraintsBuilder_ == null) {
-        if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((bitField0_ & 0x00000100) == 0x00000100)) {
           constraints_ = java.util.Collections.unmodifiableList(constraints_);
-          bitField0_ = (bitField0_ & ~0x00000080);
+          bitField0_ = (bitField0_ & ~0x00000100);
         }
         result.constraints_ = constraints_;
       } else {
         result.constraints_ = constraintsBuilder_.build();
       }
       if (picturesBuilder_ == null) {
-        if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((bitField0_ & 0x00000200) == 0x00000200)) {
           pictures_ = java.util.Collections.unmodifiableList(pictures_);
-          bitField0_ = (bitField0_ & ~0x00000100);
+          bitField0_ = (bitField0_ & ~0x00000200);
         }
         result.pictures_ = pictures_;
       } else {
         result.pictures_ = picturesBuilder_.build();
       }
       if (calibrationsBuilder_ == null) {
-        if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((bitField0_ & 0x00000400) == 0x00000400)) {
           calibrations_ = java.util.Collections.unmodifiableList(calibrations_);
-          bitField0_ = (bitField0_ & ~0x00000200);
+          bitField0_ = (bitField0_ & ~0x00000400);
         }
         result.calibrations_ = calibrations_;
       } else {
@@ -4392,11 +4442,15 @@ public  final class View extends
       if (other.getMaxAnswersToGive() != 0) {
         setMaxAnswersToGive(other.getMaxAnswersToGive());
       }
+      if (!other.getAnswerType().isEmpty()) {
+        answerType_ = other.answerType_;
+        onChanged();
+      }
       if (answersToRateBuilder_ == null) {
         if (!other.answersToRate_.isEmpty()) {
           if (answersToRate_.isEmpty()) {
             answersToRate_ = other.answersToRate_;
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000040);
           } else {
             ensureAnswersToRateIsMutable();
             answersToRate_.addAll(other.answersToRate_);
@@ -4409,7 +4463,7 @@ public  final class View extends
             answersToRateBuilder_.dispose();
             answersToRateBuilder_ = null;
             answersToRate_ = other.answersToRate_;
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000040);
             answersToRateBuilder_ = 
               com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                  getAnswersToRateFieldBuilder() : null;
@@ -4422,7 +4476,7 @@ public  final class View extends
         if (!other.ratingOptions_.isEmpty()) {
           if (ratingOptions_.isEmpty()) {
             ratingOptions_ = other.ratingOptions_;
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000080);
           } else {
             ensureRatingOptionsIsMutable();
             ratingOptions_.addAll(other.ratingOptions_);
@@ -4435,7 +4489,7 @@ public  final class View extends
             ratingOptionsBuilder_.dispose();
             ratingOptionsBuilder_ = null;
             ratingOptions_ = other.ratingOptions_;
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000080);
             ratingOptionsBuilder_ = 
               com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                  getRatingOptionsFieldBuilder() : null;
@@ -4448,7 +4502,7 @@ public  final class View extends
         if (!other.constraints_.isEmpty()) {
           if (constraints_.isEmpty()) {
             constraints_ = other.constraints_;
-            bitField0_ = (bitField0_ & ~0x00000080);
+            bitField0_ = (bitField0_ & ~0x00000100);
           } else {
             ensureConstraintsIsMutable();
             constraints_.addAll(other.constraints_);
@@ -4461,7 +4515,7 @@ public  final class View extends
             constraintsBuilder_.dispose();
             constraintsBuilder_ = null;
             constraints_ = other.constraints_;
-            bitField0_ = (bitField0_ & ~0x00000080);
+            bitField0_ = (bitField0_ & ~0x00000100);
             constraintsBuilder_ = 
               com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                  getConstraintsFieldBuilder() : null;
@@ -4474,7 +4528,7 @@ public  final class View extends
         if (!other.pictures_.isEmpty()) {
           if (pictures_.isEmpty()) {
             pictures_ = other.pictures_;
-            bitField0_ = (bitField0_ & ~0x00000100);
+            bitField0_ = (bitField0_ & ~0x00000200);
           } else {
             ensurePicturesIsMutable();
             pictures_.addAll(other.pictures_);
@@ -4487,7 +4541,7 @@ public  final class View extends
             picturesBuilder_.dispose();
             picturesBuilder_ = null;
             pictures_ = other.pictures_;
-            bitField0_ = (bitField0_ & ~0x00000100);
+            bitField0_ = (bitField0_ & ~0x00000200);
             picturesBuilder_ = 
               com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                  getPicturesFieldBuilder() : null;
@@ -4500,7 +4554,7 @@ public  final class View extends
         if (!other.calibrations_.isEmpty()) {
           if (calibrations_.isEmpty()) {
             calibrations_ = other.calibrations_;
-            bitField0_ = (bitField0_ & ~0x00000200);
+            bitField0_ = (bitField0_ & ~0x00000400);
           } else {
             ensureCalibrationsIsMutable();
             calibrations_.addAll(other.calibrations_);
@@ -4513,7 +4567,7 @@ public  final class View extends
             calibrationsBuilder_.dispose();
             calibrationsBuilder_ = null;
             calibrations_ = other.calibrations_;
-            bitField0_ = (bitField0_ & ~0x00000200);
+            bitField0_ = (bitField0_ & ~0x00000400);
             calibrationsBuilder_ = 
               com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                  getCalibrationsFieldBuilder() : null;
@@ -4783,12 +4837,81 @@ public  final class View extends
       return this;
     }
 
+    private java.lang.Object answerType_ = "";
+    /**
+     * <code>optional string answer_type = 6;</code>
+     */
+    public java.lang.String getAnswerType() {
+      java.lang.Object ref = answerType_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        answerType_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string answer_type = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getAnswerTypeBytes() {
+      java.lang.Object ref = answerType_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        answerType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string answer_type = 6;</code>
+     */
+    public Builder setAnswerType(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      answerType_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string answer_type = 6;</code>
+     */
+    public Builder clearAnswerType() {
+      
+      answerType_ = getDefaultInstance().getAnswerType();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string answer_type = 6;</code>
+     */
+    public Builder setAnswerTypeBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      answerType_ = value;
+      onChanged();
+      return this;
+    }
+
     private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer> answersToRate_ =
       java.util.Collections.emptyList();
     private void ensureAnswersToRateIsMutable() {
-      if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (!((bitField0_ & 0x00000040) == 0x00000040)) {
         answersToRate_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer>(answersToRate_);
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000040;
        }
     }
 
@@ -4796,7 +4919,7 @@ public  final class View extends
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.AnswerOrBuilder> answersToRateBuilder_;
 
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer> getAnswersToRateList() {
       if (answersToRateBuilder_ == null) {
@@ -4806,7 +4929,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public int getAnswersToRateCount() {
       if (answersToRateBuilder_ == null) {
@@ -4816,7 +4939,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer getAnswersToRate(int index) {
       if (answersToRateBuilder_ == null) {
@@ -4826,7 +4949,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public Builder setAnswersToRate(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer value) {
@@ -4843,7 +4966,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public Builder setAnswersToRate(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder builderForValue) {
@@ -4857,7 +4980,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public Builder addAnswersToRate(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer value) {
       if (answersToRateBuilder_ == null) {
@@ -4873,7 +4996,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public Builder addAnswersToRate(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer value) {
@@ -4890,7 +5013,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public Builder addAnswersToRate(
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder builderForValue) {
@@ -4904,7 +5027,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public Builder addAnswersToRate(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder builderForValue) {
@@ -4918,7 +5041,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public Builder addAllAnswersToRate(
         java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer> values) {
@@ -4933,12 +5056,12 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public Builder clearAnswersToRate() {
       if (answersToRateBuilder_ == null) {
         answersToRate_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         onChanged();
       } else {
         answersToRateBuilder_.clear();
@@ -4946,7 +5069,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public Builder removeAnswersToRate(int index) {
       if (answersToRateBuilder_ == null) {
@@ -4959,14 +5082,14 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder getAnswersToRateBuilder(
         int index) {
       return getAnswersToRateFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.AnswerOrBuilder getAnswersToRateOrBuilder(
         int index) {
@@ -4976,7 +5099,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.AnswerOrBuilder> 
          getAnswersToRateOrBuilderList() {
@@ -4987,14 +5110,14 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder addAnswersToRateBuilder() {
       return getAnswersToRateFieldBuilder().addBuilder(
           edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder addAnswersToRateBuilder(
         int index) {
@@ -5002,7 +5125,7 @@ public  final class View extends
           index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 6;</code>
+     * <code>repeated .crowdcontrol.View.Answer answers_to_rate = 7;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder> 
          getAnswersToRateBuilderList() {
@@ -5015,7 +5138,7 @@ public  final class View extends
         answersToRateBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
             edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.AnswerOrBuilder>(
                 answersToRate_,
-                ((bitField0_ & 0x00000020) == 0x00000020),
+                ((bitField0_ & 0x00000040) == 0x00000040),
                 getParentForChildren(),
                 isClean());
         answersToRate_ = null;
@@ -5026,9 +5149,9 @@ public  final class View extends
     private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> ratingOptions_ =
       java.util.Collections.emptyList();
     private void ensureRatingOptionsIsMutable() {
-      if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (!((bitField0_ & 0x00000080) == 0x00000080)) {
         ratingOptions_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption>(ratingOptions_);
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
        }
     }
 
@@ -5036,7 +5159,7 @@ public  final class View extends
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder> ratingOptionsBuilder_;
 
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> getRatingOptionsList() {
       if (ratingOptionsBuilder_ == null) {
@@ -5046,7 +5169,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public int getRatingOptionsCount() {
       if (ratingOptionsBuilder_ == null) {
@@ -5056,7 +5179,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption getRatingOptions(int index) {
       if (ratingOptionsBuilder_ == null) {
@@ -5066,7 +5189,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public Builder setRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption value) {
@@ -5083,7 +5206,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public Builder setRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder builderForValue) {
@@ -5097,7 +5220,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public Builder addRatingOptions(edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption value) {
       if (ratingOptionsBuilder_ == null) {
@@ -5113,7 +5236,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public Builder addRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption value) {
@@ -5130,7 +5253,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public Builder addRatingOptions(
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder builderForValue) {
@@ -5144,7 +5267,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public Builder addRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder builderForValue) {
@@ -5158,7 +5281,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public Builder addAllRatingOptions(
         java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> values) {
@@ -5173,12 +5296,12 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public Builder clearRatingOptions() {
       if (ratingOptionsBuilder_ == null) {
         ratingOptions_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         onChanged();
       } else {
         ratingOptionsBuilder_.clear();
@@ -5186,7 +5309,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public Builder removeRatingOptions(int index) {
       if (ratingOptionsBuilder_ == null) {
@@ -5199,14 +5322,14 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder getRatingOptionsBuilder(
         int index) {
       return getRatingOptionsFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder getRatingOptionsOrBuilder(
         int index) {
@@ -5216,7 +5339,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder> 
          getRatingOptionsOrBuilderList() {
@@ -5227,14 +5350,14 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder addRatingOptionsBuilder() {
       return getRatingOptionsFieldBuilder().addBuilder(
           edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder addRatingOptionsBuilder(
         int index) {
@@ -5242,7 +5365,7 @@ public  final class View extends
           index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 7;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder> 
          getRatingOptionsBuilderList() {
@@ -5255,7 +5378,7 @@ public  final class View extends
         ratingOptionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
             edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder>(
                 ratingOptions_,
-                ((bitField0_ & 0x00000040) == 0x00000040),
+                ((bitField0_ & 0x00000080) == 0x00000080),
                 getParentForChildren(),
                 isClean());
         ratingOptions_ = null;
@@ -5266,9 +5389,9 @@ public  final class View extends
     private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint> constraints_ =
       java.util.Collections.emptyList();
     private void ensureConstraintsIsMutable() {
-      if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (!((bitField0_ & 0x00000100) == 0x00000100)) {
         constraints_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint>(constraints_);
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
        }
     }
 
@@ -5276,7 +5399,7 @@ public  final class View extends
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.ConstraintOrBuilder> constraintsBuilder_;
 
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint> getConstraintsList() {
       if (constraintsBuilder_ == null) {
@@ -5286,7 +5409,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public int getConstraintsCount() {
       if (constraintsBuilder_ == null) {
@@ -5296,7 +5419,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint getConstraints(int index) {
       if (constraintsBuilder_ == null) {
@@ -5306,7 +5429,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public Builder setConstraints(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint value) {
@@ -5323,7 +5446,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public Builder setConstraints(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder builderForValue) {
@@ -5337,7 +5460,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public Builder addConstraints(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint value) {
       if (constraintsBuilder_ == null) {
@@ -5353,7 +5476,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public Builder addConstraints(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint value) {
@@ -5370,7 +5493,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public Builder addConstraints(
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder builderForValue) {
@@ -5384,7 +5507,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public Builder addConstraints(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder builderForValue) {
@@ -5398,7 +5521,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public Builder addAllConstraints(
         java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint> values) {
@@ -5413,12 +5536,12 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public Builder clearConstraints() {
       if (constraintsBuilder_ == null) {
         constraints_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         onChanged();
       } else {
         constraintsBuilder_.clear();
@@ -5426,7 +5549,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public Builder removeConstraints(int index) {
       if (constraintsBuilder_ == null) {
@@ -5439,14 +5562,14 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder getConstraintsBuilder(
         int index) {
       return getConstraintsFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.ConstraintOrBuilder getConstraintsOrBuilder(
         int index) {
@@ -5456,7 +5579,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.ConstraintOrBuilder> 
          getConstraintsOrBuilderList() {
@@ -5467,14 +5590,14 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder addConstraintsBuilder() {
       return getConstraintsFieldBuilder().addBuilder(
           edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder addConstraintsBuilder(
         int index) {
@@ -5482,7 +5605,7 @@ public  final class View extends
           index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.Constraint constraints = 8;</code>
+     * <code>repeated .crowdcontrol.View.Constraint constraints = 9;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder> 
          getConstraintsBuilderList() {
@@ -5495,7 +5618,7 @@ public  final class View extends
         constraintsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
             edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Constraint.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.ConstraintOrBuilder>(
                 constraints_,
-                ((bitField0_ & 0x00000080) == 0x00000080),
+                ((bitField0_ & 0x00000100) == 0x00000100),
                 getParentForChildren(),
                 isClean());
         constraints_ = null;
@@ -5506,9 +5629,9 @@ public  final class View extends
     private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture> pictures_ =
       java.util.Collections.emptyList();
     private void ensurePicturesIsMutable() {
-      if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (!((bitField0_ & 0x00000200) == 0x00000200)) {
         pictures_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture>(pictures_);
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
        }
     }
 
@@ -5516,7 +5639,7 @@ public  final class View extends
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.PictureOrBuilder> picturesBuilder_;
 
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture> getPicturesList() {
       if (picturesBuilder_ == null) {
@@ -5526,7 +5649,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public int getPicturesCount() {
       if (picturesBuilder_ == null) {
@@ -5536,7 +5659,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture getPictures(int index) {
       if (picturesBuilder_ == null) {
@@ -5546,7 +5669,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public Builder setPictures(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture value) {
@@ -5563,7 +5686,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public Builder setPictures(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.Builder builderForValue) {
@@ -5577,7 +5700,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public Builder addPictures(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture value) {
       if (picturesBuilder_ == null) {
@@ -5593,7 +5716,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public Builder addPictures(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture value) {
@@ -5610,7 +5733,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public Builder addPictures(
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.Builder builderForValue) {
@@ -5624,7 +5747,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public Builder addPictures(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.Builder builderForValue) {
@@ -5638,7 +5761,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public Builder addAllPictures(
         java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture> values) {
@@ -5653,12 +5776,12 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public Builder clearPictures() {
       if (picturesBuilder_ == null) {
         pictures_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         onChanged();
       } else {
         picturesBuilder_.clear();
@@ -5666,7 +5789,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public Builder removePictures(int index) {
       if (picturesBuilder_ == null) {
@@ -5679,14 +5802,14 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.Builder getPicturesBuilder(
         int index) {
       return getPicturesFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.PictureOrBuilder getPicturesOrBuilder(
         int index) {
@@ -5696,7 +5819,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.PictureOrBuilder> 
          getPicturesOrBuilderList() {
@@ -5707,14 +5830,14 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.Builder addPicturesBuilder() {
       return getPicturesFieldBuilder().addBuilder(
           edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.Builder addPicturesBuilder(
         int index) {
@@ -5722,7 +5845,7 @@ public  final class View extends
           index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.Picture pictures = 9;</code>
+     * <code>repeated .crowdcontrol.View.Picture pictures = 10;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.Builder> 
          getPicturesBuilderList() {
@@ -5735,7 +5858,7 @@ public  final class View extends
         picturesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
             edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Picture.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.PictureOrBuilder>(
                 pictures_,
-                ((bitField0_ & 0x00000100) == 0x00000100),
+                ((bitField0_ & 0x00000200) == 0x00000200),
                 getParentForChildren(),
                 isClean());
         pictures_ = null;
@@ -5746,9 +5869,9 @@ public  final class View extends
     private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration> calibrations_ =
       java.util.Collections.emptyList();
     private void ensureCalibrationsIsMutable() {
-      if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (!((bitField0_ & 0x00000400) == 0x00000400)) {
         calibrations_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration>(calibrations_);
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000400;
        }
     }
 
@@ -5756,7 +5879,7 @@ public  final class View extends
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.CalibrationOrBuilder> calibrationsBuilder_;
 
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration> getCalibrationsList() {
       if (calibrationsBuilder_ == null) {
@@ -5766,7 +5889,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public int getCalibrationsCount() {
       if (calibrationsBuilder_ == null) {
@@ -5776,7 +5899,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration getCalibrations(int index) {
       if (calibrationsBuilder_ == null) {
@@ -5786,7 +5909,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public Builder setCalibrations(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration value) {
@@ -5803,7 +5926,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public Builder setCalibrations(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.Builder builderForValue) {
@@ -5817,7 +5940,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public Builder addCalibrations(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration value) {
       if (calibrationsBuilder_ == null) {
@@ -5833,7 +5956,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public Builder addCalibrations(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration value) {
@@ -5850,7 +5973,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public Builder addCalibrations(
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.Builder builderForValue) {
@@ -5864,7 +5987,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public Builder addCalibrations(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.Builder builderForValue) {
@@ -5878,7 +6001,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public Builder addAllCalibrations(
         java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration> values) {
@@ -5893,12 +6016,12 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public Builder clearCalibrations() {
       if (calibrationsBuilder_ == null) {
         calibrations_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
         onChanged();
       } else {
         calibrationsBuilder_.clear();
@@ -5906,7 +6029,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public Builder removeCalibrations(int index) {
       if (calibrationsBuilder_ == null) {
@@ -5919,14 +6042,14 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.Builder getCalibrationsBuilder(
         int index) {
       return getCalibrationsFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.CalibrationOrBuilder getCalibrationsOrBuilder(
         int index) {
@@ -5936,7 +6059,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.CalibrationOrBuilder> 
          getCalibrationsOrBuilderList() {
@@ -5947,14 +6070,14 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.Builder addCalibrationsBuilder() {
       return getCalibrationsFieldBuilder().addBuilder(
           edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.Builder addCalibrationsBuilder(
         int index) {
@@ -5962,7 +6085,7 @@ public  final class View extends
           index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.Calibration calibrations = 10;</code>
+     * <code>repeated .crowdcontrol.View.Calibration calibrations = 11;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.Builder> 
          getCalibrationsBuilderList() {
@@ -5975,7 +6098,7 @@ public  final class View extends
         calibrationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
             edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Calibration.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.CalibrationOrBuilder>(
                 calibrations_,
-                ((bitField0_ & 0x00000200) == 0x00000200),
+                ((bitField0_ & 0x00000400) == 0x00000400),
                 getParentForChildren(),
                 isClean());
         calibrations_ = null;

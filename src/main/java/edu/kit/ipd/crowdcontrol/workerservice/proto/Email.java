@@ -16,7 +16,6 @@ public  final class Email extends
   }
   private Email() {
     email_ = "";
-    workerId_ = 0;
   }
 
   @java.lang.Override
@@ -47,11 +46,6 @@ public  final class Email extends
             java.lang.String s = input.readStringRequireUtf8();
 
             email_ = s;
-            break;
-          }
-          case 16: {
-
-            workerId_ = input.readInt32();
             break;
           }
         }
@@ -112,15 +106,6 @@ public  final class Email extends
     }
   }
 
-  public static final int WORKER_ID_FIELD_NUMBER = 2;
-  private int workerId_;
-  /**
-   * <code>optional int32 worker_id = 2;</code>
-   */
-  public int getWorkerId() {
-    return workerId_;
-  }
-
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -136,9 +121,6 @@ public  final class Email extends
     if (!getEmailBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessage.writeString(output, 1, email_);
     }
-    if (workerId_ != 0) {
-      output.writeInt32(2, workerId_);
-    }
   }
 
   public int getSerializedSize() {
@@ -148,10 +130,6 @@ public  final class Email extends
     size = 0;
     if (!getEmailBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(1, email_);
-    }
-    if (workerId_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, workerId_);
     }
     memoizedSize = size;
     return size;
@@ -266,8 +244,6 @@ public  final class Email extends
       super.clear();
       email_ = "";
 
-      workerId_ = 0;
-
       return this;
     }
 
@@ -291,7 +267,6 @@ public  final class Email extends
     public edu.kit.ipd.crowdcontrol.workerservice.proto.Email buildPartial() {
       edu.kit.ipd.crowdcontrol.workerservice.proto.Email result = new edu.kit.ipd.crowdcontrol.workerservice.proto.Email(this);
       result.email_ = email_;
-      result.workerId_ = workerId_;
       onBuilt();
       return result;
     }
@@ -310,9 +285,6 @@ public  final class Email extends
       if (!other.getEmail().isEmpty()) {
         email_ = other.email_;
         onChanged();
-      }
-      if (other.getWorkerId() != 0) {
-        setWorkerId(other.getWorkerId());
       }
       onChanged();
       return this;
@@ -405,32 +377,6 @@ public  final class Email extends
   checkByteStringIsUtf8(value);
       
       email_ = value;
-      onChanged();
-      return this;
-    }
-
-    private int workerId_ ;
-    /**
-     * <code>optional int32 worker_id = 2;</code>
-     */
-    public int getWorkerId() {
-      return workerId_;
-    }
-    /**
-     * <code>optional int32 worker_id = 2;</code>
-     */
-    public Builder setWorkerId(int value) {
-      
-      workerId_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>optional int32 worker_id = 2;</code>
-     */
-    public Builder clearWorkerId() {
-      
-      workerId_ = 0;
       onChanged();
       return this;
     }
