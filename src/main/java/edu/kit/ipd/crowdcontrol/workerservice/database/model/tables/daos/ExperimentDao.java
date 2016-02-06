@@ -158,4 +158,11 @@ public class ExperimentDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontro
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByWorkerQualityThreshold(java.lang.Integer... values) {
 		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.WORKER_QUALITY_THRESHOLD, values);
 	}
+
+	/**
+	 * Fetch records that have <code>payment_quality_threshold IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Experiment> fetchByPaymentQualityThreshold(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT.PAYMENT_QUALITY_THRESHOLD, values);
+	}
 }

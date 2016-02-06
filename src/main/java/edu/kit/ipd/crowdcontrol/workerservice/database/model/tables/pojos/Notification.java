@@ -11,34 +11,31 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Notification implements java.io.Serializable {
 
-	private static final long serialVersionUID = 579908032;
+	private static final long serialVersionUID = -1565195390;
 
-	private java.lang.Integer  idNotification;
-	private java.lang.String   name;
-	private java.lang.String   description;
-	private java.lang.Integer  checkperiod;
-	private java.lang.Integer  sendthreshold;
-	private java.lang.String   query;
-	private java.sql.Timestamp lastsent;
+	private java.lang.Integer idNotification;
+	private java.lang.String  name;
+	private java.lang.String  description;
+	private java.lang.Integer checkperiod;
+	private java.lang.String  query;
+	private java.lang.Boolean sendOnce;
 
 	public Notification() {}
 
 	public Notification(
-		java.lang.Integer  idNotification,
-		java.lang.String   name,
-		java.lang.String   description,
-		java.lang.Integer  checkperiod,
-		java.lang.Integer  sendthreshold,
-		java.lang.String   query,
-		java.sql.Timestamp lastsent
+		java.lang.Integer idNotification,
+		java.lang.String  name,
+		java.lang.String  description,
+		java.lang.Integer checkperiod,
+		java.lang.String  query,
+		java.lang.Boolean sendOnce
 	) {
 		this.idNotification = idNotification;
 		this.name = name;
 		this.description = description;
 		this.checkperiod = checkperiod;
-		this.sendthreshold = sendthreshold;
 		this.query = query;
-		this.lastsent = lastsent;
+		this.sendOnce = sendOnce;
 	}
 
 	public java.lang.Integer getIdNotification() {
@@ -73,14 +70,6 @@ public class Notification implements java.io.Serializable {
 		this.checkperiod = checkperiod;
 	}
 
-	public java.lang.Integer getSendthreshold() {
-		return this.sendthreshold;
-	}
-
-	public void setSendthreshold(java.lang.Integer sendthreshold) {
-		this.sendthreshold = sendthreshold;
-	}
-
 	public java.lang.String getQuery() {
 		return this.query;
 	}
@@ -89,11 +78,11 @@ public class Notification implements java.io.Serializable {
 		this.query = query;
 	}
 
-	public java.sql.Timestamp getLastsent() {
-		return this.lastsent;
+	public java.lang.Boolean getSendOnce() {
+		return this.sendOnce;
 	}
 
-	public void setLastsent(java.sql.Timestamp lastsent) {
-		this.lastsent = lastsent;
+	public void setSendOnce(java.lang.Boolean sendOnce) {
+		this.sendOnce = sendOnce;
 	}
 }

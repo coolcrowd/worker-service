@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment implements java.io.Serializable {
 
-	private static final long serialVersionUID = -1701936564;
+	private static final long serialVersionUID = 1302379332;
 
 	private java.lang.Integer idExperiment;
 	private java.lang.String  title;
@@ -30,6 +30,7 @@ public class Experiment implements java.io.Serializable {
 	private java.lang.String  templateData;
 	private java.lang.Integer template;
 	private java.lang.Integer workerQualityThreshold;
+	private java.lang.Integer paymentQualityThreshold;
 
 	public Experiment() {}
 
@@ -50,7 +51,8 @@ public class Experiment implements java.io.Serializable {
 		java.lang.Integer bonusRating,
 		java.lang.String  templateData,
 		java.lang.Integer template,
-		java.lang.Integer workerQualityThreshold
+		java.lang.Integer workerQualityThreshold,
+		java.lang.Integer paymentQualityThreshold
 	) {
 		this.idExperiment = idExperiment;
 		this.title = title;
@@ -69,6 +71,7 @@ public class Experiment implements java.io.Serializable {
 		this.templateData = templateData;
 		this.template = template;
 		this.workerQualityThreshold = workerQualityThreshold;
+		this.paymentQualityThreshold = paymentQualityThreshold;
 	}
 
 	public java.lang.Integer getIdExperiment() {
@@ -205,5 +208,13 @@ public class Experiment implements java.io.Serializable {
 
 	public void setWorkerQualityThreshold(java.lang.Integer workerQualityThreshold) {
 		this.workerQualityThreshold = workerQualityThreshold;
+	}
+
+	public java.lang.Integer getPaymentQualityThreshold() {
+		return this.paymentQualityThreshold;
+	}
+
+	public void setPaymentQualityThreshold(java.lang.Integer paymentQualityThreshold) {
+		this.paymentQualityThreshold = paymentQualityThreshold;
 	}
 }

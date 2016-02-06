@@ -1,14 +1,12 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmTaskChooserParamRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmTaskChooserRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ConstraintRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,5 +93,16 @@ public class ExperimentOperations extends AbstractOperation {
                 .join(Tables.ALGORITHM_TASK_CHOOSER_PARAM).onKey()
                 .where(Tables.CHOSEN_TASK_CHOOSER_PARAM.EXPERIMENT.eq(experiment))
                 .fetchMap(Tables.ALGORITHM_TASK_CHOOSER_PARAM.DATA, Tables.CHOSEN_TASK_CHOOSER_PARAM.VALUE);
+    }
+
+    /**
+     * returns the Rating-Options for the experiment
+     * @param experiment the primary key of the experiment
+     * @return a list of RatingOptions
+     */
+    public List<RatingOptionExperimentRecord> getRatingOptions(int experiment) {
+        return create.selectFrom(Tables.RATING_OPTION_EXPERIMENT)
+                .where(Tables.RATING_OPTION_EXPERIMENT.EXPERIMENT.eq(experiment))
+                .fetch();
     }
 }

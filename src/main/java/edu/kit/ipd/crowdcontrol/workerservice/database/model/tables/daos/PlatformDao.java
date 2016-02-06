@@ -67,4 +67,11 @@ public class PlatformDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcontrol.
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Platform> fetchByNeedsEmail(java.lang.Boolean... values) {
 		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.NEEDS_EMAIL, values);
 	}
+
+	/**
+	 * Fetch records that have <code>inactive IN (values)</code>
+	 */
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Platform> fetchByInactive(java.lang.Boolean... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM.INACTIVE, values);
+	}
 }

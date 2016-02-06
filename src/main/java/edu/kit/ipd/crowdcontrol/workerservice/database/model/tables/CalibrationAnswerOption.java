@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CalibrationAnswerOption extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord> {
 
-	private static final long serialVersionUID = -186548591;
+	private static final long serialVersionUID = -1046183688;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Calibration_answer_option</code>
@@ -92,7 +92,7 @@ public class CalibrationAnswerOption extends org.jooq.impl.TableImpl<edu.kit.ipd
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord, ?>>asList(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.POPULATIONANSWER);
+		return java.util.Arrays.<org.jooq.ForeignKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord, ?>>asList(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.CALIBRATIONANSWER);
 	}
 
 	/**

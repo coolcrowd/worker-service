@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Notification extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord> {
 
-	private static final long serialVersionUID = -897173869;
+	private static final long serialVersionUID = -1200515173;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Notification</code>
@@ -47,19 +47,14 @@ public class Notification extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontr
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.lang.Integer> CHECKPERIOD = createField("checkPeriod", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Notification.sendThreshold</code>.
-	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.lang.Integer> SENDTHRESHOLD = createField("sendThreshold", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
-
-	/**
 	 * The column <code>crowdcontrol.Notification.query</code>.
 	 */
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.lang.String> QUERY = createField("query", org.jooq.impl.SQLDataType.CLOB.length(16777215).nullable(false), this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Notification.lastSent</code>.
+	 * The column <code>crowdcontrol.Notification.send_once</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.sql.Timestamp> LASTSENT = createField("lastSent", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.NotificationRecord, java.lang.Boolean> SEND_ONCE = createField("send_once", org.jooq.impl.SQLDataType.BIT.nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Notification</code> table reference

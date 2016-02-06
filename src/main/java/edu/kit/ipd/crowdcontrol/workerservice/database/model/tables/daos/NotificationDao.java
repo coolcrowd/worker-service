@@ -69,13 +69,6 @@ public class NotificationDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcont
 	}
 
 	/**
-	 * Fetch records that have <code>sendThreshold IN (values)</code>
-	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Notification> fetchBySendthreshold(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION.SENDTHRESHOLD, values);
-	}
-
-	/**
 	 * Fetch records that have <code>query IN (values)</code>
 	 */
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Notification> fetchByQuery(java.lang.String... values) {
@@ -83,9 +76,9 @@ public class NotificationDao extends org.jooq.impl.DAOImpl<edu.kit.ipd.crowdcont
 	}
 
 	/**
-	 * Fetch records that have <code>lastSent IN (values)</code>
+	 * Fetch records that have <code>send_once IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Notification> fetchByLastsent(java.sql.Timestamp... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION.LASTSENT, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.Notification> fetchBySendOnce(java.lang.Boolean... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION.SEND_ONCE, values);
 	}
 }

@@ -109,6 +109,16 @@ public class Tables {
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification NOTIFICATION = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Notification.NOTIFICATION;
 
 	/**
+	 * The table crowdcontrol.Notification_Receiver_Email
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.NotificationReceiverEmail NOTIFICATION_RECEIVER_EMAIL = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.NotificationReceiverEmail.NOTIFICATION_RECEIVER_EMAIL;
+
+	/**
+	 * The table crowdcontrol.Notification_Token
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.NotificationToken NOTIFICATION_TOKEN = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.NotificationToken.NOTIFICATION_TOKEN;
+
+	/**
 	 * The table crowdcontrol.Platform
 	 */
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform PLATFORM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Platform.PLATFORM;
@@ -117,6 +127,11 @@ public class Tables {
 	 * The table crowdcontrol.Rating
 	 */
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating RATING = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Rating.RATING;
+
+	/**
+	 * The table crowdcontrol.Rating_Constraint
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.RatingConstraint RATING_CONSTRAINT = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.RatingConstraint.RATING_CONSTRAINT;
 
 	/**
 	 * The table crowdcontrol.Rating_Option_Experiment
@@ -142,6 +157,16 @@ public class Tables {
 	 * The table crowdcontrol.Template
 	 */
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template TEMPLATE = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Template.TEMPLATE;
+
+	/**
+	 * The table crowdcontrol.Template_Constraint
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateConstraint TEMPLATE_CONSTRAINT = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateConstraint.TEMPLATE_CONSTRAINT;
+
+	/**
+	 * The table crowdcontrol.Template_Tag
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateTag TEMPLATE_TAG = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateTag.TEMPLATE_TAG;
 
 	/**
 	 * The table crowdcontrol.Worker

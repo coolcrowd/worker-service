@@ -59,7 +59,7 @@ test {
 }
 
 sourceSets {
-    unitTest {
+    test {
         java {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
