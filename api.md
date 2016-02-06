@@ -1,15 +1,19 @@
 FORMAT: 1A
 HOST: http://api.samplehost.com
 
-# Worker-Service
+#Worker-Service
+
 
 This is the documentation of the REST-interface of the Worker-Service.
 
-Check out the source-code of the worker-service at [github](https://github.com/coolcrowd/worker-service) or learn about the object-servicen and the general architecture at the [object-service](https://github.com/coolcrowd/object-service). All the json-objects used for the communication are protobuf-files located at the [spec-repository](https://github.com/coolcrowd/spec).
+### Repositories
+Check out the source-code of the worker-service at [github](https://github.com/coolcrowd/worker-service) or learn about the object-service and the general architecture at the [object-service](https://github.com/coolcrowd/object-service). All the json-objects used for the communication are defined as protobuf-files located at the [spec-repository](https://github.com/coolcrowd/spec).
 
+### testing
 Useful for testing is the dummy-platform:
-The dummy platform does not pay any workers and identifies worker by their email, it also displays calibrations. It is used for testing services depending on crowdworking-platforms.
-
+The dummy platform does not pay any workers and identifies worker by their email, it also displays calibrations. It is used for testing functionality depending on crowdworking-platforms.<br>
+<br>
+<br>
 ## Group View
 
 Resources specifying what to display the worker.
@@ -39,7 +43,7 @@ Full details about the types in the next segements:
     + answer: skip (optional, skip) - passed if the worker wants to skip the answer-task
     + rating: skip (optional, skip) - passed if the worker wants to skip the rating-task
 
-### Return what the worker should be working on. [GET]
+### Get next view [GET]
 
 + Response 200 (application/json)
     This is an example of the response. Please read the following segments to understand the whole process.
@@ -67,13 +71,13 @@ Full details about the types in the next segements:
               ]
             }
 
-## Next EMAIL [/next/example/13?exampledependent=13]
+## Example: Next EMAIL [/next/example/13?exampledependent=13]
 
 Scenario: the platform needs an email from his workers and it is the first time the worker is working on our framework. Therefore the example-platform will not find us in the database and the worker-service proceeds to respond with the EMAIL type.
 
 Expected Behaviour: Ask the Worker for his email-address and submit it. Then call /next with the worker-id obtained through the submit email request.
 
-### Returns what the worker should be working on. [GET]
+### next with type EMAIL [GET]
 
 + Response 200 (application/json)
     The type is EMAIL, no additional fields are added.
@@ -84,13 +88,13 @@ Expected Behaviour: Ask the Worker for his email-address and submit it. Then cal
               "type": "EMAIL"
             }
 
-## Next CALIBRATION [/next/example/13?exampledependent=15]
+## Example: Next CALIBRATION [/next/example/13?exampledependent=15]
 
 Scenario: the example-platform has the displaying of calibrations activated, can identify the worker from the passed, platform-dependent query parameter and the worker has already worker with our framework. The example-platform now finds the matching worker-id in the database and returns it to the worker-service. The worker-service now notices that the worker has not answered all the calibrations, so it returns the type CALIBRATION.
 
 Expected Behaviour: Let the worker choose his answeres for all the calibrations and submit them with /calibrations, then call /next with the worker-id as an parameter. Calling /next without submitting all the calibrations will result in the type CALIBRATION, where the field calibrations holds all the remaining calibrations.
 
-### Returns what the worker should be working on. [GET]
+### next with type CALIBRATION [GET]
 
 + Response 200 (application/json)
     The type is CALIBRATION, also the field calibrations is added to specify the calibrations to answer. Furthermore the field worker-id is set, and the client is expected to hold it in memory.
@@ -118,13 +122,13 @@ Expected Behaviour: Let the worker choose his answeres for all the calibrations 
               ]
             }
 
-## Next ANSWER [/next/example/13?worker=15&exampledependent=15]
+## Example: Next ANSWER [/next/example/13?worker=15&exampledependent=15]
 
 Scenario: The worker with the worker-id 15 has completed all calibrations and the worker-service decides that he can work on an creative-Task. So it returns the type ANSWER and all the relevant information about the experiment(title, description). The experiment has some pictures and some constraints, so additionally it also adds these. The worker-service also returns maxAnswersToGive, which specifies how many creative-answers for the worker are left.
 
 Expected Behaviour: The client is expected to render the title, description and the pictures. Additionally the worker has to be warned about the constraints. The worker has now the chance to create up to maxAnswersToGive answers and the client should submit them via /answers. After submitting the client should call /next.
 
-### Returns what the worker should be working on. [GET]
+### next with type ANSWER  [GET]
 
 + Response 200 (application/json)
     The type is ANSWER, which requires the fields title, description and maxAnswersToGive to be set. Furthermore the fields pictures and constraints are set.
@@ -150,13 +154,13 @@ Expected Behaviour: The client is expected to render the title, description and 
               ]
             }
 
-## Next RATING [/next/example/13?worker=18]
+## Example: Next RATING [/next/example/13?worker=18]
 
 Scenario: The example-platform does not render calibrations and the worker-service decides that the worker should do a rating-task. Therefore the type is RATING and all the relevant information about the experiment(title, description). The experiment has also some constraints, so the worker-service passes them, too. The worker-service also returns answersToRate and ratingOptions.
 
 Expected Behaviour: The client is expected to render the title and the description of the experiment. Additionally the calibrations have to be placed prominentyl. The worker has now the chance to rate the passed answers (answersToRate). For each answer he can choose on of the rating-options (ratingOptions) and specify which constraint (if any) got violated. The worker should also be encouraged to submit a feedback containing a critique of the answer. The client should submit them via /ratings. After submitting the client should call /next.
 
-### Returns what the worker should be working on. [GET]
+### next with type RATING [GET]
 
 + Response 200 (application/json)
     The type is RATING, which requires the fields title, description, answersToRate and ratingOptions to be set. Furthermore the field constraints is set.
@@ -185,13 +189,13 @@ Expected Behaviour: The client is expected to render the title and the descripti
               ]
             }
 
-## Next FINISHED [/next/example/13?worker=22&rating=skip]
+## Example: Next FINISHED [/next/example/13?worker=22&rating=skip]
 
 Scenario: The worker-service requested 5 ratings from the worker, but the worker only worked on 3. In this situation the query-parameter rating=skip can be passed, to signal that the worker wants to skip further ratings. Otherwise every new /next call would result in the type RATING with 2 answers to rate. The worker-service now detects that there is nothing else to do, so he returnes the type FINISHED.
 
 Expected Behaviour: The client is expected to notice the worker that his work is finished and redirects him to the crowdworking-platform.
 
-### Returns what the worker should be working on. [GET]
+### next with type FINISHED [GET]
 
 + Response 200 (application/json)
     The type is FINISHED, which requires no other field to be set.
@@ -217,7 +221,7 @@ The protobuf definition of the resource can be viewed [here](https://github.com/
 + Parameters
     + experiment: 13 (required, number) - the experiment the worker is currently working on.
 
-### Return a preview of the experiment. [GET]
+### Get preview [GET]
 
 + Response 200 (application/json)
 
@@ -241,7 +245,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 + Parameters
     + platform: `dummy` (required, string) - represents the platform the worker is working on.
 
-### Submit an email-address. [POST]
+### Submit an email-address [POST]
 
 + Request (application/json)
 
@@ -280,7 +284,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 + Parameters
     + workerId: 1882 (required, number) - The worker-id is used by crowdcontrol to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
 
-### Submit a creative answer. [POST]
+### Submit a creative answer [POST]
 
 + Request (application/json)
 
@@ -310,7 +314,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 + Parameters
     + workerId: 1882 (required, number) - The worker-id is used by crowdcontrol to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
 
-### Submit a rating. [POST]
+### Submit a rating [POST]
 
 + Request (application/json)
 
@@ -340,7 +344,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 + Parameters
     + workerId: 1882 (required, number) - The worker-id is used by crowdcontrol to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.
 
-### Submit a calibration. [POST]
+### Submit a calibration [POST]
 
 + Request (application/json)
 
