@@ -24,27 +24,30 @@ import java.util.function.Function;
  * @version 1.0
  */
 public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    static {
+        if (System.getProperty("logback.configurationFile") == null) {
+            System.setProperty("logback.configurationFile", "./conf/logging.xml");
+        }
+    }
+    private static Logger logger = LoggerFactory.getLogger(Main.class);
+    private final Properties file;
+    private final Properties system;
+    private final boolean testing;
 
-    public static void main(String[] args) {
+    public Main(boolean testing) {
+        this.testing = testing;
         String configLocation = System.getProperty("workerservice.config");
         if (configLocation == null) {
             configLocation = "./conf/configuration.properties";
         }
-        logger.debug("configLocation is: {}", configLocation);
-        //used for testing
-        boolean testing = false;
-        if (args.length > 1) {
-            testing = Boolean.valueOf(args[1]);
-        }
-        Properties config = new Properties();
+        file = new Properties();
         try {
             try {
-                config.load(new FileInputStream(configLocation));
+                file.load(new FileInputStream(configLocation));
             } catch (FileNotFoundException e) {
                 //used for testing
                 try {
-                    config.load(DatabaseManager.class.getResourceAsStream(configLocation));
+                    file.load(Main.class.getResourceAsStream(configLocation));
                 } catch (NullPointerException ignored) {
                     //just means it's also not in the jar
                 }
@@ -53,18 +56,29 @@ public class Main {
             logger.error("unable to find file {}", new File(configLocation).getAbsolutePath());
             System.exit(-1);
         }
-        Function<String, String> trimIfNotNull = s -> {
-            if (s != null)
-                return s.trim();
-            else
-                return s;
-        };
-        String url = trimIfNotNull.apply(config.getProperty("database.url"));
-        String username = trimIfNotNull.apply(config.getProperty("database.username"));
-        String password = trimIfNotNull.apply(config.getProperty("database.password"));
-        String databasePool = trimIfNotNull.apply(config.getProperty("database.poolName"));
+        system = System.getProperties();
+    }
 
-        SQLDialect dialect = SQLDialect.valueOf(config.getProperty("database.dialect").trim());
+    public static void main(String[] args) {
+        //used for testing
+        boolean testing = false;
+        if (args.length > 1) {
+            testing = Boolean.valueOf(args[1]);
+        }
+        Main main = new Main(testing);
+        main.boot();
+    }
+
+    /**
+     * initializes and starts the worker-service.
+     */
+    public void boot() {
+        String url = getProperty("database.url");
+        String username = getProperty("database.username");
+        String password = getProperty("database.password");
+        String databasePool = getProperty("database.poolName");
+
+        SQLDialect dialect = SQLDialect.valueOf(getProperty("database.dialect").trim());
         DatabaseManager databaseManager = null;
         try {
             databaseManager = new DatabaseManager(username, password, url, databasePool, dialect, testing);
@@ -88,14 +102,14 @@ public class Main {
         WorkerOperations workerOperations = new WorkerOperations(databaseManager.getContext());
 
         Communication communication = new Communication(
-                config.getProperty("os_url"),
-                config.getProperty("os_username"),
-                config.getProperty("os_password")
+                getProperty("os_url"),
+                getProperty("os_username"),
+                getProperty("os_password")
         );
         Queries queries = new Queries(calibrationsOperations, experimentOperations, platformOperations, communication,
                 taskOperations, workerOperations, testing);
 
-        String portRaw = trimIfNotNull.apply(config.getProperty("router.port"));
+        String portRaw = getProperty("router.port");
 
         int port = portRaw != null
                 ? Integer.parseInt(portRaw)
@@ -109,5 +123,32 @@ public class Main {
             router.init();
         }
         logger.debug("router initialized");
+    }
+
+    /**
+     * returns the system-property if present and if not falls back to the
+     * config file
+     * @param key the key to search for
+     * @return the String
+     */
+    private String getProperty(String key) {
+        String sysProperty = trimIfNotNull(system.getProperty(key));
+        if (sysProperty == null) {
+            return trimIfNotNull(file.getProperty(key));
+        } else {
+            return sysProperty;
+        }
+    }
+
+    /**
+     * returns the trimmed string if the string is not null
+     * @param s the string to trim
+     * @return the trimmed string or null
+     */
+    private String trimIfNotNull(String s) {
+        if (s != null)
+            return s.trim();
+        else
+            return s;
     }
 }
