@@ -158,7 +158,7 @@ public class Communication {
                 .setAnswerId(option)
                 .build();
 
-        return putRequest("/workers/" + worker + "/calibrations/", builder -> builder
+        return putRequest(String.format("/workers/%d/calibrations", worker), builder -> builder
                 .body(printer.print(calibrationAnswer))
                 .asJson()
         )
