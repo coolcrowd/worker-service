@@ -171,11 +171,6 @@ task copyDist(type: Copy) {
     into "$projectDir/image/opt/workerservice"
 }
 
-task copyConf(type: Copy) {
-    from "$projectDir/conf"
-    into "$projectDir/image/etc/workerservice/"
-}
-
 task installDocker() {
-    dependsOn "copyDist", "copyConf"
+    dependsOn "copyDist"
 }
