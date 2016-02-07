@@ -49,8 +49,7 @@ public class Router implements SparkApplication, RequestHelper {
         port(port);
 
         exception(Exception.class, (exception, request, response) -> {
-            InternalServerErrorException internalError = (InternalServerErrorException) exception;
-            logger.error("an internal error occurred", internalError);
+            logger.error("an internal error occurred", exception);
             response.status(501);
             response.body(error(request, response, "internalServerError", exception.getMessage()));
         });
