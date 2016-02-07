@@ -78,7 +78,13 @@ public class Main {
         String password = getProperty("database.password");
         String databasePool = getProperty("database.poolName");
 
-        SQLDialect dialect = SQLDialect.valueOf(getProperty("database.dialect").trim());
+        SQLDialect dialect = null;
+        try {
+            dialect = SQLDialect.valueOf(getProperty("database.dialect").trim());
+        } catch (IllegalArgumentException e) {
+            logger.error("database.dialect not set");
+            System.exit(-1);
+        }
         DatabaseManager databaseManager = null;
         try {
             databaseManager = new DatabaseManager(username, password, url, databasePool, dialect, testing);
@@ -87,7 +93,6 @@ public class Main {
                 throw new RuntimeException(e);
             } else {
                 logger.error("unable to establish database connection", e);
-                e.printStackTrace();
                 System.exit(-1);
             }
         }
