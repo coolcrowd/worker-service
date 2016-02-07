@@ -168,7 +168,7 @@ generateSampleJooqSchemaSource.enabled = false
 task copyDist(type: Copy) {
     dependsOn "installDist"
     from "$buildDir/install/workerservice"
-    into "$projectDir/image/opt/workerservice"
+    into "./image/opt/workerservice"
 }
 
 task installDocker() {
