@@ -102,5 +102,6 @@ local.properties
 /image/opt/workerservice/lib
 /image/opt/workerservice/bin
 /conf
+/conf/configuration.properties
 !/image/opt/workerservice/bin/run.sh
 

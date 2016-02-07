@@ -85,33 +85,24 @@ public class Router implements SparkApplication, RequestHelper {
             response.header("access-control-max-age", "86400");
         });
 
+        options("/*", ((request, response) -> {
+            response.status(204);
+            response.type("text/plain");
+
+            return "";
+        }));
+
         get("/preview/:experiment", concurrentUnwrap(queries::preview));
 
         get("/next/:platform/:experiment", concurrentUnwrap(queries::getNext));
 
         post("/emails/:platform", concurrentUnwrap(commands::submitEmail));
-        options("/emails/:workerID", (request, response) -> {
-            response.status(200);
-            return "";
-        });
 
         post("/answers/:workerID", concurrentUnwrap(commands::submitAnswer));
-        options("/answers/:workerID", (request, response) -> {
-            response.status(200);
-            return "";
-        });
 
         post("/ratings/:workerID", concurrentUnwrap(commands::submitRating));
-        options("/ratings/:workerID", (request, response) -> {
-            response.status(200);
-            return "";
-        });
 
         post("/calibrations/:workerID", concurrentUnwrap(commands::submitCalibration));
-        options("/calibrations/:workerID", (request, response) -> {
-            response.status(204);
-            return "";
-        });
 
     }
 
