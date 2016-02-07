@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
 
@@ -171,6 +172,13 @@ public class MockProvider implements MockDataProvider {
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_OPTION_EXPERIMENT`")) {
             Result<RatingOptionExperimentRecord> result = create.newResult(RATING_OPTION_EXPERIMENT);
             mock[0] = new MockResult(1, result);
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING`.`ID_RATING`, `CROWDCONTROL`.")) {
+            Result<RatingRecord> result = create.newResult(RATING);
+            List<AnswerRecord> answerRecords = dataHolder.getAnswerRecords();
+            for (int i = answerRecords.size() - 1; i >= 0; i--) {
+                result.add(new RatingRecord(i, null, answerRecords.get(i).getIdAnswer(), null, null, null, null, null));
+            }
+            mock[0] = new MockResult(1, result);
         }
 
         // You can detect batch statements easily
@@ -181,6 +189,8 @@ public class MockProvider implements MockDataProvider {
         else if (sql.startsWith("INSERT INTO `CROWDCONTROL`.`ALGORITHM_TASK_CHOOSER` ")) {
             mock[0] = new MockResult(1, null);
         } else if (sql.startsWith("INSERT INTO `CROWDCONTROL`.`ALGORITHM_TASK_CHOOSER_PARAM` (`ID_ALGORITHM_TASK_CHOOSER_PARAM`")) {
+            mock[0] = new MockResult(1, null);
+        } else if (sql.startsWith("INSERT INTO `CROWDCONTROL`.`RATING` (`EXPERIMENT`, `ANSWER_R`, `WORKER_ID`")) {
             mock[0] = new MockResult(1, null);
         }
 

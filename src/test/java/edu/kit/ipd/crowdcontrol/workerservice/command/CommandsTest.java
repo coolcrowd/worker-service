@@ -6,10 +6,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.Answer;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.Calibration;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.EmailAnswer;
-import edu.kit.ipd.crowdcontrol.workerservice.proto.Rating;
+import edu.kit.ipd.crowdcontrol.workerservice.proto.*;
 import org.jooq.lambda.function.Function3;
 import org.junit.Rule;
 import org.junit.Test;
@@ -82,7 +79,7 @@ public class CommandsTest {
         submitCalibrationHelper(option, Calibration.newBuilder()
                 .setAnswerOption(option)
                 .build(),
-                task, workerID, response -> verify(response).status(201)
+                task, workerID, response -> verify(response, times(2)).status(201)
         );
     }
 
@@ -112,7 +109,7 @@ public class CommandsTest {
                 .setExperiment(experiment)
                 .setAnswer(answer)
                 .build()),
-                experiment, workerID, answerID, response -> verify(response).status(201));
+                experiment, workerID, answerID, response -> verify(response, times(2)).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -188,8 +185,9 @@ public class CommandsTest {
                         .setRating(rating)
                         .setAnswerId(answerID)
                         .setExperiment(experiment)
+                        .setRatingId(ratingID)
                         .build(),
-                experiment, answerID, workerID, ratingID, response -> verify(response).status(201));
+                experiment, answerID, workerID, ratingID, response -> verify(response, times(2)).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -203,7 +201,7 @@ public class CommandsTest {
                         .setAnswerId(answerID)
                         .setExperiment(experiment)
                         .build(),
-                experiment, answerID, workerID, ratingID, response -> verify(response).status(201));
+                experiment, answerID, workerID, ratingID, response -> verify(response, times(2)).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -270,8 +268,14 @@ public class CommandsTest {
                     when(communication.submitWorker(email, platform, new HashMap<>())).thenReturn(CompletableFuture.completedFuture(workerID));
                 },
                 request -> {
+                    when(request.contentType()).thenReturn("application/json");
                     when(request.params("platform")).thenReturn(platform);
-                    when(request.body()).thenReturn(email);
+                    Email build = Email.newBuilder().setEmail(email).build();
+                    try {
+                        when(request.body()).thenReturn(printer.print(build));
+                    } catch (InvalidProtocolBufferException e) {
+                        e.printStackTrace();
+                    }
                 },
                 Commands::submitEmail,
                 responseVerifier
@@ -299,7 +303,7 @@ public class CommandsTest {
         return submit(task, null,
                 communication -> {
                     when(communication.submitRating(ratingID, rating, "", task, answer, workerID, new ArrayList<>()))
-                            .thenReturn(CompletableFuture.completedFuture(null));
+                            .thenReturn(CompletableFuture.completedFuture(201));
                 },
                 request -> {
                     when(request.params("workerID")).thenReturn(String.valueOf(workerID));
