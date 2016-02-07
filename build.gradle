@@ -1,5 +1,5 @@
-group 'CoolCrowd'
-version '0.5-SNAPSHOT'
+group 'coolcrowd'
+version '0.5'
 
 apply plugin: 'java'
 apply plugin: 'nu.studer.jooq'
@@ -25,6 +25,7 @@ buildscript {
 mainClassName = 'edu.kit.ipd.crowdcontrol.workerservice.Main'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 repositories {
@@ -153,3 +154,19 @@ jooq {
 }
 
 generateSampleJooqSchemaSource.enabled = false
+
+//docker-related
+task copyDist(type: Copy) {
+    dependsOn "installDist"
+    from "$buildDir/install/workerservice"
+    into "$projectDir/image/opt/workerservice"
+}
+
+task copyConf(type: Copy) {
+    from "$projectDir/config.properties"
+    into "$projectDir/image/etc/workerservice/"
+}
+
+task installWorkerService() {
+    dependsOn "copyDist", "copyConf"
+}
