@@ -5,6 +5,8 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOper
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.lambda.tuple.Tuple2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 
 import java.util.*;
@@ -18,6 +20,7 @@ import java.util.stream.Stream;
  * @version 1.0
  */
 public class AntiSpoof extends TaskChooserAlgorithm {
+    private static final Logger logger = LoggerFactory.getLogger(AntiSpoof.class);
     static final String NAME = "anti_spoof";
     static final String DESCRIPTION = "This AntiSpoof algorithm divides the runtime of the experiment into 3 phases. In " +
             "the first phase the workers are only allowed to work on creative tasks. Then in the second " +
@@ -98,13 +101,18 @@ public class AntiSpoof extends TaskChooserAlgorithm {
                         entry -> getParameterValue(entry.getValue(), experimentID)
                 ));
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
+        logger.info("calculating phase for: answersCount={}, phases={}, neededAnswers={}",
+                answersCount, phases, experiment.getNeededAnswers());
         if ((answersCount <= phases.get(1)) && (answersCount < experiment.getNeededAnswers())) {
+            logger.debug("entering phase 1");
             //phase 1: no rating
             return constructView(builder, experimentID, skipCreative, true);
         } else if (answersCount < experiment.getNeededAnswers()) {
+            logger.debug("entering phase 2");
             //phase 2: rating + creative
             return constructView(builder, experimentID, skipCreative, skipRating);
         } else {
+            logger.debug("entering phase 3");
             return constructView(builder, experimentID, true, skipRating);
         }
     }

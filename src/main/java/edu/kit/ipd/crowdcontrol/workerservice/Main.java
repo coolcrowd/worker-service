@@ -6,6 +6,8 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.*;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.query.Queries;
 import org.jooq.SQLDialect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.NamingException;
 import java.io.File;
@@ -22,8 +24,14 @@ import java.util.function.Function;
  * @version 1.0
  */
 public class Main {
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) {
-        String propertyFileLocation = args[0];
+        String configLocation = System.getProperty("workerservice.config");
+        if (configLocation == null) {
+            configLocation = "./conf/configuration.properties";
+        }
+        logger.debug("configLocation is: {}", configLocation);
         //used for testing
         boolean testing = false;
         if (args.length > 1) {
@@ -32,17 +40,17 @@ public class Main {
         Properties config = new Properties();
         try {
             try {
-                config.load(new FileInputStream(propertyFileLocation));
+                config.load(new FileInputStream(configLocation));
             } catch (FileNotFoundException e) {
                 //used for testing
                 try {
-                    config.load(DatabaseManager.class.getResourceAsStream(propertyFileLocation));
+                    config.load(DatabaseManager.class.getResourceAsStream(configLocation));
                 } catch (NullPointerException ignored) {
                     //just means it's also not in the jar
                 }
             }
         } catch (IOException e) {
-            System.err.println("unable to find file: " + new File(propertyFileLocation).getAbsolutePath());
+            logger.error("unable to find file {}", new File(configLocation).getAbsolutePath());
             System.exit(-1);
         }
         Function<String, String> trimIfNotNull = s -> {
@@ -64,7 +72,7 @@ public class Main {
             if (testing) {
                 throw new RuntimeException(e);
             } else {
-                System.err.println("unable to establish database connection");
+                logger.error("unable to establish database connection", e);
                 e.printStackTrace();
                 System.exit(-1);
             }
@@ -93,10 +101,13 @@ public class Main {
                 ? Integer.parseInt(portRaw)
                 : 4567;
 
+        logger.debug("workerservice is using port {}", port);
+
         Commands commands = new Commands(communication, experimentOperations);
         Router router = new Router(queries, commands, port);
         if (!testing) {
             router.init();
         }
+        logger.debug("router initialized");
     }
 }

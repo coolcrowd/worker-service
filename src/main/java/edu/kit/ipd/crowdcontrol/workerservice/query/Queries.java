@@ -3,6 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
+import edu.kit.ipd.crowdcontrol.workerservice.Router;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
@@ -11,6 +12,8 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.*;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -29,6 +32,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class Queries implements RequestHelper {
+    private static final Logger logger = LoggerFactory.getLogger(Queries.class);
     private final HashMap<String, TaskChooserAlgorithm> strategies = new HashMap<>();
     private final CalibrationsOperations calibrationsOperations;
     private final ExperimentOperations experimentOperations;
@@ -93,6 +97,7 @@ public class Queries implements RequestHelper {
      */
     public String preview(Request request, Response response) {
         int experimentId = assertParameterInt(request, "experiment");
+        logger.debug("generating preview for experiment: {}", experimentId);
         return previewTaskChooser.next(View.newBuilder(), request, experimentId, "", false, false)
                 .map(view -> transform(request, response, view))
                 .orElseThrow(() -> new InternalServerErrorException("Unable to create Preview!"));
@@ -112,11 +117,14 @@ public class Queries implements RequestHelper {
         if ("skip".equals(request.queryParams("answer"))) {
             skipCreative = true;
         }
+        logger.info("skipCreative is: {}", skipCreative);
         boolean skipRating = false;
         if ("skip".equals(request.queryParams("rating"))) {
             skipRating = true;
         }
+        logger.info("skipRating is: {}", skipRating);
         View next = getNext(prepareView(request), request, skipCreative, skipRating);
+        logger.debug("returning view: {}", next);
         response.status(200);
         return transform(request, response, next);
     }
@@ -137,6 +145,7 @@ public class Queries implements RequestHelper {
         Optional<View> email = getEmail(builder, request);
         if (email.isPresent()) {
             if (email.get().getWorkerId() == -1) {
+                logger.trace("email without workerid");
                 return email.get().toBuilder()
                         .clearWorkerId()
                         .build();
@@ -144,6 +153,7 @@ public class Queries implements RequestHelper {
             return email.get();
         }
         if (checkCalibrationAndQuality(builder, request)) {
+            logger.debug("worker {} is eligible for working on the assignment", builder.getWorkerId());
             Optional<View> Calibration = getCalibration(builder, request);
             if (Calibration.isPresent()) {
                 return Calibration.get();
@@ -152,6 +162,8 @@ public class Queries implements RequestHelper {
             if (strategyStep.isPresent()) {
                 return strategyStep.get();
             }
+        } else {
+            logger.debug("worker {} is not allowed to work on the assignment", builder.getWorkerId());
         }
         return workerFinished(builder, request);
     }
@@ -174,6 +186,7 @@ public class Queries implements RequestHelper {
         } else {
             builder.setWorkerId(-1);
         }
+        logger.info("workerid is: {}", worker);
         return builder;
     }
 
@@ -187,7 +200,12 @@ public class Queries implements RequestHelper {
      */
     private View.Builder handleNoWorkerID(View.Builder builder, Request request) {
         String platformName = assertParameter(request, "platform");
+        logger.debug("handling no worker-id");
         return communication.tryGetWorkerID(platformName, request.queryMap().toMap())
+                .thenApply(result -> {
+                    logger.debug("platform {} returned {}", platformName, result.map(Object::toString).orElse("nothing"));
+                    return result;
+                })
                 .join()
                 .map(builder::setWorkerId)
                 .orElse(builder);
@@ -205,8 +223,17 @@ public class Queries implements RequestHelper {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
         ExperimentRecord experimentRecord = experimentOperations.getExperiment(experiment);
-        return !(calibrationsOperations.hasSubmittedWrongCalibrations(experiment, platformName, builder.getWorkerId())
-                || workerOperations.isUnderThreshold(experimentRecord.getWorkerQualityThreshold(), builder.getWorkerId()));
+        boolean submittedWrongCalibrations = calibrationsOperations.hasSubmittedWrongCalibrations(experiment, platformName, builder.getWorkerId());
+        if (submittedWrongCalibrations) {
+            logger.debug("worker {} has submitted wrong calibrations", builder.getWorkerId());
+            return false;
+        }
+
+        boolean underThreshold = workerOperations.isUnderThreshold(experimentRecord.getWorkerQualityThreshold(), builder.getWorkerId());
+        if (underThreshold) {
+            logger.debug("worker {} is under the quality threshold", builder.getWorkerId());
+        }
+        return !underThreshold;
     }
 
     /**
@@ -220,14 +247,19 @@ public class Queries implements RequestHelper {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
         if (platformOperations.getPlatform(platformName).getRenderCalibrations()) {
+            logger.info("platform {} is able to render calibrations", platformName);
             Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations =
                     calibrationsOperations.getCalibrations(experiment, platformName, builder.getWorkerId());
+            logger.info("worker {} must answer the calibrations {}", builder.getWorkerId(), calibrations);
             if (calibrations.isEmpty()) {
+                logger.debug("worker {} must not answer calibrations", builder.getWorkerId());
                 return Optional.empty();
             } else {
+                logger.debug("worker {} must answer calibrations", builder.getWorkerId());
                 return Optional.of(constructCalibrationView(calibrations, builder));
             }
         } else {
+            logger.info("platform {} is not able to render calibrations", platformName);
             return Optional.empty();
         }
     }
@@ -273,8 +305,10 @@ public class Queries implements RequestHelper {
     private Optional<View> getStrategyStep(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
         int experiment = assertParameterInt(request, "experiment");
         String platformName = assertParameter(request, "platform");
-        if (skipCreative && skipRating)
+        if (skipCreative && skipRating) {
+            logger.debug("worker {} chose to skip everything", builder.getWorkerId());
             return Optional.empty();
+        }
         boolean skipCreativeTemp = skipCreative;
         boolean skipRatingTemp = skipRating;
         TaskStopgap stopgap = taskOperations.getTask(experiment, platformName).getStopgap();
@@ -286,6 +320,7 @@ public class Queries implements RequestHelper {
         boolean resultingSkipCreative = skipCreativeTemp;
         boolean resultingSkipRating = skipRatingTemp;
         String algorithmTaskChooser = experimentOperations.getExperiment(experiment).getAlgorithmTaskChooser();
+        logger.debug("invoking task-chooser {}", algorithmTaskChooser);
         return Optional.ofNullable(strategies.get(algorithmTaskChooser))
                 .flatMap(strategy -> strategy.next(builder, request, experiment, platformName,
                         resultingSkipCreative, resultingSkipRating));

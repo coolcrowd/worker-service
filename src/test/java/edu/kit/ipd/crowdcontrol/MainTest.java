@@ -20,7 +20,7 @@ public class MainTest {
     @Test(expected = RuntimeException.class)
     public void testMainCanParsePoolExample() throws Exception {
         String[] args = new String[2];
-        args[0] = "/example_config.properties";
+        args[0] = "/conf/example_config.properties";
         args[1] = "true";
         Main.main(args);
     }

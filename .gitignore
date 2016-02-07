@@ -94,6 +94,8 @@ local.properties
 /image/etc/workerservice
 .target
 
+/conf/logging.xml
+/conf/configuration.properties
 # TeXlipse plugin
 .texlipse
 

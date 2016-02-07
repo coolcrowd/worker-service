@@ -7,6 +7,8 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentNotF
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public abstract class TaskChooserAlgorithm {
+    private static final Logger logger = LoggerFactory.getLogger(TaskChooserAlgorithm.class);
     protected final ExperimentOperations experimentOperations;
     protected final TaskOperations taskOperations;
     private final String pictureRegex = "\\{! ?\\S+ ?\\S+? ?\\}";
@@ -81,19 +84,26 @@ public abstract class TaskChooserAlgorithm {
      * @return an view with the type Answer, Rating or empty
      */
     protected Optional<View> constructView(View.Builder builder, int experimentID, boolean skipCreative, boolean skipRating) {
+        logger.info("constructing view with parameters: worker-id = {}, experimentID = {}, skipCreative = {}, skipRating = {}",
+                builder.getWorkerId(), experimentID, skipCreative, skipRating);
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
         if (!skipCreative) {
             int answered = taskOperations.getAnswersCount(experimentID, builder.getWorkerId());
+            logger.debug("worker {} has answered {} times, max. is {}", builder.getWorkerId(), answered, experiment.getAnwersPerWorker());
             if (answered < experiment.getAnwersPerWorker()) {
+                logger.debug("returning answer-view");
                 return Optional.of(constructAnswerView(builder, experimentID, experiment.getAnwersPerWorker() - answered));
             }
         }
         if (!skipRating) {
             int rated = taskOperations.getRatingsCount(experimentID, builder.getWorkerId());
+            logger.debug("worker {} has rated {} times, max. is {}", builder.getWorkerId(), rated, experiment.getRatingsPerWorker());
             if (rated < experiment.getRatingsPerWorker()) {
+                logger.debug("returning rating-view");
                 return constructRatingView(builder, experimentID, experiment.getRatingsPerWorker() - rated);
             }
         }
+        logger.info("skipping both");
         return Optional.empty();
     }
 
@@ -106,6 +116,7 @@ public abstract class TaskChooserAlgorithm {
      * @throws BadRequestException if the experiment was not found
      */
     protected View constructAnswerView(View.Builder builder, int experimentID, int amount) throws BadRequestException {
+        logger.debug("task chooser constructs answer-view");
         return prepareBuilder(builder, experimentID)
                 .setType(View.Type.ANSWER)
                 .setMaxAnswersToGive(amount)
@@ -122,6 +133,7 @@ public abstract class TaskChooserAlgorithm {
      * @throws BadRequestException if the experiment was not found
      */
     protected Optional<View> constructRatingView(View.Builder builder, int experimentID, int amount) throws BadRequestException {
+        logger.debug("task chooser constructs rating-view");
         List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), experimentID, amount).entrySet()
                 .stream()
                 .map(entry -> View.Answer.newBuilder()
@@ -130,9 +142,9 @@ public abstract class TaskChooserAlgorithm {
                         .setAnswerId(entry.getValue().getIdAnswer())
                         .build())
                 .collect(Collectors.toList());
+        logger.info("worker {} can rate {}", builder.getWorkerId(), toRate);
         if (toRate.isEmpty()) {
-            System.err.println(String.format("no answers available to rate for experiment = %d, " +
-                    "worker = %d", experimentID, builder.getWorkerId()));
+            logger.error("no answers available to rate for experiment = {}, worker = {}", experimentID, builder.getWorkerId());
             return Optional.empty();
         }
         return Optional.of(prepareBuilder(builder, experimentID)
@@ -150,6 +162,7 @@ public abstract class TaskChooserAlgorithm {
      * @throws BadRequestException if the experiment is not existing
      */
     protected View.Builder prepareBuilder(View.Builder builder, int experimentID) throws BadRequestException {
+        logger.info("task chooser prepared builder");
         ExperimentRecord experimentRecord = null;
         try {
             experimentRecord = experimentOperations.getExperiment(experimentID);

@@ -3,6 +3,8 @@ package edu.kit.ipd.crowdcontrol.workerservice;
 import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.ErrorResponse;
 import edu.kit.ipd.crowdcontrol.workerservice.query.Queries;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 import spark.servlet.SparkApplication;
@@ -15,6 +17,7 @@ import static spark.Spark.*;
  * @version 1.0
  */
 public class Router implements SparkApplication, RequestHelper {
+    private static final Logger logger = LoggerFactory.getLogger(Router.class);
     private final Queries queries;
     private final Commands commands;
     private final int port;
@@ -39,14 +42,14 @@ public class Router implements SparkApplication, RequestHelper {
         port(port);
 
         exception(BadRequestException.class, (exception, request, response) -> {
+            logger.debug("bad request", exception);
             response.status(400);
             response.body(error(request, response, "badRequest", exception.getMessage()));
         });
 
         exception(InternalServerErrorException.class, (exception, request, response) -> {
             InternalServerErrorException internalError = (InternalServerErrorException) exception;
-            System.err.println("an internal error occurred");
-            internalError.printStackTrace();
+            logger.error("an internal error occurred", internalError);
             response.status(500);
             response.body(error(request, response, "internalServerError", exception.getMessage()));
         });
@@ -54,7 +57,7 @@ public class Router implements SparkApplication, RequestHelper {
         exception(NotAcceptableException.class, (exception, request, response) -> {
             // Don't use error(...) in this handler,
             // otherwise we end up throwing the same exception again.
-
+            logger.debug("not acceptable request", exception);
             response.status(406);
             response.type("text/plain");
             response.body("notAcceptable: " + exception.getMessage());
