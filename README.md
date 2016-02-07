@@ -34,8 +34,12 @@ where
  * `database.password` the password of the database account
  * `os.url` is the url of the object-service
  
-The configuration is detailed in the configuration-file conf/configuration.properties. You can alter the 
+The configuration is detailed in the configuration-file ./conf/configuration.properties`. You can alter the 
 configuration-file to permanently change properties. Every property can be overridden by setting a global-property via
 `-D{key}={value}`.
 
 You can also set the config-file location with the system-property `workerservice.config`, e.g. `-Dworkerservice.config=location`.
+
+The logging is specified in the logging-file `./conf/logging.xml`. You can alter the logging-file to permanently change properties.
+
+You can also set the config-file location with the system-property `logback.configurationFile`, e.g. `-Dlogback.configurationFile=location`.
