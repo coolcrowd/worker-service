@@ -11,17 +11,17 @@ public class MainTest {
 
     @Test
     public void testMainCanParseExample() throws Exception {
-        String[] args = new String[2];
-        args[0] = "/example_config_without_Pool.properties";
-        args[1] = "true";
+        System.setProperty("workerservice.config", "/example_config_without_Pool.properties");
+        String[] args = new String[1];
+        args[0] = "true";
         Main.main(args);
     }
 
     @Test(expected = RuntimeException.class)
     public void testMainCanParsePoolExample() throws Exception {
-        String[] args = new String[2];
-        args[0] = "/conf/example_config.properties";
-        args[1] = "true";
+        System.setProperty("workerservice.config", "/example_config_with_Pool.properties");
+        String[] args = new String[1];
+        args[0] = "true";
         Main.main(args);
     }
 }
