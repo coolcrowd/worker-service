@@ -60,6 +60,19 @@ public class Router implements SparkApplication, RequestHelper {
             response.body("notAcceptable: " + exception.getMessage());
         });
 
+        before((request, response) -> {
+            if (request.headers("accept") == null) {
+                throw new BadRequestException("Missing required 'accept' header.");
+            }
+
+            response.header("access-control-allow-origin", "*");
+            response.header("access-control-allow-methods", "GET,PUT,POST,PATCH,DELETE,OPTIONS");
+            response.header("access-control-allow-credentials", "true");
+            response.header("access-control-allow-headers", "Authorization,Content-Type");
+            response.header("access-control-expose-headers", "Link,Location");
+            response.header("access-control-max-age", "86400");
+        });
+
         get("/preview/:experiment", queries::preview);
 
         get("/next/:platform/:experiment", queries::getNext);
