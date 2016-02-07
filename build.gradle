@@ -24,6 +24,12 @@ buildscript {
 
 mainClassName = 'edu.kit.ipd.crowdcontrol.workerservice.Main'
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'edu.kit.ipd.crowdcontrol.workerservice.Main'
+    }
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
