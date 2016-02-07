@@ -37,3 +37,5 @@ where
 The configuration is detailed in the configuration-file conf/configuration.properties. You can alter the 
 configuration-file to permanently change properties. Every property can be overridden by setting a global-property via
 `-D{key}={value}`.
+
+You can also set the config-file location with the system-property `workerservice.config`, e.g. `-Dworkerservice.config=location`.
