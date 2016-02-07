@@ -6,15 +6,20 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.http.options.Option;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import edu.kit.ipd.crowdcontrol.objectservice.proto.*;
+import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
+import edu.kit.ipd.crowdcontrol.workerservice.NotAcceptableException;
 
 import java.lang.Integer;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -25,6 +30,7 @@ import java.util.stream.Collectors;
 public class Communication {
     private final String url;
     private final JsonFormat.Printer printer = JsonFormat.printer();
+    private final JsonFormat.Parser parser = JsonFormat.parser();
     private final String username;
     private final String password;
 
@@ -71,7 +77,7 @@ public class Communication {
                     } else if (response.getStatus() == 409) {
                         return Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", ""));
                     } else {
-                        throw new RuntimeException("illegal Response, status : " + response.getStatus());
+                        return throwOr(response, () -> {throw new RuntimeException("illegal Response, status : " + response.getStatus());});
                     }
                 });
     }
@@ -103,7 +109,7 @@ public class Communication {
                         .replace(url+"/experiments/"+experiment+"/answers/", "")
                 );
             } else {
-                throw new RuntimeException("illegal Response, status : " + response.getStatus());
+                return throwOr(response, () -> {throw new RuntimeException("illegal Response, status : " + response.getStatus());});
             }
         });
     }
@@ -136,7 +142,8 @@ public class Communication {
         return putRequest("/experiments/"+experiment+"/answers/"+answer+"/rating", builder -> builder
                 .body(printer.print(rating))
                 .asJson()
-        ).thenApply(HttpResponse::getStatus);
+        ).thenApply(response -> throwOr(response, () -> response))
+                .thenApply(HttpResponse::getStatus);
     }
 
     /**
@@ -155,7 +162,7 @@ public class Communication {
                 .body(printer.print(calibrationAnswer))
                 .asJson()
         )
-        .thenApply(response -> null);
+        .thenApply(response -> throwOr(response, () -> null));
     }
 
     /**
@@ -178,10 +185,41 @@ public class Communication {
                 return Optional.of(response.getBody().getObject().getInt("id"));
             } else if (response.getStatus() == 409) {
                 return Optional.of(Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", "")));
-            } else {
+            } else if (response.getStatus() == 404){
                 return Optional.empty();
             }
+            return throwOr(response, Optional::empty);
         });
+    }
+
+    /**
+     * tries to recover the error detail from the object-service if possible and rethrows with the appropriate exception
+     * or returns otherwise
+     * @param response the response to react to
+     * @param otherwise what to return otherwise
+     * @param <T> the Type to return
+     * @return the result of the supplier if not an exception
+     */
+    private <T> T throwOr(HttpResponse<JsonNode> response, Supplier<T> otherwise) {
+        int status = response.getStatus();
+        Function<String, String> getError = osMessage -> String.format("Cause: Object service responded with: %s", osMessage);
+        try {
+            if (status == 400) {
+                ErrorResponse.Builder errorBuilder = ErrorResponse.newBuilder();
+                parser.merge(response.getBody().toString(), errorBuilder);
+                throw new BadRequestException(getError.apply(errorBuilder.getDetail()));
+            } else if (status == 500) {
+                ErrorResponse.Builder errorBuilder = ErrorResponse.newBuilder();
+                parser.merge(response.getBody().toString(), errorBuilder);
+                throw new InternalServerErrorException(getError.apply(errorBuilder.getDetail()));
+            } else if (status == 406) {
+                throw new NotAcceptableException(getError.apply(response.getBody().toString()));
+            } else {
+                return otherwise.get();
+            }
+        } catch (InvalidProtocolBufferException e) {
+            throw new InternalServerErrorException(String.format("Object service responded with: %s", response.getBody().toString()));
+        }
     }
 
     /**

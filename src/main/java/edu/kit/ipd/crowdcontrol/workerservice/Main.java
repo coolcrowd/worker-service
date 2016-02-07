@@ -102,9 +102,9 @@ public class Main {
         WorkerOperations workerOperations = new WorkerOperations(databaseManager.getContext());
 
         Communication communication = new Communication(
-                getProperty("os_url"),
-                getProperty("os_username"),
-                getProperty("os_password")
+                getProperty("os.url"),
+                getProperty("os.username"),
+                getProperty("os.password")
         );
         Queries queries = new Queries(calibrationsOperations, experimentOperations, platformOperations, communication,
                 taskOperations, workerOperations, testing);

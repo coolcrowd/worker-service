@@ -7,7 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
+import spark.Route;
+import spark.Spark;
 import spark.servlet.SparkApplication;
+
+import javax.servlet.AsyncContext;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.function.BiFunction;
 
 import static spark.Spark.*;
 
@@ -40,6 +47,13 @@ public class Router implements SparkApplication, RequestHelper {
     @Override
     public void init() {
         port(port);
+
+        exception(Exception.class, (exception, request, response) -> {
+            InternalServerErrorException internalError = (InternalServerErrorException) exception;
+            logger.error("an internal error occurred", internalError);
+            response.status(501);
+            response.body(error(request, response, "internalServerError", exception.getMessage()));
+        });
 
         exception(BadRequestException.class, (exception, request, response) -> {
             logger.debug("bad request", exception);
@@ -76,17 +90,17 @@ public class Router implements SparkApplication, RequestHelper {
             response.header("access-control-max-age", "86400");
         });
 
-        get("/preview/:experiment", queries::preview);
+        get("/preview/:experiment", concurrentUnwrap(queries::preview));
 
-        get("/next/:platform/:experiment", queries::getNext);
+        get("/next/:platform/:experiment", concurrentUnwrap(queries::getNext));
 
-        post("/emails/:platform", commands::submitEmail);
+        post("/emails/:platform", concurrentUnwrap(commands::submitEmail));
 
-        post("/answers/:workerID", commands::submitAnswer);
+        post("/answers/:workerID", concurrentUnwrap(commands::submitAnswer));
 
-        post("/ratings/:workerID", commands::submitRating);
+        post("/ratings/:workerID", concurrentUnwrap(commands::submitRating));
 
-        post("/calibrations/:workerID", commands::submitCalibration);
+        post("/calibrations/:workerID", concurrentUnwrap(commands::submitCalibration));
 
     }
 
@@ -103,5 +117,23 @@ public class Router implements SparkApplication, RequestHelper {
     private String error(Request request, Response response, String code, String detail) {
         ErrorResponse error = ErrorResponse.newBuilder().setCode(code).setDetail(detail).build();
         return transform(request, response, error);
+    }
+
+    /**
+     * catches CompletionException and handles accordingly
+     * @param route the route to map
+     * @return a safeguarded route
+     */
+    private Route concurrentUnwrap(Route route) {
+        return (request, response) -> {
+            try {
+                return route.handle(request, response);
+            } catch (CompletionException exception) {
+                if (exception.getCause() != null && exception.getCause() instanceof RuntimeException) {
+                    throw (RuntimeException) exception.getCause();
+                }
+                throw new InternalServerErrorException(exception.getMessage(), exception);
+            }
+        };
     }
 }
