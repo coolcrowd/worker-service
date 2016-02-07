@@ -12,6 +12,73 @@ The dummy platform does not pay any workers and identifies worker by their email
 <div class="note">
 <p>The worker-service expects the client to take care of checking that the user works at least on one ANSWER or RATING tasks before he skips all the others. This means that if the client has at least one of the query-parameter answer or rating set to skip and gets the type FINISHED from the worker-serice he has remember whether the worker submitted an answer or rating. If he has not, the client has to try the /next command again without the query-parameter answer or rating. If the returning type is not FINISHED, the client should notify the worker that he has to work on at least one of the ANSWER or RATING tasks and act according to the returned type.</p>
 </div>
+<p>The response:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>workerId</td>
+<td>(number)</td>
+<td>he worker-id</td>
+</tr>
+<tr>
+<td>type</td>
+<td>(enum[string], required)</td>
+<td>The type of the view, this field is always set and determines what other fields are also set.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>(string)</td>
+<td>The title of the experiment</td>
+</tr>
+<tr>
+<td>description</td>
+<td>(string)</td>
+<td>the description of the experiment</td>
+</tr>
+<tr>
+<td>maxAnswersToGive</td>
+<td>(number)</td>
+<td>the maximum number of answers the worker is allowed to submit</td>
+</tr>
+<tr>
+<td>answersToRate</td>
+<td>(array[View_Answer]</td>
+<td>the answers the worker can rate</td>
+</tr>
+<tr>
+<td>answerType</td>
+<td>(string)</td>
+<td>the answer type, if set this means the worker submits a link pointing to a resource with the mime-type answerType</td>
+</tr>
+<tr>
+<td>ratingOptions</td>
+<td>(array[View_RatingOption])</td>
+<td>he optionas to rate one answer</td>
+</tr>
+<tr>
+<td>constraints</td>
+<td>(array[View_Constraint])</td>
+<td>the contraints which the worker must check or avoid bein violated</td>
+</tr>
+<tr>
+<td>pictures</td>
+<td>(array[View_Picture])</td>
+<td>the pictures if the experiment contains any</td>
+</tr>
+<tr>
+<td>calibrations</td>
+<td>(array[View_Calibration])</td>
+<td>the calibrations the worker must answer</td>
+</tr>
+</tbody>
+</table>
 <p>The worker-service supports multiple sessions. Depending on the time-limit of the platform and platform-specific properties, the worker can work on an experiment, finish and later start again.</p>
 <p>The protobuf definition of the resource can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/view.proto">here</a>;</p>
 <p>Full details about the types in the next segments:</p>
@@ -130,6 +197,39 @@ The dummy platform does not pay any workers and identifies worker by their email
   "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"FINISHED"</span>
 </span>}</code></pre><div style="height: 1px;"></div></div></div></div></div></div></div><div class="middle"><div id="view-example-next-finished-get" class="action get"><h4 class="action-heading"><div class="name">next with type FINISHED</div><a href="#view-example-next-finished-get" class="method get">GET</a><code class="uri">/next/example/13?worker=22&amp;rating=skip</code></h4></div></div><hr class="split"><div class="middle"><div id="view-preview" class="resource"><h3 class="resource-heading">Preview <a href="#view-preview" class="permalink">&para;</a></h3><p>this call returns a preview of the experiment.</p>
 <p>The protobuf definition of the resource can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/view.proto">here</a>;</p>
+<p>Please look at the /next command to get a better understanding of the /preview command.</p>
+<p>The response:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>(string, required)</td>
+<td>The title of the experiment</td>
+</tr>
+<tr>
+<td>description</td>
+<td>(string, required)</td>
+<td>the description of the experiment</td>
+</tr>
+<tr>
+<td>pictures</td>
+<td>(array[View_Picture])</td>
+<td>the pictures if present</td>
+</tr>
+<tr>
+<td>constraints</td>
+<td>(array[View_Constraint])</td>
+<td>the constraints if present</td>
+</tr>
+</tbody>
+</table>
 </div></div><div class="right"><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname">http://api.samplehost.com</span>/preview/<span class="hljs-attribute" title="experiment">13</span></span></div><div class="tabs"><div class="tabs"><div class="example-names"><span>Responses</span><span class="tab-button">200</span></div><div class="tab"><div><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Schema</h5><pre><code>{
   "<span class="hljs-attribute">$schema</span>": <span class="hljs-value"><span class="hljs-string">"http://json-schema.org/draft-04/schema#"</span></span>,
   "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
@@ -143,10 +243,12 @@ The dummy platform does not pay any workers and identifies worker by their email
       "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"the description of the experiment"</span>
     </span>}</span>,
     "<span class="hljs-attribute">pictures</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
+      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
+      "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"the pictures if present"</span>
     </span>}</span>,
-    "<span class="hljs-attribute">calibrations</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span>
+    "<span class="hljs-attribute">constraints</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
+      "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"the constraints if present"</span>
     </span>}
   </span>}</span>,
   "<span class="hljs-attribute">required</span>": <span class="hljs-value">[
@@ -158,6 +260,23 @@ The dummy platform does not pay any workers and identifies worker by their email
 </section></div><div class="middle"><div id="submit-email" class="resource"><h3 class="resource-heading">Email <a href="#submit-email" class="permalink">&para;</a></h3><p>Some crowd-platforms require the email-address of the worker. Most of the time this is required because the platform has no native payment system and has to default to the built-in email based payment system in CrowdControl. If a worker wishes to not disclose his email-address, pass an empty string. This has the consequence that CrowdControl is unable to pay the worker.</p>
 <p>The protobuf definition of the resource can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/email.proto">here</a>;</p>
 <p>The protobuf definition of the answer can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/email_answer.proto">here</a>;</p>
+<p>The message:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>(string, required)</td>
+<td>The email address to submit (or empty if the worker wishes to not disclose his email-address)</td>
+</tr>
+</tbody>
+</table>
 </div></div><div class="right"><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname">http://api.samplehost.com</span>/emails/<span class="hljs-attribute" title="platform">dummy</span></span></div><div class="tabs"><div class="example-names"><span>Requests</span><span class="tab-button">example 1</span><span class="tab-button">example 2</span></div><div class="tab"><div><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
   "<span class="hljs-attribute">email</span>": <span class="hljs-value"><span class="hljs-string">"example.address@example.org"</span>
 </span>}</code></pre><div style="height: 1px;"></div></div></div><div class="tabs"><div class="example-names"><span>Responses</span><span class="tab-button">201</span></div><div class="tab"><div><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
@@ -169,6 +288,11 @@ The dummy platform does not pay any workers and identifies worker by their email
 </span>}</code></pre><div style="height: 1px;"></div></div></div></div></div></div></div></div><div class="middle"><div id="submit-email-post" class="action post"><h4 class="action-heading"><div class="name">Submit an email-address</div><a href="#submit-email-post" class="method post">POST</a><code class="uri">/emails/{platform}</code></h4><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>platform</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>dummy</span></span><p>represents the platform the worker is working on.</p>
 </dd></dl></div></div></div><hr class="split"><div class="middle"><div id="submit-answer" class="resource"><h3 class="resource-heading">Answer <a href="#submit-answer" class="permalink">&para;</a></h3><p>This command is used to submit a creative answer. A creative answer is the work on the /next with the type ANSWER.</p>
 <p>The protobuf definition of the answer can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/answer.proto">here</a>;</p>
+<p>The message:</p>
+<p>Field | Type   | Description
+----------------------------------|---------------------------
+answer | (string, required) | the answer of the worker to a creative-view.
+experiment | (number, required) | represents the experiment the worker is currently working on.</p>
 </div></div><div class="right"><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname">http://api.samplehost.com</span>/answers/<span class="hljs-attribute" title="workerId">1882</span></span></div><div class="tabs"><div class="example-names"><span>Requests</span><span class="tab-button">example 1</span><span class="tab-button">example 2</span></div><div class="tab"><div><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
   "<span class="hljs-attribute">answer</span>": <span class="hljs-value"><span class="hljs-string">"http://www.example.org/image.jpg"</span></span>,
   "<span class="hljs-attribute">experiment</span>": <span class="hljs-value"><span class="hljs-number">33</span>
@@ -177,7 +301,49 @@ The dummy platform does not pay any workers and identifies worker by their email
   "<span class="hljs-attribute">experiment</span>": <span class="hljs-value"><span class="hljs-number">18</span>
 </span>}</code></pre><div style="height: 1px;"></div></div></div><div class="tabs"><div class="example-names"><span>Responses</span><span class="tab-button">200</span></div><div class="tab"><div><div class="inner"><div class="description text-muted">This response has no content.</div><div style="height: 1px;"></div></div></div></div></div></div></div></div><div class="middle"><div id="submit-answer-post" class="action post"><h4 class="action-heading"><div class="name">Submit a creative answer</div><a href="#submit-answer-post" class="method post">POST</a><code class="uri">/answers/{workerId}</code></h4><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>workerId</dt><dd><code>number</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1882</span></span><p>The worker-id is used by CrowdControl to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.</p>
 </dd></dl></div></div></div><hr class="split"><div class="middle"><div id="submit-rating" class="resource"><h3 class="resource-heading">RATING <a href="#submit-rating" class="permalink">&para;</a></h3><p>This command is used to submit a rating. A rating is the work on the /next with the type RATING.</p>
-<p>The protobuf definition of the answer can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/rating.proto">here</a>;</p>
+<p>The protobuf definition of the rating can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/rating.proto">here</a>;</p>
+<p>The message:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ratingId</td>
+<td>(number, required)</td>
+<td>the id of the rating, the id from answersToRate</td>
+</tr>
+<tr>
+<td>rating</td>
+<td>(number, required)</td>
+<td>the value from the chosen key value-pair from ratingOptions</td>
+</tr>
+<tr>
+<td>experiment</td>
+<td>(number, required)</td>
+<td>the experiment currently worked on</td>
+</tr>
+<tr>
+<td>answerId</td>
+<td>(number, required)</td>
+<td>he answerId from the answersToRate</td>
+</tr>
+<tr>
+<td>feedback</td>
+<td>(string)</td>
+<td>feedback for the worker rated</td>
+</tr>
+<tr>
+<td>constraints</td>
+<td>(array[number])</td>
+<td>the ids of the constraints violated</td>
+</tr>
+</tbody>
+</table>
 </div></div><div class="right"><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname">http://api.samplehost.com</span>/ratings/<span class="hljs-attribute" title="workerId">1882</span></span></div><div class="tabs"><div class="example-names"><span>Requests</span><span class="tab-button">example 1</span><span class="tab-button">example 2</span></div><div class="tab"><div><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
   "<span class="hljs-attribute">rating</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
   "<span class="hljs-attribute">experiment</span>": <span class="hljs-value"><span class="hljs-number">15</span></span>,
@@ -193,13 +359,30 @@ The dummy platform does not pay any workers and identifies worker by their email
   "<span class="hljs-attribute">answerId</span>": <span class="hljs-value"><span class="hljs-number">22244</span>
 </span>}</code></pre><div style="height: 1px;"></div></div></div><div class="tabs"><div class="example-names"><span>Responses</span><span class="tab-button">200</span></div><div class="tab"><div><div class="inner"><div class="description text-muted">This response has no content.</div><div style="height: 1px;"></div></div></div></div></div></div></div></div><div class="middle"><div id="submit-rating-post" class="action post"><h4 class="action-heading"><div class="name">Submit a rating</div><a href="#submit-rating-post" class="method post">POST</a><code class="uri">/ratings/{workerId}</code></h4><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>workerId</dt><dd><code>number</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1882</span></span><p>The worker-id is used by CrowdControl to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.</p>
 </dd></dl></div></div></div><hr class="split"><div class="middle"><div id="submit-calibration" class="resource"><h3 class="resource-heading">Calibration <a href="#submit-calibration" class="permalink">&para;</a></h3><p>This command is used to submit a calibration. A calibration is the work on the /next with the type CALIBRATION.</p>
-<p>The protobuf definition of the answer can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/calibration.proto">here</a>;</p>
+<p>The protobuf definition of the calibration can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/calibration.proto">here</a>;</p>
+<p>The message:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>answerOption</td>
+<td>(number, required)</td>
+<td>the id of the answerOption chosen from the calibration</td>
+</tr>
+</tbody>
+</table>
 </div></div><div class="right"><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname">http://api.samplehost.com</span>/calibrations/<span class="hljs-attribute" title="workerId">1882</span></span></div><div class="tabs"><div class="example-names"><span>Requests</span><span class="tab-button">example 1</span><span class="tab-button">example 2</span></div><div class="tab"><div><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
   "<span class="hljs-attribute">answerOption</span>": <span class="hljs-value"><span class="hljs-number">29</span>
 </span>}</code></pre><div style="height: 1px;"></div></div></div><div class="tabs"><div class="example-names"><span>Responses</span><span class="tab-button">200</span></div><div class="tab"><div><div class="inner"><div class="description text-muted">This response has no content.</div><div style="height: 1px;"></div></div></div></div></div></div><div class="tab"><div><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
   "<span class="hljs-attribute">answerOption</span>": <span class="hljs-value"><span class="hljs-number">88</span>
 </span>}</code></pre><div style="height: 1px;"></div></div></div><div class="tabs"><div class="example-names"><span>Responses</span><span class="tab-button">200</span></div><div class="tab"><div><div class="inner"><div class="description text-muted">This response has no content.</div><div style="height: 1px;"></div></div></div></div></div></div></div></div><div class="middle"><div id="submit-calibration-post" class="action post"><h4 class="action-heading"><div class="name">Submit a calibration</div><a href="#submit-calibration-post" class="method post">POST</a><code class="uri">/calibrations/{workerId}</code></h4><div class="title"><strong>URI Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>workerId</dt><dd><code>number</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1882</span></span><p>The worker-id is used by CrowdControl to identify the individual worker. An worker-id can be obtained by either calling GET /next or if the platform needs an email through POST emails.</p>
-</dd></dl></div></div></div><hr class="split"><div class="middle"><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 06 Feb 2016</p></div></div></div></div><script>/* eslint-env browser */
+</dd></dl></div></div></div><hr class="split"><div class="middle"><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 07 Feb 2016</p></div></div></div></div><script>/* eslint-env browser */
 /* eslint quotes: [2, "single"] */
 'use strict';
 

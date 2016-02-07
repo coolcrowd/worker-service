@@ -28,6 +28,22 @@ The client may choose to persist the worker-id and pass it when the worker start
 The worker-service expects the client to take care of checking that the user works at least on one ANSWER or RATING tasks before he skips all the others. This means that if the client has at least one of the query-parameter answer or rating set to skip and gets the type FINISHED from the worker-serice he has remember whether the worker submitted an answer or rating. If he has not, the client has to try the /next command again without the query-parameter answer or rating. If the returning type is not FINISHED, the client should notify the worker that he has to work on at least one of the ANSWER or RATING tasks and act according to the returned type.
 :::
 
+The response:
+
+ Field  | Type   | Description
+-------| ---- | -----------
+ workerId | (number) | he worker-id
+ type | (enum[string], required) | The type of the view, this field is always set and determines what other fields are also set.
+ title | (string) | The title of the experiment
+ description | (string) | the description of the experiment
+ maxAnswersToGive | (number) | the maximum number of answers the worker is allowed to submit
+ answersToRate | (array[View_Answer] | the answers the worker can rate
+ answerType | (string) | the answer type, if set this means the worker submits a link pointing to a resource with the mime-type answerType
+ ratingOptions | (array[View_RatingOption]) | he optionas to rate one answer
+ constraints | (array[View_Constraint]) | the contraints which the worker must check or avoid bein violated
+ pictures | (array[View_Picture]) | the pictures if the experiment contains any
+ calibrations | (array[View_Calibration]) | the calibrations the worker must answer
+
 The worker-service supports multiple sessions. Depending on the time-limit of the platform and platform-specific properties, the worker can work on an experiment, finish and later start again.
 
 The protobuf definition of the resource can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/view.proto);
@@ -225,11 +241,22 @@ this call returns a preview of the experiment.
 
 The protobuf definition of the resource can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/view.proto);
 
+Please look at the /next command to get a better understanding of the /preview command.
+
+The response:
+
+ Field | Type   | Description
+-------|--------|------
+ title | (string, required) | The title of the experiment
+ description | (string, required) | the description of the experiment
+ pictures | (array[View_Picture]) | the pictures if present
+ constraints | (array[View_Constraint]) | the constraints if present
+
 + Attributes (object)
   + title: Mean Tweet (string, required) - The title of the experiment
   + description: Description of Mean Tweet Assignment (string, required) - the description of the experiment
-  + pictures (array[View_Picture])
-  + calibrations (array[View_Calibration])
+  + pictures (array[View_Picture]) - the pictures if present
+  + constraints (array[View_Constraint]) - the constraints if present
 
 + Parameters
     + experiment: 13 (required, number) - the experiment the worker is currently working on.
@@ -251,6 +278,11 @@ Some crowd-platforms require the email-address of the worker. Most of the time t
 The protobuf definition of the resource can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/email.proto);
 
 The protobuf definition of the answer can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/email_answer.proto);
+
+The message:
+ Field | Type   | Description
+-------|--------|--------------
+ email | (string, required) | The email address to submit (or empty if the worker wishes to not disclose his email-address)
 
 + Attributes (object)
     + email: email.worker@example.org (string, required) - The email address to submit (or empty if the worker wishes to not disclose his email-address)
@@ -290,6 +322,13 @@ This command is used to submit a creative answer. A creative answer is the work 
 
 The protobuf definition of the answer can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/answer.proto);
 
+The message:
+
+ Field | Type   | Description
+----------------------------------|---------------------------
+ answer | (string, required) | the answer of the worker to a creative-view.
+ experiment | (number, required) | represents the experiment the worker is currently working on.
+
 + Attributes (object)
     + answer: Why did the chicken cross the road? (string, required) - the answer of the worker to a creative-view.
     + experiment: 13 (number, required) - represents the experiment the worker is currently working on.
@@ -315,7 +354,19 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 This command is used to submit a rating. A rating is the work on the /next with the type RATING.
 
-The protobuf definition of the answer can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/rating.proto);
+The protobuf definition of the rating can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/rating.proto);
+
+The message:
+
+| Field | Type   | Description               |
+|-------|--------------------------|---------------------------|
+| ratingId | (number, required) | the id of the rating, the id from answersToRate |
+| rating | (number, required) | the value from the chosen key value-pair from ratingOptions |
+| experiment | (number, required) | the experiment currently worked on |
+| answerId | (number, required) | he answerId from the answersToRate |
+| feedback | (string) | feedback for the worker rated |
+| constraints | (array[number]) | the ids of the constraints violated |
+
 
 + Attributes (object)
     + ratingId: 52 (number, required) - the id of the rating, the id from answersToRate
@@ -356,7 +407,14 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 This command is used to submit a calibration. A calibration is the work on the /next with the type CALIBRATION.
 
-The protobuf definition of the answer can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/calibration.proto);
+The protobuf definition of the calibration can be viewed [here](https://github.com/coolcrowd/spec/blob/master/workerservice/calibration.proto);
+
+The message:
+
+| Field | Type   | Description               |
+|-------|------|--------------------------|
+| answerOption | (number, required) | the id of the answerOption chosen from the calibration |
+
 
 + Attributes (object)
     + answerOption: 18 (number, required) - the id of the answerOption chosen from the calibration
@@ -393,13 +451,13 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 
 + title: Mean Tweet (string) - The title of the experiment
 + description: Description of Mean Tweet Assignment (string) - the description of the experiment
-+ maxAnswersToGive: 13 (number)
-+ answersToRate (array[View_Answer])
-+ answerType: "image" (string)
-+ ratingOptions (array[View_RatingOption])
-+ constraints (array[View_Constraint])
-+ pictures (array[View_Picture])
-+ calibrations (array[View_Calibration])
++ maxAnswersToGive: 13 (number) - the maximum number of answers the worker is allowed to submit
++ answersToRate (array[View_Answer]) - the answers the worker can rate
++ answerType: "image" (string) - the answer type, if set this means the worker submits a link pointing to a resource with the mime-type answerType
++ ratingOptions (array[View_RatingOption]) - the optionas to rate one answer
++ constraints (array[View_Constraint]) - the contraints which the worker must check or avoid bein violated
++ pictures (array[View_Picture]) - the pictures if the experiment contains any
++ calibrations (array[View_Calibration]) - the calibrations the worker must answer
 
 ## View_Answer (object)
 + id: 3 (number, required)
