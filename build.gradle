@@ -30,6 +30,16 @@ jar {
     }
 }
 
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'edu.kit.ipd.crowdcontrol.workerservice.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
