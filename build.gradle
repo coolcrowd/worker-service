@@ -46,10 +46,17 @@ dependencies {
     compile 'commons-validator:commons-validator:1.5.0'
     compile 'com.mashape.unirest:unirest-java:1.4.7'
     compile 'org.apache.commons:commons-io:1.3.+'
+    compile 'ch.qos.logback:logback-core:1.1.3'
+    compile 'ch.qos.logback:logback-classic:1.1.3'
+    compile 'org.slf4j:slf4j-api:1.7.12'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.+'
     testCompile 'commons-io:commons-io:2.+'
 }
+
+applicationDefaultJvmArgs = [
+        "-Dworkerservice.config.file=/etc/workerservice/configuration.properties",
+        "-Dlogback.configurationFile=/etc/workerservice/logging.xml"]
 
 //tests
 
@@ -163,10 +170,10 @@ task copyDist(type: Copy) {
 }
 
 task copyConf(type: Copy) {
-    from "$projectDir/config.properties"
+    from "$projectDir/conf"
     into "$projectDir/image/etc/workerservice/"
 }
 
-task installWorkerService() {
+task installDocker() {
     dependsOn "copyDist", "copyConf"
 }

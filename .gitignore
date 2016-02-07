@@ -58,7 +58,6 @@ gradle-app.setting
 ### Eclipse template
 *.pydevproject
 .metadata
-.gradle
 bin/
 tmp/
 *.tmp
@@ -88,9 +87,11 @@ local.properties
 .factorypath
 
 # PDT-specific
+/image/etc/workerservice/config.properties
 .buildpath
 
 # sbteclipse plugin
+/image/etc/workerservice
 .target
 
 # TeXlipse plugin
@@ -100,5 +101,4 @@ local.properties
 /image/opt/workerservice/lib
 /image/opt/workerservice/bin
 !/image/opt/workerservice/bin/run.sh
-/config.properties
 
