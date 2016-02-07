@@ -325,7 +325,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 The message:
 
  Field | Type   | Description
--------|--------------------------|---------------------------
+-------|------|---------------------------
  answer | (string, required) | the answer of the worker to a creative-view.
  experiment | (number, required) | represents the experiment the worker is currently working on.
 
