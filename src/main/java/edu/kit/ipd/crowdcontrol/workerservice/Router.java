@@ -78,10 +78,6 @@ public class Router implements SparkApplication, RequestHelper {
         });
 
         before((request, response) -> {
-            if (request.headers("accept") == null) {
-                throw new BadRequestException("Missing required 'accept' header.");
-            }
-
             response.header("access-control-allow-origin", "*");
             response.header("access-control-allow-methods", "GET,PUT,POST,PATCH,DELETE,OPTIONS");
             response.header("access-control-allow-credentials", "true");
