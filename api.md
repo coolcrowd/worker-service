@@ -37,7 +37,7 @@ The response:
  title | (string) | The title of the experiment
  description | (string) | the description of the experiment
  maxAnswersToGive | (number) | the maximum number of answers the worker is allowed to submit
- answersToRate | (array[View_Answer] | the answers the worker can rate
+ answersToRate | (array[View_Answer]) | the answers the worker can rate
  answerType | (string) | the answer type, if set this means the worker submits a link pointing to a resource with the mime-type answerType
  ratingOptions | (array[View_RatingOption]) | he optionas to rate one answer
  constraints | (array[View_Constraint]) | the contraints which the worker must check or avoid bein violated
@@ -325,7 +325,7 @@ The protobuf definition of the answer can be viewed [here](https://github.com/co
 The message:
 
  Field | Type   | Description
-----------------------------------|---------------------------
+-------|--------------------------|---------------------------
  answer | (string, required) | the answer of the worker to a creative-view.
  experiment | (number, required) | represents the experiment the worker is currently working on.
 

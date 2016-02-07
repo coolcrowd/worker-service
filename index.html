@@ -49,7 +49,7 @@ The dummy platform does not pay any workers and identifies worker by their email
 </tr>
 <tr>
 <td>answersToRate</td>
-<td>(array[View_Answer]</td>
+<td>(array[View_Answer])</td>
 <td>the answers the worker can rate</td>
 </tr>
 <tr>
@@ -289,10 +289,27 @@ The dummy platform does not pay any workers and identifies worker by their email
 </dd></dl></div></div></div><hr class="split"><div class="middle"><div id="submit-answer" class="resource"><h3 class="resource-heading">Answer <a href="#submit-answer" class="permalink">&para;</a></h3><p>This command is used to submit a creative answer. A creative answer is the work on the /next with the type ANSWER.</p>
 <p>The protobuf definition of the answer can be viewed <a href="https://github.com/coolcrowd/spec/blob/master/workerservice/answer.proto">here</a>;</p>
 <p>The message:</p>
-<p>Field | Type   | Description
-----------------------------------|---------------------------
-answer | (string, required) | the answer of the worker to a creative-view.
-experiment | (number, required) | represents the experiment the worker is currently working on.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>answer</td>
+<td>(string, required)</td>
+<td>the answer of the worker to a creative-view.</td>
+</tr>
+<tr>
+<td>experiment</td>
+<td>(number, required)</td>
+<td>represents the experiment the worker is currently working on.</td>
+</tr>
+</tbody>
+</table>
 </div></div><div class="right"><div class="definition"><span class="method post">POST</span>&nbsp;<span class="uri"><span class="hostname">http://api.samplehost.com</span>/answers/<span class="hljs-attribute" title="workerId">1882</span></span></div><div class="tabs"><div class="example-names"><span>Requests</span><span class="tab-button">example 1</span><span class="tab-button">example 2</span></div><div class="tab"><div><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
   "<span class="hljs-attribute">answer</span>": <span class="hljs-value"><span class="hljs-string">"http://www.example.org/image.jpg"</span></span>,
   "<span class="hljs-attribute">experiment</span>": <span class="hljs-value"><span class="hljs-number">33</span>
