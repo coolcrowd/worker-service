@@ -1,4 +1,4 @@
-FROM expertsystems/oracle-jdk8
+FROM java:8
 
 COPY opt /opt
 COPY etc /etc
