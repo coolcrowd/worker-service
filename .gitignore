@@ -101,6 +101,6 @@ local.properties
 /src/test/java/edu/kit/ipd/crowdcontrol/workerservice/database/playground.java
 /image/opt/workerservice/lib
 /image/opt/workerservice/bin
-!/conf/logging.xml
+/conf
 !/image/opt/workerservice/bin/run.sh
 
