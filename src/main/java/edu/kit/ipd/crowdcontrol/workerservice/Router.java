@@ -108,6 +108,10 @@ public class Router implements SparkApplication, RequestHelper {
         });
 
         post("/calibrations/:workerID", concurrentUnwrap(commands::submitCalibration));
+        options("/calibrations/:workerID", (request, response) -> {
+            response.status(200);
+            return "";
+        });
 
     }
 
