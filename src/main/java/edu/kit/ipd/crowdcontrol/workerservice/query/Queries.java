@@ -117,12 +117,12 @@ public class Queries implements RequestHelper {
         if ("skip".equals(request.queryParams("answer"))) {
             skipCreative = true;
         }
-        logger.info("skipCreative is: {}", skipCreative);
+        logger.trace("skipCreative is: {}", skipCreative);
         boolean skipRating = false;
         if ("skip".equals(request.queryParams("rating"))) {
             skipRating = true;
         }
-        logger.info("skipRating is: {}", skipRating);
+        logger.trace("skipRating is: {}", skipRating);
         View next = getNext(prepareView(request), request, skipCreative, skipRating);
         logger.debug("returning view: {}", next);
         response.status(200);
@@ -186,7 +186,7 @@ public class Queries implements RequestHelper {
         } else {
             builder.setWorkerId(-1);
         }
-        logger.info("workerid is: {}", worker);
+        logger.trace("workerid is: {}", worker);
         return builder;
     }
 
@@ -247,10 +247,10 @@ public class Queries implements RequestHelper {
         String platformName = assertParameter(request, "platform");
         int experiment = assertParameterInt(request, "experiment");
         if (platformOperations.getPlatform(platformName).getRenderCalibrations()) {
-            logger.info("platform {} is able to render calibrations", platformName);
+            logger.trace("platform {} is able to render calibrations", platformName);
             Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations =
                     calibrationsOperations.getCalibrations(experiment, platformName, builder.getWorkerId());
-            logger.info("worker {} must answer the calibrations {}", builder.getWorkerId(), calibrations);
+            logger.trace("worker {} must answer the calibrations {}", builder.getWorkerId(), calibrations);
             if (calibrations.isEmpty()) {
                 logger.debug("worker {} must not answer calibrations", builder.getWorkerId());
                 return Optional.empty();
@@ -259,7 +259,7 @@ public class Queries implements RequestHelper {
                 return Optional.of(constructCalibrationView(calibrations, builder));
             }
         } else {
-            logger.info("platform {} is not able to render calibrations", platformName);
+            logger.trace("platform {} is not able to render calibrations", platformName);
             return Optional.empty();
         }
     }

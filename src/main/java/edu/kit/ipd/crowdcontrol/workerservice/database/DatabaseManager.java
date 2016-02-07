@@ -47,7 +47,7 @@ public class DatabaseManager {
                            boolean disableConnection) throws NamingException, SQLException {
         this.url = url;
         DataSource ds = null;
-        if (providedDBPoolName != null) {
+        if (providedDBPoolName != null && !providedDBPoolName.isEmpty()) {
             ds = (DataSource) new InitialContext().lookup(providedDBPoolName);
         } else {
             ComboPooledDataSource cpds = new ComboPooledDataSource();

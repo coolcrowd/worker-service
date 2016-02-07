@@ -100,8 +100,11 @@ public class AntiSpoof extends TaskChooserAlgorithm {
                         entry -> Integer.parseInt(entry.getKey()),
                         entry -> getParameterValue(entry.getValue(), experimentID)
                 ));
+        if (phases.get(1) == null) {
+            throw new IllegalStateException("Anti-Spoof parameter not set.");
+        }
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
-        logger.info("calculating phase for: answersCount={}, phases={}, neededAnswers={}",
+        logger.trace("calculating phase for: answersCount={}, phases={}, neededAnswers={}",
                 answersCount, phases, experiment.getNeededAnswers());
         if ((answersCount <= phases.get(1)) && (answersCount < experiment.getNeededAnswers())) {
             logger.debug("entering phase 1");

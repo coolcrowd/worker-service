@@ -84,7 +84,7 @@ public abstract class TaskChooserAlgorithm {
      * @return an view with the type Answer, Rating or empty
      */
     protected Optional<View> constructView(View.Builder builder, int experimentID, boolean skipCreative, boolean skipRating) {
-        logger.info("constructing view with parameters: worker-id = {}, experimentID = {}, skipCreative = {}, skipRating = {}",
+        logger.trace("constructing view with parameters: worker-id = {}, experimentID = {}, skipCreative = {}, skipRating = {}",
                 builder.getWorkerId(), experimentID, skipCreative, skipRating);
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
         if (!skipCreative) {
@@ -103,7 +103,7 @@ public abstract class TaskChooserAlgorithm {
                 return constructRatingView(builder, experimentID, experiment.getRatingsPerWorker() - rated);
             }
         }
-        logger.info("skipping both");
+        logger.trace("skipping both");
         return Optional.empty();
     }
 
@@ -142,7 +142,7 @@ public abstract class TaskChooserAlgorithm {
                         .setAnswerId(entry.getValue().getIdAnswer())
                         .build())
                 .collect(Collectors.toList());
-        logger.info("worker {} can rate {}", builder.getWorkerId(), toRate);
+        logger.trace("worker {} can rate {}", builder.getWorkerId(), toRate);
         if (toRate.isEmpty()) {
             logger.error("no answers available to rate for experiment = {}, worker = {}", experimentID, builder.getWorkerId());
             return Optional.empty();
@@ -162,7 +162,7 @@ public abstract class TaskChooserAlgorithm {
      * @throws BadRequestException if the experiment is not existing
      */
     protected View.Builder prepareBuilder(View.Builder builder, int experimentID) throws BadRequestException {
-        logger.info("task chooser prepared builder");
+        logger.trace("task chooser prepared builder");
         ExperimentRecord experimentRecord = null;
         try {
             experimentRecord = experimentOperations.getExperiment(experimentID);

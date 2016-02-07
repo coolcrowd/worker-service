@@ -94,13 +94,13 @@ local.properties
 /image/etc/workerservice
 .target
 
-/conf/logging.xml
-/conf/configuration.properties
+
 # TeXlipse plugin
 .texlipse
 
 /src/test/java/edu/kit/ipd/crowdcontrol/workerservice/database/playground.java
 /image/opt/workerservice/lib
 /image/opt/workerservice/bin
+!/conf/logging.xml
 !/image/opt/workerservice/bin/run.sh
 
