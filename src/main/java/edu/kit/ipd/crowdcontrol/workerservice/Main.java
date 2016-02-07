@@ -62,8 +62,8 @@ public class Main {
     public static void main(String[] args) {
         //used for testing
         boolean testing = false;
-        if (args.length > 1) {
-            testing = Boolean.valueOf(args[1]);
+        if (args.length == 1) {
+            testing = Boolean.valueOf(args[0]);
         }
         Main main = new Main(testing);
         main.boot();
