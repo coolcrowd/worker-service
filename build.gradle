@@ -73,8 +73,8 @@ dependencies {
 }
 
 applicationDefaultJvmArgs = [
-        "-Dworkerservice.config.file=/etc/workerservice/configuration.properties",
-        "-Dlogback.configurationFile=/etc/workerservice/logging.xml"]
+        "-Dworkerservice.config.file=./etc/workerservice/configuration.properties",
+        "-Dlogback.configurationFile=./etc/workerservice/logging.xml"]
 
 //tests
 
@@ -127,6 +127,10 @@ task integrationTest(type: Test) {
 tasks.withType(Test) {
     reports.html.destination = file("${reporting.baseDir}/${name}")
     finalizedBy jacocoTestReport
+}
+
+jacoco {
+    toolVersion = "0.7.5.201505241946"
 }
 
 jacocoTestReport {
@@ -182,9 +186,9 @@ generateSampleJooqSchemaSource.enabled = false
 
 //docker-related
 task copyDist(type: Copy) {
-    dependsOn "installDist"
-    from "$buildDir/install/workerservice"
-    into "./image/opt/workerservice"
+    dependsOn "fatJar"
+    from "$buildDir/libs/workerservice-all-0.5.jar"
+    into "./image"
 }
 
 task installDocker() {
