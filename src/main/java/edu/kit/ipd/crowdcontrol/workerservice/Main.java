@@ -81,7 +81,7 @@ public class Main {
         SQLDialect dialect = null;
         try {
             dialect = SQLDialect.valueOf(getProperty("database.dialect").trim());
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             logger.error("database.dialect not set");
             System.exit(-1);
         }
