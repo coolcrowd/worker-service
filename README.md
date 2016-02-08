@@ -26,7 +26,6 @@ git clone https://github.com/coolcrowd/worker-service && cd worker-service
  
 ## How to start the Worker-Service
 
-```bash
 you can run the worker-service with :
 `java -jar workerservice.jar -Ddatabase.url=jdbc:mysql:url -Ddatabase.username=user -Ddatabase.password=password -Dos.url=http://www.example.org`
 where
@@ -44,4 +43,3 @@ You can also set the config-file location with the system-property `workerservic
 The logging is specified in the logging-file `./conf/logging.xml`. You can alter the logging-file to permanently change properties.
 
 You can also set the config-file location with the system-property `logback.configurationFile`, e.g. `-Dlogback.configurationFile=location`.
-```
