@@ -96,7 +96,7 @@ public class TaskOperations extends AbstractOperation {
                     .where(ANSWER.EXPERIMENT.eq(experiment))
                     .and(ANSWER.WORKER_ID.notEqual(worker))
                     .and(ANSWER.ID_ANSWER.notIn(
-                            DSL.select(RATING.ANSWER_R).where(RATING.WORKER_ID.eq(worker).and(RATING.EXPERIMENT.eq(experiment)))))
+                            DSL.select(RATING.ANSWER_R).from(RATING).where(RATING.WORKER_ID.eq(worker).and(RATING.EXPERIMENT.eq(experiment)))))
                     .and(ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.notEqual(0)).or(DSL.condition(true)))
                     .groupBy(ANSWER.fields())
                     .having(count.lessThan(
