@@ -91,7 +91,6 @@ local.properties
 .buildpath
 
 # sbteclipse plugin
-/image/etc/workerservice
 .target
 
 
@@ -101,7 +100,7 @@ local.properties
 /src/test/java/edu/kit/ipd/crowdcontrol/workerservice/database/playground.java
 /image/opt/workerservice/lib
 /image/opt/workerservice/bin
+/image/workerservice-all-0.5.jar
 /conf
-/conf/configuration.properties
 !/image/opt/workerservice/bin/run.sh
 

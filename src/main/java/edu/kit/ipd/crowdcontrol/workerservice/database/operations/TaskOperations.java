@@ -81,7 +81,7 @@ public class TaskOperations extends AbstractOperation {
                     .where(RATING.ID_RATING.in(reservedRatings.keySet()))
                     .execute();
 
-            int reserveNew = amount - reservedRatings.size();
+            int reserveNew = Math.max(amount - reservedRatings.size(), 0);
             logger.trace("Reserving {} new Answers for worker {}.", reserveNew, worker);
 
             LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
