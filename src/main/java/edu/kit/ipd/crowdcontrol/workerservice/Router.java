@@ -12,6 +12,7 @@ import spark.Spark;
 import spark.servlet.SparkApplication;
 
 import javax.servlet.AsyncContext;
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.function.BiFunction;
@@ -103,7 +104,6 @@ public class Router implements SparkApplication, RequestHelper {
         post("/ratings/:workerID", concurrentUnwrap(commands::submitRating));
 
         post("/calibrations/:workerID", concurrentUnwrap(commands::submitCalibration));
-
     }
 
     /**

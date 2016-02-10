@@ -10,6 +10,7 @@ import spark.Response;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +35,7 @@ public class CommandsIntegrationTest {
                 .setExperiment(experiment)
                 .setAnswer(answer)
                 .build()),
-                experiment, workerID, answerID, response -> verify(response).status(201));
+                experiment, workerID, answerID, response -> verify(response, times(2)).status(201));
     }
 
     private Object submitAnswerHelper(String answer, String description, String answerRequest, int task, int workerID, int answerID, Consumer<Response> responseVerifier) {

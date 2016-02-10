@@ -134,6 +134,11 @@ public abstract class TaskChooserAlgorithm {
      */
     protected Optional<View> constructRatingView(View.Builder builder, int experimentID, int amount) throws BadRequestException {
         logger.debug("task chooser constructs rating-view");
+        if (logger.isTraceEnabled()) {
+            logger.trace("all the answers belonging to the experiment not from the worker with their count (max rating per answer is {}): {}",
+                    experimentOperations.getExperiment(experimentID).getRatingsPerAnswer(),
+                    taskOperations.getOtherAnswersWithCount(experimentID, builder.getWorkerId()));
+        }
         List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), experimentID, amount).entrySet()
                 .stream()
                 .map(entry -> View.Answer.newBuilder()

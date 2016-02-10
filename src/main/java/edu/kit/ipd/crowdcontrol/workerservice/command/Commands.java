@@ -3,13 +3,18 @@ package edu.kit.ipd.crowdcontrol.workerservice.command;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.*;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -33,6 +38,7 @@ public class Commands implements RequestHelper {
     private final Communication communication;
     private final JsonFormat.Parser parser = JsonFormat.parser();
     private final ExperimentOperations experimentOperations;
+    private static final Logger logger = LoggerFactory.getLogger(Commands.class);
 
     /**
      * creates an instance of Commands
@@ -59,13 +65,18 @@ public class Commands implements RequestHelper {
         String platform = assertParameter(request, "platform");
 
         Email email = merge(request, Email.newBuilder(), new ArrayList<>()).build();
+        logger.debug("Request submit to submit email {} for platform {}", email, platform);
         if (!EmailValidator.getInstance(false).isValid(email.getEmail())) {
             throw new BadRequestException("invalid email: " + email.getEmail());
         }
 
         return communication.submitWorker(email.getEmail(), platform, request.queryMap().toMap())
                 .thenApply(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
-                .thenApply(emailAnswer -> transform(request, response, emailAnswer))
+                .thenApply(emailAnswer -> {
+                    String result = transform(request, response, emailAnswer);
+                    logger.debug("Answer from Object-Service for submitting email {}: {}", email, result);
+                    return result;
+                })
                 .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, response))
                 .join();
     }
@@ -80,8 +91,11 @@ public class Commands implements RequestHelper {
      * @return empty body (null)
      */
     public Object submitCalibration(Request request, Response response) {
-        doSubmit(request, response, Calibration.newBuilder(), (calibration, workerID) ->
-                communication.submitCalibration(calibration.getAnswerOption(), workerID));
+        doSubmit(request, response, Calibration.newBuilder(), (calibration, workerID) -> {
+            logger.debug("Trying to submit calibration {} for worker {}.", calibration, workerID);
+            return communication.submitCalibration(calibration.getAnswerOption(), workerID);
+        });
+        logger.debug("Object service answered with OK.");
         response.status(201);
         response.body("");
         return "";
@@ -97,6 +111,7 @@ public class Commands implements RequestHelper {
      */
     public Object submitAnswer(Request request, Response response) {
         Integer integer = doSubmit(request, response, Answer.newBuilder(), (answer, workerID) -> {
+            logger.debug("Request to submit answer {} for worker {}", answer, workerID);
             String answerType = experimentOperations.getExperiment(answer.getExperiment()).getAnswerType();
             try {
                 if (answerType != null && !getContentType(answer.getAnswer()).startsWith(answerType)) {
@@ -106,8 +121,10 @@ public class Commands implements RequestHelper {
             } catch (IOException e) {
                 throw new InternalServerErrorException("unable to probe Content-type, aborting", e);
             }
+            logger.trace("answer {} for worker {} is valid", answer, workerID);
             return communication.submitAnswer(answer.getAnswer(), answer.getExperiment(), workerID);
         });
+        logger.debug("Object service answered with OK.");
         response.status(201);
         response.body("");
         return "";
@@ -122,17 +139,20 @@ public class Commands implements RequestHelper {
      * @return empty body (null)
      */
     public Object submitRating(Request request, Response response) {
-        Integer status = doSubmit(request, response, Rating.newBuilder(), Collections.singletonList(Rating.FEEDBACK_FIELD_NUMBER),
-                (rating, workerID) ->
-                        communication.submitRating(
-                                rating.getRatingId(),
-                                rating.getRating(),
-                                rating.getFeedback(),
-                                rating.getExperiment(),
-                                rating.getAnswerId(),
-                                workerID,
-                                rating.getConstraintsList())
+        Integer status = doSubmit(request, response, Rating.newBuilder(),
+                Collections.singletonList(Rating.FEEDBACK_FIELD_NUMBER), (rating, workerID) -> {
+                    logger.debug("Request to submit rating {} for worker {}.", rating, workerID);
+                    return communication.submitRating(
+                            rating.getRatingId(),
+                            rating.getRating(),
+                            rating.getFeedback(),
+                            rating.getExperiment(),
+                            rating.getAnswerId(),
+                            workerID,
+                            rating.getConstraintsList());
+                }
         );
+        logger.debug("Object service answered with status {}.", status);
         response.status(status);
         response.body("");
         return "";

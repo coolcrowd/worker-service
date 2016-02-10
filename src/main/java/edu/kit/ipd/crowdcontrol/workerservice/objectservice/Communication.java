@@ -14,6 +14,9 @@ import edu.kit.ipd.crowdcontrol.objectservice.proto.*;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.NotAcceptableException;
+import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.Integer;
 import java.util.*;
@@ -33,6 +36,7 @@ public class Communication {
     private final JsonFormat.Parser parser = JsonFormat.parser();
     private final String username;
     private final String password;
+    private static final Logger logger = LoggerFactory.getLogger(Communication.class);
 
     /**
      * create a new instance of Communication with the passed url to the object-service
@@ -57,6 +61,8 @@ public class Communication {
         HashMap<String, String[]> queryParameter = new HashMap<>(originalQueryParameter);
         queryParameter.put("email", new String[]{email});
 
+
+        logger.trace("Request to get WorkerID for email {}.", email);
         return tryGetWorkerID(platform, queryParameter)
                 .thenApply(optional -> {
                     if (optional.isPresent()) {
@@ -66,15 +72,20 @@ public class Communication {
                     }
                 })
                 .thenApply(workerID -> Worker.newBuilder().setId(workerID).setPlatform(platform).setEmail(email).build())
-                .thenCompose(worker ->
-                        patchRequest("/workers/"+worker.getId(), builder -> builder
-                        .body(printer.print(worker))
-                        .asJson())
-                )
+                .thenCompose(worker -> {
+                    String route = "/workers/" + worker.getId();
+                    logger.debug("Request to patch worker {} with new email {} for route {}.", worker.getId(),
+                            worker.getEmail(), route);
+                    return patchRequest(route, builder -> builder
+                            .body(printer.print(worker))
+                            .asJson());
+                })
                 .thenApply(response -> {
                     if (response.getStatus() == 200) {
+                        logger.debug("Object service answered with status 200");
                         return response.getBody().getObject().getInt("id");
                     } else if (response.getStatus() == 409) {
+                        logger.debug("Object service answered with status 409");
                         return Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", ""));
                     } else {
                         return throwOr(response, () -> {throw new RuntimeException("illegal Response, status : " + response.getStatus());});
@@ -96,13 +107,17 @@ public class Communication {
                 .setWorker(worker)
                 .setExperimentId(experiment)
                 .build();
-        return putRequest("/experiments/" + experiment + "/answers", builder -> builder
+        String route = "/experiments/" + experiment + "/answers";
+        logger.debug("Trying to submit answer {} for worker {} with route {}", answer, worker, route);
+        return putRequest(route, builder -> builder
                 .body(printer.print(answerProto))
                 .asJson()
         ).thenApply(response -> {
             if (response.getStatus() == 201) {
+                logger.debug("Object service answered with status 201");
                 return response.getBody().getObject().getInt("id");
             } else if (response.getStatus() == 409) {
+                logger.debug("Object service answered with status 409");
                 return Integer.parseInt(
                         response.getHeaders()
                         .getFirst("Location")
@@ -139,7 +154,9 @@ public class Communication {
         if (feedback != null)
             ratingBuilder = ratingBuilder.setFeedback(feedback);
         Rating rating = ratingBuilder.build();
-        return putRequest("/experiments/"+experiment+"/answers/"+answer+"/rating", builder -> builder
+        String route = "/experiments/" + experiment + "/answers/" + answer + "/rating";
+        logger.debug("Trying to submit rating {} for worker {} with route {}", rating, worker, route);
+        return putRequest(route, builder -> builder
                 .body(printer.print(rating))
                 .asJson()
         ).thenApply(response -> throwOr(response, () -> response))
@@ -158,7 +175,9 @@ public class Communication {
                 .setAnswerId(option)
                 .build();
 
-        return putRequest(String.format("/workers/%d/calibrations", worker), builder -> builder
+        String route = String.format("/workers/%d/calibrations", worker);
+        logger.debug("Trying to submit calibration {} for worker {} with route {}", calibrationAnswer, worker, route);
+        return putRequest(route, builder -> builder
                 .body(printer.print(calibrationAnswer))
                 .asJson()
         )
@@ -173,7 +192,9 @@ public class Communication {
      * @return an completable future representing the request with the resulting location in the database
      */
     public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, Map<String, String[]> queryParameter) {
-        return getRequest("/workers/"+platform+"/identity", builder -> {
+        String route = "/workers/" + platform + "/identity";
+        logger.debug("Trying to get workerId for parameter {} with route {} from platform {}.", queryParameter, route, platform);
+        return getRequest(route, builder -> {
             HttpRequest request = builder.getHttpRequest();
             for (Map.Entry<String, String[]> entry : queryParameter.entrySet()) {
                 request = request.queryString(entry.getKey(), entry.getValue()[0]);
@@ -182,10 +203,13 @@ public class Communication {
                     .asJson();
         }).thenApply(response -> {
             if (response.getStatus() == 200) {
+                logger.debug("Object service answered with status 200");
                 return Optional.of(response.getBody().getObject().getInt("id"));
             } else if (response.getStatus() == 409) {
+                logger.debug("Object service answered with status 409");
                 return Optional.of(Integer.parseInt(response.getHeaders().getFirst("Location").replace(url+"/workers/", "")));
             } else if (response.getStatus() == 404){
+                logger.debug("Object service answered with status 404");
                 return Optional.empty();
             }
             return throwOr(response, Optional::empty);
@@ -215,6 +239,7 @@ public class Communication {
             } else if (status == 406) {
                 throw new NotAcceptableException(getError.apply(response.getBody().toString()));
             } else {
+                logger.debug("Object service answered with status {}", status);
                 return otherwise.get();
             }
         } catch (InvalidProtocolBufferException e) {
