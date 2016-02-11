@@ -1,9 +1,9 @@
 FROM java:8
 
-COPY opt /opt
-COPY etc /etc
-COPY var /var
+COPY conf /conf
+ADD . workerservice-all-0.5.jar
+ADD . run.sh
 
-EXPOSE
+EXPOSE 4567
 
-ENTRYPOINT /opt/workerservice/bin/run.sh
+ENTRYPOINT /run.sh
