@@ -1,6 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.command;
 
 import com.google.protobuf.util.JsonFormat;
+import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.Answer;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,6 +36,19 @@ public class CommandsIntegrationTest {
                 .setExperiment(experiment)
                 .setAnswer(answer)
                 .build()),
+                experiment, workerID, answerID, response -> verify(response, times(2)).status(201));
+    }
+
+    @Test(expected = InternalServerErrorException.class)
+    public void testSubmitFalseAnswer() throws Exception {
+        String answer =  "www.google.de";
+        int workerID = 1;
+        int experiment = 2;
+        int answerID = 3;
+        submitAnswerHelper(answer, "image", printer.print(Answer.newBuilder()
+                        .setExperiment(experiment)
+                        .setAnswer(answer)
+                        .build()),
                 experiment, workerID, answerID, response -> verify(response, times(2)).status(201));
     }
 
