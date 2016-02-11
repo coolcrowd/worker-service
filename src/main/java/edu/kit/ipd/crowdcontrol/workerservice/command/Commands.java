@@ -1,5 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.command;
 
+import com.google.common.net.MediaType;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
@@ -119,9 +120,14 @@ public class Commands implements RequestHelper {
             logger.debug("Request to submit answer {} for worker {}", answer, workerID);
             String answerType = experimentOperations.getExperiment(answer.getExperiment()).getAnswerType();
             try {
-                if (answerType != null && !getContentType(answer.getAnswer()).startsWith(answerType)) {
-                    throw new BadRequestException("the content-type of the URL does not match the desired type: " +
-                            answerType);
+                if (answerType != null) {
+                    String mime = getContentType(answer.getAnswer());
+                    MediaType expected = MediaType.parse(answerType);
+                    MediaType got = MediaType.parse(mime);
+                    if (!got.is(expected)) {
+                        throw new BadRequestException("the content-type of the URL does not match the desired type: " +
+                                answerType);
+                    }
                 }
             } catch (IOException e) {
                 throw new InternalServerErrorException("unable to probe Content-type, aborting", e);

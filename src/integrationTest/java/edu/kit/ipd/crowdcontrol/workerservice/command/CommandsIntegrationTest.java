@@ -32,7 +32,7 @@ public class CommandsIntegrationTest {
         int workerID = 1;
         int experiment = 2;
         int answerID = 3;
-        submitAnswerHelper(answer, "image", printer.print(Answer.newBuilder()
+        submitAnswerHelper(answer, "image/*", printer.print(Answer.newBuilder()
                 .setExperiment(experiment)
                 .setAnswer(answer)
                 .build()),
