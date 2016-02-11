@@ -150,6 +150,7 @@ public class Communication {
                 .setRatingId(ratingId)
                 .setRating(chosenRating)
                 .setWorker(worker)
+                .setExperimentId(experiment)
                 .addAllViolatedConstraints(constraintProtos);
         if (feedback != null)
             ratingBuilder = ratingBuilder.setFeedback(feedback);
