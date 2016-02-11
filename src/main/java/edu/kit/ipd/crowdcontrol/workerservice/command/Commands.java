@@ -8,10 +8,14 @@ import com.mashape.unirest.http.JsonNode;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.*;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.*;
+import edu.kit.ipd.crowdcontrol.workerservice.proto.Answer;
+import edu.kit.ipd.crowdcontrol.workerservice.proto.Calibration;
+import edu.kit.ipd.crowdcontrol.workerservice.proto.Rating;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +26,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -140,7 +145,8 @@ public class Commands implements RequestHelper {
      */
     public Object submitRating(Request request, Response response) {
         Integer status = doSubmit(request, response, Rating.newBuilder(),
-                Collections.singletonList(Rating.FEEDBACK_FIELD_NUMBER), (rating, workerID) -> {
+                //excluded rating because 0 is valid
+                Arrays.asList(Rating.FEEDBACK_FIELD_NUMBER, Rating.RATING_FIELD_NUMBER), (rating, workerID) -> {
                     logger.debug("Request to submit rating {} for worker {}.", rating, workerID);
                     return communication.submitRating(
                             rating.getRatingId(),
