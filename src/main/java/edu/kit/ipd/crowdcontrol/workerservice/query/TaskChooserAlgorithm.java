@@ -160,7 +160,7 @@ public abstract class TaskChooserAlgorithm {
 
     /**
      * prepares the builder by setting all common information about the experiment.
-     * It will set the Title, TaskID, Description, Pictures and Constraints.
+     * It will set the Title, TaskID, Description, Pictures, Rating-Options and Constraints.
      * @param builder the builder to use
      * @param experimentID the current experiment
      * @return an instance of builder with all common experiment-Data set.
