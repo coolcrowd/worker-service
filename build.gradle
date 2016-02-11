@@ -76,10 +76,16 @@ applicationDefaultJvmArgs = [
         "-Dworkerservice.config.file=./etc/workerservice/configuration.properties",
         "-Dlogback.configurationFile=./etc/workerservice/logging.xml"]
 
+compileJava {
+    options.encoding = "UTF-8"
+}
+
 //tests
 
 test {
     testLogging {
+        showStandardStreams = false
+        exceptionFormat = 'full'
         events 'failed', 'skipped', 'passed'
     }
 }
