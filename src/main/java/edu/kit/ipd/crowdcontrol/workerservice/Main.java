@@ -28,7 +28,12 @@ public class Main {
         if (System.getProperty("logback.configurationFile") == null) {
             System.setProperty("logback.configurationFile", "./conf/logging.xml");
         }
+
+        // Disable jOOQ's self-advertising
+        // http://stackoverflow.com/a/28283538/2373138
+        System.setProperty("org.jooq.no-logo", "true");
     }
+
     private static Logger logger = LoggerFactory.getLogger(Main.class);
     private final Properties file;
     private final Properties system;
