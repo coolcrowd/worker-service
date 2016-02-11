@@ -14,6 +14,9 @@ Useful for testing is the dummy-platform:
 The dummy platform does not pay any workers and identifies worker by their email, it also displays calibrations. It is used for testing functionality depending on crowdworking-platforms.<br>
 <br>
 <br>
+
+### Protocol
+Due to the nature of protobuf, integer fields always appear as zero when not initialized. This also means that when you sugmit a rating without a rating field, the rating counts as zero. 
 ## Group View
 
 Resources specifying what to display the worker.
@@ -361,7 +364,7 @@ The message:
 | Field | Type   | Description               |
 |-------|--------------------------|---------------------------|
 | ratingId | (number, required) | the id of the rating, the id from answersToRate |
-| rating | (number, required) | the value from the chosen key value-pair from ratingOptions |
+| rating | (number) | the value from the chosen key value-pair from ratingOptions. If the rating gets ommited the worker-service assumes a rating of zero. |
 | experiment | (number, required) | the experiment currently worked on |
 | answerId | (number, required) | he answerId from the answersToRate |
 | feedback | (string) | feedback for the worker rated |
