@@ -5,7 +5,6 @@ COPY build.gradle /build.gradle
 COPY settings.gradle /settings.gradle
 COPY gradlew /gradlew
 COPY gradle /gradle
-COPY image/bin /bin
 
 RUN /gradlew prepareDocker
 
