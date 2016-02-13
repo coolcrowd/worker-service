@@ -42,11 +42,11 @@ public class Main {
     public Main(boolean testing) {
         this.testing = testing;
         String configLocation = System.getProperty("workerservice.config");
-        logger.trace("Initial config-location: {}", configLocation);
+        logger.debug("Initial config-location: {}", configLocation);
         if (configLocation == null) {
             configLocation = "./conf/configuration.properties";
         }
-        logger.trace("Actual config-location: {}", configLocation);
+        logger.debug("Actual config-location: {}", configLocation);
         file = new Properties();
         try {
             try {

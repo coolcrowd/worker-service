@@ -191,12 +191,14 @@ jooq {
 generateSampleJooqSchemaSource.enabled = false
 
 //docker-related
-task copyDist(type: Copy) {
+task prepareDocker(type: Copy) {
     dependsOn "fatJar"
-    from "$buildDir/libs/workerservice-all-0.5.jar"
-    into "./image"
+    from "$buildDir/libs/" + project.name + '-all-' + project.version +".jar"
+    into "./bin"
+    rename (project.name + '-all-' + project.version +".jar", project.name + '.jar')
 }
 
-task installDocker() {
-    dependsOn "copyDist"
+task installDocker(type: Exec) {
+    dependsOn "prepareDocker"
+    commandLine 'docker', 'build', '-t', project.group+'/'+project.name+':'+project.version, './image'
 }
