@@ -1,2 +1,3 @@
-#!/usr/bin/env bash
-/opt/workerservice/bin/workerservice
+#!/bin/sh
+echo The options are: $@
+java $@ -jar bin/workerservice.jar
