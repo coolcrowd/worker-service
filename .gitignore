@@ -103,4 +103,4 @@ local.properties
 /image/workerservice-all-0.5.jar
 /conf
 !/image/opt/workerservice/bin/run.sh
-
+!image/bin/.gitignore
