@@ -11,6 +11,7 @@ RUN /gradlew prepareDocker
 COPY image/conf /conf
 COPY image/run.sh run.sh
 
+#web
 EXPOSE 4567
 
 ENTRYPOINT ["/run.sh"]

@@ -1,3 +1,3 @@
 #!/bin/sh
 echo The options are: $@
-java $@ -jar bin/workerservice.jar
+java $@ -Drouter.port=4567 -jar bin/workerservice.jar
