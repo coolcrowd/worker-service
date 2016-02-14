@@ -198,8 +198,3 @@ task prepareDocker(type: Copy) {
     into "./bin"
     rename (project.name + '-all-' + project.version +".jar", project.name + '.jar')
 }
-
-task installDocker(type: Exec) {
-    dependsOn "prepareDocker"
-    commandLine 'docker', 'build', '-t', project.group+'/'+project.name+':'+project.version, './image'
-}
