@@ -28,23 +28,8 @@ where:
 
 this will bind the Worker-Service on post 4567 on 127.0.0.1 of the hosts machine.
 
-### Configuration
-
-The configuration files are located under `/conf` on the image and named `configuration.properties` and `logging.xml`. 
- 
-The configuration is detailed in `./conf/configuration.properties`. You can alter the 
-configuration-file to permanently change properties. Every property can be overridden by setting a global-property via
-`-D{key}={value}`.
-
-You can also set the config-file location with the system-property `workerservice.config`, e.g. `-Dworkerservice.config=location`.
-
-The logging is specified in the logging-file `./conf/logging.xml`. You can alter the logging-file to permanently change properties.
-
-You can also set the config-file location with the system-property `logback.configurationFile`, e.g. `-Dlogback.configurationFile=location`.
-
-### Database
-
-To initialise the Database it is recommended to use the `db.sql` script located in `src/main/resources`. 
+The configuration files are located under `/conf` on the image and named `configuration.properties` and `logging.xml`.
+Please see below for more details.
  
 ## Installation
 
@@ -58,6 +43,24 @@ git clone https://github.com/coolcrowd/worker-service && cd worker-service
 # Use gradle instead of ./gradlew if you have Gradle installed.
 ./gradlew jar
 ```
+
+## Configuration
+ 
+In the git, the configuration is detailed in `./conf/configuration.properties`. You can alter the 
+configuration-file to permanently change properties. Every property can be overridden by setting a global-property via
+`-D{key}={value}`.
+
+You can also set the config-file location with the system-property `workerservice.config`, e.g. `-Dworkerservice.config=location`.
+If none passed the app will always look for the configuration file in `./conf/`.
+
+The logging is specified in the logging-file `./conf/logging.xml`. You can alter the logging-file to permanently change properties.
+
+You can also set the config-file location with the system-property `logback.configurationFile`, e.g. `-Dlogback.configurationFile=location`.
+If none passed the app will always look for the logging file in `./conf/`.
+
+## Database
+
+To initialise the Database it is recommended to use the `db.sql` script located in `src/main/resources`. 
  
 
 
