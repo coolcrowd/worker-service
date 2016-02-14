@@ -11,6 +11,41 @@ The documentation of the Worker-Service API can be found [here](http://coolcrowd
  * MySQL 5.6
  * Gradle (optional, but recommended)
  
+## Running the Worker-Service
+
+you easily can run the Worker-Service via docker:
+
+```bash
+docker pull coolcrowd/worker-service
+docker run -p -p 127.0.0.1:4567:4567 --link mysqldb:db -d coolcrowd/worker-service:latest -Ddatabase.url=jdbc:mysql:url -Ddatabase.username=user -Ddatabase.password=password -Dos.url=http://www.example.org
+```
+
+where:
+* `database.url` is the jdbc-url
+* `database.username` username of the database account
+* `database.password` the password of the database account
+* `os.url` is the url of the object-service
+
+this will bind the Worker-Service on post 4567 on 127.0.0.1 of the hosts machine.
+
+### Configuration
+
+The configuration files are located under `/conf` on the image and named `configuration.properties` and `logging.xml`. 
+ 
+The configuration is detailed in `./conf/configuration.properties`. You can alter the 
+configuration-file to permanently change properties. Every property can be overridden by setting a global-property via
+`-D{key}={value}`.
+
+You can also set the config-file location with the system-property `workerservice.config`, e.g. `-Dworkerservice.config=location`.
+
+The logging is specified in the logging-file `./conf/logging.xml`. You can alter the logging-file to permanently change properties.
+
+You can also set the config-file location with the system-property `logback.configurationFile`, e.g. `-Dlogback.configurationFile=location`.
+
+### Database
+
+To initialise the Database it is recommended to use the `db.sql` script located in `src/main/resources`. 
+ 
 ## Installation
 
 ```bash
@@ -24,22 +59,5 @@ git clone https://github.com/coolcrowd/worker-service && cd worker-service
 ./gradlew jar
 ```
  
-## How to start the Worker-Service
 
-you can run the worker-service with :
-`java -jar workerservice.jar -Ddatabase.url=jdbc:mysql:url -Ddatabase.username=user -Ddatabase.password=password -Dos.url=http://www.example.org`
-where
- * `database.url` is the jdbc-url
- * `database.username` username of the database account
- * `database.password` the password of the database account
- * `os.url` is the url of the object-service
- 
-The configuration is detailed in the configuration-file ./conf/configuration.properties`. You can alter the 
-configuration-file to permanently change properties. Every property can be overridden by setting a global-property via
-`-D{key}={value}`.
 
-You can also set the config-file location with the system-property `workerservice.config`, e.g. `-Dworkerservice.config=location`.
-
-The logging is specified in the logging-file `./conf/logging.xml`. You can alter the logging-file to permanently change properties.
-
-You can also set the config-file location with the system-property `logback.configurationFile`, e.g. `-Dlogback.configurationFile=location`.
