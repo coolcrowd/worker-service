@@ -1,5 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice;
 
+import com.mashape.unirest.http.Unirest;
 import edu.kit.ipd.crowdcontrol.workerservice.database.DatabaseManager;
 import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.*;
@@ -104,6 +105,14 @@ public class Main {
             }
         }
 
+        Communication communication = new Communication(
+                getProperty("os.url"),
+                getProperty("os.username"),
+                getProperty("os.password")
+        );
+
+        waitOnObjectService(communication);
+
         if (!testing) {
             databaseManager.initDatabase();
         }
@@ -113,11 +122,6 @@ public class Main {
         TaskOperations taskOperations = new TaskOperations(databaseManager.getContext());
         WorkerOperations workerOperations = new WorkerOperations(databaseManager.getContext());
 
-        Communication communication = new Communication(
-                getProperty("os.url"),
-                getProperty("os.username"),
-                getProperty("os.password")
-        );
         Queries queries = new Queries(calibrationsOperations, experimentOperations, platformOperations, communication,
                 taskOperations, workerOperations, testing);
 
@@ -148,7 +152,7 @@ public class Main {
         if (sysProperty == null) {
             return trimIfNotNull(file.getProperty(key));
         } else {
-            return sysProperty;
+            return trimIfNotNull(sysProperty);
         }
     }
 
@@ -162,5 +166,16 @@ public class Main {
             return s.trim();
         else
             return s;
+    }
+
+    /**
+     * waits on the Object-Service to be available
+     * @param communication the communication to use to communicate with the object-service
+     */
+    private void waitOnObjectService(Communication communication) {
+        String property = getProperty("os.wait");
+        if (property != null && property.equals("true")) {
+            //TODO
+        }
     }
 }
