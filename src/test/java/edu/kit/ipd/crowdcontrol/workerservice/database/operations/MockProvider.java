@@ -121,8 +121,7 @@ public class MockProvider implements MockDataProvider {
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`EXPERIMENTS_PLATFORM_MODE`.`IDEXPERIMENTS_PLATFORM_STOPGAP`, ")) {
             Result<ExperimentsPlatformModeRecord> result = create.newResult(EXPERIMENTS_PLATFORM_MODE);
-            ExperimentsPlatformModeRecord record = create.newRecord(EXPERIMENTS_PLATFORM_MODE);
-            result.add(record);
+            result.add(dataHolder.getExperimentsPlatformModeRecord());
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT COUNT(*) AS `C` FROM (SELECT `CROWDCONTROL`.`ANSWER`.`ID_ANSWER`, ")) {
             if (ctx.bindings().length == 4) {
