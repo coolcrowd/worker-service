@@ -36,22 +36,6 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
     }
 
     /**
-     * returns the ExperimentsPlatform
-     * @param experiment the experiment the experimentsPlatform belongs to
-     * @param platform the platform the experimentsPlatform belongs to
-     * @return the record of the experimentsPlatform in the database
-     * @throws IllegalArgumentException if the experimentsPlatform is not existing
-     */
-    public ExperimentsPlatformRecord getExperimentsPlatform(int experiment, String platform) throws IllegalArgumentException {
-        return create.selectFrom(EXPERIMENTS_PLATFORM)
-                .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experiment))
-                .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
-                .fetchOptional()
-                .orElseThrow(() -> new IllegalArgumentException("no Platform existing for: experiment=" + experiment +
-                        " and platform=" + platform));
-    }
-
-    /**
      * returns the mode for the platform of the experiment
      * @param experiment the primary key of the experiment
      * @param platform the platform to search for
