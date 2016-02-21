@@ -271,8 +271,8 @@ public class OperationsDataHolder {
         return new CalibrationsOperations(mockProvider.getMockCreate());
     }
 
-    public TaskOperations createTaskOperations() {
-        return new TaskOperations(mockProvider.getMockCreate());
+    public ExperimentsPlatformOperations createTaskOperations() {
+        return new ExperimentsPlatformOperations(mockProvider.getMockCreate());
     }
 
     public WorkerOperations createWorkerOperations() {

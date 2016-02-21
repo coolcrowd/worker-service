@@ -1,7 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
@@ -21,10 +21,10 @@ public class PreviewTaskChooser extends TaskChooserAlgorithm {
      * creates an new PreviewTaskChooser
      *
      * @param experimentOperations the ExperimentOperations used to communicate with the database.
-     * @param taskOperations       the TaskOperations used to communicate with the database
+     * @param experimentsPlatformOperations       the TaskOperations used to communicate with the database
      */
-    public PreviewTaskChooser(ExperimentOperations experimentOperations, TaskOperations taskOperations) {
-        super(experimentOperations, taskOperations);
+    public PreviewTaskChooser(ExperimentOperations experimentOperations, ExperimentsPlatformOperations experimentsPlatformOperations) {
+        super(experimentOperations, experimentsPlatformOperations);
     }
 
     /**

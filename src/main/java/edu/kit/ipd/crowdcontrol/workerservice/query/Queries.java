@@ -3,8 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
-import edu.kit.ipd.crowdcontrol.workerservice.Router;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
@@ -37,36 +36,36 @@ public class Queries implements RequestHelper {
     private final CalibrationsOperations calibrationsOperations;
     private final ExperimentOperations experimentOperations;
     private final PlatformOperations platformOperations;
-    private final TaskOperations taskOperations;
+    private final ExperimentsPlatformOperations experimentsPlatformOperations;
     private final WorkerOperations workerOperations;
     private final Communication communication;
     private final PreviewTaskChooser previewTaskChooser;
 
     public Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
-                   PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
+                   PlatformOperations platformOperations, Communication communication, ExperimentsPlatformOperations experimentsPlatformOperations,
                    WorkerOperations workerOperations) {
-        this(calibrationsOperations, experimentOperations, platformOperations, communication, taskOperations, workerOperations, false);
+        this(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, workerOperations, false);
     }
 
     public Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
-                   PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
+                   PlatformOperations platformOperations, Communication communication, ExperimentsPlatformOperations experimentsPlatformOperations,
                    WorkerOperations workerOperations, boolean disableRegistering) {
         this.calibrationsOperations = calibrationsOperations;
         this.experimentOperations = experimentOperations;
         this.platformOperations = platformOperations;
         this.communication = communication;
-        this.taskOperations = taskOperations;
+        this.experimentsPlatformOperations = experimentsPlatformOperations;
         this.workerOperations = workerOperations;
-        previewTaskChooser = new PreviewTaskChooser(experimentOperations, taskOperations);
+        previewTaskChooser = new PreviewTaskChooser(experimentOperations, experimentsPlatformOperations);
         if (!disableRegistering) {
-            registerTaskChooser(new AntiSpoof(experimentOperations, taskOperations));
+            registerTaskChooser(new AntiSpoof(experimentOperations, experimentsPlatformOperations));
         }
     }
 
     Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
-            PlatformOperations platformOperations, Communication communication, TaskOperations taskOperations,
+            PlatformOperations platformOperations, Communication communication, ExperimentsPlatformOperations experimentsPlatformOperations,
             TaskChooserAlgorithm mockUp, WorkerOperations workerOperations) {
-        this(calibrationsOperations, experimentOperations, platformOperations, communication, taskOperations, workerOperations, false);
+        this(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, workerOperations, false);
         if (mockUp != null)
             registerTaskChooser(mockUp);
     }
@@ -311,10 +310,11 @@ public class Queries implements RequestHelper {
         }
         boolean skipCreativeTemp = skipCreative;
         boolean skipRatingTemp = skipRating;
-        TaskStopgap stopgap = taskOperations.getTask(experiment, platformName).getStopgap();
-        if (TaskStopgap.answer.equals(stopgap)) {
+        ExperimentsPlatformModeStopgap mode = experimentsPlatformOperations.getExperimentsPlatformMode(experiment, platformName)
+                .getStopgap();
+        if (ExperimentsPlatformModeStopgap.answer.equals(mode)) {
             skipRatingTemp = true;
-        } else if (TaskStopgap.rating.equals(stopgap)) {
+        } else if (ExperimentsPlatformModeStopgap.rating.equals(mode)) {
             skipCreativeTemp = true;
         }
         boolean resultingSkipCreative = skipCreativeTemp;

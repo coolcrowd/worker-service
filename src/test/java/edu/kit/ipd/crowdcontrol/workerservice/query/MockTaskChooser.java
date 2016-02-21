@@ -3,7 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import spark.Request;
 
@@ -23,8 +23,8 @@ class MockTaskChooser extends TaskChooserAlgorithm {
     private final boolean finish;
 
     public MockTaskChooser(String name, String description, boolean finish, boolean creative,
-                           ExperimentOperations experimentOperations, TaskOperations taskOperations) {
-        super(experimentOperations, taskOperations);
+                           ExperimentOperations experimentOperations, ExperimentsPlatformOperations experimentsPlatformOperations) {
+        super(experimentOperations, experimentsPlatformOperations);
         this.name = name;
         this.description = description;
         this.finish = finish;
@@ -32,8 +32,8 @@ class MockTaskChooser extends TaskChooserAlgorithm {
     }
 
     public MockTaskChooser(boolean finish, boolean creative, ExperimentRecord experimentRecord,
-                           ExperimentOperations experimentOperations, TaskOperations taskOperations) {
-        super(experimentOperations, taskOperations);
+                           ExperimentOperations experimentOperations, ExperimentsPlatformOperations experimentsPlatformOperations) {
+        super(experimentOperations, experimentsPlatformOperations);
         this.name = experimentRecord.getAlgorithmTaskChooser();
         this.description = OperationsDataHolder.nextRandomString();
         this.finish = finish;

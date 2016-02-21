@@ -205,12 +205,12 @@ public class QueriesTest {
         String mockTaskChooserDescription = "mockTaskChooserDescription";
         data.getExperimentRecord().setAlgorithmTaskChooser(mockTaskChooserDescription);
         ExperimentOperations experimentOperations = data.createExperimentOperations();
-        TaskOperations taskOperations = data.createTaskOperations();
+        ExperimentsPlatformOperations experimentsPlatformOperations = data.createTaskOperations();
         CalibrationsOperations calibrationsOperations = data.createPopulationsOperations();
         PlatformOperations platformOperations = data.createPlatformOperations();
         Communication communication = prepareCommunication(data.getPlatformRecord(), Optional.empty());
-        MockTaskChooser mockTaskChooser = new MockTaskChooser(finish, creative, data.getExperimentRecord(), experimentOperations, taskOperations);
-        Queries queries =  new Queries(calibrationsOperations, experimentOperations, platformOperations, communication, taskOperations, mockTaskChooser, data.createWorkerOperations());
+        MockTaskChooser mockTaskChooser = new MockTaskChooser(finish, creative, data.getExperimentRecord(), experimentOperations, experimentsPlatformOperations);
+        Queries queries =  new Queries(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, mockTaskChooser, data.createWorkerOperations());
         String json = queries.getNext(request, response);
         View.Builder builder = View.newBuilder();
         parser.merge(json, builder);

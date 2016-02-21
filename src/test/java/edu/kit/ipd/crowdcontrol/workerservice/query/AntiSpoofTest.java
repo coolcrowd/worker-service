@@ -3,7 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.junit.Before;
 import org.junit.Test;
@@ -122,9 +122,9 @@ public class AntiSpoofTest {
         }
         data.setAnswerCountTotal(givenTotalAnswers);
         data.setTaskChooserParams(map);
-        TaskOperations taskOperations = data.createTaskOperations();
+        ExperimentsPlatformOperations experimentsPlatformOperations = data.createTaskOperations();
         ExperimentOperations experimentOperations = data.createExperimentOperations();
-        AntiSpoof antiSpoof = new AntiSpoof(experimentOperations, taskOperations);
+        AntiSpoof antiSpoof = new AntiSpoof(experimentOperations, experimentsPlatformOperations);
         return antiSpoof.next(prepareBuilder(), null, experiment.getIdExperiment(), null, false, false)
                 .map(View::getType);
     }
