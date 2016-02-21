@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord> {
 
-	private static final long serialVersionUID = -491692233;
+	private static final long serialVersionUID = -1644439963;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiment</code>
@@ -40,6 +40,11 @@ public class Experiment extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol
 	 * The column <code>crowdcontrol.Experiment.description</code>.
 	 */
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Experiment.description_raw</code>.
+	 */
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord, java.lang.String> DESCRIPTION_RAW = createField("description_raw", org.jooq.impl.SQLDataType.CLOB, this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiment.needed_answers</code>.

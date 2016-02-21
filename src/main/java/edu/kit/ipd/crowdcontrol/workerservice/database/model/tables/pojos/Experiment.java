@@ -11,11 +11,12 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1302379332;
+	private static final long serialVersionUID = 830003914;
 
 	private java.lang.Integer idExperiment;
 	private java.lang.String  title;
 	private java.lang.String  description;
+	private java.lang.String  descriptionRaw;
 	private java.lang.Integer neededAnswers;
 	private java.lang.Integer ratingsPerAnswer;
 	private java.lang.Integer anwersPerWorker;
@@ -38,6 +39,7 @@ public class Experiment implements java.io.Serializable {
 		java.lang.Integer idExperiment,
 		java.lang.String  title,
 		java.lang.String  description,
+		java.lang.String  descriptionRaw,
 		java.lang.Integer neededAnswers,
 		java.lang.Integer ratingsPerAnswer,
 		java.lang.Integer anwersPerWorker,
@@ -57,6 +59,7 @@ public class Experiment implements java.io.Serializable {
 		this.idExperiment = idExperiment;
 		this.title = title;
 		this.description = description;
+		this.descriptionRaw = descriptionRaw;
 		this.neededAnswers = neededAnswers;
 		this.ratingsPerAnswer = ratingsPerAnswer;
 		this.anwersPerWorker = anwersPerWorker;
@@ -96,6 +99,14 @@ public class Experiment implements java.io.Serializable {
 
 	public void setDescription(java.lang.String description) {
 		this.description = description;
+	}
+
+	public java.lang.String getDescriptionRaw() {
+		return this.descriptionRaw;
+	}
+
+	public void setDescriptionRaw(java.lang.String descriptionRaw) {
+		this.descriptionRaw = descriptionRaw;
 	}
 
 	public java.lang.Integer getNeededAnswers() {

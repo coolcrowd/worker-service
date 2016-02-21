@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Platform extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord> {
 
-	private static final long serialVersionUID = 719558883;
+	private static final long serialVersionUID = -1397923266;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Platform</code>
@@ -49,7 +49,7 @@ public class Platform extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.w
 	/**
 	 * The column <code>crowdcontrol.Platform.inactive</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.Boolean> INACTIVE = createField("inactive", org.jooq.impl.SQLDataType.BIT.nullable(false).defaulted(true), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord, java.lang.Boolean> INACTIVE = createField("inactive", org.jooq.impl.SQLDataType.BIT.nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Platform</code> table reference

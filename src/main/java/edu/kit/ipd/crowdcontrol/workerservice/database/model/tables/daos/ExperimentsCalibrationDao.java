@@ -48,10 +48,10 @@ public class ExperimentsCalibrationDao extends org.jooq.impl.DAOImpl<edu.kit.ipd
 	}
 
 	/**
-	 * Fetch records that have <code>refernced_experiment IN (values)</code>
+	 * Fetch records that have <code>experiments_platform IN (values)</code>
 	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.ExperimentsCalibration> fetchByReferncedExperiment(java.lang.Integer... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsCalibration.EXPERIMENTS_CALIBRATION.REFERNCED_EXPERIMENT, values);
+	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.ExperimentsCalibration> fetchByExperimentsPlatform(java.lang.Integer... values) {
+		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsCalibration.EXPERIMENTS_CALIBRATION.EXPERIMENTS_PLATFORM, values);
 	}
 
 	/**
@@ -59,13 +59,6 @@ public class ExperimentsCalibrationDao extends org.jooq.impl.DAOImpl<edu.kit.ipd
 	 */
 	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.ExperimentsCalibration> fetchByAnswer(java.lang.Integer... values) {
 		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsCalibration.EXPERIMENTS_CALIBRATION.ANSWER, values);
-	}
-
-	/**
-	 * Fetch records that have <code>referenced_platform IN (values)</code>
-	 */
-	public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos.ExperimentsCalibration> fetchByReferencedPlatform(java.lang.String... values) {
-		return fetch(edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsCalibration.EXPERIMENTS_CALIBRATION.REFERENCED_PLATFORM, values);
 	}
 
 	/**
