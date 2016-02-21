@@ -28,7 +28,7 @@ public class AntiSpoofTest {
     public void setUp() {
         data = new OperationsDataHolder();
         experiment = data.getExperimentRecord();
-        antiSpoof = new AntiSpoof(data.createExperimentOperations(), data.createTaskOperations());
+        antiSpoof = new AntiSpoof(data.createExperimentOperations(), data.createExperimentsPlatformOperations());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class AntiSpoofTest {
         }
         data.setAnswerCountTotal(givenTotalAnswers);
         data.setTaskChooserParams(map);
-        ExperimentsPlatformOperations experimentsPlatformOperations = data.createTaskOperations();
+        ExperimentsPlatformOperations experimentsPlatformOperations = data.createExperimentsPlatformOperations();
         ExperimentOperations experimentOperations = data.createExperimentOperations();
         AntiSpoof antiSpoof = new AntiSpoof(experimentOperations, experimentsPlatformOperations);
         return antiSpoof.next(prepareBuilder(), null, experiment.getIdExperiment(), null, false, false)

@@ -87,7 +87,7 @@ public class TaskChooserAlgorithmTest {
         experiment.setTitle(title);
         experiment.setDescription(resultingDescription);
         ExperimentOperations experimentOperations = data.createExperimentOperations();
-        ExperimentsPlatformOperations experimentsPlatformOperations = data.createTaskOperations();
+        ExperimentsPlatformOperations experimentsPlatformOperations = data.createExperimentsPlatformOperations();
         MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(experimentOperations, experimentsPlatformOperations);
         View view = taskChooserAlgorithm.prepareBuilder(builder, experiment.getIdExperiment()).build();
         assertTrue(view.getTitle().equals(title));
@@ -124,7 +124,7 @@ public class TaskChooserAlgorithmTest {
     public void testConstructViewReturningRatingEnoughAnswers() throws Exception {
         View.Builder builder = prepareBuilder();
         data.setAnswerGiveCountWorker(data.getExperimentRecord().getAnwersPerWorker());
-        MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(data.createExperimentOperations(), data.createTaskOperations());
+        MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(data.createExperimentOperations(), data.createExperimentsPlatformOperations());
         View view = taskChooserAlgorithm.constructView(builder, data.getExperimentRecord().getIdExperiment(), false, false).get();
         assertTrue(view.getType().equals(View.Type.RATING));
     }
@@ -139,7 +139,7 @@ public class TaskChooserAlgorithmTest {
     }
 
     private MockTaskChooser prepareTaskChooser(boolean finish, boolean creative) {
-        return prepareTaskChooser(finish, creative, data.createExperimentOperations(), data.createTaskOperations());
+        return prepareTaskChooser(finish, creative, data.createExperimentOperations(), data.createExperimentsPlatformOperations());
     }
 
     private MockTaskChooser prepareTaskChooser(boolean finish, boolean creative,

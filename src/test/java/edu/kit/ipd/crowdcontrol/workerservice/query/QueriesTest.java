@@ -3,7 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 import com.google.protobuf.util.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord;
@@ -172,14 +172,14 @@ public class QueriesTest {
 
     @Test
     public void testStopgapAnswer() throws Exception {
-        data.getTaskRecord().setStopgap(TaskStopgap.answer);
+        data.getExperimentsPlatformModeRecord().setStopgap(ExperimentsPlatformModeStopgap.answer);
         View.Builder builder = testWithTaskChooser(false, false);
         assertTrue(builder.getType().equals(View.Type.FINISHED));
     }
 
     @Test
     public void testStopgapAnswerRating() throws Exception {
-        data.getTaskRecord().setStopgap(TaskStopgap.rating);
+        data.getExperimentsPlatformModeRecord().setStopgap(ExperimentsPlatformModeStopgap.rating);
         View.Builder builder = testWithTaskChooser(false, true);
         assertTrue(builder.getType().equals(View.Type.RATING));
     }
@@ -205,7 +205,7 @@ public class QueriesTest {
         String mockTaskChooserDescription = "mockTaskChooserDescription";
         data.getExperimentRecord().setAlgorithmTaskChooser(mockTaskChooserDescription);
         ExperimentOperations experimentOperations = data.createExperimentOperations();
-        ExperimentsPlatformOperations experimentsPlatformOperations = data.createTaskOperations();
+        ExperimentsPlatformOperations experimentsPlatformOperations = data.createExperimentsPlatformOperations();
         CalibrationsOperations calibrationsOperations = data.createPopulationsOperations();
         PlatformOperations platformOperations = data.createPlatformOperations();
         Communication communication = prepareCommunication(data.getPlatformRecord(), Optional.empty());
@@ -220,7 +220,7 @@ public class QueriesTest {
     private Queries prepareQuery(OperationsDataHolder data, Optional<Integer> communicationReturn, TaskChooserAlgorithm taskChooserAlgorithm) {
         Communication communication = prepareCommunication(data.getPlatformRecord(), communicationReturn);
         return new Queries(data.createPopulationsOperations(), data.createExperimentOperations(), data.createPlatformOperations(),
-                communication, data.createTaskOperations(), taskChooserAlgorithm, data.createWorkerOperations());
+                communication, data.createExperimentsPlatformOperations(), taskChooserAlgorithm, data.createWorkerOperations());
     }
 
     private Request prepareRequest(OperationsDataHolder dataHolder) {
