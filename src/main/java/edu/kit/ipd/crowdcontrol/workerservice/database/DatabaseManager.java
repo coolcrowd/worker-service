@@ -2,9 +2,11 @@ package edu.kit.ipd.crowdcontrol.workerservice.database;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.DatabaseVersionRecord;
 import org.apache.commons.io.IOUtils;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.jooq.DSLContext;
+import org.jooq.Record1;
 import org.jooq.SQLDialect;
 import org.jooq.exception.DataAccessException;
 import org.jooq.impl.DSL;
@@ -17,7 +19,9 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Objects;
+
+
+import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
 
 /**
  * Initializes and holds the connection to the database and eventually the database itself.
@@ -30,6 +34,7 @@ public class DatabaseManager {
     private final String url;
     private final DataSource ds;
     private final Connection connection;
+    private final int currentVersion = 1;
 
     /**
      * creates new DatabaseManager.
@@ -68,24 +73,65 @@ public class DatabaseManager {
     }
 
     /**
-     * initializes the database if not already initialized.
+     * Initializes the database if not already initialized.
+     * @throws SQLException if there was a problem establishing a connection to the database
+     * @throws IllegalStateException if the version does not match the current version
      */
-    public void initDatabase() {
+    public void initDatabase() throws SQLException, IllegalStateException {
+        createSchemaIfNotExisting();
+        checkDBVersion();
+    }
+
+    /**
+     * Checks whether the db matches the current version and if not throws an exception.
+     * @throws IllegalStateException if the version does not match the current version
+     */
+    private void checkDBVersion() throws IllegalStateException {
+        Integer dbVersion = context.select(DATABASE_VERSION.VERSION)
+                .from(DATABASE_VERSION)
+                .orderBy(DATABASE_VERSION.TIMESTAMP.desc())
+                .limit(1)
+                .fetchOptional()
+                .map(Record1::value1)
+                .orElseGet(() -> {
+                    context.insertInto(DATABASE_VERSION)
+                            .set(new DatabaseVersionRecord(null, currentVersion, null))
+                            .execute();
+                    return currentVersion;
+                });
+        if (dbVersion != currentVersion) {
+            throw new IllegalStateException(String.format(
+                    "Database Version is %d but the object-service expects %d",
+                    dbVersion,
+                    currentVersion
+            ));
+        }
+    }
+
+    /**
+     * Creates the db-schema if not already existing.
+     * @throws SQLException if there was a problem establishing a connection to the database
+     */
+    private void createSchemaIfNotExisting() throws SQLException {
         try (InputStream in = DatabaseManager.class.getResourceAsStream("/db.sql")) {
             String initScript = IOUtils.toString(in, "UTF-8");
             if (Boolean.getBoolean("dropSchema")) {
                 String drop = "DROP DATABASE `crowdcontrol`;";
-                context.fetch(drop);
+                context.execute(drop);
             }
             try {
                 context.selectFrom(Tables.EXPERIMENT).fetchAny();
             } catch (DataAccessException e) {
                 //TODO: need better idea, but meta() and systable are not working
                 String tables = initScript.substring(0, initScript.indexOf("DELIMITER $$"));
-                context.execute(tables);
+                ScriptRunner scriptRunner = new ScriptRunner(ds.getConnection());
+                scriptRunner.setLogWriter(null);
+                scriptRunner.setDelimiter(";");
+                scriptRunner.runScript(new StringReader(tables));
                 String delimiter = "DELIMITER $$";
-                String trigger = initScript.substring(initScript.indexOf(delimiter) + delimiter.length(), initScript.length());
-                ScriptRunner scriptRunner = new ScriptRunner(connection);
+                String trigger = initScript.substring(initScript.indexOf(delimiter) + delimiter.length(), initScript.lastIndexOf("DELIMITER ;"));
+                scriptRunner = new ScriptRunner(ds.getConnection());
+                scriptRunner.setLogWriter(null);
                 scriptRunner.setDelimiter("$$");
                 scriptRunner.runScript(new StringReader(trigger));
 

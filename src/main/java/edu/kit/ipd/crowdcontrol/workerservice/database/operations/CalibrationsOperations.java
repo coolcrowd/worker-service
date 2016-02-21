@@ -49,7 +49,12 @@ public class CalibrationsOperations extends AbstractOperation {
                 .join(Tables.CALIBRATION).onKey()
                 .join(Tables.EXPERIMENTS_CALIBRATION).on(EXPERIMENTS_CALIBRATION.ANSWER.eq(CALIBRATION_ANSWER_OPTION.ID_CALIBRATION_ANSWER_OPTION))
                 .where(Tables.EXPERIMENTS_CALIBRATION.ID_EXPERIMENTS_CALIBRATION.eq(experimentID))
-                .and(Tables.EXPERIMENTS_CALIBRATION.REFERENCED_PLATFORM.eq(platformID))
+                .and(Tables.EXPERIMENTS_CALIBRATION.EXPERIMENTS_PLATFORM.in(
+                        DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
+                                .from(EXPERIMENTS_PLATFORM)
+                                .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experimentID))
+                                .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platformID))
+                ))
                 .and(Tables.CALIBRATION.ID_CALIBRATION.notIn(alreadyAnsweredCalibrations))
                 .fetchGroups(Tables.CALIBRATION);
 
@@ -70,7 +75,12 @@ public class CalibrationsOperations extends AbstractOperation {
 
         return create.fetchExists(DSL.selectFrom(Tables.EXPERIMENTS_CALIBRATION)
                 .where(Tables.EXPERIMENTS_CALIBRATION.ID_EXPERIMENTS_CALIBRATION.eq(experimentID))
-                .and(Tables.EXPERIMENTS_CALIBRATION.REFERENCED_PLATFORM.eq(platformID))
+                .and(Tables.EXPERIMENTS_CALIBRATION.EXPERIMENTS_PLATFORM.in(
+                        DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
+                                .from(EXPERIMENTS_PLATFORM)
+                                .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experimentID))
+                                .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platformID))
+                ))
                 .and(Tables.EXPERIMENTS_CALIBRATION.NOT.eq(false).and(Tables.EXPERIMENTS_CALIBRATION.ANSWER.notIn(answered))
                         .or(Tables.EXPERIMENTS_CALIBRATION.NOT.eq(true).and(Tables.EXPERIMENTS_CALIBRATION.ANSWER.in(answered)))));
     }

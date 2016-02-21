@@ -2,9 +2,9 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsPlatformModeRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsPlatformRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TaskRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.query.TaskChooserAlgorithm;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
@@ -15,43 +15,63 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
 
 /**
- * TaskOperations contains all queries concerned with the Creative- and Rating-Tasks.
+ * ExperimentsPlatformOperations contains all queries concerned with the platforms of the experiment and the associated
+ * information.
  * @author LeanderK
  * @version 1.0
  */
-public class TaskOperations extends AbstractOperation {
-    private static final Logger logger = LoggerFactory.getLogger(TaskOperations.class);
+public class ExperimentsPlatformOperations extends AbstractOperation {
+    private static final Logger logger = LoggerFactory.getLogger(ExperimentsPlatformOperations.class);
     /**
-     * creates a new TaskOperation
+     * creates a new ExperimentsPlatformOperations
      * @param create the context used to communicate with the database
      */
-    public TaskOperations(DSLContext create) {
+    public ExperimentsPlatformOperations(DSLContext create) {
         super(create);
     }
 
     /**
-     * returns the TaskRecord
-     * @param experiment the experiment the task belongs to
-     * @param platform the platform the task belongs to
-     * @return the record of the task in the database
-     * @throws IllegalArgumentException if the Task is not existing
+     * returns the ExperimentsPlatform
+     * @param experiment the experiment the experimentsPlatform belongs to
+     * @param platform the platform the experimentsPlatform belongs to
+     * @return the record of the experimentsPlatform in the database
+     * @throws IllegalArgumentException if the experimentsPlatform is not existing
      */
-    public TaskRecord getTask(int experiment, String platform) throws IllegalArgumentException {
-        return create.selectFrom(TASK)
-                .where(TASK.EXPERIMENT.eq(experiment))
-                .and(TASK.CROWD_PLATFORM.eq(platform))
+    public ExperimentsPlatformRecord getExperimentsPlatform(int experiment, String platform) throws IllegalArgumentException {
+        return create.selectFrom(EXPERIMENTS_PLATFORM)
+                .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experiment))
+                .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
                 .fetchOptional()
-                .orElseThrow(() -> new IllegalArgumentException("no Task existing for: experiment=" + experiment +
+                .orElseThrow(() -> new IllegalArgumentException("no Platform existing for: experiment=" + experiment +
                         " and platform=" + platform));
     }
 
-
+    /**
+     * returns the mode for the platform of the experiment
+     * @param experiment the primary key of the experiment
+     * @param platform the platform to search for
+     * @return the mode of the platform
+     * @throws IllegalArgumentException if the experimentsPlatform is not existing
+     */
+    public ExperimentsPlatformModeRecord getExperimentsPlatformMode(int experiment, String platform) throws IllegalArgumentException {
+        return create.selectFrom(EXPERIMENTS_PLATFORM_MODE)
+                .where(EXPERIMENTS_PLATFORM_MODE.EXPERIMENTS_PLATFORM.in(
+                        DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
+                            .from(EXPERIMENTS_PLATFORM)
+                            .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experiment))
+                            .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
+                ))
+                .orderBy(EXPERIMENTS_PLATFORM_MODE.TIMESTAMP.desc())
+                .limit(1)
+                .fetchOptional()
+                .orElseThrow(() -> new IllegalArgumentException("no PlatformMode existing for: experiment=" + experiment +
+                        " and platform=" + platform));
+    }
 
     /**
      * Reserves a number of ratings for the given worker.
