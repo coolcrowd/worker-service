@@ -112,7 +112,12 @@ public class Main {
         waitOnObjectService(communication);
 
         if (!testing) {
-            databaseManager.initDatabase();
+            try {
+                databaseManager.initDatabase();
+            } catch (SQLException e) {
+                logger.error("Unable to establish database connection.", e);
+                System.exit(-1);
+            }
         }
         CalibrationsOperations calibrationsOperations = new CalibrationsOperations(databaseManager.getContext());
         ExperimentOperations experimentOperations = new ExperimentOperations(databaseManager.getContext());
