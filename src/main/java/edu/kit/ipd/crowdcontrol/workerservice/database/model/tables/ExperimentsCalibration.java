@@ -11,7 +11,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentsCalibration extends org.jooq.impl.TableImpl<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsCalibrationRecord> {
 
-	private static final long serialVersionUID = -2144840695;
+	private static final long serialVersionUID = -1168753606;
 
 	/**
 	 * The singleton instance of <code>crowdcontrol.Experiments_Calibration</code>
@@ -32,19 +32,14 @@ public class ExperimentsCalibration extends org.jooq.impl.TableImpl<edu.kit.ipd.
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsCalibrationRecord, java.lang.Integer> ID_EXPERIMENTS_CALIBRATION = createField("id_experiments_calibration", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Experiments_Calibration.refernced_experiment</code>.
+	 * The column <code>crowdcontrol.Experiments_Calibration.experiments_platform</code>.
 	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsCalibrationRecord, java.lang.Integer> REFERNCED_EXPERIMENT = createField("refernced_experiment", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsCalibrationRecord, java.lang.Integer> EXPERIMENTS_PLATFORM = createField("experiments_platform", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiments_Calibration.answer</code>.
 	 */
 	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsCalibrationRecord, java.lang.Integer> ANSWER = createField("answer", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
-
-	/**
-	 * The column <code>crowdcontrol.Experiments_Calibration.referenced_platform</code>.
-	 */
-	public final org.jooq.TableField<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsCalibrationRecord, java.lang.String> REFERENCED_PLATFORM = createField("referenced_platform", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiments_Calibration.not</code>.
@@ -102,7 +97,7 @@ public class ExperimentsCalibration extends org.jooq.impl.TableImpl<edu.kit.ipd.
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsCalibrationRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsCalibrationRecord, ?>>asList(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.CALIBRATIONUSER, edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.REFERENCEDANSWER, edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.REFERENCEDPLATFORM);
+		return java.util.Arrays.<org.jooq.ForeignKey<edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsCalibrationRecord, ?>>asList(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.REFERENCED_EXPERIMENTS_PLATFORM, edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.REFERENCED_ANSWER);
 	}
 
 	/**

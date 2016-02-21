@@ -2,16 +2,14 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
-import org.jooq.lambda.tuple.Tuple2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * This is a 3-Phase TaskChooserAlgorithm, in the first phase only creative tasks are given to workers, then the worker
@@ -42,10 +40,10 @@ public class AntiSpoof extends TaskChooserAlgorithm {
      * creates an new AntiSpoof
      *
      * @param experimentOperations the ExperimentOperations used to communicate with the database.
-     * @param taskOperations the TaskOperations used to communicate with the database
+     * @param experimentsPlatformOperations the TaskOperations used to communicate with the database
      */
-    public AntiSpoof(ExperimentOperations experimentOperations, TaskOperations taskOperations) {
-        super(experimentOperations, taskOperations);
+    public AntiSpoof(ExperimentOperations experimentOperations, ExperimentsPlatformOperations experimentsPlatformOperations) {
+        super(experimentOperations, experimentsPlatformOperations);
     }
 
     /**
@@ -94,7 +92,7 @@ public class AntiSpoof extends TaskChooserAlgorithm {
     @Override
     public Optional<View> next(View.Builder builder, Request request, int experimentID, String platform,
                                boolean skipCreative, boolean skipRating) {
-        int answersCount = taskOperations.getAnswersCount(experimentID);
+        int answersCount = experimentsPlatformOperations.getAnswersCount(experimentID);
         Map<Integer, Integer> phases = experimentOperations.getTaskChooserParam(experimentID).entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> Integer.parseInt(entry.getKey()),

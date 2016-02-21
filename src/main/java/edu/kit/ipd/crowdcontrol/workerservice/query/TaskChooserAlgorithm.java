@@ -5,7 +5,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentNotFoundException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public abstract class TaskChooserAlgorithm {
     private static final Logger logger = LoggerFactory.getLogger(TaskChooserAlgorithm.class);
     protected final ExperimentOperations experimentOperations;
-    protected final TaskOperations taskOperations;
+    protected final ExperimentsPlatformOperations experimentsPlatformOperations;
     private final String pictureRegex = "\\{! ?\\S+ ?\\S+? ?\\}";
     private Pattern picturePattern = Pattern.compile("(" + pictureRegex + ")");
     private Pattern pictureUrlLicensePattern = Pattern.compile("\\{! ?(?<url>\\S+) ?(?<license>\\S+)? ?\\}");
@@ -35,11 +35,11 @@ public abstract class TaskChooserAlgorithm {
     /**
      * creates an new TaskChooserAlgorithm
      * @param experimentOperations the ExperimentOperations used to communicate with the database.
-     * @param taskOperations the TaskOperations used to communicate with the database
+     * @param experimentsPlatformOperations the TaskOperations used to communicate with the database
      */
-    public TaskChooserAlgorithm(ExperimentOperations experimentOperations, TaskOperations taskOperations) {
+    public TaskChooserAlgorithm(ExperimentOperations experimentOperations, ExperimentsPlatformOperations experimentsPlatformOperations) {
         this.experimentOperations = experimentOperations;
-        this.taskOperations = taskOperations;
+        this.experimentsPlatformOperations = experimentsPlatformOperations;
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class TaskChooserAlgorithm {
                 builder.getWorkerId(), experimentID, skipCreative, skipRating);
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
         if (!skipCreative) {
-            int answered = taskOperations.getAnswersCount(experimentID, builder.getWorkerId());
+            int answered = experimentsPlatformOperations.getAnswersCount(experimentID, builder.getWorkerId());
             logger.debug("worker {} has answered {} times, max. is {}", builder.getWorkerId(), answered, experiment.getAnwersPerWorker());
             if (answered < experiment.getAnwersPerWorker()) {
                 logger.debug("returning answer-view");
@@ -96,7 +96,7 @@ public abstract class TaskChooserAlgorithm {
             }
         }
         if (!skipRating) {
-            int rated = taskOperations.getRatingsCount(experimentID, builder.getWorkerId());
+            int rated = experimentsPlatformOperations.getRatingsCount(experimentID, builder.getWorkerId());
             logger.debug("worker {} has rated {} times, max. is {}", builder.getWorkerId(), rated, experiment.getRatingsPerWorker());
             if (rated < experiment.getRatingsPerWorker()) {
                 logger.debug("returning rating-view");
@@ -137,9 +137,9 @@ public abstract class TaskChooserAlgorithm {
         if (logger.isTraceEnabled()) {
             logger.trace("all the answers belonging to the experiment not from the worker with their count (max rating per answer is {}): {}",
                     experimentOperations.getExperiment(experimentID).getRatingsPerAnswer(),
-                    taskOperations.getOtherAnswersWithCount(experimentID, builder.getWorkerId()));
+                    experimentsPlatformOperations.getOtherAnswersWithCount(experimentID, builder.getWorkerId()));
         }
-        List<View.Answer> toRate = taskOperations.prepareRating(builder.getWorkerId(), experimentID, amount).entrySet()
+        List<View.Answer> toRate = experimentsPlatformOperations.prepareRating(builder.getWorkerId(), experimentID, amount).entrySet()
                 .stream()
                 .map(entry -> View.Answer.newBuilder()
                         .setAnswer(entry.getValue().getAnswer())

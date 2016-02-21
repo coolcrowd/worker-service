@@ -84,6 +84,11 @@ public class Tables {
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint CONSTRAINT = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Constraint.CONSTRAINT;
 
 	/**
+	 * The table crowdcontrol.Database_Version
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.DatabaseVersion DATABASE_VERSION = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.DatabaseVersion.DATABASE_VERSION;
+
+	/**
 	 * The table crowdcontrol.Experiment
 	 */
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment EXPERIMENT = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Experiment.EXPERIMENT;
@@ -94,9 +99,19 @@ public class Tables {
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsCalibration EXPERIMENTS_CALIBRATION = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsCalibration.EXPERIMENTS_CALIBRATION;
 
 	/**
-	 * The table crowdcontrol.Experiments_Platforms
+	 * The table crowdcontrol.Experiments_Platform
 	 */
-	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatforms EXPERIMENTS_PLATFORMS = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatforms.EXPERIMENTS_PLATFORMS;
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatform EXPERIMENTS_PLATFORM = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatform.EXPERIMENTS_PLATFORM;
+
+	/**
+	 * The table crowdcontrol.Experiments_Platform_Mode
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatformMode EXPERIMENTS_PLATFORM_MODE = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatformMode.EXPERIMENTS_PLATFORM_MODE;
+
+	/**
+	 * The table crowdcontrol.Experiments_Platform_Status
+	 */
+	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatformStatus EXPERIMENTS_PLATFORM_STATUS = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatformStatus.EXPERIMENTS_PLATFORM_STATUS;
 
 	/**
 	 * The table crowdcontrol.Gift_Code
@@ -147,11 +162,6 @@ public class Tables {
 	 * The table crowdcontrol.Tag
 	 */
 	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag TAG = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Tag.TAG;
-
-	/**
-	 * The table crowdcontrol.Task
-	 */
-	public static final edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task TASK = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Task.TASK;
 
 	/**
 	 * The table crowdcontrol.Template

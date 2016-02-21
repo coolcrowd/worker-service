@@ -1,6 +1,5 @@
 package edu.kit.ipd.crowdcontrol.workerservice;
 
-import com.mashape.unirest.http.Unirest;
 import edu.kit.ipd.crowdcontrol.workerservice.database.DatabaseManager;
 import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.*;
@@ -17,7 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.function.Function;
 
 /**
  * the main class is responsible for initialising everything.
@@ -114,16 +112,21 @@ public class Main {
         waitOnObjectService(communication);
 
         if (!testing) {
-            databaseManager.initDatabase();
+            try {
+                databaseManager.initDatabase();
+            } catch (SQLException e) {
+                logger.error("Unable to establish database connection.", e);
+                System.exit(-1);
+            }
         }
         CalibrationsOperations calibrationsOperations = new CalibrationsOperations(databaseManager.getContext());
         ExperimentOperations experimentOperations = new ExperimentOperations(databaseManager.getContext());
         PlatformOperations platformOperations = new PlatformOperations(databaseManager.getContext());
-        TaskOperations taskOperations = new TaskOperations(databaseManager.getContext());
+        ExperimentsPlatformOperations experimentsPlatformOperations = new ExperimentsPlatformOperations(databaseManager.getContext());
         WorkerOperations workerOperations = new WorkerOperations(databaseManager.getContext());
 
         Queries queries = new Queries(calibrationsOperations, experimentOperations, platformOperations, communication,
-                taskOperations, workerOperations, testing);
+                experimentsPlatformOperations, workerOperations, testing);
 
         String portRaw = getProperty("router.port");
 

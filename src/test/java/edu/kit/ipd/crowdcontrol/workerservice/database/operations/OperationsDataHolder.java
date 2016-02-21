@@ -1,6 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.TaskStopgap;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.DSLContext;
 import org.jooq.Result;
@@ -35,7 +35,8 @@ public class OperationsDataHolder {
     private final MockProvider mockProvider;
     private Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations;
     private boolean belongsToWrongPopulation;
-    private final TaskRecord taskRecord;
+    private final ExperimentsPlatformRecord experimentsPlatformRecord;
+    private ExperimentsPlatformModeRecord experimentsPlatformModeRecord;
     private int answerCountTotal;
     private int answerGiveCountWorker;
     private int ratingGivenCountWorker;
@@ -62,7 +63,8 @@ public class OperationsDataHolder {
         platformRecord = generatePlatformRecord();
         mockProvider = new MockProvider(this);
         calibrations = generateCalibrations(experimentRecord);
-        taskRecord = generateTaskRecord(experimentRecord);
+        experimentsPlatformRecord = generateExperimentsTaskRecord(experimentRecord, platformRecord);
+        experimentsPlatformModeRecord = generateExperimentsPlatformModeRecord(experimentsPlatformRecord);
         answerCountTotal = experimentRecord.getNeededAnswers() / 2;
         answerGiveCountWorker = experimentRecord.getAnwersPerWorker() / 2;
         ratingGivenCountWorker = experimentRecord.getRatingsPerWorker() / 2;
@@ -95,7 +97,7 @@ public class OperationsDataHolder {
         int ratingsPerAnswer = Math.abs((int) (100 * (Math.random())) + 40);
         int qualityThreshold = 0;
 
-        return new ExperimentRecord(experimentID, title, description, neededAnswerAmount, ratingsPerAnswer,
+        return new ExperimentRecord(experimentID, title, description, null, neededAnswerAmount, ratingsPerAnswer,
                 answersPerWorkerAmount, ratingsPerWorkerAmount,
                 null, algorithmTaskChooserRecord.getIdTaskChooser(), null, null, null, null, null, null, null, qualityThreshold, null);
     }
@@ -134,8 +136,13 @@ public class OperationsDataHolder {
                 .collect(Collectors.toMap(Function.identity(), ignored -> OperationsDataHolder.nextRandomString()));
     }
 
-    private TaskRecord generateTaskRecord(ExperimentRecord experimentRecord) {
-        return new TaskRecord(null, experimentRecord.getIdExperiment(), null, null, null, TaskStopgap.disabled);
+    private ExperimentsPlatformRecord generateExperimentsTaskRecord(ExperimentRecord experimentRecord, PlatformRecord platformRecord) {
+        return new ExperimentsPlatformRecord(nextRandomInt(), experimentRecord.getIdExperiment(), platformRecord.getIdPlatform(), null);
+    }
+
+    private ExperimentsPlatformModeRecord generateExperimentsPlatformModeRecord(ExperimentsPlatformRecord experimentsPlatformRecord) {
+        return new ExperimentsPlatformModeRecord(null, experimentsPlatformRecord.getIdexperimentsPlatforms(),
+                ExperimentsPlatformModeStopgap.disabled, null);
     }
 
     public List<AnswerRecord> generateAnswers(int amount, ExperimentRecord experiment) {
@@ -233,8 +240,12 @@ public class OperationsDataHolder {
         return calibrations;
     }
 
-    public TaskRecord getTaskRecord() {
-        return taskRecord;
+    public ExperimentsPlatformRecord getExperimentsPlatformRecord() {
+        return experimentsPlatformRecord;
+    }
+
+    public ExperimentsPlatformModeRecord getExperimentsPlatformModeRecord() {
+        return experimentsPlatformModeRecord;
     }
 
     public int getAnswerCountTotal() {
@@ -271,8 +282,8 @@ public class OperationsDataHolder {
         return new CalibrationsOperations(mockProvider.getMockCreate());
     }
 
-    public TaskOperations createTaskOperations() {
-        return new TaskOperations(mockProvider.getMockCreate());
+    public ExperimentsPlatformOperations createExperimentsPlatformOperations() {
+        return new ExperimentsPlatformOperations(mockProvider.getMockCreate());
     }
 
     public WorkerOperations createWorkerOperations() {

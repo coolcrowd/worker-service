@@ -11,27 +11,24 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.pojos;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentsCalibration implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1795198657;
+	private static final long serialVersionUID = 1010597809;
 
 	private java.lang.Integer idExperimentsCalibration;
-	private java.lang.Integer referncedExperiment;
+	private java.lang.Integer experimentsPlatform;
 	private java.lang.Integer answer;
-	private java.lang.String  referencedPlatform;
 	private java.lang.Boolean not;
 
 	public ExperimentsCalibration() {}
 
 	public ExperimentsCalibration(
 		java.lang.Integer idExperimentsCalibration,
-		java.lang.Integer referncedExperiment,
+		java.lang.Integer experimentsPlatform,
 		java.lang.Integer answer,
-		java.lang.String  referencedPlatform,
 		java.lang.Boolean not
 	) {
 		this.idExperimentsCalibration = idExperimentsCalibration;
-		this.referncedExperiment = referncedExperiment;
+		this.experimentsPlatform = experimentsPlatform;
 		this.answer = answer;
-		this.referencedPlatform = referencedPlatform;
 		this.not = not;
 	}
 
@@ -43,12 +40,12 @@ public class ExperimentsCalibration implements java.io.Serializable {
 		this.idExperimentsCalibration = idExperimentsCalibration;
 	}
 
-	public java.lang.Integer getReferncedExperiment() {
-		return this.referncedExperiment;
+	public java.lang.Integer getExperimentsPlatform() {
+		return this.experimentsPlatform;
 	}
 
-	public void setReferncedExperiment(java.lang.Integer referncedExperiment) {
-		this.referncedExperiment = referncedExperiment;
+	public void setExperimentsPlatform(java.lang.Integer experimentsPlatform) {
+		this.experimentsPlatform = experimentsPlatform;
 	}
 
 	public java.lang.Integer getAnswer() {
@@ -57,14 +54,6 @@ public class ExperimentsCalibration implements java.io.Serializable {
 
 	public void setAnswer(java.lang.Integer answer) {
 		this.answer = answer;
-	}
-
-	public java.lang.String getReferencedPlatform() {
-		return this.referencedPlatform;
-	}
-
-	public void setReferencedPlatform(java.lang.String referencedPlatform) {
-		this.referencedPlatform = referencedPlatform;
 	}
 
 	public java.lang.Boolean getNot() {

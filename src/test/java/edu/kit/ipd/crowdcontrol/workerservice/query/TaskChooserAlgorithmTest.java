@@ -3,7 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
-import edu.kit.ipd.crowdcontrol.workerservice.database.operations.TaskOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.junit.Before;
 import org.junit.Test;
@@ -87,8 +87,8 @@ public class TaskChooserAlgorithmTest {
         experiment.setTitle(title);
         experiment.setDescription(resultingDescription);
         ExperimentOperations experimentOperations = data.createExperimentOperations();
-        TaskOperations taskOperations = data.createTaskOperations();
-        MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(experimentOperations, taskOperations);
+        ExperimentsPlatformOperations experimentsPlatformOperations = data.createExperimentsPlatformOperations();
+        MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(experimentOperations, experimentsPlatformOperations);
         View view = taskChooserAlgorithm.prepareBuilder(builder, experiment.getIdExperiment()).build();
         assertTrue(view.getTitle().equals(title));
         assertTrue(view.getDescription().equals(description));
@@ -124,7 +124,7 @@ public class TaskChooserAlgorithmTest {
     public void testConstructViewReturningRatingEnoughAnswers() throws Exception {
         View.Builder builder = prepareBuilder();
         data.setAnswerGiveCountWorker(data.getExperimentRecord().getAnwersPerWorker());
-        MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(data.createExperimentOperations(), data.createTaskOperations());
+        MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(data.createExperimentOperations(), data.createExperimentsPlatformOperations());
         View view = taskChooserAlgorithm.constructView(builder, data.getExperimentRecord().getIdExperiment(), false, false).get();
         assertTrue(view.getType().equals(View.Type.RATING));
     }
@@ -134,17 +134,17 @@ public class TaskChooserAlgorithmTest {
                 .setWorkerId(data.getWorkerID());
     }
 
-    private MockTaskChooser prepareTaskChooser(ExperimentOperations experimentOperations, TaskOperations taskOperations) {
-        return prepareTaskChooser(false, true, experimentOperations, taskOperations);
+    private MockTaskChooser prepareTaskChooser(ExperimentOperations experimentOperations, ExperimentsPlatformOperations experimentsPlatformOperations) {
+        return prepareTaskChooser(false, true, experimentOperations, experimentsPlatformOperations);
     }
 
     private MockTaskChooser prepareTaskChooser(boolean finish, boolean creative) {
-        return prepareTaskChooser(finish, creative, data.createExperimentOperations(), data.createTaskOperations());
+        return prepareTaskChooser(finish, creative, data.createExperimentOperations(), data.createExperimentsPlatformOperations());
     }
 
     private MockTaskChooser prepareTaskChooser(boolean finish, boolean creative,
-                                               ExperimentOperations experimentOperations, TaskOperations taskOperations) {
+                                               ExperimentOperations experimentOperations, ExperimentsPlatformOperations experimentsPlatformOperations) {
         return new MockTaskChooser(mockTaskChooserName, mockTaskChooserDescription, finish, creative, experimentOperations,
-                taskOperations);
+                experimentsPlatformOperations);
     }
 }
