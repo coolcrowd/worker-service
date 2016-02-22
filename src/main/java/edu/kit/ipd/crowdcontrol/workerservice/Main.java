@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Properties;
 
 /**
@@ -109,7 +110,11 @@ public class Main {
                 getProperty("os.password")
         );
 
-        waitOnObjectService(communication);
+        boolean result = waitOnObjectService(communication);
+        if (!result) {
+            logger.error("object-service appears to be offline");
+            System.exit(-1);
+        }
 
         if (!testing) {
             try {
@@ -174,11 +179,25 @@ public class Main {
     /**
      * waits on the Object-Service to be available
      * @param communication the communication to use to communicate with the object-service
+     * @return true if successful, false if not
      */
-    private void waitOnObjectService(Communication communication) {
+    private boolean waitOnObjectService(Communication communication) {
         String property = getProperty("os.wait");
         if (property != null && property.equals("true")) {
-            //TODO
+            LocalDateTime limit = LocalDateTime.now().plusSeconds(60);
+            while (limit.isAfter(LocalDateTime.now())) {
+                if (communication.isObjectServiceRunning()) {
+                    return true;
+                } else {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        logger.debug("interrupted while waiting on os", e);
+                    }
+                }
+            }
+            return false;
         }
+        return true;
     }
 }

@@ -7,6 +7,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.http.options.Option;
+import com.mashape.unirest.request.BaseRequest;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.Integer;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -215,6 +217,24 @@ public class Communication {
             }
             return throwOr(response, Optional::empty);
         });
+    }
+
+    /**
+     * this method calls 'GET /algorithms' and checks that the result is not empty.
+     * @return true if the ObjectService is running
+     */
+    public boolean isObjectServiceRunning() {
+        String route = "/algorithms";
+        try {
+            return getRequest(route, BaseRequest::asJson)
+                    //not very sophisticated yet
+                    .thenApply(json -> true)
+                    .join();
+        } catch (CompletionException e) {
+            logger.debug("object-service is not yet available");
+            logger.trace("an exception occurred while trying to communicate with the os", e);
+            return false;
+        }
     }
 
     /**

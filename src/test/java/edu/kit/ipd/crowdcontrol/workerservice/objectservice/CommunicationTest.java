@@ -64,7 +64,6 @@ public class CommunicationTest {
     }
 
 
-
     private <T> boolean checkURL(CompletableFuture<T> future, String checkUrl) {
         return future.handle((t, throwable) -> {
             String message = throwable.getMessage();
