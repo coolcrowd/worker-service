@@ -194,7 +194,10 @@ generateSampleJooqSchemaSource.enabled = false
 task prepareDocker(type: Copy) {
     dependsOn "fatJar"
     file("./bin").mkdirs()
-    from "$buildDir/libs/" + project.name + '-all-' + project.version +".jar"
+    from "$buildDir/libs/" + project.name + '-all-' + project.version + ".jar"
     into "./bin"
-    rename (project.name + '-all-' + project.version +".jar", project.name + '.jar')
+    rename(project.name + '-all-' + project.version + ".jar", project.name + '.jar')
+    doLast {
+        clean.execute()
+    }
 }
