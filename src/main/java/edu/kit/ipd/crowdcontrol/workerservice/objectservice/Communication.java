@@ -5,8 +5,8 @@ import com.google.protobuf.util.JsonFormat;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.http.options.Option;
 import com.mashape.unirest.request.BaseRequest;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
@@ -15,7 +15,6 @@ import edu.kit.ipd.crowdcontrol.objectservice.proto.*;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.NotAcceptableException;
-import edu.kit.ipd.crowdcontrol.workerservice.command.Commands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,9 +77,9 @@ public class Communication {
                     String route = "/workers/" + worker.getId();
                     logger.debug("Request to patch worker {} with new email {} for route {}.", worker.getId(),
                             worker.getEmail(), route);
-                    return patchRequest(route, builder -> builder
+                    return patchRequest(route, (builder, callback) -> builder
                             .body(printer.print(worker))
-                            .asJson());
+                            .asJsonAsync(callback));
                 })
                 .thenApply(response -> {
                     if (response.getStatus() == 200) {
@@ -111,9 +110,9 @@ public class Communication {
                 .build();
         String route = "/experiments/" + experiment + "/answers";
         logger.debug("Trying to submit answer {} for worker {} with route {}", answer, worker, route);
-        return putRequest(route, builder -> builder
+        return putRequest(route, (builder, callback) -> builder
                 .body(printer.print(answerProto))
-                .asJson()
+                .asJsonAsync(callback)
         ).thenApply(response -> {
             if (response.getStatus() == 201) {
                 logger.debug("Object service answered with status 201");
@@ -159,9 +158,9 @@ public class Communication {
         Rating rating = ratingBuilder.build();
         String route = "/experiments/" + experiment + "/answers/" + answer + "/rating";
         logger.debug("Trying to submit rating {} for worker {} with route {}", rating, worker, route);
-        return putRequest(route, builder -> builder
+        return putRequest(route, (builder, callback) -> builder
                 .body(printer.print(rating))
-                .asJson()
+                .asJsonAsync(callback)
         ).thenApply(response -> throwOr(response, () -> response))
                 .thenApply(HttpResponse::getStatus);
     }
@@ -180,9 +179,9 @@ public class Communication {
 
         String route = String.format("/workers/%d/calibrations", worker);
         logger.debug("Trying to submit calibration {} for worker {} with route {}", calibrationAnswer, worker, route);
-        return putRequest(route, builder -> builder
+        return putRequest(route, (builder, callback) -> builder
                 .body(printer.print(calibrationAnswer))
-                .asJson()
+                .asJsonAsync(callback)
         )
         .thenApply(response -> throwOr(response, () -> null));
     }
@@ -197,13 +196,12 @@ public class Communication {
     public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, Map<String, String[]> queryParameter) {
         String route = "/workers/" + platform + "/identity";
         logger.debug("Trying to get workerId for parameter {} with route {} from platform {}.", queryParameter, route, platform);
-        return getRequest(route, builder -> {
+        return getRequest(route, (builder, callback) -> {
             HttpRequest request = builder.getHttpRequest();
             for (Map.Entry<String, String[]> entry : queryParameter.entrySet()) {
                 request = request.queryString(entry.getKey(), entry.getValue()[0]);
             }
-            return request
-                    .asJson();
+            request.asJsonAsync(callback);
         }).thenApply(response -> {
             if (response.getStatus() == 200) {
                 logger.debug("Object service answered with status 200");
@@ -226,7 +224,7 @@ public class Communication {
     public boolean isObjectServiceRunning() {
         String route = "/algorithms";
         try {
-            return getRequest(route, BaseRequest::asJson)
+            return getRequest(route, BaseRequest::asJsonAsync)
                     //not very sophisticated yet
                     .thenApply(json -> true)
                     .join();
@@ -269,25 +267,52 @@ public class Communication {
     }
 
     /**
+     * non-blocking async operation
+     * @param request the request to use
+     * @param func the function to process the request
+     * @param <T> the type of the request
+     * @return a completableFuture completed when the request is finished
+     */
+    public <T extends HttpRequest> CompletableFuture<HttpResponse<JsonNode>> doAsync(T request, UnirestFunction<T> func) {
+        CompletableFuture<HttpResponse<JsonNode>> future = new CompletableFuture<>();
+        Callback<JsonNode> callback = new Callback<JsonNode>() {
+            @Override
+            public void completed(HttpResponse<JsonNode> response) {
+                future.complete(response);
+            }
+
+            @Override
+            public void failed(UnirestException e) {
+                future.completeExceptionally(e);
+            }
+
+            @Override
+            public void cancelled() {
+                future.cancel(true);
+            }
+        };
+        try {
+            func.apply(request, callback);
+        } catch (UnirestException e) {
+            future.completeExceptionally(new InternalServerErrorException("an error occurred while trying to communicate with the object-service", e));
+        } catch (InvalidProtocolBufferException e) {
+            future.completeExceptionally(new InternalServerErrorException("unable to print JSON for request", e));
+        }
+        return future;
+    }
+
+    /**
      * creates a put-request with the specified route and the function applied
      * @param route the route of the put-request
      * @param func the function to complete the prepared put-request
      * @return an CompletableFuture containing the result of the put-request
      */
     private CompletableFuture<HttpResponse<JsonNode>> putRequest(String route, UnirestFunction<HttpRequestWithBody> func) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                HttpRequestWithBody request = Unirest.put(url + route)
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json")
-                        .basicAuth(username, password);
-                return func.apply(request);
-            } catch (UnirestException e) {
-                throw new InternalServerErrorException("an error occurred while trying to communicate with the object-service", e);
-            } catch (InvalidProtocolBufferException e) {
-                throw new InternalServerErrorException("unable to print JSON for request", e);
-            }
-        });
+        return doAsync(Unirest.put(url + route)
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .basicAuth(username, password),
+                func);
     }
 
     /**
@@ -297,19 +322,11 @@ public class Communication {
      * @return an CompletableFuture containing the result of the put-request
      */
     private CompletableFuture<HttpResponse<JsonNode>> patchRequest(String route, UnirestFunction<HttpRequestWithBody> func) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                HttpRequestWithBody request = Unirest.patch(url + route)
+        return doAsync(Unirest.patch(url + route)
                         .header("Content-Type", "application/json")
                         .header("Accept", "application/json")
-                        .basicAuth(username, password);
-                return func.apply(request);
-            } catch (UnirestException e) {
-                throw new InternalServerErrorException("an error occurred while trying to communicate with the object-service", e);
-            } catch (InvalidProtocolBufferException e) {
-                throw new InternalServerErrorException("unable to print JSON for request", e);
-            }
-        });
+                        .basicAuth(username, password),
+                func);
     }
 
     /**
@@ -319,25 +336,17 @@ public class Communication {
      * @return an CompletableFuture containing the result of the put-request
      */
     private CompletableFuture<HttpResponse<JsonNode>> getRequest(String route, UnirestFunction<GetRequest> func) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                GetRequest request = Unirest.get(url + route)
+        return doAsync(Unirest.get(url + route)
                         .header("accept", "application/json")
-                        .basicAuth(username, password);
-                return func.apply(request);
-            } catch (UnirestException e) {
-                throw new InternalServerErrorException("an error occurred while trying to communicate with the object-service", e);
-            } catch (InvalidProtocolBufferException e) {
-                throw new InternalServerErrorException("unable to print JSON for request", e);
-            }
-        });
+                        .basicAuth(username, password),
+                func);
     }
 
     /**
      * defines the function to complete the prepared put-request.
      */
     @FunctionalInterface
-    private interface UnirestFunction<T> {
-        HttpResponse<JsonNode> apply(T request) throws UnirestException, InvalidProtocolBufferException;
+    private interface UnirestFunction<T extends HttpRequest> {
+        void apply(T request, Callback<JsonNode> callback) throws UnirestException, InvalidProtocolBufferException;
     }
 }
