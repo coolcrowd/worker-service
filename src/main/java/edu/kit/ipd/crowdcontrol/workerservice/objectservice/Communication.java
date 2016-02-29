@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.Integer;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -77,9 +78,8 @@ public class Communication {
                     String route = "/workers/" + worker.getId();
                     logger.debug("Request to patch worker {} with new email {} for route {}.", worker.getId(),
                             worker.getEmail(), route);
-                    return patchRequest(route, (builder, callback) -> builder
-                            .body(printer.print(worker))
-                            .asJsonAsync(callback));
+                    return patchRequest(route, builder -> builder
+                            .body(printer.print(worker)));
                 })
                 .thenApply(response -> {
                     if (response.getStatus() == 200) {
@@ -110,9 +110,8 @@ public class Communication {
                 .build();
         String route = "/experiments/" + experiment + "/answers";
         logger.debug("Trying to submit answer {} for worker {} with route {}", answer, worker, route);
-        return putRequest(route, (builder, callback) -> builder
+        return putRequest(route, builder -> builder
                 .body(printer.print(answerProto))
-                .asJsonAsync(callback)
         ).thenApply(response -> {
             if (response.getStatus() == 201) {
                 logger.debug("Object service answered with status 201");
@@ -158,9 +157,8 @@ public class Communication {
         Rating rating = ratingBuilder.build();
         String route = "/experiments/" + experiment + "/answers/" + answer + "/rating";
         logger.debug("Trying to submit rating {} for worker {} with route {}", rating, worker, route);
-        return putRequest(route, (builder, callback) -> builder
+        return putRequest(route, builder -> builder
                 .body(printer.print(rating))
-                .asJsonAsync(callback)
         ).thenApply(response -> throwOr(response, () -> response))
                 .thenApply(HttpResponse::getStatus);
     }
@@ -179,9 +177,8 @@ public class Communication {
 
         String route = String.format("/workers/%d/calibrations", worker);
         logger.debug("Trying to submit calibration {} for worker {} with route {}", calibrationAnswer, worker, route);
-        return putRequest(route, (builder, callback) -> builder
+        return putRequest(route, builder -> builder
                 .body(printer.print(calibrationAnswer))
-                .asJsonAsync(callback)
         )
         .thenApply(response -> throwOr(response, () -> null));
     }
@@ -196,12 +193,12 @@ public class Communication {
     public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, Map<String, String[]> queryParameter) {
         String route = "/workers/" + platform + "/identity";
         logger.debug("Trying to get workerId for parameter {} with route {} from platform {}.", queryParameter, route, platform);
-        return getRequest(route, (builder, callback) -> {
+        return getRequest(route, builder -> {
             HttpRequest request = builder.getHttpRequest();
             for (Map.Entry<String, String[]> entry : queryParameter.entrySet()) {
                 request = request.queryString(entry.getKey(), entry.getValue()[0]);
             }
-            request.asJsonAsync(callback);
+            return request;
         }).thenApply(response -> {
             if (response.getStatus() == 200) {
                 logger.debug("Object service answered with status 200");
@@ -224,7 +221,7 @@ public class Communication {
     public boolean isObjectServiceRunning() {
         String route = "/algorithms";
         try {
-            return getRequest(route, BaseRequest::asJsonAsync)
+            return getRequest(route, builder -> builder)
                     //not very sophisticated yet
                     .thenApply(json -> true)
                     .join();
@@ -292,11 +289,18 @@ public class Communication {
             }
         };
         try {
-            func.apply(request, callback);
+            func.apply(request)
+                    .asJsonAsync(callback);
         } catch (UnirestException e) {
             future.completeExceptionally(new InternalServerErrorException("an error occurred while trying to communicate with the object-service", e));
         } catch (InvalidProtocolBufferException e) {
             future.completeExceptionally(new InternalServerErrorException("unable to print JSON for request", e));
+        } catch (RuntimeException e) {
+            if (e.getCause() != null && e.getCause() instanceof URISyntaxException)  {
+                future.completeExceptionally(e);
+            } else {
+                throw e;
+            }
         }
         return future;
     }
@@ -347,6 +351,6 @@ public class Communication {
      */
     @FunctionalInterface
     private interface UnirestFunction<T extends HttpRequest> {
-        void apply(T request, Callback<JsonNode> callback) throws UnirestException, InvalidProtocolBufferException;
+        BaseRequest apply(T request) throws UnirestException, InvalidProtocolBufferException;
     }
 }

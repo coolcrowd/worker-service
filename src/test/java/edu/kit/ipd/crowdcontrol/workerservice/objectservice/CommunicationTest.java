@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
  * @version 1.0
  */
 public class CommunicationTest {
-    private String url = "http://www.abc.com";
+    private String url = "http://www.!ä.org";
 
     @Test
     public void testSubmitWorkerURL() throws Exception {
