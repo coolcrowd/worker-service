@@ -19,6 +19,8 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
@@ -94,9 +96,7 @@ public class DatabaseManager {
                 .fetchOptional()
                 .map(Record1::value1)
                 .orElseGet(() -> {
-                    context.insertInto(DATABASE_VERSION)
-                            .set(new DatabaseVersionRecord(null, currentVersion, null))
-                            .execute();
+                    context.executeInsert(new DatabaseVersionRecord(null, currentVersion, Timestamp.valueOf(LocalDateTime.now())));
                     return currentVersion;
                 });
         if (dbVersion != currentVersion) {
