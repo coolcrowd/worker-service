@@ -1,5 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -119,9 +120,11 @@ public class MockProvider implements MockDataProvider {
                 result.add(record);
             }
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`EXPERIMENTS_PLATFORM_MODE`.`IDEXPERIMENTS_PLATFORM_STOPGAP`, ")) {
-            Result<ExperimentsPlatformModeRecord> result = create.newResult(EXPERIMENTS_PLATFORM_MODE);
-            result.add(dataHolder.getExperimentsPlatformModeRecord());
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`EXPERIMENTS_PLATFORM_MODE`.`STOPGAP` FROM `CROWDCONTROL")) {
+            Result<Record1<ExperimentsPlatformModeStopgap>> result = create.newResult(EXPERIMENTS_PLATFORM_MODE.STOPGAP);
+            Record1<ExperimentsPlatformModeStopgap> record = create.newRecord(EXPERIMENTS_PLATFORM_MODE.STOPGAP);
+            record.value1(dataHolder.getExperimentsPlatformModeRecord().getStopgap());
+            result.add(record);
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT COUNT(*) AS `C` FROM (SELECT `CROWDCONTROL`.`ANSWER`.`ID_ANSWER`, ")) {
             if (ctx.bindings().length == 4) {
