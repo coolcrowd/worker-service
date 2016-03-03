@@ -6,7 +6,10 @@ COPY settings.gradle /settings.gradle
 COPY gradlew /gradlew
 COPY gradle /gradle
 
-RUN /gradlew prepareDocker
+RUN /gradlew prepareDocker \
+    rm -rf src/ \
+    rm -rf .gradle/ \
+    rm -rf $HOME/.gradle/caches/
 
 COPY image/conf /conf
 COPY image/run.sh run.sh
