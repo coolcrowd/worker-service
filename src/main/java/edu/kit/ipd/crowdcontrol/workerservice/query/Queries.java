@@ -310,8 +310,7 @@ public class Queries implements RequestHelper {
         }
         boolean skipCreativeTemp = skipCreative;
         boolean skipRatingTemp = skipRating;
-        ExperimentsPlatformModeStopgap mode = experimentsPlatformOperations.getExperimentsPlatformMode(experiment, platformName)
-                .getStopgap();
+        ExperimentsPlatformModeStopgap mode = experimentsPlatformOperations.getExperimentsPlatformMode(experiment, platformName);
         if (ExperimentsPlatformModeStopgap.answer.equals(mode)) {
             skipRatingTemp = true;
         } else if (ExperimentsPlatformModeStopgap.rating.equals(mode)) {

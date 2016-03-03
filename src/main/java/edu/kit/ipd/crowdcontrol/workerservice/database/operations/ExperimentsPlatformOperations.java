@@ -1,6 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsPlatformModeRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsPlatformRecord;
@@ -42,8 +43,9 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
      * @return the mode of the platform
      * @throws IllegalArgumentException if the experimentsPlatform is not existing
      */
-    public ExperimentsPlatformModeRecord getExperimentsPlatformMode(int experiment, String platform) throws IllegalArgumentException {
-        return create.selectFrom(EXPERIMENTS_PLATFORM_MODE)
+    public ExperimentsPlatformModeStopgap getExperimentsPlatformMode(int experiment, String platform) throws IllegalArgumentException {
+        return create.select(EXPERIMENTS_PLATFORM_MODE.STOPGAP)
+                .from(EXPERIMENTS_PLATFORM_MODE)
                 .where(EXPERIMENTS_PLATFORM_MODE.EXPERIMENTS_PLATFORM.in(
                         DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
                             .from(EXPERIMENTS_PLATFORM)
@@ -53,8 +55,8 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 .orderBy(EXPERIMENTS_PLATFORM_MODE.TIMESTAMP.desc())
                 .limit(1)
                 .fetchOptional()
-                .orElseThrow(() -> new IllegalArgumentException("no PlatformMode existing for: experiment=" + experiment +
-                        " and platform=" + platform));
+                .map(Record1::value1)
+                .orElse(ExperimentsPlatformModeStopgap.disabled);
     }
 
     /**
