@@ -6,6 +6,7 @@ apply plugin: 'nu.studer.jooq'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'application'
+apply plugin: "io.ratpack.ratpack-java"
 
 buildscript {
     repositories {
@@ -19,6 +20,7 @@ buildscript {
         classpath 'nu.studer:gradle-jooq-plugin:1.0.5'
         classpath "net.saliman:gradle-cobertura-plugin:2.3.+"
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.+"
+        classpath "io.ratpack:ratpack-gradle:1.2.0"
     }
 }
 
@@ -55,9 +57,6 @@ dependencies {
     compile 'mysql:mysql-connector-java:5.+'
     compile 'org.mybatis:mybatis:3.+'
     compile 'com.mchange:c3p0:0.9.5.2'
-    compile ('com.sparkjava:spark-core:2.3') {
-        exclude group: 'org.slf4j', module: 'slf4j-simple'
-    }
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.google.protobuf:protobuf-java:3.+'
     compile 'com.google.protobuf:protobuf-java-util:3.+'
