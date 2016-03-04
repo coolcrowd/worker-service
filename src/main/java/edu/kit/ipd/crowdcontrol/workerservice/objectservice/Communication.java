@@ -17,6 +17,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.NotAcceptableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ratpack.util.MultiValueMap;
 
 import java.lang.Integer;
 import java.net.URISyntaxException;
@@ -190,7 +191,7 @@ public class Communication {
      * @param queryParameter the passed query-Parameter
      * @return an completable future representing the request with the resulting location in the database
      */
-    public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, Map<String, String[]> queryParameter) {
+    public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, MultiValueMap<String, String> queryParameter) {
         String route = "/workers/" + platform + "/identity";
         logger.debug("Trying to get workerId for parameter {} with route {} from platform {}.", queryParameter, route, platform);
         return getRequest(route, builder -> {

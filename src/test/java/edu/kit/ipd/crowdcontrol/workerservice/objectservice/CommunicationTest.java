@@ -2,16 +2,14 @@ package edu.kit.ipd.crowdcontrol.workerservice.objectservice;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import org.apache.http.client.HttpClient;
 import org.junit.Test;
+import ratpack.util.MultiValueMap;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * @author LeanderK
@@ -24,7 +22,7 @@ public class CommunicationTest {
     public void testSubmitWorkerURL() throws Exception {
         Communication communication = new Communication(url, "a", "b") {
             @Override
-            public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, Map<String, String[]> queryParameter) {
+            public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, MultiValueMap<String, String> queryParameter) {
                 assertTrue(queryParameter.get("email")[0].equals("a"));
                 return CompletableFuture.completedFuture(Optional.of(1));
             }
