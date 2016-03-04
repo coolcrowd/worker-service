@@ -16,8 +16,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.proto.Rating;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Request;
-import spark.Response;
+import ratpack.handling.Context;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -58,14 +57,13 @@ public class Commands implements RequestHelper {
      * this method expects the JSON-Representation of the protobuf-message email in the body of the request.
      * the response is the corresponding workerID for the email.
      *
-     * @param request  The request providing information about the HTTP request
-     * @param response The response providing functionality for modifying the response
+     * @param context the Context of the Request
      * @return an the JSON-Representation of of the EmailAnswer protobuf-message
      */
-    public String submitEmail(Request request, Response response) {
-        String platform = assertParameter(request, "platform");
+    public String submitEmail(Context context) {
+        String platform = assertParameter(context, "platform");
 
-        Email email = merge(request, Email.newBuilder(), new ArrayList<>()).build();
+        Email email = merge(context, Email.newBuilder(), new ArrayList<>()).build();
         logger.debug("Request submit to submit email {} for platform {}", email, platform);
         if (!EmailValidator.getInstance(false).isValid(email.getEmail())) {
             throw new BadRequestException("invalid email: " + email.getEmail());
@@ -78,7 +76,7 @@ public class Commands implements RequestHelper {
                     logger.debug("Answer from Object-Service for submitting email {}: {}", email, result);
                     return result;
                 })
-                .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, response))
+                .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, context))
                 .join();
     }
 
@@ -87,12 +85,11 @@ public class Commands implements RequestHelper {
      * calibration questions.
      * this method expects the JSON-Representation of the protobuf-message calibration.
      *
-     * @param request  The request providing information about the HTTP request
-     * @param response The response providing functionality for modifying the response
+     * @param context the Context of the Request
      * @return empty body (null)
      */
-    public Object submitCalibration(Request request, Response response) {
-        doSubmit(request, response, Calibration.newBuilder(), (calibration, workerID) -> {
+    public Object submitCalibration(Context context) {
+        doSubmit(context, Calibration.newBuilder(), (calibration, workerID) -> {
             logger.debug("Trying to submit calibration {} for worker {}.", calibration, workerID);
             return communication.submitCalibration(calibration.getAnswerOption(), workerID);
         });
@@ -106,12 +103,11 @@ public class Commands implements RequestHelper {
      * The POST-command /answer, where this method corresponds to, persists the answer of an worker to a creative-task.
      * this method expects the JSON-Representation of the protobuf-message answer.
      *
-     * @param request  The request providing information about the HTTP request
-     * @param response The response providing functionality for modifying the response
+     * @param context the Context of the Request
      * @return empty body (null)
      */
-    public Object submitAnswer(Request request, Response response) {
-        Integer integer = doSubmit(request, response, Answer.newBuilder(), (answer, workerID) -> {
+    public Object submitAnswer(Context context) {
+        Integer integer = doSubmit(context, Answer.newBuilder(), (answer, workerID) -> {
             logger.debug("Request to submit answer {} for worker {}", answer, workerID);
             String answerType = experimentOperations.getExperiment(answer.getExperiment()).getAnswerType();
             try {
@@ -140,12 +136,11 @@ public class Commands implements RequestHelper {
      * The POST-command /rating, where this method corresponds to, persists the rating of an answer.
      * this method expects the JSON-Representation of the protobuf-message rating.
      *
-     * @param request  The request providing information about the HTTP request
-     * @param response The response providing functionality for modifying the response
+     * @param context the Context of the Request
      * @return empty body (null)
      */
-    public Object submitRating(Request request, Response response) {
-        Integer status = doSubmit(request, response, Rating.newBuilder(),
+    public Object submitRating(Context context) {
+        Integer status = doSubmit(context, Rating.newBuilder(),
                 //excluded rating because 0 is valid
                 Arrays.asList(Rating.FEEDBACK_FIELD_NUMBER, Rating.RATING_FIELD_NUMBER), (rating, workerID) -> {
                     logger.debug("Request to submit rating {} for worker {}.", rating, workerID);
@@ -171,11 +166,11 @@ public class Commands implements RequestHelper {
      *
      * @param t         the Data to pass
      * @param throwable the throwable to wrap
-     * @param response  the response to set 201 to
+     * @param context the Context of the Request
      * @param <T>       the type of the data
      * @return maybe the data (if the throwable is not null
      */
-    private <T> T wrapExceptionOr201(T t, Throwable throwable, Response response) {
+    private <T> T wrapExceptionOr201(T t, Throwable throwable, Context context) {
         if (throwable != null) {
             if (throwable instanceof RuntimeException) {
                 throw (RuntimeException) throwable;
@@ -190,15 +185,15 @@ public class Commands implements RequestHelper {
     /**
      * merges the requests body with the Builder
      *
-     * @param request the request with the JSON Representation of the Message as a Body
+     * @param context the Context of the Request with the JSON Representation of the Message as a Body
      * @param t       the builder
      * @param excluded the field numbers of the optional fields
      * @param <T>     the type of the builder
      * @return the builder with everything set
      * @throws BadRequestException if an error occurred while parsing the JSON or wrong content-type
      */
-    private <T extends Message.Builder> T merge(Request request, T t, List<Integer> excluded) throws BadRequestException {
-        assertJson(request);
+    private <T extends Message.Builder> T merge(Context context, T t, List<Integer> excluded) throws BadRequestException {
+        assertJson(context);
         try {
             parser.merge(request.body(), t);
         } catch (InvalidProtocolBufferException e) {
@@ -220,17 +215,16 @@ public class Commands implements RequestHelper {
      * the function it wraps
      * the eventual exception, sets the status accordingly and blocks for return.
      *
-     * @param request  the request
-     * @param response the response
+     * @param context the Context of the Request
      * @param x        the builder for the expected message
      * @param func     the function to execute
      * @param <X>      the type of the builder
      * @param <T>      the type of the return data
      * @return an instance of T or an exception
      */
-    private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x,
+    private <X extends Message.Builder, T> T doSubmit(Context context, X x,
                                                       BiFunction<X, Integer, CompletableFuture<T>> func) {
-        return doSubmit(request, response, x, new ArrayList<>(), func);
+        return doSubmit(context, context, x, new ArrayList<>(), func);
     }
 
     /**
@@ -239,8 +233,7 @@ public class Commands implements RequestHelper {
      * the function it wraps
      * the eventual exception, sets the status accordingly and blocks for return.
      *
-     * @param request  the request
-     * @param response the response
+     * @param context the Context of the Request
      * @param x        the builder for the expected message
      * @param excluded the field numbers of the optional fields
      * @param func     the function to execute
@@ -248,13 +241,13 @@ public class Commands implements RequestHelper {
      * @param <T>      the type of the return data
      * @return an instance of T or an exception
      */
-    private <X extends Message.Builder, T> T doSubmit(Request request, Response response, X x,
+    private <X extends Message.Builder, T> T doSubmit(Context context, X x,
                                                       List<Integer> excluded,
                                                       BiFunction<X, Integer, CompletableFuture<T>> func) {
-        int workerID = assertParameterInt(request, "workerID");
-        X builder = merge(request, x, excluded);
+        int workerID = assertParameterInt(context, "workerID");
+        X builder = merge(context, x, excluded);
         return func.apply(builder, workerID)
-                .handle((t, throwable) -> wrapExceptionOr201(t, throwable, response))
+                .handle((t, throwable) -> wrapExceptionOr201(t, throwable, context))
                 .join();
     }
 
