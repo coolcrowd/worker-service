@@ -1,9 +1,11 @@
 package edu.kit.ipd.crowdcontrol.workerservice.objectservice;
 
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import org.junit.Test;
-import ratpack.util.MultiValueMap;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -22,12 +24,12 @@ public class CommunicationTest {
     public void testSubmitWorkerURL() throws Exception {
         Communication communication = new Communication(url, "a", "b") {
             @Override
-            public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, MultiValueMap<String, String> queryParameter) {
-                assertTrue(queryParameter.get("email")[0].equals("a"));
+            public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, ListMultimap<String, String> queryParameter) {
+                assertTrue(queryParameter.get("email").get(0).equals("a"));
                 return CompletableFuture.completedFuture(Optional.of(1));
             }
         };
-        CompletableFuture<Integer> result = communication.submitWorker("a", "b", new HashMap<>());
+        CompletableFuture<Integer> result = communication.submitWorker("a", "b", LinkedListMultimap.create());
         checkURL(result, "/workers");
     }
 
@@ -55,8 +57,8 @@ public class CommunicationTest {
     @Test
     public void testTryGetWorkerIDURL() throws Exception {
         Communication communication = new Communication(url, "a", "b");
-        HashMap<String, String[]> params = new HashMap<>();
-        params.put("key", new String[]{"value"});
+        ListMultimap<String, String> params = LinkedListMultimap.create();
+        params.put("key", "value");
         CompletableFuture<Optional<Integer>> result = communication.tryGetWorkerID("plat", params);
         checkURL(result, "/experiments/1/answers");
     }

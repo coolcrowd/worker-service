@@ -5,7 +5,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOper
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
-import spark.Request;
+import ratpack.handling.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ class MockTaskChooser extends TaskChooserAlgorithm {
     }
 
     @Override
-    public Optional<View> next(View.Builder builder, Request request, int experimentID, String platform, boolean skipCreative, boolean skipRating) {
+    public Optional<View> next(View.Builder builder, Context context, int experimentID, String platform, boolean skipCreative, boolean skipRating) {
         if (finish) {
             return Optional.empty();
         }
