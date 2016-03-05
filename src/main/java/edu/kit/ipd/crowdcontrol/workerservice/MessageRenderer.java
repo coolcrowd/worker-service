@@ -18,11 +18,9 @@ import java.util.List;
 public class MessageRenderer extends RendererSupport<Message> {
     private static JsonFormat.Printer PRINTER = JsonFormat.printer().includingDefaultValueFields();
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private static String TYPE_JSON = "application/json";
-    @SuppressWarnings("FieldCanBeLocal")
-    private static String TYPE_PROTOBUF = "application/protobuf";
-    private static List<String> SUPPORTED_TYPES = Collections.unmodifiableList(Arrays.asList(
+    private final static String TYPE_JSON = "application/json";
+    private final static String TYPE_PROTOBUF = "application/protobuf";
+    private final static List<String> SUPPORTED_TYPES = Collections.unmodifiableList(Arrays.asList(
             "application/protobuf",
             "application/json"
     ));
@@ -41,9 +39,11 @@ public class MessageRenderer extends RendererSupport<Message> {
             switch (bestMatch) {
                 case TYPE_JSON:
                     context.getResponse().send(TYPE_JSON, PRINTER.print(message));
+                    context.getResponse().contentType(TYPE_JSON);
                     break;
                 case TYPE_PROTOBUF:
                     context.getResponse().send(TYPE_PROTOBUF, message.toByteArray());
+                    context.getResponse().contentType(TYPE_PROTOBUF);
                     break;
                 default:
                     throw new NotAcceptableException(context.getRequest().getHeaders().get("accept"), TYPE_JSON, TYPE_PROTOBUF);
