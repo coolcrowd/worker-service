@@ -195,7 +195,7 @@ public class Queries implements RequestHelper {
     private View.Builder handleNoWorkerID(View.Builder builder, Context context) {
         String platformName = assertParameter(context, "platform");
         logger.debug("handling no worker-id");
-        return communication.tryGetWorkerID(platformName, context.getRequest().getQueryParams())
+        return communication.tryGetWorkerID(platformName, context.getRequest().getQueryParams().asMultimap())
                 .thenApply(result -> {
                     logger.debug("platform {} returned {}", platformName, result.map(Object::toString).orElse("nothing"));
                     return result;

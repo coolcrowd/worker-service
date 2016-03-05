@@ -4,6 +4,8 @@ import com.google.common.net.MediaType;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
@@ -16,7 +18,11 @@ import edu.kit.ipd.crowdcontrol.workerservice.proto.Rating;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ratpack.exec.Downstream;
+import ratpack.exec.Promise;
+import ratpack.exec.util.Promised;
 import ratpack.handling.Context;
+import ratpack.http.TypedData;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -60,24 +66,29 @@ public class Commands implements RequestHelper {
      * @param context the Context of the Request
      * @return an the JSON-Representation of of the EmailAnswer protobuf-message
      */
-    public String submitEmail(Context context) {
+    public Promise<EmailAnswer> submitEmail(Context context) {
         String platform = assertParameter(context, "platform");
 
-        Email email = merge(context, Email.newBuilder(), new ArrayList<>()).build();
-        logger.debug("Request submit to submit email {} for platform {}", email, platform);
-        if (!EmailValidator.getInstance(false).isValid(email.getEmail())) {
-            throw new BadRequestException("invalid email: " + email.getEmail());
-        }
-
-        return communication.submitWorker(email.getEmail(), platform, request.queryMap().toMap())
-                .thenApply(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
-                .thenApply(emailAnswer -> {
-                    String result = transform(request, response, emailAnswer);
-                    logger.debug("Answer from Object-Service for submitting email {}: {}", email, result);
-                    return result;
+        return merge(context, Email.newBuilder(), new ArrayList<>())
+                .map(Email.Builder::build)
+                .map(toValidate -> {
+                    logger.debug("Request submit to submit email {} for platform {}", toValidate, platform);
+                    if (!EmailValidator.getInstance(false).isValid(toValidate.getEmail())) {
+                        throw new BadRequestException("invalid email: " + toValidate.getEmail());
+                    }
+                    return toValidate;
                 })
-                .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, context))
-                .join();
+                .flatMap(email -> {
+                    return Promise.<Integer>of(downstream -> downstream.accept(
+                            communication.submitWorker(email.getEmail(), platform, context.getRequest().getQueryParams().asMultimap())
+                                    .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, context))
+                            ))
+                            .map(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
+                            .map(emailAnswer -> {
+                                logger.debug("Answer from Object-Service for submitting email {}: {}", email, emailAnswer.toString());
+                                return emailAnswer;
+                            });
+                });
     }
 
     /**
@@ -88,15 +99,14 @@ public class Commands implements RequestHelper {
      * @param context the Context of the Request
      * @return empty body (null)
      */
-    public Object submitCalibration(Context context) {
-        doSubmit(context, Calibration.newBuilder(), (calibration, workerID) -> {
+    public Promise<Void> submitCalibration(Context context) {
+        return doSubmit(context, Calibration.newBuilder(), (calibration, workerID) -> {
             logger.debug("Trying to submit calibration {} for worker {}.", calibration, workerID);
             return communication.submitCalibration(calibration.getAnswerOption(), workerID);
+        }).map(result -> {
+            logger.debug("Object service answered with OK.");
+            return (Void) null;
         });
-        logger.debug("Object service answered with OK.");
-        response.status(201);
-        response.body("");
-        return "";
     }
 
     /**
@@ -106,8 +116,8 @@ public class Commands implements RequestHelper {
      * @param context the Context of the Request
      * @return empty body (null)
      */
-    public Object submitAnswer(Context context) {
-        Integer integer = doSubmit(context, Answer.newBuilder(), (answer, workerID) -> {
+    public Promise<Void> submitAnswer(Context context) {
+        return doSubmit(context, Answer.newBuilder(), (answer, workerID) -> {
             logger.debug("Request to submit answer {} for worker {}", answer, workerID);
             String answerType = experimentOperations.getExperiment(answer.getExperiment()).getAnswerType();
             try {
@@ -125,11 +135,10 @@ public class Commands implements RequestHelper {
             }
             logger.trace("answer {} for worker {} is valid", answer, workerID);
             return communication.submitAnswer(answer.getAnswer(), answer.getExperiment(), workerID);
+        }).map(result -> {
+            logger.debug("Object service answered with OK.");
+            return (Void) null;
         });
-        logger.debug("Object service answered with OK.");
-        response.status(201);
-        response.body("");
-        return "";
     }
 
     /**
@@ -139,8 +148,8 @@ public class Commands implements RequestHelper {
      * @param context the Context of the Request
      * @return empty body (null)
      */
-    public Object submitRating(Context context) {
-        Integer status = doSubmit(context, Rating.newBuilder(),
+    public Promise<Integer> submitRating(Context context) {
+        return doSubmit(context, Rating.newBuilder(),
                 //excluded rating because 0 is valid
                 Arrays.asList(Rating.FEEDBACK_FIELD_NUMBER, Rating.RATING_FIELD_NUMBER), (rating, workerID) -> {
                     logger.debug("Request to submit rating {} for worker {}.", rating, workerID);
@@ -153,11 +162,10 @@ public class Commands implements RequestHelper {
                             workerID,
                             rating.getConstraintsList());
                 }
-        );
-        logger.debug("Object service answered with status {}.", status);
-        response.status(status);
-        response.body("");
-        return "";
+        ).map(status -> {
+            logger.debug("Object service answered with status {}.", status);
+            return status;
+        });
     }
 
     /**
@@ -177,7 +185,7 @@ public class Commands implements RequestHelper {
             }
             throw new InternalServerErrorException("an error occurred while communicating with the Object-Service", throwable);
         } else {
-            response.status(201);
+            context.getResponse().status(201);
             return t;
         }
     }
@@ -192,21 +200,25 @@ public class Commands implements RequestHelper {
      * @return the builder with everything set
      * @throws BadRequestException if an error occurred while parsing the JSON or wrong content-type
      */
-    private <T extends Message.Builder> T merge(Context context, T t, List<Integer> excluded) throws BadRequestException {
+    private <T extends Message.Builder> Promise<T> merge(Context context, T t, List<Integer> excluded) throws BadRequestException {
         assertJson(context);
-        try {
-            parser.merge(request.body(), t);
-        } catch (InvalidProtocolBufferException e) {
-            throw new BadRequestException("error while parsing JSON", e);
-        }
-        t.getDescriptorForType().getFields().stream()
-                .filter(field -> !field.isRepeated() && !t.hasField(field))
-                .filter(field -> !excluded.contains(field.getNumber()))
-                .findAny()
-                .ifPresent(field -> {
-                    throw new BadRequestException("field must be set:" + field.getFullName());
+        return context.getRequest().getBody()
+                .map(TypedData::getText)
+                .map(body -> {
+                    try {
+                        parser.merge(body, t);
+                    } catch (InvalidProtocolBufferException e) {
+                        throw new BadRequestException("error while parsing JSON", e);
+                    }
+                    t.getDescriptorForType().getFields().stream()
+                            .filter(field -> !field.isRepeated() && !t.hasField(field))
+                            .filter(field -> !excluded.contains(field.getNumber()))
+                            .findAny()
+                            .ifPresent(field -> {
+                                throw new BadRequestException("field must be set:" + field.getFullName());
+                            });
+                    return t;
                 });
-        return t;
     }
 
     /**
@@ -220,11 +232,11 @@ public class Commands implements RequestHelper {
      * @param func     the function to execute
      * @param <X>      the type of the builder
      * @param <T>      the type of the return data
-     * @return an instance of T or an exception
+     * @return an future instance of T or an exception
      */
-    private <X extends Message.Builder, T> T doSubmit(Context context, X x,
+    private <X extends Message.Builder, T> Promise<T> doSubmit(Context context, X x,
                                                       BiFunction<X, Integer, CompletableFuture<T>> func) {
-        return doSubmit(context, context, x, new ArrayList<>(), func);
+        return doSubmit(context, x, new ArrayList<>(), func);
     }
 
     /**
@@ -239,16 +251,18 @@ public class Commands implements RequestHelper {
      * @param func     the function to execute
      * @param <X>      the type of the builder
      * @param <T>      the type of the return data
-     * @return an instance of T or an exception
+     * @return an future instance of T or an exception
      */
-    private <X extends Message.Builder, T> T doSubmit(Context context, X x,
+    private <X extends Message.Builder, T> Promise<T> doSubmit(Context context, X x,
                                                       List<Integer> excluded,
                                                       BiFunction<X, Integer, CompletableFuture<T>> func) {
         int workerID = assertParameterInt(context, "workerID");
-        X builder = merge(context, x, excluded);
-        return func.apply(builder, workerID)
-                .handle((t, throwable) -> wrapExceptionOr201(t, throwable, context))
-                .join();
+        return merge(context, x, excluded)
+                .flatMap(builder ->
+                        Promise.of(downstream -> downstream.accept(
+                                func.apply(builder, workerID)
+                                        .handle((t, throwable) -> wrapExceptionOr201(t, throwable, context))))
+                );
     }
 
     /**
