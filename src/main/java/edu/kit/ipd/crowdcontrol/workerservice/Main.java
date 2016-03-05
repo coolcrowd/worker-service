@@ -142,9 +142,13 @@ public class Main {
         logger.debug("workerservice is using port {}", port);
 
         Commands commands = new Commands(communication, experimentOperations);
-        Router router = new Router(queries, commands, port);
+        RatpackRouter router = new RatpackRouter(queries, commands, port);
         if (!testing) {
-            router.init();
+            try {
+                router.init();
+            } catch (Exception e) {
+                logger.error("an error occured while trying to initialize the router", e);
+            }
         }
         logger.debug("router initialized");
     }
