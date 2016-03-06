@@ -13,9 +13,13 @@ import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.Result;
 import org.junit.Before;
 import org.junit.Test;
-import spark.QueryParamsMap;
-import spark.Request;
-import spark.Response;
+import ratpack.handling.Context;
+import ratpack.http.Headers;
+import ratpack.http.MediaType;
+import ratpack.http.Request;
+import ratpack.http.Response;
+import ratpack.path.PathTokens;
+import ratpack.util.MultiValueMap;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -29,7 +33,6 @@ import static org.mockito.Mockito.when;
  * @version 1.0
  */
 public class QueriesTest {
-    private final JsonFormat.Parser parser = JsonFormat.parser();
 
     private OperationsDataHolder data;
 
@@ -40,73 +43,59 @@ public class QueriesTest {
 
     @Test
     public void testExpectEmail() throws Exception {
-        Request request = prepareRequest(data.getExperimentRecord().getIdExperiment(), data.getPlatformRecord().getIdPlatform(), -1);
-        Response response = mock(Response.class);
+        Context context = prepareContext(data.getExperimentRecord().getIdExperiment(), data.getPlatformRecord().getIdPlatform(), -1);
         Queries queries =  prepareQuery(data, Optional.empty(), null);
-        String json = queries.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.EMAIL));
+        View view = queries.getNext(context);
+        assertTrue(view.getType().equals(View.Type.EMAIL));
     }
 
     @Test(expected = InternalServerErrorException.class)
     public void testExpectEmailFail() throws Exception {
         data.getPlatformRecord().setNeedsEmail(false);
-        Request request = prepareRequest(data.getExperimentRecord().getIdExperiment(), data.getPlatformRecord().getIdPlatform(), -1);
-        Response response = mock(Response.class);
+        Context context = prepareContext(data.getExperimentRecord().getIdExperiment(), data.getPlatformRecord().getIdPlatform(), -1);
         Queries queries =  prepareQuery(data, Optional.empty(), null);
-        queries.getNext(request, response);
+        queries.getNext(context);
     }
 
     @Test
     public void testExpectGetWorkerID() throws Exception {
         data.setBelongsToWrongPopulation(true);
         data.getPlatformRecord().setNeedsEmail(false);
-        Request request = prepareRequest(data.getExperimentRecord().getIdExperiment(), data.getPlatformRecord().getIdPlatform(), -1);
-        Response response = mock(Response.class);
+        Context context = prepareContext(data.getExperimentRecord().getIdExperiment(), data.getPlatformRecord().getIdPlatform(), -1);
         Queries queries =  prepareQuery(data, Optional.of(data.getWorkerID()), null);
-        String json = queries.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getWorkerId() == data.getWorkerID());
+        View view = queries.getNext(context);
+        assertTrue(view.getWorkerId() == data.getWorkerID());
     }
 
 
     @Test
     public void testProvideWorkerID() throws Exception {
-        Request request = prepareRequest(data);
-        Response response = mock(Response.class);
+        Context context = prepareContext(data);
         Queries queries = prepareQuery(data, Optional.empty(), null);
-        String json = queries.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.CALIBRATION));
+        View view = queries.getNext(context);
+        assertTrue(view.getType().equals(View.Type.CALIBRATION));
     }
 
     @Test(expected= BadRequestException.class)
     public void testProvideStringWorkerID() throws Exception {
         String workerID = "af";
-        Request request = prepareRequest(data);
-        when(request.queryParams("worker")).thenReturn(workerID);
-        Response response = mock(Response.class);
+        Context context = prepareContext(data);
+        when(context.getRequest().getQueryParams().get("worker")).thenReturn(workerID);
         Queries queries =  prepareQuery(data, Optional.empty(), null);
-        queries.getNext(request, response);
+        queries.getNext(context);
     }
 
 
     @Test
     public void testCalibrations() throws Exception {
-        Request request = prepareRequest(data);
+        Context context = prepareContext(data);
         Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations = data.getCalibrations();
-        Response response = mock(Response.class);
         Queries queries =  prepareQuery(data, Optional.empty(), null);
-        String json = queries.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.CALIBRATION));
-        assertTrue(builder.getCalibrationsList().size() == calibrations.size());
+        View view = queries.getNext(context);
+        assertTrue(view.getType().equals(View.Type.CALIBRATION));
+        assertTrue(view.getCalibrationsList().size() == calibrations.size());
         Optional<Map.Entry<CalibrationRecord, Result<CalibrationAnswerOptionRecord>>> res = calibrations.entrySet().stream()
-                .filter(entry -> !builder.getCalibrationsList().stream()
+                .filter(entry -> !view.getCalibrationsList().stream()
                         .filter(calibration -> calibration.getQuestion().equals(entry.getKey().getProperty()))
                         .filter(calibration -> calibration.getId() == entry.getKey().getIdCalibration())
                         .flatMap(calibration -> calibration.getAnswerOptionsList().stream())
@@ -123,39 +112,30 @@ public class QueriesTest {
     @Test
     public void testWrongCalibration() throws Exception {
         data.setBelongsToWrongPopulation(true);
-        Request request = prepareRequest(data);
-        Response response = mock(Response.class);
+        Context context = prepareContext(data);
         Queries queries = prepareQuery(data, Optional.empty(), null);
-        String json = queries.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.FINISHED));
+        View view = queries.getNext(context);
+        assertTrue(view.getType().equals(View.Type.FINISHED));
     }
 
     @Test
     public void testInvalidQuality() throws Exception {
         data.setWorkerQuality(data.getExperimentRecord().getWorkerQualityThreshold() - 1);
-        Request request = prepareRequest(data);
-        Response response = mock(Response.class);
+        Context context = prepareContext(data);
         Queries queries = prepareQuery(data, Optional.empty(), null);
-        String json = queries.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.FINISHED));
+        View view = queries.getNext(context);
+        assertTrue(view.getType().equals(View.Type.FINISHED));
     }
 
     @Test
     public void testSkipAll() throws Exception {
         data.setCalibrations(new HashMap<>());
-        Request request = prepareRequest(data);
-        when(request.queryParams("answer")).thenReturn("skip");
-        when(request.queryParams("rating")).thenReturn("skip");
-        Response response = mock(Response.class);
+        Context context = prepareContext(data);
+        when(context.getRequest().getQueryParams().get("answer")).thenReturn("skip");
+        when(context.getRequest().getQueryParams().get("rating")).thenReturn("skip");
         Queries queries =  prepareQuery(data, Optional.empty(), null);
-        String json = queries.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.FINISHED));
+        View view = queries.getNext(context);
+        assertTrue(view.getType().equals(View.Type.FINISHED));
     }
 
     @Test
@@ -186,22 +166,18 @@ public class QueriesTest {
 
     @Test
     public void testPreview() throws Exception {
-        Request request = prepareRequest(data);
-        Response response = mock(Response.class);
+        Context context = prepareContext(data);
         Queries queries =  prepareQuery(data, Optional.empty(), null);
-        String json = queries.preview(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        assertTrue(builder.getType().equals(View.Type.FINISHED));
-        assertTrue(builder.getTitle().equals(data.getExperimentRecord().getTitle()));
-        assertTrue(builder.getDescription().equals(data.getExperimentRecord().getDescription()));
-        assertTrue(builder.getConstraintsList().size() == data.getConstraints().size());
+        View view = queries.preview(context);
+        assertTrue(view.getType().equals(View.Type.FINISHED));
+        assertTrue(view.getTitle().equals(data.getExperimentRecord().getTitle()));
+        assertTrue(view.getDescription().equals(data.getExperimentRecord().getDescription()));
+        assertTrue(view.getConstraintsList().size() == data.getConstraints().size());
     }
 
     private View.Builder testWithTaskChooser(boolean finish, boolean creative) throws Exception {
         data.setCalibrations(new HashMap<>());
-        Request request = prepareRequest(data);
-        Response response = mock(Response.class);
+        Context context = prepareContext(data);
         String mockTaskChooserDescription = "mockTaskChooserDescription";
         data.getExperimentRecord().setAlgorithmTaskChooser(mockTaskChooserDescription);
         ExperimentOperations experimentOperations = data.createExperimentOperations();
@@ -211,10 +187,8 @@ public class QueriesTest {
         Communication communication = prepareCommunication(data.getPlatformRecord(), Optional.empty());
         MockTaskChooser mockTaskChooser = new MockTaskChooser(finish, creative, data.getExperimentRecord(), experimentOperations, experimentsPlatformOperations);
         Queries queries =  new Queries(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, mockTaskChooser, data.createWorkerOperations());
-        String json = queries.getNext(request, response);
-        View.Builder builder = View.newBuilder();
-        parser.merge(json, builder);
-        return builder;
+        View view = queries.getNext(context);
+        return view.toBuilder();
     }
 
     private Queries prepareQuery(OperationsDataHolder data, Optional<Integer> communicationReturn, TaskChooserAlgorithm taskChooserAlgorithm) {
@@ -223,21 +197,30 @@ public class QueriesTest {
                 communication, data.createExperimentsPlatformOperations(), taskChooserAlgorithm, data.createWorkerOperations());
     }
 
-    private Request prepareRequest(OperationsDataHolder dataHolder) {
-        return prepareRequest(dataHolder.getExperimentRecord().getIdExperiment(), dataHolder.getPlatformRecord().getIdPlatform(), dataHolder.getWorkerID());
+    private Context prepareContext(OperationsDataHolder dataHolder) {
+        return prepareContext(dataHolder.getExperimentRecord().getIdExperiment(), dataHolder.getPlatformRecord().getIdPlatform(), dataHolder.getWorkerID());
     }
 
-    private Request prepareRequest(int experimentID, String platform, int workerID) {
-        Request mock = mock(Request.class);
-        when(mock.params("platform")).thenReturn(platform);
-        when(mock.params("experiment")).thenReturn(String.valueOf(experimentID));
+    private Context prepareContext(int experimentID, String platform, int workerID) {
+        Context context = mock(Context.class);
+        Request request = mock(Request.class);
+        Response response = mock(Response.class);
+        Headers headers = mock(Headers.class);
+        when(context.getRequest()).thenReturn(request);
+        when(context.getResponse()).thenReturn(response);
+        when(request.getHeaders()).thenReturn(headers);
+        when(headers.get("accept")).thenReturn("application/json");
+        MediaType mediaType = mock(MediaType.class);
+        when(request.getContentType()).thenReturn(mediaType);
+        when(mediaType.getType()).thenReturn("x");
+        when(request.getQueryParams()).thenReturn(mock(MultiValueMap.class));
+        PathTokens pathTokens = mock(PathTokens.class);
+        when(context.getPathTokens()).thenReturn(pathTokens);
+        when(context.getPathTokens().get("platform")).thenReturn(String.valueOf(platform));
+        when(context.getPathTokens().get("experiment")).thenReturn(String.valueOf(experimentID));
         if (workerID != -1)
-            when(mock.queryParams("worker")).thenReturn(String.valueOf(workerID));
-        QueryParamsMap queryParamsMap = mock(QueryParamsMap.class);
-        when(queryParamsMap.toMap()).thenReturn(null);
-        when(mock.queryMap()).thenReturn(queryParamsMap);
-        when(mock.headers("accept")).thenReturn("application/json");
-        return mock;
+            when(request.getQueryParams().get("worker")).thenReturn(String.valueOf(workerID));
+        return context;
     }
 
     private Communication prepareCommunication(PlatformRecord platformRecord, Optional<Integer> workerID) {

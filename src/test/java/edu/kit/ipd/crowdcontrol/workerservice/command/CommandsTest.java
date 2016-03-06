@@ -13,10 +13,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import ratpack.exec.Blocking;
+import ratpack.exec.ExecResult;
 import ratpack.exec.Promise;
 import ratpack.handling.Context;
 import ratpack.http.*;
 import ratpack.path.PathTokens;
+import ratpack.test.exec.ExecHarness;
 import ratpack.util.MultiValueMap;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ import static org.mockito.Mockito.*;
 public class CommandsTest {
     private final JsonFormat.Printer printer = JsonFormat.printer();
     private final JsonFormat.Parser parser = JsonFormat.parser();
+
+    ExecHarness execHarness = ExecHarness.harness();
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -63,7 +67,7 @@ public class CommandsTest {
         String email =  "x.y@z.de";
         String platform = "a";
         int workerID = 1;
-        EmailAnswer builder = submitEmailHelper(email, platform, workerID, context -> verify(context).getResponse().status(201));
+        EmailAnswer builder = submitEmailHelper(email, platform, workerID, context -> verify(context.getResponse()).status(201));
         assertEquals(builder.getWorkerId(), workerID);
     }
 
@@ -72,7 +76,7 @@ public class CommandsTest {
         String email =  "x.y@z.de@";
         String platform = "a";
         int workerID = 1;
-        submitEmailHelper(email, platform, workerID, context -> verify(context).getResponse().status(201));
+        submitEmailHelper(email, platform, workerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test
@@ -83,7 +87,7 @@ public class CommandsTest {
         submitCalibrationHelper(option, Calibration.newBuilder()
                 .setAnswerOption(option)
                 .build(),
-                task, workerID, response -> verify(response, times(2)).getResponse().status(201)
+                task, workerID, context -> verify(context.getResponse()).status(201)
         );
     }
 
@@ -94,7 +98,7 @@ public class CommandsTest {
         int option = 2;
         submitCalibrationHelper(option, Calibration.newBuilder()
                         .build(),
-                task, workerID, context -> verify(context).getResponse().status(201)
+                task, workerID, context -> verify(context.getResponse()).status(201)
         );
     }
 
@@ -113,7 +117,7 @@ public class CommandsTest {
                 .setExperiment(experiment)
                 .setAnswer(answer)
                 .build()),
-                experiment, workerID, answerID, context -> verify(context, times(2)).getResponse().status(201));
+                experiment, workerID, answerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -125,7 +129,7 @@ public class CommandsTest {
         String answerRequest =  "{\n" +
                 " \"answer\": \""+ answer + "\"\n" +
                 "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context, times(2)).getResponse().status(201));
+        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -137,7 +141,7 @@ public class CommandsTest {
         String answerRequest =  "{\n" +
                 "\"task\": " + task + "\n" +
                 "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context, times(2)).getResponse().status(201));
+        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -149,7 +153,7 @@ public class CommandsTest {
         int answerID = 3;
         String answerRequest =  "{\n" +
                 "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context, times(2)).getResponse().status(201));
+        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -168,7 +172,7 @@ public class CommandsTest {
                     when(context.getRequest().getBody()).thenReturn(Promise.value(data));
                 },
                 Commands::submitAnswer,
-                context -> verify(context, times(2)).getResponse().status(201)
+                context -> verify(context.getResponse()).status(201)
         );
     }
 
@@ -190,7 +194,7 @@ public class CommandsTest {
                         .setExperiment(experiment)
                         .setRatingId(ratingID)
                         .build(),
-                experiment, answerID, workerID, ratingID, context -> verify(context, times(2)).getResponse().status(201));
+                experiment, answerID, workerID, ratingID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -204,7 +208,7 @@ public class CommandsTest {
                         .setAnswerId(answerID)
                         .setExperiment(experiment)
                         .build(),
-                experiment, answerID, workerID, ratingID, context -> verify(context, times(2)).getResponse().status(201));
+                experiment, answerID, workerID, ratingID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -218,7 +222,7 @@ public class CommandsTest {
                         .setRating(rating)
                         .setExperiment(experiment)
                         .build(),
-                experiment, answerID, workerID, ratingID, context -> verify(context, times(2)).getResponse().status(201));
+                experiment, answerID, workerID, ratingID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test
@@ -259,11 +263,13 @@ public class CommandsTest {
         MediaType mediaType = mock(MediaType.class);
         when(request.getContentType()).thenReturn(mediaType);
         when(mediaType.getType()).thenReturn("application/json");
-        when(request.getQueryParams()).thenReturn(mock(MultiValueMap.class));
+        MultiValueMap<String, String> mock = mock(MultiValueMap.class);
+        when(mock.asMultimap()).thenReturn(LinkedListMultimap.create());
+        when(request.getQueryParams()).thenReturn(mock);
         PathTokens pathTokens = mock(PathTokens.class);
         when(context.getPathTokens()).thenReturn(pathTokens);
         buildRequest.accept(context);
-        T result = Blocking.on(func.apply(commands, context));
+        T result = execHarness.yield(e -> func.apply(commands, context)).getValueOrThrow();
         if (responseVerifier != null)
             responseVerifier.accept(context);
         return result;
@@ -361,7 +367,9 @@ public class CommandsTest {
         MediaType mediaType = mock(MediaType.class);
         when(request.getContentType()).thenReturn(mediaType);
         when(mediaType.getType()).thenReturn("x");
-        when(request.getQueryParams()).thenReturn(mock(MultiValueMap.class));
+        MultiValueMap<String, String> mock = mock(MultiValueMap.class);
+        when(mock.asMultimap()).thenReturn(LinkedListMultimap.create());
+        when(request.getQueryParams()).thenReturn(mock);
         PathTokens pathTokens = mock(PathTokens.class);
         when(context.getPathTokens()).thenReturn(pathTokens);
         when(context.getPathTokens().get("platform")).thenReturn(String.valueOf("a"));
