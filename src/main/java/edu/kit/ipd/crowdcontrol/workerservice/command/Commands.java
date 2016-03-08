@@ -99,13 +99,13 @@ public class Commands implements RequestHelper {
      * @param context the Context of the Request
      * @return empty body (null)
      */
-    public Promise<Void> submitCalibration(Context context) {
+    public Promise<String> submitCalibration(Context context) {
         return doSubmit(context, Calibration.newBuilder(), (calibration, workerID) -> {
             logger.debug("Trying to submit calibration {} for worker {}.", calibration, workerID);
             return communication.submitCalibration(calibration.getAnswerOption(), workerID);
         }).map(result -> {
             logger.debug("Object service answered with OK.");
-            return (Void) null;
+            return "Calibration submitted";
         });
     }
 
@@ -116,7 +116,7 @@ public class Commands implements RequestHelper {
      * @param context the Context of the Request
      * @return empty body (null)
      */
-    public Promise<Void> submitAnswer(Context context) {
+    public Promise<String> submitAnswer(Context context) {
         return doSubmit(context, Answer.newBuilder(), (answer, workerID) -> {
             logger.debug("Request to submit answer {} for worker {}", answer, workerID);
             String answerType = experimentOperations.getExperiment(answer.getExperiment()).getAnswerType();
@@ -137,7 +137,7 @@ public class Commands implements RequestHelper {
             return communication.submitAnswer(answer.getAnswer(), answer.getExperiment(), workerID);
         }).map(result -> {
             logger.debug("Object service answered with OK.");
-            return (Void) null;
+            return "Answer submitted";
         });
     }
 
