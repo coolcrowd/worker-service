@@ -55,13 +55,13 @@ public class RatpackRouter {
                             ctx.getResponse().getHeaders().add("access-control-max-age", "86400");
                             ctx.next();
                         })
-                        .get("/next/:platform/:experiment", ctx -> ctx.render(queries.getNext(ctx)))
-                        .get("/preview/:experiment", ctx -> ctx.render(queries.preview(ctx)))
-                        .post("/emails/:platform", ctx -> ctx.render(commands.submitEmail(ctx)))
-                        .post("/answers/:workerID", ctx -> ctx.render(commands.submitAnswer(ctx)))
-                        .post("/ratings/:workerID", ctx -> ctx.render(commands.submitRating(ctx)))
-                        .post("/calibrations/:workerID", ctx -> ctx.render(commands.submitCalibration(ctx)))
-                        .options("/*", ctx -> {
+                        .get("next/:platform/:experiment", ctx -> ctx.render(queries.getNext(ctx)))
+                        .get("preview/:experiment", ctx -> ctx.render(queries.preview(ctx)))
+                        .post("emails/:platform", ctx -> ctx.render(commands.submitEmail(ctx)))
+                        .post("answers/:workerID", ctx -> ctx.render(commands.submitAnswer(ctx)))
+                        .post("ratings/:workerID", ctx -> ctx.render(commands.submitRating(ctx)))
+                        .post("calibrations/:workerID", ctx -> ctx.render(commands.submitCalibration(ctx)))
+                        .options("*", ctx -> {
                             ctx.getResponse().status(204);
                             ctx.getResponse().contentType("text/plain");
                             ctx.render("");
