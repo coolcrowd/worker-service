@@ -47,18 +47,22 @@ public class CalibrationsOperations extends AbstractOperation {
                 .select(CALIBRATION_ANSWER_OPTION.fields())
                 .from(Tables.CALIBRATION_ANSWER_OPTION)
                 .join(Tables.CALIBRATION).onKey()
+                //we want all the calibrations
                 .where(CALIBRATION.ID_CALIBRATION.in(
+                        //which belong to the chosen answer-option
                         DSL.select(CALIBRATION_ANSWER_OPTION.CALIBRATION)
                             .from(CALIBRATION_ANSWER_OPTION)
                             .where(CALIBRATION_ANSWER_OPTION.ID_CALIBRATION_ANSWER_OPTION.in(
-                                DSL.select(EXPERIMENTS_CALIBRATION.ANSWER)
-                                    .from(EXPERIMENTS_CALIBRATION)
-                                    .where(EXPERIMENTS_CALIBRATION.EXPERIMENTS_PLATFORM.eq(
-                                            DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
-                                                    .from(EXPERIMENTS_PLATFORM)
-                                                    .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experimentID))
-                                                    .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platformID))
-                                    ))
+                                    //from the experiment
+                                    DSL.select(EXPERIMENTS_CALIBRATION.ANSWER)
+                                        .from(EXPERIMENTS_CALIBRATION)
+                                        .where(EXPERIMENTS_CALIBRATION.EXPERIMENTS_PLATFORM.eq(
+                                                //from the platform
+                                                DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
+                                                        .from(EXPERIMENTS_PLATFORM)
+                                                        .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experimentID))
+                                                        .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platformID))
+                                        ))
                             ))
                 ))
                 .and(Tables.CALIBRATION.ID_CALIBRATION.notIn(alreadyAnsweredCalibrations))
