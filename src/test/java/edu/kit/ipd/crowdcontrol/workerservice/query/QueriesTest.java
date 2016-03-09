@@ -1,6 +1,5 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
-import com.google.protobuf.util.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
@@ -186,7 +185,7 @@ public class QueriesTest {
         PlatformOperations platformOperations = data.createPlatformOperations();
         Communication communication = prepareCommunication(data.getPlatformRecord(), Optional.empty());
         MockTaskChooser mockTaskChooser = new MockTaskChooser(finish, creative, data.getExperimentRecord(), experimentOperations, experimentsPlatformOperations);
-        Queries queries =  new Queries(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, mockTaskChooser, data.createWorkerOperations());
+        Queries queries =  new Queries(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, mockTaskChooser, data.createWorkerOperations(), jwtHelper);
         View view = queries.getNext(context);
         return view.toBuilder();
     }
@@ -194,7 +193,7 @@ public class QueriesTest {
     private Queries prepareQuery(OperationsDataHolder data, Optional<Integer> communicationReturn, TaskChooserAlgorithm taskChooserAlgorithm) {
         Communication communication = prepareCommunication(data.getPlatformRecord(), communicationReturn);
         return new Queries(data.createPopulationsOperations(), data.createExperimentOperations(), data.createPlatformOperations(),
-                communication, data.createExperimentsPlatformOperations(), taskChooserAlgorithm, data.createWorkerOperations());
+                communication, data.createExperimentsPlatformOperations(), taskChooserAlgorithm, data.createWorkerOperations(), jwtHelper);
     }
 
     private Context prepareContext(OperationsDataHolder dataHolder) {

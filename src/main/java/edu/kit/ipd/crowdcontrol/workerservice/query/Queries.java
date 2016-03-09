@@ -1,8 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
-import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
-import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
-import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
+import edu.kit.ipd.crowdcontrol.workerservice.*;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
@@ -39,22 +37,24 @@ public class Queries implements RequestHelper {
     private final WorkerOperations workerOperations;
     private final Communication communication;
     private final PreviewTaskChooser previewTaskChooser;
+    private final JWTHelper jwtHelper;
 
     public Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
                    PlatformOperations platformOperations, Communication communication, ExperimentsPlatformOperations experimentsPlatformOperations,
-                   WorkerOperations workerOperations) {
-        this(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, workerOperations, false);
+                   WorkerOperations workerOperations, JWTHelper jwtHelper) {
+        this(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, workerOperations, false, jwtHelper);
     }
 
     public Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
                    PlatformOperations platformOperations, Communication communication, ExperimentsPlatformOperations experimentsPlatformOperations,
-                   WorkerOperations workerOperations, boolean disableRegistering) {
+                   WorkerOperations workerOperations, boolean disableRegistering, JWTHelper jwtHelper) {
         this.calibrationsOperations = calibrationsOperations;
         this.experimentOperations = experimentOperations;
         this.platformOperations = platformOperations;
         this.communication = communication;
         this.experimentsPlatformOperations = experimentsPlatformOperations;
         this.workerOperations = workerOperations;
+        this.jwtHelper = jwtHelper;
         previewTaskChooser = new PreviewTaskChooser(experimentOperations, experimentsPlatformOperations);
         if (!disableRegistering) {
             registerTaskChooser(new AntiSpoof(experimentOperations, experimentsPlatformOperations));
@@ -63,8 +63,8 @@ public class Queries implements RequestHelper {
 
     Queries(CalibrationsOperations calibrationsOperations, ExperimentOperations experimentOperations,
             PlatformOperations platformOperations, Communication communication, ExperimentsPlatformOperations experimentsPlatformOperations,
-            TaskChooserAlgorithm mockUp, WorkerOperations workerOperations) {
-        this(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, workerOperations, false);
+            TaskChooserAlgorithm mockUp, WorkerOperations workerOperations, JWTHelper jwtHelper) {
+        this(calibrationsOperations, experimentOperations, platformOperations, communication, experimentsPlatformOperations, workerOperations, false, jwtHelper);
         if (mockUp != null)
             registerTaskChooser(mockUp);
     }
@@ -133,21 +133,20 @@ public class Queries implements RequestHelper {
      * @return an instance of View
      */
     private View getNext(View.Builder builder, Context context, boolean skipCreative, boolean skipRating) {
-        if (builder.getWorkerId() == -1) {
+        if (!context.maybeGet(WorkerID.class).isPresent()) {
             builder = handleNoWorkerID(builder, context);
         }
         Optional<View> email = getEmail(builder, context);
         if (email.isPresent()) {
-            if (email.get().getWorkerId() == -1) {
+            if (!context.maybeGet(WorkerID.class).isPresent()) {
                 logger.trace("email without workerid");
                 return email.get().toBuilder()
-                        .clearWorkerId()
                         .build();
             }
             return email.get();
         }
         if (checkCalibrationAndQuality(builder, context)) {
-            logger.debug("worker {} is eligible for working on the assignment", builder.getWorkerId());
+            logger.debug("worker {} is eligible for working on the assignment", context.get(WorkerID.class).get());
             Optional<View> Calibration = getCalibration(builder, context);
             if (Calibration.isPresent()) {
                 return Calibration.get();
@@ -157,7 +156,7 @@ public class Queries implements RequestHelper {
                 return strategyStep.get();
             }
         } else {
-            logger.debug("worker {} is not allowed to work on the assignment", builder.getWorkerId());
+            logger.debug("worker {} is not allowed to work on the assignment", context.get(WorkerID.class).get());
         }
         return workerFinished(builder, context);
     }
@@ -169,19 +168,7 @@ public class Queries implements RequestHelper {
      * @return an instance of view with the workerID or -1 if none provided
      */
     private View.Builder prepareView(Context context) {
-        View.Builder builder = View.newBuilder();
-        String worker = context.getRequest().getQueryParams().get("worker");
-        if (worker != null) {
-            try {
-                builder.setWorkerId(Integer.parseInt(worker));
-            } catch (NumberFormatException e) {
-                throw new BadRequestException("workerID mus be an Integer");
-            }
-        } else {
-            builder.setWorkerId(-1);
-        }
-        logger.trace("workerid is: {}", worker);
-        return builder;
+        return View.newBuilder();
     }
 
     /**
@@ -201,7 +188,7 @@ public class Queries implements RequestHelper {
                     return result;
                 })
                 .join()
-                .map(builder::setWorkerId)
+                .map(workerId -> builder.setAuthorization(jwtHelper.generateJWT(workerId)))
                 .orElse(builder);
     }
 
@@ -217,15 +204,15 @@ public class Queries implements RequestHelper {
         String platformName = assertParameter(context, "platform");
         int experiment = assertParameterInt(context, "experiment");
         ExperimentRecord experimentRecord = experimentOperations.getExperiment(experiment);
-        boolean submittedWrongCalibrations = calibrationsOperations.hasSubmittedWrongCalibrations(experiment, platformName, builder.getWorkerId());
+        boolean submittedWrongCalibrations = calibrationsOperations.hasSubmittedWrongCalibrations(experiment, platformName, context.get(WorkerID.class).get());
         if (submittedWrongCalibrations) {
-            logger.debug("worker {} has submitted wrong calibrations", builder.getWorkerId());
+            logger.debug("worker {} has submitted wrong calibrations", context.get(WorkerID.class).get());
             return false;
         }
 
-        boolean underThreshold = workerOperations.isUnderThreshold(experimentRecord.getWorkerQualityThreshold(), builder.getWorkerId());
+        boolean underThreshold = workerOperations.isUnderThreshold(experimentRecord.getWorkerQualityThreshold(), context.get(WorkerID.class).get());
         if (underThreshold) {
-            logger.debug("worker {} is under the quality threshold", builder.getWorkerId());
+            logger.debug("worker {} is under the quality threshold", context.get(WorkerID.class).get());
         }
         return !underThreshold;
     }
@@ -243,13 +230,13 @@ public class Queries implements RequestHelper {
         if (platformOperations.getPlatform(platformName).getRenderCalibrations()) {
             logger.trace("platform {} is able to render calibrations", platformName);
             Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations =
-                    calibrationsOperations.getCalibrations(experiment, platformName, builder.getWorkerId());
-            logger.trace("worker {} must answer the calibrations {}", builder.getWorkerId(), calibrations);
+                    calibrationsOperations.getCalibrations(experiment, platformName, context.get(WorkerID.class).get());
+            logger.trace("worker {} must answer the calibrations {}", context.get(WorkerID.class).get(), calibrations);
             if (calibrations.isEmpty()) {
-                logger.debug("worker {} must not answer calibrations", builder.getWorkerId());
+                logger.debug("worker {} must not answer calibrations", context.get(WorkerID.class).get());
                 return Optional.empty();
             } else {
-                logger.debug("worker {} must answer calibrations", builder.getWorkerId());
+                logger.debug("worker {} must answer calibrations", context.get(WorkerID.class).get());
                 return Optional.of(constructCalibrationView(calibrations, builder));
             }
         } else {
@@ -300,7 +287,7 @@ public class Queries implements RequestHelper {
         int experiment = assertParameterInt(context, "experiment");
         String platformName = assertParameter(context, "platform");
         if (skipCreative && skipRating) {
-            logger.debug("worker {} chose to skip everything", builder.getWorkerId());
+            logger.debug("worker {} chose to skip everything", context.get(WorkerID.class).get());
             return Optional.empty();
         }
         boolean skipCreativeTemp = skipCreative;
@@ -329,9 +316,9 @@ public class Queries implements RequestHelper {
      */
     private Optional<View> getEmail(View.Builder builder, Context context) {
         String platformName = assertParameter(context, "platform");
-        if (platformOperations.getPlatform(platformName).getNeedsEmail() && builder.getWorkerId() == -1) {
+        if (platformOperations.getPlatform(platformName).getNeedsEmail() && !context.maybeGet(WorkerID.class).isPresent()) {
             return Optional.of(builder.setType(View.Type.EMAIL).build());
-        } else if (builder.getWorkerId() == -1) {
+        } else if (!context.maybeGet(WorkerID.class).isPresent()) {
             throw new InternalServerErrorException("internal server error: did not get a workerID" +
                     "and the platform does not need an email");
         } else {
