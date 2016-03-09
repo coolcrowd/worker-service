@@ -66,6 +66,7 @@ dependencies {
     compile 'ch.qos.logback:logback-core:1.+'
     compile 'ch.qos.logback:logback-classic:1.+'
     compile 'org.slf4j:slf4j-api:1.7.12'
+    compile 'io.jsonwebtoken:jjwt:0.6.+'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.+'
     testCompile 'commons-io:commons-io:2.+'
