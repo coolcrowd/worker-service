@@ -15,4 +15,20 @@ public class WorkerID {
     public int get() {
         return workerID;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WorkerID)) return false;
+
+        WorkerID workerID1 = (WorkerID) o;
+
+        return workerID == workerID1.workerID;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return workerID;
+    }
 }
