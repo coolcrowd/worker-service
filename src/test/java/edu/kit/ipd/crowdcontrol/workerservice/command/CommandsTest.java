@@ -8,12 +8,10 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.Expe
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.*;
-import org.jooq.lambda.function.Function3;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import ratpack.exec.Blocking;
-import ratpack.exec.ExecResult;
 import ratpack.exec.Promise;
 import ratpack.handling.Context;
 import ratpack.http.*;
@@ -235,7 +233,7 @@ public class CommandsTest {
         when(record.getAnswerType()).thenReturn(answerType);
         ExperimentOperations operation = mock(ExperimentOperations.class);
         when(operation.getExperiment(experimentID)).thenReturn(record);
-        return new Commands(communication, operation);
+        return new Commands(communication, operation, jwtHelper);
     }
 
     Commands prepareCommands(int experimentID, Communication communication) {
