@@ -188,7 +188,10 @@ public class Queries implements RequestHelper {
                     return result;
                 })
                 .join()
-                .map(workerId -> builder.setAuthorization(jwtHelper.generateJWT(workerId)))
+                .map(workerId -> {
+                    context.getRequest().add(WorkerID.class, new WorkerID(workerId));
+                    return builder.setAuthorization(jwtHelper.generateJWT(workerId));
+                })
                 .orElse(builder);
     }
 
@@ -320,7 +323,7 @@ public class Queries implements RequestHelper {
             return Optional.of(builder.setType(View.Type.EMAIL).build());
         } else if (!context.maybeGet(WorkerID.class).isPresent()) {
             throw new InternalServerErrorException("internal server error: did not get a workerID" +
-                    "and the platform does not need an email");
+                    " and the platform does not need an email");
         } else {
             return Optional.empty();
         }
