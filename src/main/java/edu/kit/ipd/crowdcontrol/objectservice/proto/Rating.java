@@ -17,11 +17,10 @@ public  final class Rating extends
   private Rating() {
     ratingId_ = 0;
     experimentId_ = 0;
-    rating_ = 0;
     feedback_ = "";
     worker_ = 0;
     quality_ = 0;
-    time_ = 0;
+    time_ = 0L;
     violatedConstraints_ = java.util.Collections.emptyList();
   }
 
@@ -59,9 +58,17 @@ public  final class Rating extends
             experimentId_ = input.readInt32();
             break;
           }
-          case 24: {
+          case 26: {
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder subBuilder = null;
+            if (rating_ != null) {
+              subBuilder = rating_.toBuilder();
+            }
+            rating_ = input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(rating_);
+              rating_ = subBuilder.buildPartial();
+            }
 
-            rating_ = input.readInt32();
             break;
           }
           case 34: {
@@ -82,7 +89,7 @@ public  final class Rating extends
           }
           case 56: {
 
-            time_ = input.readInt32();
+            time_ = input.readInt64();
             break;
           }
           case 66: {
@@ -140,12 +147,24 @@ public  final class Rating extends
   }
 
   public static final int RATING_FIELD_NUMBER = 3;
-  private int rating_;
+  private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer rating_;
   /**
-   * <code>optional int32 rating = 3;</code>
+   * <code>optional .crowdcontrol.Integer rating = 3;</code>
    */
-  public int getRating() {
-    return rating_;
+  public boolean hasRating() {
+    return rating_ != null;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer rating = 3;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getRating() {
+    return rating_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : rating_;
+  }
+  /**
+   * <code>optional .crowdcontrol.Integer rating = 3;</code>
+   */
+  public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getRatingOrBuilder() {
+    return getRating();
   }
 
   public static final int FEEDBACK_FIELD_NUMBER = 4;
@@ -201,11 +220,11 @@ public  final class Rating extends
   }
 
   public static final int TIME_FIELD_NUMBER = 7;
-  private int time_;
+  private long time_;
   /**
-   * <code>optional int32 time = 7;</code>
+   * <code>optional int64 time = 7;</code>
    */
-  public int getTime() {
+  public long getTime() {
     return time_;
   }
 
@@ -262,8 +281,8 @@ public  final class Rating extends
     if (experimentId_ != 0) {
       output.writeInt32(2, experimentId_);
     }
-    if (rating_ != 0) {
-      output.writeInt32(3, rating_);
+    if (rating_ != null) {
+      output.writeMessage(3, getRating());
     }
     if (!getFeedbackBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessage.writeString(output, 4, feedback_);
@@ -274,8 +293,8 @@ public  final class Rating extends
     if (quality_ != 0) {
       output.writeInt32(6, quality_);
     }
-    if (time_ != 0) {
-      output.writeInt32(7, time_);
+    if (time_ != 0L) {
+      output.writeInt64(7, time_);
     }
     for (int i = 0; i < violatedConstraints_.size(); i++) {
       output.writeMessage(8, violatedConstraints_.get(i));
@@ -295,9 +314,9 @@ public  final class Rating extends
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(2, experimentId_);
     }
-    if (rating_ != 0) {
+    if (rating_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(3, rating_);
+        .computeMessageSize(3, getRating());
     }
     if (!getFeedbackBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(4, feedback_);
@@ -310,9 +329,9 @@ public  final class Rating extends
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(6, quality_);
     }
-    if (time_ != 0) {
+    if (time_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(7, time_);
+        .computeInt64Size(7, time_);
     }
     for (int i = 0; i < violatedConstraints_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
@@ -434,15 +453,19 @@ public  final class Rating extends
 
       experimentId_ = 0;
 
-      rating_ = 0;
-
+      if (ratingBuilder_ == null) {
+        rating_ = null;
+      } else {
+        rating_ = null;
+        ratingBuilder_ = null;
+      }
       feedback_ = "";
 
       worker_ = 0;
 
       quality_ = 0;
 
-      time_ = 0;
+      time_ = 0L;
 
       if (violatedConstraintsBuilder_ == null) {
         violatedConstraints_ = java.util.Collections.emptyList();
@@ -476,7 +499,11 @@ public  final class Rating extends
       int to_bitField0_ = 0;
       result.ratingId_ = ratingId_;
       result.experimentId_ = experimentId_;
-      result.rating_ = rating_;
+      if (ratingBuilder_ == null) {
+        result.rating_ = rating_;
+      } else {
+        result.rating_ = ratingBuilder_.build();
+      }
       result.feedback_ = feedback_;
       result.worker_ = worker_;
       result.quality_ = quality_;
@@ -512,8 +539,8 @@ public  final class Rating extends
       if (other.getExperimentId() != 0) {
         setExperimentId(other.getExperimentId());
       }
-      if (other.getRating() != 0) {
-        setRating(other.getRating());
+      if (other.hasRating()) {
+        mergeRating(other.getRating());
       }
       if (!other.getFeedback().isEmpty()) {
         feedback_ = other.feedback_;
@@ -525,7 +552,7 @@ public  final class Rating extends
       if (other.getQuality() != 0) {
         setQuality(other.getQuality());
       }
-      if (other.getTime() != 0) {
+      if (other.getTime() != 0L) {
         setTime(other.getTime());
       }
       if (violatedConstraintsBuilder_ == null) {
@@ -633,30 +660,121 @@ public  final class Rating extends
       return this;
     }
 
-    private int rating_ ;
+    private edu.kit.ipd.crowdcontrol.objectservice.proto.Integer rating_ = null;
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> ratingBuilder_;
     /**
-     * <code>optional int32 rating = 3;</code>
+     * <code>optional .crowdcontrol.Integer rating = 3;</code>
      */
-    public int getRating() {
-      return rating_;
+    public boolean hasRating() {
+      return ratingBuilder_ != null || rating_ != null;
     }
     /**
-     * <code>optional int32 rating = 3;</code>
+     * <code>optional .crowdcontrol.Integer rating = 3;</code>
      */
-    public Builder setRating(int value) {
-      
-      rating_ = value;
-      onChanged();
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer getRating() {
+      if (ratingBuilder_ == null) {
+        return rating_ == null ? edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : rating_;
+      } else {
+        return ratingBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer rating = 3;</code>
+     */
+    public Builder setRating(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (ratingBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        rating_ = value;
+        onChanged();
+      } else {
+        ratingBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>optional int32 rating = 3;</code>
+     * <code>optional .crowdcontrol.Integer rating = 3;</code>
+     */
+    public Builder setRating(
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder builderForValue) {
+      if (ratingBuilder_ == null) {
+        rating_ = builderForValue.build();
+        onChanged();
+      } else {
+        ratingBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer rating = 3;</code>
+     */
+    public Builder mergeRating(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer value) {
+      if (ratingBuilder_ == null) {
+        if (rating_ != null) {
+          rating_ =
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder(rating_).mergeFrom(value).buildPartial();
+        } else {
+          rating_ = value;
+        }
+        onChanged();
+      } else {
+        ratingBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer rating = 3;</code>
      */
     public Builder clearRating() {
-      
-      rating_ = 0;
-      onChanged();
+      if (ratingBuilder_ == null) {
+        rating_ = null;
+        onChanged();
+      } else {
+        rating_ = null;
+        ratingBuilder_ = null;
+      }
+
       return this;
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer rating = 3;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder getRatingBuilder() {
+      
+      onChanged();
+      return getRatingFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer rating = 3;</code>
+     */
+    public edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder getRatingOrBuilder() {
+      if (ratingBuilder_ != null) {
+        return ratingBuilder_.getMessageOrBuilder();
+      } else {
+        return rating_ == null ?
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.getDefaultInstance() : rating_;
+      }
+    }
+    /**
+     * <code>optional .crowdcontrol.Integer rating = 3;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder> 
+        getRatingFieldBuilder() {
+      if (ratingBuilder_ == null) {
+        ratingBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            edu.kit.ipd.crowdcontrol.objectservice.proto.Integer, edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOrBuilder>(
+                getRating(),
+                getParentForChildren(),
+                isClean());
+        rating_ = null;
+      }
+      return ratingBuilder_;
     }
 
     private java.lang.Object feedback_ = "";
@@ -780,28 +898,28 @@ public  final class Rating extends
       return this;
     }
 
-    private int time_ ;
+    private long time_ ;
     /**
-     * <code>optional int32 time = 7;</code>
+     * <code>optional int64 time = 7;</code>
      */
-    public int getTime() {
+    public long getTime() {
       return time_;
     }
     /**
-     * <code>optional int32 time = 7;</code>
+     * <code>optional int64 time = 7;</code>
      */
-    public Builder setTime(int value) {
+    public Builder setTime(long value) {
       
       time_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional int32 time = 7;</code>
+     * <code>optional int64 time = 7;</code>
      */
     public Builder clearTime() {
       
-      time_ = 0;
+      time_ = 0L;
       onChanged();
       return this;
     }

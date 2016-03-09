@@ -33,9 +33,9 @@ public interface AnswerOrBuilder extends
       getContentBytes();
 
   /**
-   * <code>optional int32 time = 5;</code>
+   * <code>optional int64 time = 5;</code>
    */
-  int getTime();
+  long getTime();
 
   /**
    * <code>optional int32 quality = 6;</code>

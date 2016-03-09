@@ -23,13 +23,14 @@ public final class RatingOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\014rating.proto\022\014crowdcontrol\032\020constraint" +
-      ".proto\"\273\001\n\006Rating\022\021\n\trating_id\030\001 \001(\005\022\025\n\r" +
-      "experiment_id\030\002 \001(\005\022\016\n\006rating\030\003 \001(\005\022\020\n\010f" +
-      "eedback\030\004 \001(\t\022\016\n\006worker\030\005 \001(\005\022\017\n\007quality" +
-      "\030\006 \001(\005\022\014\n\004time\030\007 \001(\005\0226\n\024violated_constra" +
-      "ints\030\010 \003(\0132\030.crowdcontrol.ConstraintB0\n," +
-      "edu.kit.ipd.crowdcontrol.objectservice.p" +
-      "rotoP\001b\006proto3"
+      ".proto\032\rinteger.proto\"\322\001\n\006Rating\022\021\n\trati" +
+      "ng_id\030\001 \001(\005\022\025\n\rexperiment_id\030\002 \001(\005\022%\n\006ra" +
+      "ting\030\003 \001(\0132\025.crowdcontrol.Integer\022\020\n\010fee" +
+      "dback\030\004 \001(\t\022\016\n\006worker\030\005 \001(\005\022\017\n\007quality\030\006" +
+      " \001(\005\022\014\n\004time\030\007 \001(\003\0226\n\024violated_constrain" +
+      "ts\030\010 \003(\0132\030.crowdcontrol.ConstraintB0\n,ed" +
+      "u.kit.ipd.crowdcontrol.objectservice.pro" +
+      "toP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -43,6 +44,7 @@ public final class RatingOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOuterClass.getDescriptor(),
+          edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOuterClass.getDescriptor(),
         }, assigner);
     internal_static_crowdcontrol_Rating_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -51,6 +53,7 @@ public final class RatingOuterClass {
         internal_static_crowdcontrol_Rating_descriptor,
         new java.lang.String[] { "RatingId", "ExperimentId", "Rating", "Feedback", "Worker", "Quality", "Time", "ViolatedConstraints", });
     edu.kit.ipd.crowdcontrol.objectservice.proto.ConstraintOuterClass.getDescriptor();
+    edu.kit.ipd.crowdcontrol.objectservice.proto.IntegerOuterClass.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

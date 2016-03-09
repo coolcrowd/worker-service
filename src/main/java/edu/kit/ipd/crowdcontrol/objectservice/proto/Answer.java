@@ -19,7 +19,7 @@ public  final class Answer extends
     experimentId_ = 0;
     worker_ = 0;
     content_ = "";
-    time_ = 0;
+    time_ = 0L;
     quality_ = 0;
     ratings_ = java.util.Collections.emptyList();
   }
@@ -71,7 +71,7 @@ public  final class Answer extends
           }
           case 40: {
 
-            time_ = input.readInt32();
+            time_ = input.readInt64();
             break;
           }
           case 48: {
@@ -177,11 +177,11 @@ public  final class Answer extends
   }
 
   public static final int TIME_FIELD_NUMBER = 5;
-  private int time_;
+  private long time_;
   /**
-   * <code>optional int32 time = 5;</code>
+   * <code>optional int64 time = 5;</code>
    */
-  public int getTime() {
+  public long getTime() {
     return time_;
   }
 
@@ -253,8 +253,8 @@ public  final class Answer extends
     if (!getContentBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessage.writeString(output, 4, content_);
     }
-    if (time_ != 0) {
-      output.writeInt32(5, time_);
+    if (time_ != 0L) {
+      output.writeInt64(5, time_);
     }
     if (quality_ != 0) {
       output.writeInt32(6, quality_);
@@ -284,9 +284,9 @@ public  final class Answer extends
     if (!getContentBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(4, content_);
     }
-    if (time_ != 0) {
+    if (time_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(5, time_);
+        .computeInt64Size(5, time_);
     }
     if (quality_ != 0) {
       size += com.google.protobuf.CodedOutputStream
@@ -416,7 +416,7 @@ public  final class Answer extends
 
       content_ = "";
 
-      time_ = 0;
+      time_ = 0L;
 
       quality_ = 0;
 
@@ -494,7 +494,7 @@ public  final class Answer extends
         content_ = other.content_;
         onChanged();
       }
-      if (other.getTime() != 0) {
+      if (other.getTime() != 0L) {
         setTime(other.getTime());
       }
       if (other.getQuality() != 0) {
@@ -700,28 +700,28 @@ public  final class Answer extends
       return this;
     }
 
-    private int time_ ;
+    private long time_ ;
     /**
-     * <code>optional int32 time = 5;</code>
+     * <code>optional int64 time = 5;</code>
      */
-    public int getTime() {
+    public long getTime() {
       return time_;
     }
     /**
-     * <code>optional int32 time = 5;</code>
+     * <code>optional int64 time = 5;</code>
      */
-    public Builder setTime(int value) {
+    public Builder setTime(long value) {
       
       time_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional int32 time = 5;</code>
+     * <code>optional int64 time = 5;</code>
      */
     public Builder clearTime() {
       
-      time_ = 0;
+      time_ = 0L;
       onChanged();
       return this;
     }

@@ -25,7 +25,7 @@ public final class AnswerOuterClass {
       "\n\014answer.proto\022\014crowdcontrol\032\014rating.pro" +
       "to\"\222\001\n\006Answer\022\n\n\002id\030\001 \001(\005\022\025\n\rexperiment_" +
       "id\030\002 \001(\005\022\016\n\006worker\030\003 \001(\005\022\017\n\007content\030\004 \001(" +
-      "\t\022\014\n\004time\030\005 \001(\005\022\017\n\007quality\030\006 \001(\005\022%\n\007rati" +
+      "\t\022\014\n\004time\030\005 \001(\003\022\017\n\007quality\030\006 \001(\005\022%\n\007rati" +
       "ngs\030\007 \003(\0132\024.crowdcontrol.RatingB0\n,edu.k" +
       "it.ipd.crowdcontrol.objectservice.protoP" +
       "\001b\006proto3"
