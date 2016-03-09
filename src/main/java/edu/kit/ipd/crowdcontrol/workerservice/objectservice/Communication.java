@@ -151,7 +151,7 @@ public class Communication {
                 .collect(Collectors.toList());
         Rating.Builder ratingBuilder = Rating.newBuilder()
                 .setRatingId(ratingId)
-                .setRating(chosenRating)
+                .setRating(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder().setValue(worker).build())
                 .setWorker(worker)
                 .setExperimentId(experiment)
                 .addAllViolatedConstraints(constraintProtos);
@@ -188,7 +188,7 @@ public class Communication {
 
     /**
      * tries to get the workerID from the request.
-     * Calls 'GET /getWorkerID/:platform' from the Object-Service.
+     * Calls 'GET /get/:platform' from the Object-Service.
      * @param platform the current platform
      * @param queryParameter the passed query-Parameter
      * @return an completable future representing the request with the resulting location in the database
