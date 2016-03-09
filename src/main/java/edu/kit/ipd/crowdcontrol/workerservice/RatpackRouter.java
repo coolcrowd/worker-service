@@ -5,11 +5,8 @@ import edu.kit.ipd.crowdcontrol.workerservice.query.Queries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ratpack.error.ServerErrorHandler;
-import ratpack.handling.Context;
+import ratpack.registry.NotInRegistryException;
 import ratpack.registry.Registry;
-import ratpack.registry.RegistryBuilder;
-import ratpack.registry.internal.DefaultRegistryBuilder;
-import ratpack.render.RendererSupport;
 import ratpack.server.RatpackServer;
 import ratpack.server.ServerConfig;
 
@@ -23,17 +20,20 @@ public class RatpackRouter {
     private final ErrorHandler errorHandler = new ErrorHandler();
     private final Queries queries;
     private final Commands commands;
+    private final JWTHelper jwtHelper;
     private final int port;
 
     /**
      * creates a new Router.
      * @param queries the query to call
      * @param commands the commands to call
+     * @param jwtHelper
      * @param port the port the server is listening on
      */
-    public RatpackRouter(Queries queries, Commands commands, int port) {
+    public RatpackRouter(Queries queries, Commands commands, JWTHelper jwtHelper, int port) {
         this.queries = queries;
         this.commands = commands;
+        this.jwtHelper = jwtHelper;
         this.port = port;
     }
 
@@ -53,19 +53,30 @@ public class RatpackRouter {
                             ctx.getResponse().getHeaders().add("access-control-allow-headers", "Authorization,Content-Type");
                             ctx.getResponse().getHeaders().add("access-control-expose-headers", "Link,Location");
                             ctx.getResponse().getHeaders().add("access-control-max-age", "86400");
-                            ctx.next();
+                            String jwt = ctx.getRequest().getHeaders().get("Authorization");
+                            if (jwt != null) {
+                                int workerID = jwtHelper.getWorkerID(jwt);
+                                ctx.next(Registry.single(WorkerID.class, new WorkerID(workerID)));
+                            } else {
+                                ctx.next();
+                            }
                         })
-                        .get("next/:platform/:experiment", ctx -> ctx.render(queries.getNext(ctx)))
-                        .get("preview/:experiment", ctx -> ctx.render(queries.preview(ctx)))
-                        .post("emails/:platform", ctx -> ctx.render(commands.submitEmail(ctx)))
-                        .post("answers/:workerID", ctx -> ctx.render(commands.submitAnswer(ctx)))
-                        .post("ratings/:workerID", ctx -> ctx.render(commands.submitRating(ctx)))
-                        .post("calibrations/:workerID", ctx -> ctx.render(commands.submitCalibration(ctx)))
                         .options("*", ctx -> {
                             ctx.getResponse().status(204);
                             ctx.getResponse().contentType("text/plain");
                             ctx.render("");
                         })
+                        .get("preview/:experiment", ctx -> ctx.render(queries.preview(ctx)))
+                        .get("next/:platform/:experiment", ctx -> ctx.render(queries.getNext(ctx)))
+                        .post("emails/:platform", ctx -> ctx.render(commands.submitEmail(ctx)))
+                        .all(ctx -> {
+                            ctx.maybeGet(WorkerID.class)
+                                    .orElseThrow(() -> new UnauthorizedException("Client needs the Authorization-header to acces the method"));
+                            ctx.next();
+                        })
+                        .post("answers/", ctx -> ctx.render(commands.submitAnswer(ctx)))
+                        .post("ratings/", ctx -> ctx.render(commands.submitRating(ctx)))
+                        .post("calibrations/", ctx -> ctx.render(commands.submitCalibration(ctx)))
                 )
         );
     }
