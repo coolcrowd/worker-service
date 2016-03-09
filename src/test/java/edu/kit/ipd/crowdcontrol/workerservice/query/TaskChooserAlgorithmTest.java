@@ -129,7 +129,7 @@ public class TaskChooserAlgorithmTest {
         View.Builder builder = prepareBuilder();
         data.setAnswerGiveCountWorker(data.getExperimentRecord().getAnwersPerWorker());
         MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(data.createExperimentOperations(), data.createExperimentsPlatformOperations());
-        View view = taskChooserAlgorithm.constructView(builder, data.getExperimentRecord().getIdExperiment(), false, false).get();
+        View view = taskChooserAlgorithm.constructView(builder, prepareContext(), data.getExperimentRecord().getIdExperiment(), false, false).get();
         assertTrue(view.getType().equals(View.Type.RATING));
     }
 
