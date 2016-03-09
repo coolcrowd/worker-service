@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
+import edu.kit.ipd.crowdcontrol.workerservice.JWTHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
@@ -66,7 +67,7 @@ public class CommandsTest {
         String platform = "a";
         int workerID = 1;
         EmailAnswer builder = submitEmailHelper(email, platform, workerID, context -> verify(context.getResponse()).status(201));
-        assertEquals(builder.getWorkerId(), workerID);
+        assertEquals(Integer.parseInt(builder.getAuthorization()), workerID);
     }
 
     @Test(expected= BadRequestException.class)
@@ -233,7 +234,9 @@ public class CommandsTest {
         when(record.getAnswerType()).thenReturn(answerType);
         ExperimentOperations operation = mock(ExperimentOperations.class);
         when(operation.getExperiment(experimentID)).thenReturn(record);
-        return new Commands(communication, operation, jwtHelper);
+        JWTHelper jwtMock = mock(JWTHelper.class);
+        when(jwtMock.generateJWT(10)).thenAnswer(invocation -> String.valueOf(invocation.getArguments()[0]));
+        return new Commands(communication, operation, jwtMock);
     }
 
     Commands prepareCommands(int experimentID, Communication communication) {
