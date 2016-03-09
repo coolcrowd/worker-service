@@ -1,5 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.command;
 
+import com.google.common.collect.LinkedListMultimap;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
@@ -11,13 +12,18 @@ import org.jooq.lambda.function.Function3;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import spark.QueryParamsMap;
-import spark.Request;
-import spark.Response;
+import ratpack.exec.Blocking;
+import ratpack.exec.ExecResult;
+import ratpack.exec.Promise;
+import ratpack.handling.Context;
+import ratpack.http.*;
+import ratpack.path.PathTokens;
+import ratpack.test.exec.ExecHarness;
+import ratpack.util.MultiValueMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 import static org.junit.Assert.assertEquals;
@@ -31,6 +37,8 @@ public class CommandsTest {
     private final JsonFormat.Printer printer = JsonFormat.printer();
     private final JsonFormat.Parser parser = JsonFormat.parser();
 
+    ExecHarness execHarness = ExecHarness.harness();
+
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
@@ -39,13 +47,15 @@ public class CommandsTest {
         String email =  "x.y@z.de";
         String platform = "a";
         submit(communication -> {
-                    when(communication.submitWorker(email, platform, new HashMap<>())).thenReturn(CompletableFuture.supplyAsync(() -> {
+                    when(communication.submitWorker(email, platform, LinkedListMultimap.create())).thenReturn(CompletableFuture.supplyAsync(() -> {
                         throw new RuntimeException("example Exception");
                     }));
                 },
-                request -> {
-                    when(request.params("platform")).thenReturn(platform);
-                    when(request.body()).thenReturn(email);
+                context -> {
+                    when(context.getPathTokens().get("platform")).thenReturn(platform);
+                    TypedData data = mock(TypedData.class);
+                    when(data.getText()).thenReturn(email);
+                    when(context.getRequest().getBody()).thenReturn(Promise.value(data));
                 },
                 Commands::submitEmail,
                 null
@@ -57,9 +67,7 @@ public class CommandsTest {
         String email =  "x.y@z.de";
         String platform = "a";
         int workerID = 1;
-        String json = submitEmailHelper(email, platform, workerID, response -> verify(response).status(201));
-        EmailAnswer.Builder builder = EmailAnswer.newBuilder();
-        parser.merge(json, builder);
+        EmailAnswer builder = submitEmailHelper(email, platform, workerID, context -> verify(context.getResponse()).status(201));
         assertEquals(builder.getWorkerId(), workerID);
     }
 
@@ -68,7 +76,7 @@ public class CommandsTest {
         String email =  "x.y@z.de@";
         String platform = "a";
         int workerID = 1;
-        submitEmailHelper(email, platform, workerID, response -> verify(response).status(201));
+        submitEmailHelper(email, platform, workerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test
@@ -79,7 +87,7 @@ public class CommandsTest {
         submitCalibrationHelper(option, Calibration.newBuilder()
                 .setAnswerOption(option)
                 .build(),
-                task, workerID, response -> verify(response, times(2)).status(201)
+                task, workerID, context -> verify(context.getResponse()).status(201)
         );
     }
 
@@ -90,7 +98,7 @@ public class CommandsTest {
         int option = 2;
         submitCalibrationHelper(option, Calibration.newBuilder()
                         .build(),
-                task, workerID, response -> verify(response).status(201)
+                task, workerID, context -> verify(context.getResponse()).status(201)
         );
     }
 
@@ -109,7 +117,7 @@ public class CommandsTest {
                 .setExperiment(experiment)
                 .setAnswer(answer)
                 .build()),
-                experiment, workerID, answerID, response -> verify(response, times(2)).status(201));
+                experiment, workerID, answerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -121,7 +129,7 @@ public class CommandsTest {
         String answerRequest =  "{\n" +
                 " \"answer\": \""+ answer + "\"\n" +
                 "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, response -> verify(response).status(201));
+        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -133,7 +141,7 @@ public class CommandsTest {
         String answerRequest =  "{\n" +
                 "\"task\": " + task + "\n" +
                 "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, response -> verify(response).status(201));
+        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -145,7 +153,7 @@ public class CommandsTest {
         int answerID = 3;
         String answerRequest =  "{\n" +
                 "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, response -> verify(response).status(201));
+        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -157,15 +165,14 @@ public class CommandsTest {
                 "}";
         submit(task, null,
                 ign -> {},
-                request -> {
-                    when(request.params("workerID")).thenReturn(workerID);
-                    when(request.body()).thenReturn(answerRequest);
-                    when(request.contentType()).thenReturn("application/json");
+                context -> {
+                    when(context.getPathTokens().get("workerID")).thenReturn(workerID);
+                    TypedData data = mock(TypedData.class);
+                    when(data.getText()).thenReturn(answerRequest);
+                    when(context.getRequest().getBody()).thenReturn(Promise.value(data));
                 },
                 Commands::submitAnswer,
-                response -> {
-                    verify(response).status(201);
-                }
+                context -> verify(context.getResponse()).status(201)
         );
     }
 
@@ -187,7 +194,7 @@ public class CommandsTest {
                         .setExperiment(experiment)
                         .setRatingId(ratingID)
                         .build(),
-                experiment, answerID, workerID, ratingID, response -> verify(response, times(2)).status(201));
+                experiment, answerID, workerID, ratingID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -201,7 +208,7 @@ public class CommandsTest {
                         .setAnswerId(answerID)
                         .setExperiment(experiment)
                         .build(),
-                experiment, answerID, workerID, ratingID, response -> verify(response, times(2)).status(201));
+                experiment, answerID, workerID, ratingID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -215,7 +222,7 @@ public class CommandsTest {
                         .setRating(rating)
                         .setExperiment(experiment)
                         .build(),
-                experiment, answerID, workerID, ratingID, response -> verify(response).status(201));
+                experiment, answerID, workerID, ratingID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test
@@ -240,107 +247,135 @@ public class CommandsTest {
     }
 
     <T> T submit(int task, String answerType, Consumer<Communication> buildCommunication,
-                         Consumer<Request> buildRequest, Function3<Commands, Request, Response, T> func,
-                         Consumer<Response> responseVerifier) {
+                         Consumer<Context> buildRequest, BiFunction<Commands, Context, Promise<T>> func,
+                         Consumer<Context> responseVerifier) throws Exception {
         Communication communication = mock(Communication.class);
         buildCommunication.accept(communication);
         Commands commands = prepareCommands(answerType, task,communication);
+        Context context = mock(Context.class);
         Request request = mock(Request.class);
-        when(request.headers("accept")).thenReturn("application/json");
-        QueryParamsMap query = mock(QueryParamsMap.class);
-        when(request.queryMap()).thenReturn(query);
-        buildRequest.accept(request);
         Response response = mock(Response.class);
-        T apply = func.apply(commands, request, response);
+        Headers headers = mock(Headers.class);
+        when(context.getRequest()).thenReturn(request);
+        when(context.getResponse()).thenReturn(response);
+        when(request.getHeaders()).thenReturn(headers);
+        when(headers.get("accept")).thenReturn("application/json");
+        MediaType mediaType = mock(MediaType.class);
+        when(request.getContentType()).thenReturn(mediaType);
+        when(mediaType.getType()).thenReturn("application/json");
+        MultiValueMap<String, String> mock = mock(MultiValueMap.class);
+        when(mock.asMultimap()).thenReturn(LinkedListMultimap.create());
+        when(request.getQueryParams()).thenReturn(mock);
+        PathTokens pathTokens = mock(PathTokens.class);
+        when(context.getPathTokens()).thenReturn(pathTokens);
+        buildRequest.accept(context);
+        T result = execHarness.yield(e -> func.apply(commands, context)).getValueOrThrow();
         if (responseVerifier != null)
-            responseVerifier.accept(response);
-        return apply;
+            responseVerifier.accept(context);
+        return result;
     }
 
     <T> T submit(Consumer<Communication> buildCommunication,
-                         Consumer<Request> buildRequest, Function3<Commands, Request, Response, T> func,
-                         Consumer<Response> responseVerifier) {
+                         Consumer<Context> buildRequest, BiFunction<Commands, Context, Promise<T>> func,
+                         Consumer<Context> responseVerifier) throws Exception {
         return submit(1, null, buildCommunication, buildRequest, func, responseVerifier);
     }
 
-    String submitEmailHelper(String email, String platform, int workerID, Consumer<Response> responseVerifier) {
+    EmailAnswer submitEmailHelper(String email, String platform, int workerID, Consumer<Context> responseVerifier) throws Exception {
         return submit(communication -> {
-                    when(communication.submitWorker(email, platform, new HashMap<>())).thenReturn(CompletableFuture.completedFuture(workerID));
+                    when(communication.submitWorker(email, platform, LinkedListMultimap.create())).thenReturn(CompletableFuture.completedFuture(workerID));
                 },
-                request -> {
-                    when(request.contentType()).thenReturn("application/json");
-                    when(request.params("platform")).thenReturn(platform);
+                context -> {
+                    when(context.getPathTokens().get("platform")).thenReturn(platform);
                     Email build = Email.newBuilder().setEmail(email).build();
+                    TypedData data = mock(TypedData.class);
                     try {
-                        when(request.body()).thenReturn(printer.print(build));
+                        when(data.getText()).thenReturn(printer.print(build));
                     } catch (InvalidProtocolBufferException e) {
-                        e.printStackTrace();
+                        throw new RuntimeException(e);
                     }
+                    when(context.getRequest().getBody()).thenReturn(Promise.value(data));
                 },
                 Commands::submitEmail,
                 responseVerifier
         );
     }
 
-    Object submitAnswerHelper(String answer, String answerRequest, int task, int workerID, int answerID, Consumer<Response> responseVerifier) {
+    Object submitAnswerHelper(String answer, String answerRequest, int task, int workerID, int answerID, Consumer<Context> responseVerifier) throws Exception {
         return submit(task, null,
                 communication -> {
                     when(communication.submitAnswer(answer, task, workerID))
                             .thenReturn(CompletableFuture.completedFuture(answerID));
                 },
-                request -> {
-                    when(request.params("workerID")).thenReturn(String.valueOf(workerID));
-                    when(request.body()).thenReturn(answerRequest);
-                    when(request.contentType()).thenReturn("application/json");
+                context -> {
+                    when(context.getPathTokens().get("workerID")).thenReturn(String.valueOf(workerID));
+                    TypedData data = mock(TypedData.class);
+                    when(data.getText()).thenReturn(answerRequest);
+                    when(context.getRequest().getBody()).thenReturn(Promise.value(data));
                 },
                 Commands::submitAnswer,
                 responseVerifier
         );
     }
 
-    Object submitRatingHelper(int rating, Rating ratingRequest, int task, int answer, int workerID, int ratingID, Consumer<Response> responseVerifier) throws InvalidProtocolBufferException {
+    Object submitRatingHelper(int rating, Rating ratingRequest, int task, int answer, int workerID, int ratingID, Consumer<Context> responseVerifier) throws Exception {
         String json = printer.print(ratingRequest);
         return submit(task, null,
                 communication -> {
                     when(communication.submitRating(ratingID, rating, "", task, answer, workerID, new ArrayList<>()))
                             .thenReturn(CompletableFuture.completedFuture(201));
                 },
-                request -> {
-                    when(request.params("workerID")).thenReturn(String.valueOf(workerID));
-                    when(request.body()).thenReturn(json);
-                    when(request.contentType()).thenReturn("application/json");
+                context -> {
+                    when(context.getPathTokens().get("workerID")).thenReturn(String.valueOf(workerID));
+                    TypedData data = mock(TypedData.class);
+                    when(data.getText()).thenReturn(json);
+                    when(context.getRequest().getBody()).thenReturn(Promise.value(data));
                 },
                 Commands::submitRating,
                 responseVerifier
         );
     }
 
-    Object submitCalibrationHelper(int option, Calibration calibrationRequest, int task, int workerID, Consumer<Response> responseVerifier) throws InvalidProtocolBufferException {
+    Object submitCalibrationHelper(int option, Calibration calibrationRequest, int task, int workerID, Consumer<Context> responseVerifier) throws Exception {
         String json = printer.print(calibrationRequest);
         return submit(task, null,
                 communication -> {
                     when(communication.submitCalibration(option, workerID))
                             .thenReturn(CompletableFuture.completedFuture(null));
                 },
-                request -> {
-                    when(request.params("workerID")).thenReturn(String.valueOf(workerID));
-                    when(request.body()).thenReturn(json);
-                    when(request.contentType()).thenReturn("application/json");
+                context -> {
+                    when(context.getPathTokens().get("workerID")).thenReturn(String.valueOf(workerID));
+                    TypedData data = mock(TypedData.class);
+                    when(data.getText()).thenReturn(json);
+                    when(context.getRequest().getBody()).thenReturn(Promise.value(data));
                 },
                 Commands::submitCalibration,
                 responseVerifier
         );
     }
 
-    <T> T nonJson(Function3<Commands, Request, Response, T> func) {
+    <T> T nonJson(BiFunction<Commands, Context, Promise<T>> func) throws Exception {
         Communication communication = mock(Communication.class);
-        Commands commands = prepareCommands(communication);
+        Context context = mock(Context.class);
         Request request = mock(Request.class);
-        when(request.params("platform")).thenReturn("a");
-        when(request.params("workerID")).thenReturn("3");
-        when(request.contentType()).thenReturn("x");
         Response response = mock(Response.class);
+        Headers headers = mock(Headers.class);
+        when(context.getRequest()).thenReturn(request);
+        when(context.getResponse()).thenReturn(response);
+        when(request.getHeaders()).thenReturn(headers);
+        when(headers.get("accept")).thenReturn("x");
+        MediaType mediaType = mock(MediaType.class);
+        when(request.getContentType()).thenReturn(mediaType);
+        when(mediaType.getType()).thenReturn("x");
+        MultiValueMap<String, String> mock = mock(MultiValueMap.class);
+        when(mock.asMultimap()).thenReturn(LinkedListMultimap.create());
+        when(request.getQueryParams()).thenReturn(mock);
+        PathTokens pathTokens = mock(PathTokens.class);
+        when(context.getPathTokens()).thenReturn(pathTokens);
+        when(context.getPathTokens().get("platform")).thenReturn(String.valueOf("a"));
+        when(context.getPathTokens().get("workerID")).thenReturn(String.valueOf("3"));
+        Commands commands = prepareCommands(communication);
         exception.expect(BadRequestException.class);
-        return func.apply(commands, request, response);
+        return Blocking.on(func.apply(commands, context));
     }
 }

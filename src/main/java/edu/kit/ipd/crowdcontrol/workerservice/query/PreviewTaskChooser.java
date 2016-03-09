@@ -3,7 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.query;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
-import spark.Request;
+import ratpack.handling.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class PreviewTaskChooser extends TaskChooserAlgorithm {
      * Empty means the worker is already finished, or a view which specifies what the worker should work on.
      *
      * @param builder      the builder to use
-     * @param request      the request
+     * @param context the Context of the Request
      * @param experimentID the ID of the experiment
      * @param platform     the platform the worker is working on
      * @param skipCreative whether to skip the Creative-Task
@@ -71,7 +71,7 @@ public class PreviewTaskChooser extends TaskChooserAlgorithm {
      * @return empty if finished or view
      */
     @Override
-    public Optional<View> next(View.Builder builder, Request request, int experimentID, String platform, boolean skipCreative, boolean skipRating) {
+    public Optional<View> next(View.Builder builder, Context context, int experimentID, String platform, boolean skipCreative, boolean skipRating) {
         return Optional.of(prepareBuilder(builder, experimentID).build());
     }
 }

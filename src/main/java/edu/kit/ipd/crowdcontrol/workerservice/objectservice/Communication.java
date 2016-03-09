@@ -1,5 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.objectservice;
 
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import com.mashape.unirest.http.HttpResponse;
@@ -57,11 +59,12 @@ public class Communication {
      * Calls 'PUT /workers' from the Object-Service.
      * @param email the email to save
      * @param platform the current platform
+     * @param originalQueryParameter the original Query parameters passed from the client
      * @return an completable future representing the request with the resulting workerID
      */
-    public CompletableFuture<Integer> submitWorker(String email, String platform, Map<String, String[]> originalQueryParameter) {
-        HashMap<String, String[]> queryParameter = new HashMap<>(originalQueryParameter);
-        queryParameter.put("email", new String[]{email});
+    public CompletableFuture<Integer> submitWorker(String email, String platform, ListMultimap<String, String> originalQueryParameter) {
+        ListMultimap<String, String> queryParameter = LinkedListMultimap.create(originalQueryParameter);
+        queryParameter.put("email", email);
 
 
         logger.trace("Request to get WorkerID for email {}.", email);
@@ -190,13 +193,13 @@ public class Communication {
      * @param queryParameter the passed query-Parameter
      * @return an completable future representing the request with the resulting location in the database
      */
-    public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, Map<String, String[]> queryParameter) {
+    public CompletableFuture<Optional<Integer>> tryGetWorkerID(String platform, ListMultimap<String, String> queryParameter) {
         String route = "/workers/" + platform + "/identity";
         logger.debug("Trying to get workerId for parameter {} with route {} from platform {}.", queryParameter, route, platform);
         return getRequest(route, builder -> {
             HttpRequest request = builder.getHttpRequest();
-            for (Map.Entry<String, String[]> entry : queryParameter.entrySet()) {
-                request = request.queryString(entry.getKey(), entry.getValue()[0]);
+            for (Map.Entry<String, Collection<String>> entry : queryParameter.asMap().entrySet()) {
+                request = request.queryString(entry.getKey(), entry.getValue());
             }
             return request;
         }).thenApply(response -> {

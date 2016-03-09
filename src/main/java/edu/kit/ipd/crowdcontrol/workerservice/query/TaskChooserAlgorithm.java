@@ -9,7 +9,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPla
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Request;
+import ratpack.handling.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,14 +65,14 @@ public abstract class TaskChooserAlgorithm {
      * Which task or whether the worker is already finished decides this method via return type.
      * Empty means the worker is already finished, or a view which specifies what the worker should work on.
      * @param builder the builder to use
-     * @param request the request
+     * @param context the Context of the Request
      * @param experimentID the ID of the experiment
      * @param platform the platform the worker is working on
      * @param skipCreative whether to skip the Creative-Task
      * @param skipRating whether to skip the Rating-Task
      * @return empty if finished or view
      */
-    public abstract Optional<View> next(View.Builder builder, Request request, int experimentID, String platform,
+    public abstract Optional<View> next(View.Builder builder, Context context, int experimentID, String platform,
                                         boolean skipCreative, boolean skipRating);
 
     /**

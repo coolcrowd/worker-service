@@ -13,8 +13,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Request;
-import spark.Response;
+import ratpack.handling.Context;
 
 import java.util.HashMap;
 import java.util.List;
@@ -90,15 +89,13 @@ public class Queries implements RequestHelper {
     /**
      * this method returns an overview over the assignment, an instance of view, where containing only information
      * about the experiment.
-     * @param request the SparkJava-Request
-     * @param response the SparkJava-Response
+     * @param context the Context of the Request
      * @return the JSON-Representation of View
      */
-    public String preview(Request request, Response response) {
-        int experimentId = assertParameterInt(request, "experiment");
+    public View preview(Context context) {
+        int experimentId = assertParameterInt(context, "experiment");
         logger.debug("generating preview for experiment: {}", experimentId);
-        return previewTaskChooser.next(View.newBuilder(), request, experimentId, "", false, false)
-                .map(view -> transform(request, response, view))
+        return previewTaskChooser.next(View.newBuilder(), context, experimentId, "", false, false)
                 .orElseThrow(() -> new InternalServerErrorException("Unable to create Preview!"));
     }
 
@@ -107,41 +104,39 @@ public class Queries implements RequestHelper {
      * <p>
      * it is indented to be called when the Router gets an /next-Request.
      *
-     * @param request  the SparkJava-Request
-     * @param response the SparkJava-Response
+     * @param context the Context of the Request
      * @return the JSON-Representation of View
      */
-    public String getNext(Request request, Response response) {
+    public View getNext(Context context) {
         boolean skipCreative = false;
-        if ("skip".equals(request.queryParams("answer"))) {
+        if ("skip".equals(context.getRequest().getQueryParams().get("answer"))) {
             skipCreative = true;
         }
         logger.trace("skipCreative is: {}", skipCreative);
         boolean skipRating = false;
-        if ("skip".equals(request.queryParams("rating"))) {
+        if ("skip".equals(context.getRequest().getQueryParams().get("rating"))) {
             skipRating = true;
         }
         logger.trace("skipRating is: {}", skipRating);
-        View next = getNext(prepareView(request), request, skipCreative, skipRating);
+        View next = getNext(prepareView(context), context, skipCreative, skipRating);
         logger.debug("returning view: {}", next);
-        response.status(200);
-        return transform(request, response, next);
+        return next;
     }
 
     /**
      * this method returns an instance of View, determining what the worker should see next.
      *
      * @param builder      the builder of the view containing a workerID or -1 if none provided
-     * @param request      the request
+     * @param context the Context of the Request
      * @param skipCreative whether to skip the Creative-Task
      * @param skipRating   whether to skip the Rating-Task
      * @return an instance of View
      */
-    private View getNext(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
+    private View getNext(View.Builder builder, Context context, boolean skipCreative, boolean skipRating) {
         if (builder.getWorkerId() == -1) {
-            builder = handleNoWorkerID(builder, request);
+            builder = handleNoWorkerID(builder, context);
         }
-        Optional<View> email = getEmail(builder, request);
+        Optional<View> email = getEmail(builder, context);
         if (email.isPresent()) {
             if (email.get().getWorkerId() == -1) {
                 logger.trace("email without workerid");
@@ -151,31 +146,31 @@ public class Queries implements RequestHelper {
             }
             return email.get();
         }
-        if (checkCalibrationAndQuality(builder, request)) {
+        if (checkCalibrationAndQuality(builder, context)) {
             logger.debug("worker {} is eligible for working on the assignment", builder.getWorkerId());
-            Optional<View> Calibration = getCalibration(builder, request);
+            Optional<View> Calibration = getCalibration(builder, context);
             if (Calibration.isPresent()) {
                 return Calibration.get();
             }
-            Optional<View> strategyStep = getStrategyStep(builder, request, skipCreative, skipRating);
+            Optional<View> strategyStep = getStrategyStep(builder, context, skipCreative, skipRating);
             if (strategyStep.isPresent()) {
                 return strategyStep.get();
             }
         } else {
             logger.debug("worker {} is not allowed to work on the assignment", builder.getWorkerId());
         }
-        return workerFinished(builder, request);
+        return workerFinished(builder, context);
     }
 
     /**
      * initializes a new ViewBuilder
      *
-     * @param request the Request
+     * @param context the Context of the Request
      * @return an instance of view with the workerID or -1 if none provided
      */
-    private View.Builder prepareView(Request request) {
+    private View.Builder prepareView(Context context) {
         View.Builder builder = View.newBuilder();
-        String worker = request.queryParams("worker");
+        String worker = context.getRequest().getQueryParams().get("worker");
         if (worker != null) {
             try {
                 builder.setWorkerId(Integer.parseInt(worker));
@@ -194,13 +189,13 @@ public class Queries implements RequestHelper {
      * This method just asks the Platform what to ID the worker should have and then calls getNext.
      *
      * @param builder the builder to use
-     * @param request the request
+     * @param context the Context of the Request
      * @return an instance of View.
      */
-    private View.Builder handleNoWorkerID(View.Builder builder, Request request) {
-        String platformName = assertParameter(request, "platform");
+    private View.Builder handleNoWorkerID(View.Builder builder, Context context) {
+        String platformName = assertParameter(context, "platform");
         logger.debug("handling no worker-id");
-        return communication.tryGetWorkerID(platformName, request.queryMap().toMap())
+        return communication.tryGetWorkerID(platformName, context.getRequest().getQueryParams().asMultimap())
                 .thenApply(result -> {
                     logger.debug("platform {} returned {}", platformName, result.map(Object::toString).orElse("nothing"));
                     return result;
@@ -215,12 +210,12 @@ public class Queries implements RequestHelper {
      * threshold.
      *
      * @param builder the builder to use
-     * @param request the request
+     * @param context the Context of the Request
      * @return true if the worker is eligible for working on the assignment
      */
-    private boolean checkCalibrationAndQuality(View.Builder builder, Request request) {
-        String platformName = assertParameter(request, "platform");
-        int experiment = assertParameterInt(request, "experiment");
+    private boolean checkCalibrationAndQuality(View.Builder builder, Context context) {
+        String platformName = assertParameter(context, "platform");
+        int experiment = assertParameterInt(context, "experiment");
         ExperimentRecord experimentRecord = experimentOperations.getExperiment(experiment);
         boolean submittedWrongCalibrations = calibrationsOperations.hasSubmittedWrongCalibrations(experiment, platformName, builder.getWorkerId());
         if (submittedWrongCalibrations) {
@@ -239,12 +234,12 @@ public class Queries implements RequestHelper {
      * may returns the Calibration if there are needed Calibration left unanswered.
      *
      * @param builder the builder to use
-     * @param request the request
+     * @param context the Context of the Request
      * @return an instance of view if the worker has to fill in some Calibration, or empty if not.
      */
-    private Optional<View> getCalibration(View.Builder builder, Request request) {
-        String platformName = assertParameter(request, "platform");
-        int experiment = assertParameterInt(request, "experiment");
+    private Optional<View> getCalibration(View.Builder builder, Context context) {
+        String platformName = assertParameter(context, "platform");
+        int experiment = assertParameterInt(context, "experiment");
         if (platformOperations.getPlatform(platformName).getRenderCalibrations()) {
             logger.trace("platform {} is able to render calibrations", platformName);
             Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> calibrations =
@@ -296,14 +291,14 @@ public class Queries implements RequestHelper {
      * may returns the next TaskView if the worker has not finished the assignment.
      *
      * @param builder      the builder to use
-     * @param request      the request
+     * @param context the Context of the Request
      * @param skipCreative whether to skip the Creative-Task
      * @param skipRating   whether to skip the Rating-Task
      * @return a Task-View filled with the assignment, or empty if finished
      */
-    private Optional<View> getStrategyStep(View.Builder builder, Request request, boolean skipCreative, boolean skipRating) {
-        int experiment = assertParameterInt(request, "experiment");
-        String platformName = assertParameter(request, "platform");
+    private Optional<View> getStrategyStep(View.Builder builder, Context context, boolean skipCreative, boolean skipRating) {
+        int experiment = assertParameterInt(context, "experiment");
+        String platformName = assertParameter(context, "platform");
         if (skipCreative && skipRating) {
             logger.debug("worker {} chose to skip everything", builder.getWorkerId());
             return Optional.empty();
@@ -321,7 +316,7 @@ public class Queries implements RequestHelper {
         String algorithmTaskChooser = experimentOperations.getExperiment(experiment).getAlgorithmTaskChooser();
         logger.debug("invoking task-chooser {}", algorithmTaskChooser);
         return Optional.ofNullable(strategies.get(algorithmTaskChooser))
-                .flatMap(strategy -> strategy.next(builder, request, experiment, platformName,
+                .flatMap(strategy -> strategy.next(builder, context, experiment, platformName,
                         resultingSkipCreative, resultingSkipRating));
     }
 
@@ -329,11 +324,11 @@ public class Queries implements RequestHelper {
      * may returns a View with the Type email if the platform needs an email and the user lacks one
      *
      * @param builder the builder to use
-     * @param request the request
+     * @param context the Context of the Request
      * @return an instance of view with the type email or empty
      */
-    private Optional<View> getEmail(View.Builder builder, Request request) {
-        String platformName = assertParameter(request, "platform");
+    private Optional<View> getEmail(View.Builder builder, Context context) {
+        String platformName = assertParameter(context, "platform");
         if (platformOperations.getPlatform(platformName).getNeedsEmail() && builder.getWorkerId() == -1) {
             return Optional.of(builder.setType(View.Type.EMAIL).build());
         } else if (builder.getWorkerId() == -1) {
@@ -348,10 +343,10 @@ public class Queries implements RequestHelper {
      * notifies the platform that the worker has finished the assignment and constructs the Finished View
      *
      * @param builder the builder to use
-     * @param request the request
+     * @param context the Context of the Request
      * @return an View with the Type FINISHED
      */
-    private View workerFinished(View.Builder builder, Request request) {
+    private View workerFinished(View.Builder builder, Context context) {
         //TODO notify??
         return builder.setType(View.Type.FINISHED)
                 .build();

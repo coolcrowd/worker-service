@@ -6,14 +6,14 @@ import edu.kit.ipd.crowdcontrol.workerservice.proto.Answer;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import spark.Response;
+import ratpack.exec.Promise;
+import ratpack.handling.Context;
+import ratpack.http.TypedData;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author LeanderK
@@ -36,7 +36,7 @@ public class CommandsIntegrationTest {
                 .setExperiment(experiment)
                 .setAnswer(answer)
                 .build()),
-                experiment, workerID, answerID, response -> verify(response, times(2)).status(201));
+                experiment, workerID, answerID, context -> verify(context, times(2)).getResponse().status(201));
     }
 
     @Test(expected = InternalServerErrorException.class)
@@ -49,19 +49,20 @@ public class CommandsIntegrationTest {
                         .setExperiment(experiment)
                         .setAnswer(answer)
                         .build()),
-                experiment, workerID, answerID, response -> verify(response, times(2)).status(201));
+                experiment, workerID, answerID, context -> verify(context, times(2)).getResponse().status(201));
     }
 
-    private Object submitAnswerHelper(String answer, String description, String answerRequest, int task, int workerID, int answerID, Consumer<Response> responseVerifier) {
+    private Object submitAnswerHelper(String answer, String description, String answerRequest, int task, int workerID, int answerID, Consumer<Context> responseVerifier) throws Exception {
         return commandsTest.submit(task, description,
                 communication -> {
                     when(communication.submitAnswer(answer, task, workerID))
                             .thenReturn(CompletableFuture.completedFuture(answerID));
                 },
-                request -> {
-                    when(request.params("workerID")).thenReturn(String.valueOf(workerID));
-                    when(request.body()).thenReturn(answerRequest);
-                    when(request.contentType()).thenReturn("application/json");
+                context -> {
+                    when(context.getPathTokens().get("workerID")).thenReturn(String.valueOf(workerID));
+                    TypedData data = mock(TypedData.class);
+                    when(data.getText()).thenReturn(answerRequest);
+                    when(context.getRequest().getBody()).thenReturn(Promise.value(data));
                 },
                 Commands::submitAnswer,
                 responseVerifier
