@@ -1,6 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.*;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.*;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.DSLContext;
 import org.jooq.Result;

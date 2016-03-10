@@ -1,11 +1,8 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AnswerRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsPlatformModeRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentsPlatformRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.RatingRecord;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeMode;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
@@ -43,8 +40,8 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
      * @return the mode of the platform
      * @throws IllegalArgumentException if the experimentsPlatform is not existing
      */
-    public ExperimentsPlatformModeStopgap getExperimentsPlatformMode(int experiment, String platform) throws IllegalArgumentException {
-        return create.select(EXPERIMENTS_PLATFORM_MODE.STOPGAP)
+    public ExperimentsPlatformModeMode getExperimentsPlatformMode(int experiment, String platform) throws IllegalArgumentException {
+        return create.select(EXPERIMENTS_PLATFORM_MODE.MODE)
                 .from(EXPERIMENTS_PLATFORM_MODE)
                 .where(EXPERIMENTS_PLATFORM_MODE.EXPERIMENTS_PLATFORM.in(
                         DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
@@ -56,7 +53,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 .limit(1)
                 .fetchOptional()
                 .map(Record1::value1)
-                .orElse(ExperimentsPlatformModeStopgap.disabled);
+                .orElse(ExperimentsPlatformModeMode.normal);
     }
 
     /**
@@ -72,19 +69,19 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
     public Map<Integer, AnswerRecord> prepareRating(int worker, int experiment, int amount) {
         Map<Integer, AnswerRecord> answers = create.transactionResult(config -> {
             Map<Integer, AnswerRecord> reservedRatings = DSL.using(config).select(ANSWER.fields())
-                    .select(RATING.ID_RATING)
+                    .select(RATING_RESERVATION.IDRESERVERD_RATING)
                     .from(ANSWER)
-                    .innerJoin(RATING).on(RATING.WORKER_ID.eq(worker)
-                            .and(RATING.EXPERIMENT.eq(experiment)).and(RATING.RATING_.isNull())
+                    .innerJoin(RATING_RESERVATION).on(RATING_RESERVATION.WORKER.eq(worker)
+                            .and(RATING_RESERVATION.EXPERIMENT.eq(experiment))
                     )
-                    .fetchMap(RATING.ID_RATING, record -> record.into(Tables.ANSWER));
+                    .fetchMap(RATING_RESERVATION.IDRESERVERD_RATING, record -> record.into(Tables.ANSWER));
             logger.trace("Worker {} has reserved ratings {}.", worker, reservedRatings);
 
             Timestamp now = Timestamp.valueOf(LocalDateTime.now());
 
-            DSL.using(config).update(RATING)
-                    .set(RATING.TIMESTAMP, now)
-                    .where(RATING.ID_RATING.in(reservedRatings.keySet()))
+            DSL.using(config).update(RATING_RESERVATION)
+                    .set(RATING_RESERVATION.TIMESTAMP, now)
+                    .where(RATING_RESERVATION.IDRESERVERD_RATING.in(reservedRatings.keySet()))
                     .execute();
 
             int reserveNew = Math.max(amount - reservedRatings.size(), 0);
@@ -92,17 +89,17 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
 
             LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
             Timestamp timestamp = Timestamp.valueOf(limit);
-            Field<Integer> count = DSL.count(RATING.ID_RATING).as("count");
+            Field<Integer> count = DSL.count(RATING_RESERVATION.IDRESERVERD_RATING).as("count");
             Map<Integer, AnswerRecord> toRate = DSL.using(config).select()
                     .select(ANSWER.fields())
                     .select(count)
                     .from(ANSWER)
-                    .leftJoin(RATING).on(RATING.ANSWER_R.eq(ANSWER.ID_ANSWER)
-                            .and(RATING.RATING_.isNotNull().or(RATING.TIMESTAMP.greaterOrEqual(timestamp))))
+                    .leftJoin(RATING_RESERVATION).on(RATING_RESERVATION.ANSWER.eq(ANSWER.ID_ANSWER)
+                            .and(RATING_RESERVATION.USED.eq(true).or(RATING_RESERVATION.TIMESTAMP.greaterOrEqual(timestamp))))
                     .where(ANSWER.EXPERIMENT.eq(experiment))
                     .and(ANSWER.WORKER_ID.notEqual(worker))
                     .and(ANSWER.ID_ANSWER.notIn(
-                            DSL.select(RATING.ANSWER_R).from(RATING).where(RATING.WORKER_ID.eq(worker).and(RATING.EXPERIMENT.eq(experiment)))))
+                            DSL.select(RATING_RESERVATION.ANSWER).from(RATING_RESERVATION).where(RATING_RESERVATION.WORKER.eq(worker).and(RATING_RESERVATION.EXPERIMENT.eq(experiment)))))
                     .and(ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.notEqual(0)).or(DSL.condition(true)))
                     .groupBy(ANSWER.fields())
                     .having(count.lessThan(
@@ -111,17 +108,11 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                     .limit(reserveNew)
                     .fetchMap(Tables.ANSWER.ID_ANSWER, record -> record.into(Tables.ANSWER));
 
-            List<RatingRecord> emptyRatings = toRate.values().stream()
-                    .map(answer -> {
-                        RatingRecord ratingRecord = new RatingRecord();
-                        ratingRecord.setAnswerR(answer.getIdAnswer());
-                        ratingRecord.setWorkerId(worker);
-                        ratingRecord.setExperiment(experiment);
-                        return ratingRecord;
-                    })
+            List<RatingReservationRecord> reservations = toRate.values().stream()
+                    .map(answer -> new RatingReservationRecord(null, worker, experiment, answer.getIdAnswer(), timestamp, false))
                     .collect(Collectors.toList());
 
-            DSL.using(config).batchInsert(emptyRatings).execute();
+            DSL.using(config).batchInsert(reservations).execute();
 
             Map<Integer, AnswerRecord> reserved = reservedRatings.entrySet().stream()
                     .collect(Collectors.toMap(entry -> entry.getValue().getIdAnswer(), Map.Entry::getValue));
