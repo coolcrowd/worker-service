@@ -41,7 +41,6 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateCons
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateTag;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.WorkerBalance;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.WorkerToken;
 
 import javax.annotation.Generated;
 
@@ -243,9 +242,4 @@ public class Tables {
 	 * The table crowdcontrol.Worker_Balance
 	 */
 	public static final WorkerBalance WORKER_BALANCE = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.WorkerBalance.WORKER_BALANCE;
-
-	/**
-	 * The table crowdcontrol.Worker_Token
-	 */
-	public static final WorkerToken WORKER_TOKEN = edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.WorkerToken.WORKER_TOKEN;
 }

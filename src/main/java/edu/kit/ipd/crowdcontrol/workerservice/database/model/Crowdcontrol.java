@@ -41,7 +41,6 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateCons
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateTag;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.WorkerBalance;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.WorkerToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +65,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Crowdcontrol extends SchemaImpl {
 
-	private static final long serialVersionUID = 704540209;
+	private static final long serialVersionUID = 389308531;
 
 	/**
 	 * The reference instance of <code>crowdcontrol</code>
@@ -125,7 +124,6 @@ public class Crowdcontrol extends SchemaImpl {
 			TemplateConstraint.TEMPLATE_CONSTRAINT,
 			TemplateTag.TEMPLATE_TAG,
 			Worker.WORKER,
-			WorkerBalance.WORKER_BALANCE,
-			WorkerToken.WORKER_TOKEN);
+			WorkerBalance.WORKER_BALANCE);
 	}
 }

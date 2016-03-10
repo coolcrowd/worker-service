@@ -41,7 +41,6 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateCons
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.TemplateTag;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.Worker;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.WorkerBalance;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.WorkerToken;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmAnswerQualityParamRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmAnswerQualityRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.AlgorithmRatingQualityParamRecord;
@@ -79,7 +78,6 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.Temp
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.TemplateTagRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.WorkerBalanceRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.WorkerRecord;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.WorkerTokenRecord;
 
 import javax.annotation.Generated;
 
@@ -181,8 +179,6 @@ public class Keys {
 	public static final UniqueKey<TemplateTagRecord> KEY_TEMPLATE_TAG_PRIMARY = UniqueKeys0.KEY_TEMPLATE_TAG_PRIMARY;
 	public static final UniqueKey<WorkerRecord> KEY_WORKER_PRIMARY = UniqueKeys0.KEY_WORKER_PRIMARY;
 	public static final UniqueKey<WorkerBalanceRecord> KEY_WORKER_BALANCE_PRIMARY = UniqueKeys0.KEY_WORKER_BALANCE_PRIMARY;
-	public static final UniqueKey<WorkerTokenRecord> KEY_WORKER_TOKEN_PRIMARY = UniqueKeys0.KEY_WORKER_TOKEN_PRIMARY;
-	public static final UniqueKey<WorkerTokenRecord> KEY_WORKER_TOKEN_TOKEN_UNIQUE = UniqueKeys0.KEY_WORKER_TOKEN_TOKEN_UNIQUE;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
@@ -236,7 +232,6 @@ public class Keys {
 	public static final ForeignKey<WorkerRecord, PlatformRecord> WORKERORIGIN = ForeignKeys0.WORKERORIGIN;
 	public static final ForeignKey<WorkerBalanceRecord, WorkerRecord> TRANSACTION_PARTNER = ForeignKeys0.TRANSACTION_PARTNER;
 	public static final ForeignKey<WorkerBalanceRecord, GiftCodeRecord> USED_GIFT_CODE = ForeignKeys0.USED_GIFT_CODE;
-	public static final ForeignKey<WorkerTokenRecord, WorkerRecord> TOKEN_FOR_UD = ForeignKeys0.TOKEN_FOR_UD;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -315,8 +310,6 @@ public class Keys {
 		public static final UniqueKey<TemplateTagRecord> KEY_TEMPLATE_TAG_PRIMARY = createUniqueKey(TemplateTag.TEMPLATE_TAG, TemplateTag.TEMPLATE_TAG.ID_TEMPLATE_TAG);
 		public static final UniqueKey<WorkerRecord> KEY_WORKER_PRIMARY = createUniqueKey(Worker.WORKER, Worker.WORKER.ID_WORKER);
 		public static final UniqueKey<WorkerBalanceRecord> KEY_WORKER_BALANCE_PRIMARY = createUniqueKey(WorkerBalance.WORKER_BALANCE, WorkerBalance.WORKER_BALANCE.ID_WORKER_BALANCE);
-		public static final UniqueKey<WorkerTokenRecord> KEY_WORKER_TOKEN_PRIMARY = createUniqueKey(WorkerToken.WORKER_TOKEN, WorkerToken.WORKER_TOKEN.TOKEN);
-		public static final UniqueKey<WorkerTokenRecord> KEY_WORKER_TOKEN_TOKEN_UNIQUE = createUniqueKey(WorkerToken.WORKER_TOKEN, WorkerToken.WORKER_TOKEN.TOKEN);
 	}
 
 	private static class ForeignKeys0 extends AbstractKeys {
@@ -368,6 +361,5 @@ public class Keys {
 		public static final ForeignKey<WorkerRecord, PlatformRecord> WORKERORIGIN = createForeignKey(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.KEY_PLATFORM_PRIMARY, Worker.WORKER, Worker.WORKER.PLATFORM);
 		public static final ForeignKey<WorkerBalanceRecord, WorkerRecord> TRANSACTION_PARTNER = createForeignKey(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.KEY_WORKER_PRIMARY, WorkerBalance.WORKER_BALANCE, WorkerBalance.WORKER_BALANCE.WORKER);
 		public static final ForeignKey<WorkerBalanceRecord, GiftCodeRecord> USED_GIFT_CODE = createForeignKey(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.KEY_GIFT_CODE_PRIMARY, WorkerBalance.WORKER_BALANCE, WorkerBalance.WORKER_BALANCE.GIFT_CODE);
-		public static final ForeignKey<WorkerTokenRecord, WorkerRecord> TOKEN_FOR_UD = createForeignKey(edu.kit.ipd.crowdcontrol.workerservice.database.model.Keys.KEY_WORKER_PRIMARY, WorkerToken.WORKER_TOKEN, WorkerToken.WORKER_TOKEN.WORKER_ID);
 	}
 }
