@@ -151,7 +151,7 @@ public class Communication {
                 .collect(Collectors.toList());
         Rating.Builder ratingBuilder = Rating.newBuilder()
                 .setRatingId(ratingId)
-                .setRating(edu.kit.ipd.crowdcontrol.objectservice.proto.Integer.newBuilder().setValue(worker).build())
+                .setRating(chosenRating)
                 .setWorker(worker)
                 .setExperimentId(experiment)
                 .addAllViolatedConstraints(constraintProtos);
