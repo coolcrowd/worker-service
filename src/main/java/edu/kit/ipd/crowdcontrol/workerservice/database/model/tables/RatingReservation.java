@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class RatingReservation extends TableImpl<RatingReservationRecord> {
 
-	private static final long serialVersionUID = 1913721412;
+	private static final long serialVersionUID = 629118062;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Rating_Reservation</code>
@@ -74,6 +74,11 @@ public class RatingReservation extends TableImpl<RatingReservationRecord> {
 	 * The column <code>crowdcontrol.Rating_Reservation.timestamp</code>.
 	 */
 	public final TableField<RatingReservationRecord, Timestamp> TIMESTAMP = createField("timestamp", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Rating_Reservation.used</code>.
+	 */
+	public final TableField<RatingReservationRecord, Boolean> USED = createField("used", org.jooq.impl.SQLDataType.BIT.nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Rating_Reservation</code> table reference
