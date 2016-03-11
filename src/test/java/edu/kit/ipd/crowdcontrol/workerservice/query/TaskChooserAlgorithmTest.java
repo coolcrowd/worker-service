@@ -49,9 +49,10 @@ public class TaskChooserAlgorithmTest {
     public void testConstructAnswerView() throws Exception {
         data.setAnswerGiveCountWorker(0);
         View.Builder builder = prepareBuilder();
-        View view = taskChooserAlgorithm.constructAnswerView(builder, data.getWorkerID(), experimentID, neededAnswers);
+        int answersTotalPerWorker = data.getExperimentRecord().getAnwersPerWorker();
+        View view = taskChooserAlgorithm.constructAnswerView(builder, data.getWorkerID(), experimentID, answersTotalPerWorker);
         assertTrue(view.getType().equals(View.Type.ANSWER));
-        assertTrue(view.getAnswerReservationsCount() == neededAnswers);
+        assertTrue(view.getAnswerReservationsCount() == answersTotalPerWorker);
     }
 
 
