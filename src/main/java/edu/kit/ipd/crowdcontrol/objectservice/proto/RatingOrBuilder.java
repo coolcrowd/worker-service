@@ -8,9 +8,9 @@ public interface RatingOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional int32 rating_id = 1;</code>
+   * <code>optional int32 reservation = 1;</code>
    */
-  int getRatingId();
+  int getReservation();
 
   /**
    * <code>optional int32 experiment_id = 2;</code>

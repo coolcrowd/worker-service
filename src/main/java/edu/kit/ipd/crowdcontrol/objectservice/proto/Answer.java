@@ -15,6 +15,7 @@ public  final class Answer extends
     super(builder);
   }
   private Answer() {
+    reservation_ = 0;
     id_ = 0;
     experimentId_ = 0;
     worker_ = 0;
@@ -50,39 +51,44 @@ public  final class Answer extends
           }
           case 8: {
 
-            id_ = input.readInt32();
+            reservation_ = input.readInt32();
             break;
           }
           case 16: {
 
-            experimentId_ = input.readInt32();
+            id_ = input.readInt32();
             break;
           }
           case 24: {
 
+            experimentId_ = input.readInt32();
+            break;
+          }
+          case 32: {
+
             worker_ = input.readInt32();
             break;
           }
-          case 34: {
+          case 42: {
             java.lang.String s = input.readStringRequireUtf8();
 
             content_ = s;
             break;
           }
-          case 40: {
+          case 48: {
 
             time_ = input.readInt64();
             break;
           }
-          case 48: {
+          case 56: {
 
             quality_ = input.readInt32();
             break;
           }
-          case 58: {
-            if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          case 66: {
+            if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
               ratings_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Rating>();
-              mutable_bitField0_ |= 0x00000040;
+              mutable_bitField0_ |= 0x00000080;
             }
             ratings_.add(input.readMessage(edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.parser(), extensionRegistry));
             break;
@@ -96,7 +102,7 @@ public  final class Answer extends
           new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this));
     } finally {
-      if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
         ratings_ = java.util.Collections.unmodifiableList(ratings_);
       }
       makeExtensionsImmutable();
@@ -115,37 +121,46 @@ public  final class Answer extends
   }
 
   private int bitField0_;
-  public static final int ID_FIELD_NUMBER = 1;
+  public static final int RESERVATION_FIELD_NUMBER = 1;
+  private int reservation_;
+  /**
+   * <code>optional int32 reservation = 1;</code>
+   */
+  public int getReservation() {
+    return reservation_;
+  }
+
+  public static final int ID_FIELD_NUMBER = 2;
   private int id_;
   /**
-   * <code>optional int32 id = 1;</code>
+   * <code>optional int32 id = 2;</code>
    */
   public int getId() {
     return id_;
   }
 
-  public static final int EXPERIMENT_ID_FIELD_NUMBER = 2;
+  public static final int EXPERIMENT_ID_FIELD_NUMBER = 3;
   private int experimentId_;
   /**
-   * <code>optional int32 experiment_id = 2;</code>
+   * <code>optional int32 experiment_id = 3;</code>
    */
   public int getExperimentId() {
     return experimentId_;
   }
 
-  public static final int WORKER_FIELD_NUMBER = 3;
+  public static final int WORKER_FIELD_NUMBER = 4;
   private int worker_;
   /**
-   * <code>optional int32 worker = 3;</code>
+   * <code>optional int32 worker = 4;</code>
    */
   public int getWorker() {
     return worker_;
   }
 
-  public static final int CONTENT_FIELD_NUMBER = 4;
+  public static final int CONTENT_FIELD_NUMBER = 5;
   private volatile java.lang.Object content_;
   /**
-   * <code>optional string content = 4;</code>
+   * <code>optional string content = 5;</code>
    */
   public java.lang.String getContent() {
     java.lang.Object ref = content_;
@@ -160,7 +175,7 @@ public  final class Answer extends
     }
   }
   /**
-   * <code>optional string content = 4;</code>
+   * <code>optional string content = 5;</code>
    */
   public com.google.protobuf.ByteString
       getContentBytes() {
@@ -176,53 +191,53 @@ public  final class Answer extends
     }
   }
 
-  public static final int TIME_FIELD_NUMBER = 5;
+  public static final int TIME_FIELD_NUMBER = 6;
   private long time_;
   /**
-   * <code>optional int64 time = 5;</code>
+   * <code>optional int64 time = 6;</code>
    */
   public long getTime() {
     return time_;
   }
 
-  public static final int QUALITY_FIELD_NUMBER = 6;
+  public static final int QUALITY_FIELD_NUMBER = 7;
   private int quality_;
   /**
-   * <code>optional int32 quality = 6;</code>
+   * <code>optional int32 quality = 7;</code>
    */
   public int getQuality() {
     return quality_;
   }
 
-  public static final int RATINGS_FIELD_NUMBER = 7;
+  public static final int RATINGS_FIELD_NUMBER = 8;
   private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Rating> ratings_;
   /**
-   * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+   * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
    */
   public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Rating> getRatingsList() {
     return ratings_;
   }
   /**
-   * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+   * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
    */
   public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.RatingOrBuilder> 
       getRatingsOrBuilderList() {
     return ratings_;
   }
   /**
-   * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+   * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
    */
   public int getRatingsCount() {
     return ratings_.size();
   }
   /**
-   * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+   * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
    */
   public edu.kit.ipd.crowdcontrol.objectservice.proto.Rating getRatings(int index) {
     return ratings_.get(index);
   }
   /**
-   * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+   * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
    */
   public edu.kit.ipd.crowdcontrol.objectservice.proto.RatingOrBuilder getRatingsOrBuilder(
       int index) {
@@ -241,26 +256,29 @@ public  final class Answer extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (reservation_ != 0) {
+      output.writeInt32(1, reservation_);
+    }
     if (id_ != 0) {
-      output.writeInt32(1, id_);
+      output.writeInt32(2, id_);
     }
     if (experimentId_ != 0) {
-      output.writeInt32(2, experimentId_);
+      output.writeInt32(3, experimentId_);
     }
     if (worker_ != 0) {
-      output.writeInt32(3, worker_);
+      output.writeInt32(4, worker_);
     }
     if (!getContentBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 4, content_);
+      com.google.protobuf.GeneratedMessage.writeString(output, 5, content_);
     }
     if (time_ != 0L) {
-      output.writeInt64(5, time_);
+      output.writeInt64(6, time_);
     }
     if (quality_ != 0) {
-      output.writeInt32(6, quality_);
+      output.writeInt32(7, quality_);
     }
     for (int i = 0; i < ratings_.size(); i++) {
-      output.writeMessage(7, ratings_.get(i));
+      output.writeMessage(8, ratings_.get(i));
     }
   }
 
@@ -269,32 +287,36 @@ public  final class Answer extends
     if (size != -1) return size;
 
     size = 0;
+    if (reservation_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, reservation_);
+    }
     if (id_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, id_);
+        .computeInt32Size(2, id_);
     }
     if (experimentId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, experimentId_);
+        .computeInt32Size(3, experimentId_);
     }
     if (worker_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(3, worker_);
+        .computeInt32Size(4, worker_);
     }
     if (!getContentBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(4, content_);
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(5, content_);
     }
     if (time_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(5, time_);
+        .computeInt64Size(6, time_);
     }
     if (quality_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(6, quality_);
+        .computeInt32Size(7, quality_);
     }
     for (int i = 0; i < ratings_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(7, ratings_.get(i));
+        .computeMessageSize(8, ratings_.get(i));
     }
     memoizedSize = size;
     return size;
@@ -408,6 +430,8 @@ public  final class Answer extends
     }
     public Builder clear() {
       super.clear();
+      reservation_ = 0;
+
       id_ = 0;
 
       experimentId_ = 0;
@@ -422,7 +446,7 @@ public  final class Answer extends
 
       if (ratingsBuilder_ == null) {
         ratings_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
       } else {
         ratingsBuilder_.clear();
       }
@@ -450,6 +474,7 @@ public  final class Answer extends
       edu.kit.ipd.crowdcontrol.objectservice.proto.Answer result = new edu.kit.ipd.crowdcontrol.objectservice.proto.Answer(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
+      result.reservation_ = reservation_;
       result.id_ = id_;
       result.experimentId_ = experimentId_;
       result.worker_ = worker_;
@@ -457,9 +482,9 @@ public  final class Answer extends
       result.time_ = time_;
       result.quality_ = quality_;
       if (ratingsBuilder_ == null) {
-        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((bitField0_ & 0x00000080) == 0x00000080)) {
           ratings_ = java.util.Collections.unmodifiableList(ratings_);
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000080);
         }
         result.ratings_ = ratings_;
       } else {
@@ -481,6 +506,9 @@ public  final class Answer extends
 
     public Builder mergeFrom(edu.kit.ipd.crowdcontrol.objectservice.proto.Answer other) {
       if (other == edu.kit.ipd.crowdcontrol.objectservice.proto.Answer.getDefaultInstance()) return this;
+      if (other.getReservation() != 0) {
+        setReservation(other.getReservation());
+      }
       if (other.getId() != 0) {
         setId(other.getId());
       }
@@ -504,7 +532,7 @@ public  final class Answer extends
         if (!other.ratings_.isEmpty()) {
           if (ratings_.isEmpty()) {
             ratings_ = other.ratings_;
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000080);
           } else {
             ensureRatingsIsMutable();
             ratings_.addAll(other.ratings_);
@@ -517,7 +545,7 @@ public  final class Answer extends
             ratingsBuilder_.dispose();
             ratingsBuilder_ = null;
             ratings_ = other.ratings_;
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000080);
             ratingsBuilder_ = 
               com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                  getRatingsFieldBuilder() : null;
@@ -553,15 +581,41 @@ public  final class Answer extends
     }
     private int bitField0_;
 
+    private int reservation_ ;
+    /**
+     * <code>optional int32 reservation = 1;</code>
+     */
+    public int getReservation() {
+      return reservation_;
+    }
+    /**
+     * <code>optional int32 reservation = 1;</code>
+     */
+    public Builder setReservation(int value) {
+      
+      reservation_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int32 reservation = 1;</code>
+     */
+    public Builder clearReservation() {
+      
+      reservation_ = 0;
+      onChanged();
+      return this;
+    }
+
     private int id_ ;
     /**
-     * <code>optional int32 id = 1;</code>
+     * <code>optional int32 id = 2;</code>
      */
     public int getId() {
       return id_;
     }
     /**
-     * <code>optional int32 id = 1;</code>
+     * <code>optional int32 id = 2;</code>
      */
     public Builder setId(int value) {
       
@@ -570,7 +624,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>optional int32 id = 1;</code>
+     * <code>optional int32 id = 2;</code>
      */
     public Builder clearId() {
       
@@ -581,13 +635,13 @@ public  final class Answer extends
 
     private int experimentId_ ;
     /**
-     * <code>optional int32 experiment_id = 2;</code>
+     * <code>optional int32 experiment_id = 3;</code>
      */
     public int getExperimentId() {
       return experimentId_;
     }
     /**
-     * <code>optional int32 experiment_id = 2;</code>
+     * <code>optional int32 experiment_id = 3;</code>
      */
     public Builder setExperimentId(int value) {
       
@@ -596,7 +650,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>optional int32 experiment_id = 2;</code>
+     * <code>optional int32 experiment_id = 3;</code>
      */
     public Builder clearExperimentId() {
       
@@ -607,13 +661,13 @@ public  final class Answer extends
 
     private int worker_ ;
     /**
-     * <code>optional int32 worker = 3;</code>
+     * <code>optional int32 worker = 4;</code>
      */
     public int getWorker() {
       return worker_;
     }
     /**
-     * <code>optional int32 worker = 3;</code>
+     * <code>optional int32 worker = 4;</code>
      */
     public Builder setWorker(int value) {
       
@@ -622,7 +676,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>optional int32 worker = 3;</code>
+     * <code>optional int32 worker = 4;</code>
      */
     public Builder clearWorker() {
       
@@ -633,7 +687,7 @@ public  final class Answer extends
 
     private java.lang.Object content_ = "";
     /**
-     * <code>optional string content = 4;</code>
+     * <code>optional string content = 5;</code>
      */
     public java.lang.String getContent() {
       java.lang.Object ref = content_;
@@ -648,7 +702,7 @@ public  final class Answer extends
       }
     }
     /**
-     * <code>optional string content = 4;</code>
+     * <code>optional string content = 5;</code>
      */
     public com.google.protobuf.ByteString
         getContentBytes() {
@@ -664,7 +718,7 @@ public  final class Answer extends
       }
     }
     /**
-     * <code>optional string content = 4;</code>
+     * <code>optional string content = 5;</code>
      */
     public Builder setContent(
         java.lang.String value) {
@@ -677,7 +731,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>optional string content = 4;</code>
+     * <code>optional string content = 5;</code>
      */
     public Builder clearContent() {
       
@@ -686,7 +740,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>optional string content = 4;</code>
+     * <code>optional string content = 5;</code>
      */
     public Builder setContentBytes(
         com.google.protobuf.ByteString value) {
@@ -702,13 +756,13 @@ public  final class Answer extends
 
     private long time_ ;
     /**
-     * <code>optional int64 time = 5;</code>
+     * <code>optional int64 time = 6;</code>
      */
     public long getTime() {
       return time_;
     }
     /**
-     * <code>optional int64 time = 5;</code>
+     * <code>optional int64 time = 6;</code>
      */
     public Builder setTime(long value) {
       
@@ -717,7 +771,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>optional int64 time = 5;</code>
+     * <code>optional int64 time = 6;</code>
      */
     public Builder clearTime() {
       
@@ -728,13 +782,13 @@ public  final class Answer extends
 
     private int quality_ ;
     /**
-     * <code>optional int32 quality = 6;</code>
+     * <code>optional int32 quality = 7;</code>
      */
     public int getQuality() {
       return quality_;
     }
     /**
-     * <code>optional int32 quality = 6;</code>
+     * <code>optional int32 quality = 7;</code>
      */
     public Builder setQuality(int value) {
       
@@ -743,7 +797,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>optional int32 quality = 6;</code>
+     * <code>optional int32 quality = 7;</code>
      */
     public Builder clearQuality() {
       
@@ -755,9 +809,9 @@ public  final class Answer extends
     private java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Rating> ratings_ =
       java.util.Collections.emptyList();
     private void ensureRatingsIsMutable() {
-      if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (!((bitField0_ & 0x00000080) == 0x00000080)) {
         ratings_ = new java.util.ArrayList<edu.kit.ipd.crowdcontrol.objectservice.proto.Rating>(ratings_);
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
        }
     }
 
@@ -765,7 +819,7 @@ public  final class Answer extends
         edu.kit.ipd.crowdcontrol.objectservice.proto.Rating, edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.RatingOrBuilder> ratingsBuilder_;
 
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Rating> getRatingsList() {
       if (ratingsBuilder_ == null) {
@@ -775,7 +829,7 @@ public  final class Answer extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public int getRatingsCount() {
       if (ratingsBuilder_ == null) {
@@ -785,7 +839,7 @@ public  final class Answer extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Rating getRatings(int index) {
       if (ratingsBuilder_ == null) {
@@ -795,7 +849,7 @@ public  final class Answer extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public Builder setRatings(
         int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Rating value) {
@@ -812,7 +866,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public Builder setRatings(
         int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder builderForValue) {
@@ -826,7 +880,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public Builder addRatings(edu.kit.ipd.crowdcontrol.objectservice.proto.Rating value) {
       if (ratingsBuilder_ == null) {
@@ -842,7 +896,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public Builder addRatings(
         int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Rating value) {
@@ -859,7 +913,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public Builder addRatings(
         edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder builderForValue) {
@@ -873,7 +927,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public Builder addRatings(
         int index, edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder builderForValue) {
@@ -887,7 +941,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public Builder addAllRatings(
         java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.Rating> values) {
@@ -902,12 +956,12 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public Builder clearRatings() {
       if (ratingsBuilder_ == null) {
         ratings_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         onChanged();
       } else {
         ratingsBuilder_.clear();
@@ -915,7 +969,7 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public Builder removeRatings(int index) {
       if (ratingsBuilder_ == null) {
@@ -928,14 +982,14 @@ public  final class Answer extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder getRatingsBuilder(
         int index) {
       return getRatingsFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.RatingOrBuilder getRatingsOrBuilder(
         int index) {
@@ -945,7 +999,7 @@ public  final class Answer extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public java.util.List<? extends edu.kit.ipd.crowdcontrol.objectservice.proto.RatingOrBuilder> 
          getRatingsOrBuilderList() {
@@ -956,14 +1010,14 @@ public  final class Answer extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder addRatingsBuilder() {
       return getRatingsFieldBuilder().addBuilder(
           edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder addRatingsBuilder(
         int index) {
@@ -971,7 +1025,7 @@ public  final class Answer extends
           index, edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.Rating ratings = 7;</code>
+     * <code>repeated .crowdcontrol.Rating ratings = 8;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder> 
          getRatingsBuilderList() {
@@ -984,7 +1038,7 @@ public  final class Answer extends
         ratingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
             edu.kit.ipd.crowdcontrol.objectservice.proto.Rating, edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.Builder, edu.kit.ipd.crowdcontrol.objectservice.proto.RatingOrBuilder>(
                 ratings_,
-                ((bitField0_ & 0x00000040) == 0x00000040),
+                ((bitField0_ & 0x00000080) == 0x00000080),
                 getParentForChildren(),
                 isClean());
         ratings_ = null;
