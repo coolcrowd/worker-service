@@ -72,6 +72,6 @@ public class PreviewTaskChooser extends TaskChooserAlgorithm {
      */
     @Override
     public Optional<View> next(View.Builder builder, Context context, int experimentID, String platform, boolean skipCreative, boolean skipRating) {
-        return Optional.of(prepareBuilder(builder, experimentID).build());
+        return Optional.of(prepareBuilder(builder, experimentID).setType(View.Type.ANSWER).build());
     }
 }
