@@ -1,6 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeMode;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.DSLContext;
 import org.jooq.Result;
@@ -137,12 +137,12 @@ public class OperationsDataHolder {
     }
 
     private ExperimentsPlatformRecord generateExperimentsTaskRecord(ExperimentRecord experimentRecord, PlatformRecord platformRecord) {
-        return new ExperimentsPlatformRecord(nextRandomInt(), experimentRecord.getIdExperiment(), platformRecord.getIdPlatform(), null);
+        return new ExperimentsPlatformRecord(nextRandomInt(), experimentRecord.getIdExperiment(), platformRecord.getIdPlatform(), null, null);
     }
 
     private ExperimentsPlatformModeRecord generateExperimentsPlatformModeRecord(ExperimentsPlatformRecord experimentsPlatformRecord) {
         return new ExperimentsPlatformModeRecord(null, experimentsPlatformRecord.getIdexperimentsPlatforms(),
-                ExperimentsPlatformModeStopgap.disabled, null);
+                ExperimentsPlatformModeMode.normal, null);
     }
 
     public List<AnswerRecord> generateAnswers(int amount, ExperimentRecord experiment) {

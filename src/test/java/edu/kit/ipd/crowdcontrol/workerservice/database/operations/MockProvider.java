@@ -1,6 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeMode;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -121,9 +121,9 @@ public class MockProvider implements MockDataProvider {
             }
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`EXPERIMENTS_PLATFORM_MODE`.`STOPGAP` FROM `CROWDCONTROL")) {
-            Result<Record1<ExperimentsPlatformModeStopgap>> result = create.newResult(EXPERIMENTS_PLATFORM_MODE.STOPGAP);
-            Record1<ExperimentsPlatformModeStopgap> record = create.newRecord(EXPERIMENTS_PLATFORM_MODE.STOPGAP);
-            record.value1(dataHolder.getExperimentsPlatformModeRecord().getStopgap());
+            Result<Record1<ExperimentsPlatformModeMode>> result = create.newResult(EXPERIMENTS_PLATFORM_MODE.MODE);
+            Record1<ExperimentsPlatformModeMode> record = create.newRecord(EXPERIMENTS_PLATFORM_MODE.MODE);
+            record.value1(dataHolder.getExperimentsPlatformModeRecord().getMode());
             result.add(record);
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT COUNT(*) AS `C` FROM (SELECT `CROWDCONTROL`.`ANSWER`.`ID_ANSWER`, ")) {
@@ -187,7 +187,7 @@ public class MockProvider implements MockDataProvider {
             Result<RatingRecord> result = create.newResult(RATING);
             List<AnswerRecord> answerRecords = dataHolder.getAnswerRecords();
             for (int i = answerRecords.size() - 1; i >= 0; i--) {
-                result.add(new RatingRecord(i, null, answerRecords.get(i).getIdAnswer(), null, null, null, null, null));
+                result.add(new RatingRecord(i, null, answerRecords.get(i).getIdAnswer(), null, null, null, null, null, null));
             }
             mock[0] = new MockResult(1, result);
         }
