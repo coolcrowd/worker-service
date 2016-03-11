@@ -192,9 +192,26 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
         return create.fetchCount(
                 DSL.selectFrom(ANSWER)
                         .where(ANSWER.EXPERIMENT.eq(experimentID))
-                        .and(ANSWER.QUALITY_ASSURED.eq(true).and(Tables.ANSWER.QUALITY.notEqual(0))
-                                .or(DSL.condition(true))
-                        )
+                        .and(ANSWER.QUALITY_ASSURED.eq(true).and(Tables.ANSWER.QUALITY.greaterThan(
+                                DSL.select(EXPERIMENT.PAYMENT_QUALITY_THRESHOLD)
+                                    .from(EXPERIMENT)
+                                    .where(EXPERIMENT.ID_EXPERIMENT.eq(experimentID)))
+                        ))
+                        .or(DSL.condition(true))
+        );
+    }
+
+    /**
+     * returns all the non-duplicates answers of the db
+     * @param experimentID the primary key of the experiment
+     * @return the numbers of answers
+     */
+    public int getRawAnswersCount(int experimentID) {
+        return create.fetchCount(
+                DSL.selectFrom(ANSWER)
+                    .where(ANSWER.EXPERIMENT.eq(experimentID))
+                    .and(ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.notEqual(0)))
+                    .or(DSL.condition(true))
         );
     }
 
