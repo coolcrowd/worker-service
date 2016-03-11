@@ -37,7 +37,7 @@ public class JWTHelper {
         logger.debug("encoding JWT for workerID", workerId);
         return Jwts.builder()
                 .setSubject(String.valueOf(workerId))
-                .signWith(SignatureAlgorithm.ES512, secret)
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
