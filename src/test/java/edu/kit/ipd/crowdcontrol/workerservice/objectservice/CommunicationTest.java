@@ -35,7 +35,7 @@ public class CommunicationTest {
     @Test
     public void testSubmitAnswerURL() throws Exception {
         Communication communication = new Communication(url, "a", "b");
-        CompletableFuture<Integer> result = communication.submitAnswer("a", answer.getReservation(), 1, 2);
+        CompletableFuture<Integer> result = communication.submitAnswer("a", 0, 1, 2);
         checkURL(result, "/experiments/1/answers");
     }
 

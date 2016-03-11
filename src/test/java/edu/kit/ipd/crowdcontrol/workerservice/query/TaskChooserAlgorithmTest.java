@@ -49,9 +49,9 @@ public class TaskChooserAlgorithmTest {
     public void testConstructAnswerView() throws Exception {
         data.setAnswerGiveCountWorker(0);
         View.Builder builder = prepareBuilder();
-        View view = taskChooserAlgorithm.constructAnswerView(builder, experimentID, neededAnswers);
+        View view = taskChooserAlgorithm.constructAnswerView(builder, data.getWorkerID(), experimentID, neededAnswers);
         assertTrue(view.getType().equals(View.Type.ANSWER));
-        assertTrue(view.getMaxAnswersToGive() == neededAnswers);
+        assertTrue(view.getAnswerReservationsCount() == neededAnswers);
     }
 
 
@@ -121,7 +121,7 @@ public class TaskChooserAlgorithmTest {
         View.Builder builder = prepareBuilder();
         View view = taskChooserAlgorithm.constructView(builder, prepareContext(), data.getExperimentRecord().getIdExperiment(), false, false).get();
         assertTrue(view.getType().equals(View.Type.ANSWER));
-        assertTrue(view.getMaxAnswersToGive() == (neededAnswers));
+        assertTrue(view.getAnswerReservationsCount() == (neededAnswers));
     }
 
     @Test
