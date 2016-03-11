@@ -55,7 +55,7 @@ public class CommandsIntegrationTest {
     private Object submitAnswerHelper(String answer, String description, String answerRequest, int task, int workerID, int answerID, Consumer<Context> responseVerifier) throws Exception {
         return commandsTest.submit(task, description,
                 communication -> {
-                    when(communication.submitAnswer(answer, task, workerID))
+                    when(communication.submitAnswer(answer, answer.getReservation(), task, workerID))
                             .thenReturn(CompletableFuture.completedFuture(answerID));
                 },
                 context -> {
