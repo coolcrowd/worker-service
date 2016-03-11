@@ -56,6 +56,18 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 .orElse(ExperimentsPlatformModeMode.normal);
     }
 
+    public AnswerReservationRecord prepareAnswer(int worker, int experiment, int amount) {
+        create.transactionResult(config -> {
+            Result<AnswerReservationRecord> openReservations = DSL.using(config).selectFrom(ANSWER_RESERVATION)
+                    .where(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
+                    .and(ANSWER_RESERVATION.WORKER.eq(worker))
+                    .and(ANSWER_RESERVATION.USED.eq(false))
+                    .fetch();
+            logger.trace("");
+
+        });
+    }
+
     /**
      * Reserves a number of ratings for the given worker.
      * <p>
