@@ -21,4 +21,9 @@ public interface AnswerOrBuilder extends
    * <code>optional int32 experiment = 2;</code>
    */
   int getExperiment();
+
+  /**
+   * <code>optional int32 reservation = 3;</code>
+   */
+  int getReservation();
 }

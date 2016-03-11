@@ -47,9 +47,17 @@ public interface ViewOrBuilder extends
       getDescriptionBytes();
 
   /**
-   * <code>optional int32 max_answers_to_give = 5;</code>
+   * <code>repeated int32 answer_reservations = 5;</code>
    */
-  int getMaxAnswersToGive();
+  java.util.List<java.lang.Integer> getAnswerReservationsList();
+  /**
+   * <code>repeated int32 answer_reservations = 5;</code>
+   */
+  int getAnswerReservationsCount();
+  /**
+   * <code>repeated int32 answer_reservations = 5;</code>
+   */
+  int getAnswerReservations(int index);
 
   /**
    * <code>optional string answer_type = 6;</code>
