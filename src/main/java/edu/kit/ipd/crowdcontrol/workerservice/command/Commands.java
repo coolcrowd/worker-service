@@ -148,7 +148,7 @@ public class Commands implements RequestHelper {
      * @param context the Context of the Request
      * @return empty body (null)
      */
-    public Promise<Integer> submitRating(Context context) {
+    public Promise<String> submitRating(Context context) {
         return doSubmit(context, Rating.newBuilder(),
                 //excluded rating because 0 is valid
                 Arrays.asList(Rating.FEEDBACK_FIELD_NUMBER, Rating.RATING_FIELD_NUMBER), (rating, workerID) -> {
@@ -164,7 +164,7 @@ public class Commands implements RequestHelper {
                 }
         ).map(status -> {
             logger.debug("Object service answered with status {}.", status);
-            return status;
+            return String.valueOf(status);
         });
     }
 
