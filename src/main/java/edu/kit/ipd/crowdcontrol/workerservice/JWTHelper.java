@@ -21,7 +21,9 @@ public class JWTHelper {
      * @param secret the base64 encoded secret to use
      */
     public JWTHelper(String secret) {
-        Objects.requireNonNull(secret, () -> "Secret must be set");
+        if (secret == null || secret.isEmpty()) {
+            throw new IllegalArgumentException("secret must be set");
+        }
         this.secret = secret;
     }
 

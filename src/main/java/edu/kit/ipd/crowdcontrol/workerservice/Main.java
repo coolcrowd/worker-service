@@ -124,7 +124,12 @@ public class Main {
                 System.exit(-1);
             }
         }
-        JWTHelper jwtHelper = new JWTHelper(getProperty("jwt.secret"));
+        JWTHelper jwtHelper;
+        try {
+            jwtHelper = new JWTHelper(getProperty("jwt.secret"));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("secret must be set in the config file");
+        }
         CalibrationsOperations calibrationsOperations = new CalibrationsOperations(databaseManager.getContext());
         ExperimentOperations experimentOperations = new ExperimentOperations(databaseManager.getContext());
         PlatformOperations platformOperations = new PlatformOperations(databaseManager.getContext());
