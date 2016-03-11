@@ -69,7 +69,7 @@ public class RatpackRouter {
                                 ctx.next();
                             }
                         })
-                        .options("*", ctx -> {
+                        .options(ctx -> {
                             ctx.getResponse().status(204);
                             ctx.getResponse().contentType("text/plain");
                             ctx.render("");
