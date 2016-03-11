@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
 
@@ -56,16 +58,48 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 .orElse(ExperimentsPlatformModeMode.normal);
     }
 
-    public AnswerReservationRecord prepareAnswer(int worker, int experiment, int amount) {
-        create.transactionResult(config -> {
-            Result<AnswerReservationRecord> openReservations = DSL.using(config).selectFrom(ANSWER_RESERVATION)
+    /**
+     * Reserves the number of answers for the given worker.
+     * <p>
+     * The method first searches for all the open answers, updates them and reserves the difference.
+     * @param worker the worker to reserve for
+     * @param experiment the primary key of the experiment
+     * @param amount the amount to reserve
+     * @return a list of primary keys for the reserverations
+     */
+    public List<Integer> prepareAnswers(int worker, int experiment, int amount) {
+        create.transaction(config -> {
+            int openReservations = DSL.using(config).fetchCount(
+                    DSL.selectFrom(ANSWER_RESERVATION)
                     .where(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
                     .and(ANSWER_RESERVATION.WORKER.eq(worker))
                     .and(ANSWER_RESERVATION.USED.eq(false))
-                    .fetch();
-            logger.trace("");
+            );
+            logger.trace("Worker {} has {} reserved open answers {}.", worker, openReservations);
 
+            Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+
+            DSL.using(config).update(ANSWER_RESERVATION)
+                    .set(ANSWER_RESERVATION.TIMESTAMP, now)
+                    .where(ANSWER_RESERVATION.IDANSWER_RESERVATION.in(openReservations))
+                    .execute();
+
+            int reserveNew = Math.max(amount - openReservations, 0);
+            logger.trace("Reserving {} new Answers for worker {}.", reserveNew, worker);
+
+            List<AnswerReservationRecord> reservationRecords = new ArrayList<>(reserveNew);
+            for (int i = 0; i < reserveNew; i++) {
+                reservationRecords.add(new AnswerReservationRecord(null, worker, experiment, now, false));
+            }
+
+            DSL.using(config).batchInsert(reservationRecords).execute();
         });
+        return create.select(ANSWER_RESERVATION.IDANSWER_RESERVATION)
+                .where(ANSWER_RESERVATION.WORKER.eq(worker))
+                .and(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
+                .and(ANSWER_RESERVATION.USED.eq(false))
+                .fetch()
+                .map(Record1::value1);
     }
 
     /**
@@ -87,7 +121,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                             .and(RATING_RESERVATION.EXPERIMENT.eq(experiment))
                     )
                     .fetchMap(RATING_RESERVATION.IDRESERVERD_RATING, record -> record.into(Tables.ANSWER));
-            logger.trace("Worker {} has reserved ratings {}.", worker, reservedRatings);
+            logger.trace("Worker {} has reserved open ratings {}.", worker, reservedRatings);
 
             Timestamp now = Timestamp.valueOf(LocalDateTime.now());
 
@@ -97,7 +131,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                     .execute();
 
             int reserveNew = Math.max(amount - reservedRatings.size(), 0);
-            logger.trace("Reserving {} new Answers for worker {}.", reserveNew, worker);
+            logger.trace("Reserving {} new Ratings for worker {}.", reserveNew, worker);
 
             LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
             Timestamp timestamp = Timestamp.valueOf(limit);
