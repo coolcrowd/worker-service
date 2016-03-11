@@ -1,5 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
+import edu.kit.ipd.crowdcontrol.workerservice.WorkerID;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
@@ -7,11 +8,14 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPla
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.junit.Before;
 import org.junit.Test;
+import ratpack.handling.Context;
 
 import java.util.*;
 import java.util.function.Predicate;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author LeanderK
@@ -125,12 +129,14 @@ public class AntiSpoofTest {
         ExperimentsPlatformOperations experimentsPlatformOperations = data.createExperimentsPlatformOperations();
         ExperimentOperations experimentOperations = data.createExperimentOperations();
         AntiSpoof antiSpoof = new AntiSpoof(experimentOperations, experimentsPlatformOperations);
-        return antiSpoof.next(prepareBuilder(), null, experiment.getIdExperiment(), null, false, false)
+        return antiSpoof.next(View.newBuilder(), prepareContext(), experiment.getIdExperiment(), null, false, false)
                 .map(View::getType);
     }
 
-    private View.Builder prepareBuilder() {
-        return View.newBuilder()
-                .setWorkerId(data.getWorkerID());
+    private Context prepareContext() {
+        Context context = mock(Context.class);
+        WorkerID workerID = new WorkerID(data.getWorkerID());
+        when(context.get(WorkerID.class)).thenReturn(workerID);
+        return context;
     }
 }

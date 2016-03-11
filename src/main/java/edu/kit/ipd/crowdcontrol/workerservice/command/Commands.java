@@ -1,14 +1,13 @@
 package edu.kit.ipd.crowdcontrol.workerservice.command;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.net.MediaType;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
-import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
-import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
+import edu.kit.ipd.crowdcontrol.workerservice.*;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.*;
@@ -18,9 +17,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.proto.Rating;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ratpack.exec.Downstream;
 import ratpack.exec.Promise;
-import ratpack.exec.util.Promised;
 import ratpack.handling.Context;
 import ratpack.http.TypedData;
 
@@ -32,6 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * The class commands is responsible for the command-part of the CQRS-pattern. Therefore it provides the submit methods
@@ -41,20 +40,22 @@ import java.util.function.BiFunction;
  * @version 1.0
  */
 public class Commands implements RequestHelper {
+    private static final Logger logger = LoggerFactory.getLogger(Commands.class);
     private final Communication communication;
     private final JsonFormat.Parser parser = JsonFormat.parser();
     private final ExperimentOperations experimentOperations;
-    private static final Logger logger = LoggerFactory.getLogger(Commands.class);
+    private final JWTHelper jwtHelper;
 
     /**
      * creates an instance of Commands
-     *
      * @param communication        the communication used to communicate with the object-service
      * @param experimentOperations the experiment-operations used to communicate with the database
+     * @param jwtHelper
      */
-    public Commands(Communication communication, ExperimentOperations experimentOperations) {
+    public Commands(Communication communication, ExperimentOperations experimentOperations, JWTHelper jwtHelper) {
         this.communication = communication;
         this.experimentOperations = experimentOperations;
+        this.jwtHelper = jwtHelper;
     }
 
     /**
@@ -79,11 +80,20 @@ public class Commands implements RequestHelper {
                     return toValidate;
                 })
                 .flatMap(email -> {
+                    LinkedListMultimap<String, String> parameters = email.getPlatformParametersList().stream()
+                            .collect(Collector.of(
+                                    LinkedListMultimap::<String, String>create,
+                                    (map, param) -> map.putAll(param.getKey(), param.getValuesList()),
+                                    (map1, map2) -> {
+                                        map1.putAll(map2);
+                                        return map2;
+                                    }
+                            ));
                     return Promise.<Integer>of(downstream -> downstream.accept(
-                            communication.submitWorker(email.getEmail(), platform, context.getRequest().getQueryParams().asMultimap())
+                            communication.submitWorker(email.getEmail(), platform, parameters)
                                     .handle((emailAnswer, throwable) -> wrapExceptionOr201(emailAnswer, throwable, context))
                             ))
-                            .map(workerID -> EmailAnswer.newBuilder().setWorkerId(workerID).build())
+                            .map(workerID -> EmailAnswer.newBuilder().setAuthorization(jwtHelper.generateJWT(workerID)).build())
                             .map(emailAnswer -> {
                                 logger.debug("Answer from Object-Service for submitting email {}: {}", email, emailAnswer.toString());
                                 return emailAnswer;
@@ -256,7 +266,7 @@ public class Commands implements RequestHelper {
     private <X extends Message.Builder, T> Promise<T> doSubmit(Context context, X x,
                                                       List<Integer> excluded,
                                                       BiFunction<X, Integer, CompletableFuture<T>> func) {
-        int workerID = assertParameterInt(context, "workerID");
+        int workerID = context.get(WorkerID.class).get();
         return merge(context, x, excluded)
                 .flatMap(builder ->
                         Promise.of(downstream -> downstream.accept(

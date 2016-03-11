@@ -124,6 +124,12 @@ public class Main {
                 System.exit(-1);
             }
         }
+        JWTHelper jwtHelper;
+        try {
+            jwtHelper = new JWTHelper(getProperty("jwt.secret"));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("secret must be set in the config file");
+        }
         CalibrationsOperations calibrationsOperations = new CalibrationsOperations(databaseManager.getContext());
         ExperimentOperations experimentOperations = new ExperimentOperations(databaseManager.getContext());
         PlatformOperations platformOperations = new PlatformOperations(databaseManager.getContext());
@@ -131,7 +137,7 @@ public class Main {
         WorkerOperations workerOperations = new WorkerOperations(databaseManager.getContext());
 
         Queries queries = new Queries(calibrationsOperations, experimentOperations, platformOperations, communication,
-                experimentsPlatformOperations, workerOperations, testing);
+                experimentsPlatformOperations, workerOperations, testing, jwtHelper);
 
         String portRaw = getProperty("router.port");
 
@@ -141,8 +147,8 @@ public class Main {
 
         logger.debug("workerservice is using port {}", port);
 
-        Commands commands = new Commands(communication, experimentOperations);
-        RatpackRouter router = new RatpackRouter(queries, commands, port);
+        Commands commands = new Commands(communication, experimentOperations, jwtHelper);
+        RatpackRouter router = new RatpackRouter(queries, commands, jwtHelper, port);
         if (!testing) {
             try {
                 router.init();

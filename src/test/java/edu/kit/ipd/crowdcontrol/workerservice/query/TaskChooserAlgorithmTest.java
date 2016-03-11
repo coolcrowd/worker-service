@@ -1,5 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
+import edu.kit.ipd.crowdcontrol.workerservice.WorkerID;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.OperationsDataHolder;
@@ -7,10 +8,13 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPla
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.junit.Before;
 import org.junit.Test;
+import ratpack.handling.Context;
 
 import java.util.*;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author LeanderK
@@ -54,7 +58,7 @@ public class TaskChooserAlgorithmTest {
     @Test
     public void testConstructRatingView() throws Exception {
         View.Builder builder = prepareBuilder();
-        View view = taskChooserAlgorithm.constructRatingView(builder, experimentID, neededRatings).get();
+        View view = taskChooserAlgorithm.constructRatingView(builder, prepareContext(), experimentID, neededRatings).get();
         assertTrue(view.getType().equals(View.Type.RATING));
         assertTrue(builder.getAnswersToRateCount() != neededRatings);
         for (View.Answer answer : builder.getAnswersToRateList()) {
@@ -68,7 +72,7 @@ public class TaskChooserAlgorithmTest {
         View.Builder builder = prepareBuilder();
         data.setAvailableAnswers(0);
         taskChooserAlgorithm = prepareTaskChooser(false, true);
-        Optional<View> optional = taskChooserAlgorithm.constructRatingView(builder, experimentID, neededRatings);
+        Optional<View> optional = taskChooserAlgorithm.constructRatingView(builder, prepareContext(), experimentID, neededRatings);
         assertTrue(!optional.isPresent());
     }
 
@@ -107,7 +111,7 @@ public class TaskChooserAlgorithmTest {
     @Test
     public void testConstructViewSkipSkip() throws Exception {
         View.Builder builder = prepareBuilder();
-        Optional<View> optional = taskChooserAlgorithm.constructView(builder, data.getExperimentRecord().getIdExperiment(), true, true);
+        Optional<View> optional = taskChooserAlgorithm.constructView(builder, prepareContext(), data.getExperimentRecord().getIdExperiment(), true, true);
         assertTrue(!optional.isPresent());
     }
 
@@ -115,7 +119,7 @@ public class TaskChooserAlgorithmTest {
     @Test
     public void testConstructViewReturningAnswer() throws Exception {
         View.Builder builder = prepareBuilder();
-        View view = taskChooserAlgorithm.constructView(builder, data.getExperimentRecord().getIdExperiment(), false, false).get();
+        View view = taskChooserAlgorithm.constructView(builder, prepareContext(), data.getExperimentRecord().getIdExperiment(), false, false).get();
         assertTrue(view.getType().equals(View.Type.ANSWER));
         assertTrue(view.getMaxAnswersToGive() == (neededAnswers));
     }
@@ -125,13 +129,19 @@ public class TaskChooserAlgorithmTest {
         View.Builder builder = prepareBuilder();
         data.setAnswerGiveCountWorker(data.getExperimentRecord().getAnwersPerWorker());
         MockTaskChooser taskChooserAlgorithm = prepareTaskChooser(data.createExperimentOperations(), data.createExperimentsPlatformOperations());
-        View view = taskChooserAlgorithm.constructView(builder, data.getExperimentRecord().getIdExperiment(), false, false).get();
+        View view = taskChooserAlgorithm.constructView(builder, prepareContext(), data.getExperimentRecord().getIdExperiment(), false, false).get();
         assertTrue(view.getType().equals(View.Type.RATING));
     }
 
     private View.Builder prepareBuilder() {
-        return View.newBuilder()
-                .setWorkerId(data.getWorkerID());
+        return View.newBuilder();
+    }
+
+    private Context prepareContext() {
+        Context context = mock(Context.class);
+        WorkerID workerID = new WorkerID(data.getWorkerID());
+        when(context.get(WorkerID.class)).thenReturn(workerID);
+        return context;
     }
 
     private MockTaskChooser prepareTaskChooser(ExperimentOperations experimentOperations, ExperimentsPlatformOperations experimentsPlatformOperations) {

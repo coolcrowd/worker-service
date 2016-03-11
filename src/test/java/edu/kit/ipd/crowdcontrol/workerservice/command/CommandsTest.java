@@ -4,16 +4,16 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
+import edu.kit.ipd.crowdcontrol.workerservice.JWTHelper;
+import edu.kit.ipd.crowdcontrol.workerservice.WorkerID;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.*;
-import org.jooq.lambda.function.Function3;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import ratpack.exec.Blocking;
-import ratpack.exec.ExecResult;
 import ratpack.exec.Promise;
 import ratpack.handling.Context;
 import ratpack.http.*;
@@ -68,7 +68,7 @@ public class CommandsTest {
         String platform = "a";
         int workerID = 1;
         EmailAnswer builder = submitEmailHelper(email, platform, workerID, context -> verify(context.getResponse()).status(201));
-        assertEquals(builder.getWorkerId(), workerID);
+        assertEquals(Integer.parseInt(builder.getAuthorization()), workerID);
     }
 
     @Test(expected= BadRequestException.class)
@@ -156,26 +156,6 @@ public class CommandsTest {
         submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
     }
 
-    @Test(expected= BadRequestException.class)
-    public void testSubmitWithStringWorkerID() throws Exception {
-        JsonFormat.printer();
-        String workerID = "aaa";
-        int task = 2;
-        String answerRequest =  "{\n" +
-                "}";
-        submit(task, null,
-                ign -> {},
-                context -> {
-                    when(context.getPathTokens().get("workerID")).thenReturn(workerID);
-                    TypedData data = mock(TypedData.class);
-                    when(data.getText()).thenReturn(answerRequest);
-                    when(context.getRequest().getBody()).thenReturn(Promise.value(data));
-                },
-                Commands::submitAnswer,
-                context -> verify(context.getResponse()).status(201)
-        );
-    }
-
     @Test
     public void testSubmitAnswerNonJson() throws Exception {
         nonJson(Commands::submitAnswer);
@@ -235,7 +215,9 @@ public class CommandsTest {
         when(record.getAnswerType()).thenReturn(answerType);
         ExperimentOperations operation = mock(ExperimentOperations.class);
         when(operation.getExperiment(experimentID)).thenReturn(record);
-        return new Commands(communication, operation);
+        JWTHelper jwtMock = mock(JWTHelper.class);
+        when(jwtMock.generateJWT(anyInt())).thenAnswer(invocation -> String.valueOf(invocation.getArguments()[0]));
+        return new Commands(communication, operation, jwtMock);
     }
 
     Commands prepareCommands(int experimentID, Communication communication) {
@@ -308,7 +290,8 @@ public class CommandsTest {
                             .thenReturn(CompletableFuture.completedFuture(answerID));
                 },
                 context -> {
-                    when(context.getPathTokens().get("workerID")).thenReturn(String.valueOf(workerID));
+                    WorkerID workerIDClass = new WorkerID(workerID);
+                    when(context.get(WorkerID.class)).thenReturn(workerIDClass);
                     TypedData data = mock(TypedData.class);
                     when(data.getText()).thenReturn(answerRequest);
                     when(context.getRequest().getBody()).thenReturn(Promise.value(data));
@@ -326,7 +309,8 @@ public class CommandsTest {
                             .thenReturn(CompletableFuture.completedFuture(201));
                 },
                 context -> {
-                    when(context.getPathTokens().get("workerID")).thenReturn(String.valueOf(workerID));
+                    WorkerID workerIDClass = new WorkerID(workerID);
+                    when(context.get(WorkerID.class)).thenReturn(workerIDClass);
                     TypedData data = mock(TypedData.class);
                     when(data.getText()).thenReturn(json);
                     when(context.getRequest().getBody()).thenReturn(Promise.value(data));
@@ -344,7 +328,8 @@ public class CommandsTest {
                             .thenReturn(CompletableFuture.completedFuture(null));
                 },
                 context -> {
-                    when(context.getPathTokens().get("workerID")).thenReturn(String.valueOf(workerID));
+                    WorkerID workerIDClass = new WorkerID(workerID);
+                    when(context.get(WorkerID.class)).thenReturn(workerIDClass);
                     TypedData data = mock(TypedData.class);
                     when(data.getText()).thenReturn(json);
                     when(context.getRequest().getBody()).thenReturn(Promise.value(data));
@@ -373,7 +358,8 @@ public class CommandsTest {
         PathTokens pathTokens = mock(PathTokens.class);
         when(context.getPathTokens()).thenReturn(pathTokens);
         when(context.getPathTokens().get("platform")).thenReturn(String.valueOf("a"));
-        when(context.getPathTokens().get("workerID")).thenReturn(String.valueOf("3"));
+        WorkerID workerIDClass = new WorkerID(3);
+        when(context.get(WorkerID.class)).thenReturn(workerIDClass);
         Commands commands = prepareCommands(communication);
         exception.expect(BadRequestException.class);
         return Blocking.on(func.apply(commands, context));

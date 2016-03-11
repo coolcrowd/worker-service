@@ -88,7 +88,7 @@ class MockTaskChooser extends TaskChooserAlgorithm {
      * @return an view with the type Answer, Rating or empty
      */
     @Override
-    public Optional<View> constructView(View.Builder builder, int experimentID, boolean skipCreative, boolean skipRating) {
-        return super.constructView(builder, experimentID, skipCreative, skipRating);
+    public Optional<View> constructView(View.Builder builder, Context context, int experimentID, boolean skipCreative, boolean skipRating) {
+        return super.constructView(builder, context, experimentID, skipCreative, skipRating);
     }
 }

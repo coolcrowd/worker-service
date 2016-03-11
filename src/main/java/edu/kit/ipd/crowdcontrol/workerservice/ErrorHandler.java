@@ -41,6 +41,10 @@ public class ErrorHandler implements ServerErrorHandler {
             logger.error("an internal error occurred", internalError);
             context.getResponse().status(500);
             context.render(error("internalServerError", internalError.getMessage()));
+        } else if (throwable instanceof UnauthorizedException) {
+            logger.debug("unauthorized access", throwable);
+            context.getResponse().status(401);
+            context.render(error("unauthorized", throwable.getMessage()));
         } else {
             logger.error("an internal error occurred", throwable);
             context.getResponse().status(500);

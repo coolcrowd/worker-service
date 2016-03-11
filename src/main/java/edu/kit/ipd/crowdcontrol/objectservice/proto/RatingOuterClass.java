@@ -26,7 +26,7 @@ public final class RatingOuterClass {
       ".proto\"\273\001\n\006Rating\022\021\n\trating_id\030\001 \001(\005\022\025\n\r" +
       "experiment_id\030\002 \001(\005\022\016\n\006rating\030\003 \001(\005\022\020\n\010f" +
       "eedback\030\004 \001(\t\022\016\n\006worker\030\005 \001(\005\022\017\n\007quality" +
-      "\030\006 \001(\005\022\014\n\004time\030\007 \001(\005\0226\n\024violated_constra" +
+      "\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\0226\n\024violated_constra" +
       "ints\030\010 \003(\0132\030.crowdcontrol.ConstraintB0\n," +
       "edu.kit.ipd.crowdcontrol.objectservice.p" +
       "rotoP\001b\006proto3"

@@ -43,9 +43,9 @@ public interface RatingOrBuilder extends
   int getQuality();
 
   /**
-   * <code>optional int32 time = 7;</code>
+   * <code>optional int64 time = 7;</code>
    */
-  int getTime();
+  long getTime();
 
   /**
    * <code>repeated .crowdcontrol.Constraint violated_constraints = 8;</code>

@@ -21,7 +21,7 @@ public  final class Rating extends
     feedback_ = "";
     worker_ = 0;
     quality_ = 0;
-    time_ = 0;
+    time_ = 0L;
     violatedConstraints_ = java.util.Collections.emptyList();
   }
 
@@ -82,7 +82,7 @@ public  final class Rating extends
           }
           case 56: {
 
-            time_ = input.readInt32();
+            time_ = input.readInt64();
             break;
           }
           case 66: {
@@ -201,11 +201,11 @@ public  final class Rating extends
   }
 
   public static final int TIME_FIELD_NUMBER = 7;
-  private int time_;
+  private long time_;
   /**
-   * <code>optional int32 time = 7;</code>
+   * <code>optional int64 time = 7;</code>
    */
-  public int getTime() {
+  public long getTime() {
     return time_;
   }
 
@@ -274,8 +274,8 @@ public  final class Rating extends
     if (quality_ != 0) {
       output.writeInt32(6, quality_);
     }
-    if (time_ != 0) {
-      output.writeInt32(7, time_);
+    if (time_ != 0L) {
+      output.writeInt64(7, time_);
     }
     for (int i = 0; i < violatedConstraints_.size(); i++) {
       output.writeMessage(8, violatedConstraints_.get(i));
@@ -310,9 +310,9 @@ public  final class Rating extends
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(6, quality_);
     }
-    if (time_ != 0) {
+    if (time_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(7, time_);
+        .computeInt64Size(7, time_);
     }
     for (int i = 0; i < violatedConstraints_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
@@ -442,7 +442,7 @@ public  final class Rating extends
 
       quality_ = 0;
 
-      time_ = 0;
+      time_ = 0L;
 
       if (violatedConstraintsBuilder_ == null) {
         violatedConstraints_ = java.util.Collections.emptyList();
@@ -525,7 +525,7 @@ public  final class Rating extends
       if (other.getQuality() != 0) {
         setQuality(other.getQuality());
       }
-      if (other.getTime() != 0) {
+      if (other.getTime() != 0L) {
         setTime(other.getTime());
       }
       if (violatedConstraintsBuilder_ == null) {
@@ -780,28 +780,28 @@ public  final class Rating extends
       return this;
     }
 
-    private int time_ ;
+    private long time_ ;
     /**
-     * <code>optional int32 time = 7;</code>
+     * <code>optional int64 time = 7;</code>
      */
-    public int getTime() {
+    public long getTime() {
       return time_;
     }
     /**
-     * <code>optional int32 time = 7;</code>
+     * <code>optional int64 time = 7;</code>
      */
-    public Builder setTime(int value) {
+    public Builder setTime(long value) {
       
       time_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional int32 time = 7;</code>
+     * <code>optional int64 time = 7;</code>
      */
     public Builder clearTime() {
       
-      time_ = 0;
+      time_ = 0L;
       onChanged();
       return this;
     }
