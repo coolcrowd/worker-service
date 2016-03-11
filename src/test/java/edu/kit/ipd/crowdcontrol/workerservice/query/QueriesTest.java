@@ -169,7 +169,7 @@ public class QueriesTest {
         Context context = prepareContext(data);
         Queries queries =  prepareQuery(data, Optional.empty(), null);
         View view = queries.preview(context);
-        assertTrue(view.getType().equals(View.Type.FINISHED));
+        assertTrue(view.getType().equals(View.Type.ANSWER));
         assertTrue(view.getTitle().equals(data.getExperimentRecord().getTitle()));
         assertTrue(view.getDescription().equals(data.getExperimentRecord().getDescription()));
         assertTrue(view.getConstraintsList().size() == data.getConstraints().size());
