@@ -4061,35 +4061,35 @@ public  final class View extends
     return answersToRate_.get(index);
   }
 
-  public static final int RATINGOPTIONS_FIELD_NUMBER = 8;
+  public static final int RATING_OPTIONS_FIELD_NUMBER = 8;
   private java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> ratingOptions_;
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
    */
   public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> getRatingOptionsList() {
     return ratingOptions_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
    */
   public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder> 
       getRatingOptionsOrBuilderList() {
     return ratingOptions_;
   }
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
    */
   public int getRatingOptionsCount() {
     return ratingOptions_.size();
   }
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption getRatingOptions(int index) {
     return ratingOptions_.get(index);
   }
   /**
-   * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+   * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
    */
   public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder getRatingOptionsOrBuilder(
       int index) {
@@ -5386,7 +5386,7 @@ public  final class View extends
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder> ratingOptionsBuilder_;
 
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> getRatingOptionsList() {
       if (ratingOptionsBuilder_ == null) {
@@ -5396,7 +5396,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public int getRatingOptionsCount() {
       if (ratingOptionsBuilder_ == null) {
@@ -5406,7 +5406,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption getRatingOptions(int index) {
       if (ratingOptionsBuilder_ == null) {
@@ -5416,7 +5416,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public Builder setRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption value) {
@@ -5433,7 +5433,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public Builder setRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder builderForValue) {
@@ -5447,7 +5447,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public Builder addRatingOptions(edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption value) {
       if (ratingOptionsBuilder_ == null) {
@@ -5463,7 +5463,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public Builder addRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption value) {
@@ -5480,7 +5480,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public Builder addRatingOptions(
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder builderForValue) {
@@ -5494,7 +5494,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public Builder addRatingOptions(
         int index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder builderForValue) {
@@ -5508,7 +5508,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public Builder addAllRatingOptions(
         java.lang.Iterable<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption> values) {
@@ -5523,7 +5523,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public Builder clearRatingOptions() {
       if (ratingOptionsBuilder_ == null) {
@@ -5536,7 +5536,7 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public Builder removeRatingOptions(int index) {
       if (ratingOptionsBuilder_ == null) {
@@ -5549,14 +5549,14 @@ public  final class View extends
       return this;
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder getRatingOptionsBuilder(
         int index) {
       return getRatingOptionsFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder getRatingOptionsOrBuilder(
         int index) {
@@ -5566,7 +5566,7 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public java.util.List<? extends edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOptionOrBuilder> 
          getRatingOptionsOrBuilderList() {
@@ -5577,14 +5577,14 @@ public  final class View extends
       }
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder addRatingOptionsBuilder() {
       return getRatingOptionsFieldBuilder().addBuilder(
           edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder addRatingOptionsBuilder(
         int index) {
@@ -5592,7 +5592,7 @@ public  final class View extends
           index, edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.getDefaultInstance());
     }
     /**
-     * <code>repeated .crowdcontrol.View.RatingOption ratingOptions = 8;</code>
+     * <code>repeated .crowdcontrol.View.RatingOption rating_options = 8;</code>
      */
     public java.util.List<edu.kit.ipd.crowdcontrol.workerservice.proto.View.RatingOption.Builder> 
          getRatingOptionsBuilderList() {
