@@ -77,9 +77,9 @@ public class RatpackRouter {
                         .get("preview/:experiment", ctx -> ctx.render(queries.preview(ctx)))
                         .get("next/:platform/:experiment", ctx -> ctx.render(queries.getNext(ctx)))
                         .post("emails/:platform", ctx -> ctx.render(commands.submitEmail(ctx)))
-                        .post("answers/", doAuthorized(ctx -> ctx.render(commands.submitAnswer(ctx))))
-                        .post("ratings/", doAuthorized(ctx -> ctx.render(commands.submitRating(ctx))))
-                        .post("calibrations/", doAuthorized(ctx -> ctx.render(commands.submitCalibration(ctx))))
+                        .post("answers", doAuthorized(ctx -> ctx.render(commands.submitAnswer(ctx))))
+                        .post("ratings", doAuthorized(ctx -> ctx.render(commands.submitRating(ctx))))
+                        .post("calibrations", doAuthorized(ctx -> ctx.render(commands.submitCalibration(ctx))))
                 )
         );
     }
