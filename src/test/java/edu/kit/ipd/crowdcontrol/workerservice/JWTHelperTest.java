@@ -22,7 +22,7 @@ public class JWTHelperTest {
     public void testGetWorkerID() throws Exception {
         String jwt = jwtHelper.generateJWT(13);
         int workerID = jwtHelper.getWorkerID(jwt);
-        System.out.println(workerID);
+        assertEquals(workerID, 13);
     }
 
     @Test(expected = SignatureException.class)
