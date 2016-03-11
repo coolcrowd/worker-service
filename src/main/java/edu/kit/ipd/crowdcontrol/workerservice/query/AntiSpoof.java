@@ -92,7 +92,7 @@ public class AntiSpoof extends TaskChooserAlgorithm {
     @Override
     public Optional<View> next(View.Builder builder, Context context, int experimentID, String platform,
                                boolean skipCreative, boolean skipRating) {
-        int answersCount = experimentsPlatformOperations.getAnswersCount(experimentID);
+        int rawAnswersCount = experimentsPlatformOperations.getRawAnswersCount(experimentID);
         Map<Integer, Integer> phases = experimentOperations.getTaskChooserParam(experimentID).entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> Integer.parseInt(entry.getKey()),
@@ -102,13 +102,16 @@ public class AntiSpoof extends TaskChooserAlgorithm {
             throw new IllegalStateException("Anti-Spoof parameter not set.");
         }
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
-        logger.trace("calculating phase for: answersCount={}, phases={}, neededAnswers={}",
-                answersCount, phases, experiment.getNeededAnswers());
-        if ((answersCount <= phases.get(1)) && (answersCount < experiment.getNeededAnswers())) {
+        logger.trace("calculating phase for: rawAnswersCount={}, phases={}, neededAnswers={}",
+                rawAnswersCount, phases, experiment.getNeededAnswers());
+        if ((rawAnswersCount <= phases.get(1)) && (rawAnswersCount < experiment.getNeededAnswers())) {
             logger.debug("entering phase 1");
             //phase 1: no rating
             return constructView(builder, context, experimentID, skipCreative, true);
-        } else if (answersCount < experiment.getNeededAnswers()) {
+        }
+        int answersCount = experimentsPlatformOperations.getAnswersCount(experimentID);
+        logger.trace("answersCount: {}", answersCount);
+        if (answersCount < experiment.getNeededAnswers()) {
             logger.debug("entering phase 2");
             //phase 2: rating + creative
             return constructView(builder, context, experimentID, skipCreative, skipRating);
