@@ -143,8 +143,8 @@ public class Commands implements RequestHelper {
             } catch (IOException e) {
                 throw new InternalServerErrorException("unable to probe Content-type, aborting", e);
             }
-            logger.trace("answer {} for worker {} is valid", answer, workerID);
-            return communication.submitAnswer(answer.getAnswer(), answer.getExperiment(), workerID);
+            logger.trace("answer {} for reservation {} from worker {} is valid", answer, answer.getReservation(), workerID);
+            return communication.submitAnswer(answer.getAnswer(), answer.getReservation(), answer.getExperiment(), workerID);
         }).map(result -> {
             logger.debug("Object service answered with OK.");
             return "Answer submitted";
