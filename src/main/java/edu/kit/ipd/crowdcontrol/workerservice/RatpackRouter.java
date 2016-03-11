@@ -5,10 +5,14 @@ import edu.kit.ipd.crowdcontrol.workerservice.query.Queries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ratpack.error.ServerErrorHandler;
+import ratpack.handling.Context;
+import ratpack.handling.Handler;
 import ratpack.registry.NotInRegistryException;
 import ratpack.registry.Registry;
 import ratpack.server.RatpackServer;
 import ratpack.server.ServerConfig;
+
+import java.util.function.Consumer;
 
 /**
  * @author LeanderK
@@ -73,15 +77,23 @@ public class RatpackRouter {
                         .get("preview/:experiment", ctx -> ctx.render(queries.preview(ctx)))
                         .get("next/:platform/:experiment", ctx -> ctx.render(queries.getNext(ctx)))
                         .post("emails/:platform", ctx -> ctx.render(commands.submitEmail(ctx)))
-                        .all(ctx -> {
-                            ctx.maybeGet(WorkerID.class)
-                                    .orElseThrow(() -> new UnauthorizedException("Client needs the Authorization-header to acces the method"));
-                            ctx.next();
-                        })
-                        .post("answers/", ctx -> ctx.render(commands.submitAnswer(ctx)))
-                        .post("ratings/", ctx -> ctx.render(commands.submitRating(ctx)))
-                        .post("calibrations/", ctx -> ctx.render(commands.submitCalibration(ctx)))
+                        .post("answers/", doAuthorized(ctx -> ctx.render(commands.submitAnswer(ctx))))
+                        .post("ratings/", doAuthorized(ctx -> ctx.render(commands.submitRating(ctx))))
+                        .post("calibrations/", doAuthorized(ctx -> ctx.render(commands.submitCalibration(ctx))))
                 )
         );
+    }
+
+    /**
+     * executes the consumer if the client is authorized
+     * @param contextConsumer the consumer to execute
+     * @return a handler that executes the consumer if authorized
+     */
+    private Handler doAuthorized(Consumer<Context> contextConsumer) {
+        return ctx -> {
+            ctx.maybeGet(WorkerID.class)
+                    .orElseThrow(() -> new UnauthorizedException("Client needs the Authorization-header to acces the method"));
+            contextConsumer.accept(ctx);
+        };
     }
 }
