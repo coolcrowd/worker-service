@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiment extends TableImpl<ExperimentRecord> {
 
-	private static final long serialVersionUID = 789988422;
+	private static final long serialVersionUID = 707170949;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Experiment</code>
@@ -141,9 +141,9 @@ public class Experiment extends TableImpl<ExperimentRecord> {
 	public final TableField<ExperimentRecord, Integer> WORKER_QUALITY_THRESHOLD = createField("worker_quality_threshold", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
-	 * The column <code>crowdcontrol.Experiment.payment_quality_threshold</code>.
+	 * The column <code>crowdcontrol.Experiment.result_quality_threshold</code>.
 	 */
-	public final TableField<ExperimentRecord, Integer> PAYMENT_QUALITY_THRESHOLD = createField("payment_quality_threshold", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final TableField<ExperimentRecord, Integer> RESULT_QUALITY_THRESHOLD = createField("result_quality_threshold", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Experiment</code> table reference

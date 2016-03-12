@@ -109,6 +109,7 @@ public class Keys {
 	public static final Identity<AlgorithmRatingQualityParamRecord, Integer> IDENTITY_ALGORITHM_RATING_QUALITY_PARAM = Identities0.IDENTITY_ALGORITHM_RATING_QUALITY_PARAM;
 	public static final Identity<AlgorithmTaskChooserParamRecord, Integer> IDENTITY_ALGORITHM_TASK_CHOOSER_PARAM = Identities0.IDENTITY_ALGORITHM_TASK_CHOOSER_PARAM;
 	public static final Identity<AnswerRecord, Integer> IDENTITY_ANSWER = Identities0.IDENTITY_ANSWER;
+	public static final Identity<AnswerReservationRecord, Integer> IDENTITY_ANSWER_RESERVATION = Identities0.IDENTITY_ANSWER_RESERVATION;
 	public static final Identity<CalibrationRecord, Integer> IDENTITY_CALIBRATION = Identities0.IDENTITY_CALIBRATION;
 	public static final Identity<CalibrationAnswerOptionRecord, Integer> IDENTITY_CALIBRATION_ANSWER_OPTION = Identities0.IDENTITY_CALIBRATION_ANSWER_OPTION;
 	public static final Identity<CalibrationResultRecord, Integer> IDENTITY_CALIBRATION_RESULT = Identities0.IDENTITY_CALIBRATION_RESULT;
@@ -130,6 +131,7 @@ public class Keys {
 	public static final Identity<RatingConstraintRecord, Integer> IDENTITY_RATING_CONSTRAINT = Identities0.IDENTITY_RATING_CONSTRAINT;
 	public static final Identity<RatingOptionExperimentRecord, Integer> IDENTITY_RATING_OPTION_EXPERIMENT = Identities0.IDENTITY_RATING_OPTION_EXPERIMENT;
 	public static final Identity<RatingOptionTemplateRecord, Integer> IDENTITY_RATING_OPTION_TEMPLATE = Identities0.IDENTITY_RATING_OPTION_TEMPLATE;
+	public static final Identity<RatingReservationRecord, Integer> IDENTITY_RATING_RESERVATION = Identities0.IDENTITY_RATING_RESERVATION;
 	public static final Identity<TagRecord, Integer> IDENTITY_TAG = Identities0.IDENTITY_TAG;
 	public static final Identity<TemplateRecord, Integer> IDENTITY_TEMPLATE = Identities0.IDENTITY_TEMPLATE;
 	public static final Identity<TemplateConstraintRecord, Integer> IDENTITY_TEMPLATE_CONSTRAINT = Identities0.IDENTITY_TEMPLATE_CONSTRAINT;
@@ -242,6 +244,7 @@ public class Keys {
 		public static Identity<AlgorithmRatingQualityParamRecord, Integer> IDENTITY_ALGORITHM_RATING_QUALITY_PARAM = createIdentity(AlgorithmRatingQualityParam.ALGORITHM_RATING_QUALITY_PARAM, AlgorithmRatingQualityParam.ALGORITHM_RATING_QUALITY_PARAM.ID_ALGORITHM_RATING_QUALITY_PARAM);
 		public static Identity<AlgorithmTaskChooserParamRecord, Integer> IDENTITY_ALGORITHM_TASK_CHOOSER_PARAM = createIdentity(AlgorithmTaskChooserParam.ALGORITHM_TASK_CHOOSER_PARAM, AlgorithmTaskChooserParam.ALGORITHM_TASK_CHOOSER_PARAM.ID_ALGORITHM_TASK_CHOOSER_PARAM);
 		public static Identity<AnswerRecord, Integer> IDENTITY_ANSWER = createIdentity(Answer.ANSWER, Answer.ANSWER.ID_ANSWER);
+		public static Identity<AnswerReservationRecord, Integer> IDENTITY_ANSWER_RESERVATION = createIdentity(AnswerReservation.ANSWER_RESERVATION, AnswerReservation.ANSWER_RESERVATION.IDANSWER_RESERVATION);
 		public static Identity<CalibrationRecord, Integer> IDENTITY_CALIBRATION = createIdentity(Calibration.CALIBRATION, Calibration.CALIBRATION.ID_CALIBRATION);
 		public static Identity<CalibrationAnswerOptionRecord, Integer> IDENTITY_CALIBRATION_ANSWER_OPTION = createIdentity(CalibrationAnswerOption.CALIBRATION_ANSWER_OPTION, CalibrationAnswerOption.CALIBRATION_ANSWER_OPTION.ID_CALIBRATION_ANSWER_OPTION);
 		public static Identity<CalibrationResultRecord, Integer> IDENTITY_CALIBRATION_RESULT = createIdentity(CalibrationResult.CALIBRATION_RESULT, CalibrationResult.CALIBRATION_RESULT.ID_CALIBRATION_RESULT);
@@ -263,6 +266,7 @@ public class Keys {
 		public static Identity<RatingConstraintRecord, Integer> IDENTITY_RATING_CONSTRAINT = createIdentity(RatingConstraint.RATING_CONSTRAINT, RatingConstraint.RATING_CONSTRAINT.ID_RATING_CONSTRAINTS);
 		public static Identity<RatingOptionExperimentRecord, Integer> IDENTITY_RATING_OPTION_EXPERIMENT = createIdentity(RatingOptionExperiment.RATING_OPTION_EXPERIMENT, RatingOptionExperiment.RATING_OPTION_EXPERIMENT.ID_RATING_OPTION_EXPERIMENT);
 		public static Identity<RatingOptionTemplateRecord, Integer> IDENTITY_RATING_OPTION_TEMPLATE = createIdentity(RatingOptionTemplate.RATING_OPTION_TEMPLATE, RatingOptionTemplate.RATING_OPTION_TEMPLATE.ID_RATING_OPTIONS_TEMPLATE);
+		public static Identity<RatingReservationRecord, Integer> IDENTITY_RATING_RESERVATION = createIdentity(RatingReservation.RATING_RESERVATION, RatingReservation.RATING_RESERVATION.IDRESERVERD_RATING);
 		public static Identity<TagRecord, Integer> IDENTITY_TAG = createIdentity(Tag.TAG, Tag.TAG.ID_TAG);
 		public static Identity<TemplateRecord, Integer> IDENTITY_TEMPLATE = createIdentity(Template.TEMPLATE, Template.TEMPLATE.ID_TEMPLATE);
 		public static Identity<TemplateConstraintRecord, Integer> IDENTITY_TEMPLATE_CONSTRAINT = createIdentity(TemplateConstraint.TEMPLATE_CONSTRAINT, TemplateConstraint.TEMPLATE_CONSTRAINT.ID_TEAMPLATE_CONSTRAINT);

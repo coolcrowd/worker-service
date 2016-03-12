@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GiftCode extends TableImpl<GiftCodeRecord> {
 
-	private static final long serialVersionUID = -1563880648;
+	private static final long serialVersionUID = 1359232147;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Gift_Code</code>
@@ -63,6 +63,11 @@ public class GiftCode extends TableImpl<GiftCodeRecord> {
 	 * The column <code>crowdcontrol.Gift_Code.amount</code>.
 	 */
 	public final TableField<GiftCodeRecord, Integer> AMOUNT = createField("amount", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Gift_Code.currency</code>.
+	 */
+	public final TableField<GiftCodeRecord, Integer> CURRENCY = createField("currency", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Gift_Code</code> table reference

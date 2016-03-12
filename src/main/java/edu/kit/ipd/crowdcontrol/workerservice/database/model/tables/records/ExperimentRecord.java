@@ -28,7 +28,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentRecord extends UpdatableRecordImpl<ExperimentRecord> implements Record19<Integer, String, String, String, Integer, Integer, Integer, Integer, String, String, String, String, Integer, Integer, Integer, String, Integer, Integer, Integer> {
 
-	private static final long serialVersionUID = -2112177524;
+	private static final long serialVersionUID = -736379515;
 
 	/**
 	 * Setter for <code>crowdcontrol.Experiment.id_experiment</code>.
@@ -283,16 +283,16 @@ public class ExperimentRecord extends UpdatableRecordImpl<ExperimentRecord> impl
 	}
 
 	/**
-	 * Setter for <code>crowdcontrol.Experiment.payment_quality_threshold</code>.
+	 * Setter for <code>crowdcontrol.Experiment.result_quality_threshold</code>.
 	 */
-	public void setPaymentQualityThreshold(Integer value) {
+	public void setResultQualityThreshold(Integer value) {
 		setValue(18, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Experiment.payment_quality_threshold</code>.
+	 * Getter for <code>crowdcontrol.Experiment.result_quality_threshold</code>.
 	 */
-	public Integer getPaymentQualityThreshold() {
+	public Integer getResultQualityThreshold() {
 		return (Integer) getValue(18);
 	}
 
@@ -477,7 +477,7 @@ public class ExperimentRecord extends UpdatableRecordImpl<ExperimentRecord> impl
 	 */
 	@Override
 	public Field<Integer> field19() {
-		return Experiment.EXPERIMENT.PAYMENT_QUALITY_THRESHOLD;
+		return Experiment.EXPERIMENT.RESULT_QUALITY_THRESHOLD;
 	}
 
 	/**
@@ -629,7 +629,7 @@ public class ExperimentRecord extends UpdatableRecordImpl<ExperimentRecord> impl
 	 */
 	@Override
 	public Integer value19() {
-		return getPaymentQualityThreshold();
+		return getResultQualityThreshold();
 	}
 
 	/**
@@ -799,7 +799,7 @@ public class ExperimentRecord extends UpdatableRecordImpl<ExperimentRecord> impl
 	 */
 	@Override
 	public ExperimentRecord value19(Integer value) {
-		setPaymentQualityThreshold(value);
+		setResultQualityThreshold(value);
 		return this;
 	}
 
@@ -844,7 +844,7 @@ public class ExperimentRecord extends UpdatableRecordImpl<ExperimentRecord> impl
 	/**
 	 * Create a detached, initialised ExperimentRecord
 	 */
-	public ExperimentRecord(Integer idExperiment, String title, String description, String descriptionRaw, Integer neededAnswers, Integer ratingsPerAnswer, Integer anwersPerWorker, Integer ratingsPerWorker, String answerType, String algorithmTaskChooser, String algorithmQualityAnswer, String algorithmQualityRating, Integer basePayment, Integer bonusAnswer, Integer bonusRating, String templateData, Integer template, Integer workerQualityThreshold, Integer paymentQualityThreshold) {
+	public ExperimentRecord(Integer idExperiment, String title, String description, String descriptionRaw, Integer neededAnswers, Integer ratingsPerAnswer, Integer anwersPerWorker, Integer ratingsPerWorker, String answerType, String algorithmTaskChooser, String algorithmQualityAnswer, String algorithmQualityRating, Integer basePayment, Integer bonusAnswer, Integer bonusRating, String templateData, Integer template, Integer workerQualityThreshold, Integer resultQualityThreshold) {
 		super(Experiment.EXPERIMENT);
 
 		setValue(0, idExperiment);
@@ -865,6 +865,6 @@ public class ExperimentRecord extends UpdatableRecordImpl<ExperimentRecord> impl
 		setValue(15, templateData);
 		setValue(16, template);
 		setValue(17, workerQualityThreshold);
-		setValue(18, paymentQualityThreshold);
+		setValue(18, resultQualityThreshold);
 	}
 }

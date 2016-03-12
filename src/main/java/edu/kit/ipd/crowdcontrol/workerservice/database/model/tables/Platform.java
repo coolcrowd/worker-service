@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Platform extends TableImpl<PlatformRecord> {
 
-	private static final long serialVersionUID = -1900267631;
+	private static final long serialVersionUID = 451253142;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Platform</code>
@@ -72,6 +72,11 @@ public class Platform extends TableImpl<PlatformRecord> {
 	 * The column <code>crowdcontrol.Platform.inactive</code>.
 	 */
 	public final TableField<PlatformRecord, Boolean> INACTIVE = createField("inactive", org.jooq.impl.SQLDataType.BIT.nullable(false), this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Platform.currency</code>.
+	 */
+	public final TableField<PlatformRecord, Integer> CURRENCY = createField("currency", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Platform</code> table reference
