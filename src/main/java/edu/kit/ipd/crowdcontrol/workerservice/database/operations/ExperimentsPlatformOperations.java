@@ -193,7 +193,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 DSL.selectFrom(ANSWER)
                         .where(ANSWER.EXPERIMENT.eq(experimentID))
                         .and(ANSWER.QUALITY_ASSURED.eq(true).and(Tables.ANSWER.QUALITY.greaterThan(
-                                DSL.select(EXPERIMENT.PAYMENT_QUALITY_THRESHOLD)
+                                DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
                                     .from(EXPERIMENT)
                                     .where(EXPERIMENT.ID_EXPERIMENT.eq(experimentID)))
                         ))
