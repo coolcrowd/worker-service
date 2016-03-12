@@ -58,6 +58,8 @@ The logging is specified in the logging-file `./conf/logging.xml`. You can alter
 You can also set the config-file location with the system-property `logback.configurationFile`, e.g. `-Dlogback.configurationFile=location`.
 If none passed the app will always look for the logging file in `./conf/`.
 
+For testing purposes it is recommended to pass `-Dcaching.enabled=false` to disable caching (some values are cached for 5 minutes), this can also be activated in the command line.
+
 ## Database
 
 To initialise the Database it is recommended to use the `db.sql` script located in `src/main/resources`. 
