@@ -14,9 +14,10 @@ public class WorkerOperations extends AbstractOperation {
     /**
      * creates a new instance of WorkerOperations
      * @param create the context used to communicate with the database
+     * @param cacheEnabled whether the caching functionality should be enabled
      */
-    public WorkerOperations(DSLContext create) {
-        super(create);
+    public WorkerOperations(DSLContext create, boolean cacheEnabled) {
+        super(create, cacheEnabled);
     }
 
     /**

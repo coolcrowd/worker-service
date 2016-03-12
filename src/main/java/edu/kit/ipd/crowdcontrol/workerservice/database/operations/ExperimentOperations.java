@@ -1,6 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.*;
+import com.google.common.cache.LoadingCache;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.*;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.DSLContext;
@@ -16,21 +16,41 @@ import java.util.Map;
  * @version 1.0
  */
 public class ExperimentOperations extends AbstractOperation {
+    private LoadingCache<Integer, ExperimentRecord> experimentCache = createCache(this::getExperimentFromDB);
+    private LoadingCache<Integer, Result<ConstraintRecord>> constrainsCache = createCache(this::getConstraintsFromDB);
+    private LoadingCache<Integer, List<RatingOptionExperimentRecord>> ratingOptionsCache = createCache(this::getRatingOptionsFromDB);
+
     /**
      * creates a new ExperimentOperations
      * @param create the Context used to communicate with the database
+     * @param cacheEnabled whether the caching functionality should be enabled
      */
-    public ExperimentOperations(DSLContext create) {
-        super(create);
+    public ExperimentOperations(DSLContext create, boolean cacheEnabled) {
+        super(create, cacheEnabled);
     }
 
     /**
      * returns an ExperimentRecord corresponding to the experimentID or throws an ExperimentNotFoundException.
+     * <p>
+     * this method is cached.
      * @param experimentID the ID of the experiment
      * @return an instance of ExperimentRecord
      * @throws ExperimentNotFoundException if no matching experiment was found in the database
      */
     public ExperimentRecord getExperiment(int experimentID) throws ExperimentNotFoundException {
+        return cacheGetHelper(experimentCache, experimentID,
+                key -> String.format("unable to load the Experiment %d from the database", key));
+    }
+
+    /**
+     * returns an ExperimentRecord corresponding to the experimentID or throws an ExperimentNotFoundException.
+     * <p>
+     * this method accesses the db.
+     * @param experimentID the ID of the experiment
+     * @return an instance of ExperimentRecord
+     * @throws ExperimentNotFoundException if no matching experiment was found in the database
+     */
+    private ExperimentRecord getExperimentFromDB(int experimentID) throws ExperimentNotFoundException {
         return create.selectFrom(Tables.EXPERIMENT)
                 .where(Tables.EXPERIMENT.ID_EXPERIMENT.eq(experimentID))
                 .fetchOptional()
@@ -39,10 +59,24 @@ public class ExperimentOperations extends AbstractOperation {
 
     /**
      * returns all the Constraints associated with the Experiment-ID
+     * <p>
+     * this method is cached.
      * @param experimentID the experiment-ID
      * @return the resulting Records
      */
     public Result<ConstraintRecord> getConstraints(int experimentID) {
+        return cacheGetHelper(constrainsCache, experimentID,
+                key -> String.format("unable to load the constraints for experiment %d from the database", key));
+    }
+
+    /**
+     * returns all the Constraints associated with the Experiment-ID
+     * <p>
+     * this method accesses the db.
+     * @param experimentID the experiment-ID
+     * @return the resulting Records
+     */
+    private Result<ConstraintRecord> getConstraintsFromDB(int experimentID) {
         return create.selectFrom(Tables.CONSTRAINT)
                 .where(Tables.CONSTRAINT.EXPERIMENT.eq(experimentID))
                 .fetch();
@@ -101,11 +135,25 @@ public class ExperimentOperations extends AbstractOperation {
     }
 
     /**
-     * returns the Rating-Options for the experiment
+     * returns the Rating-Options for the experiment.
+     * <p>
+     * this method is cached.
      * @param experiment the primary key of the experiment
      * @return a list of RatingOptions
      */
     public List<RatingOptionExperimentRecord> getRatingOptions(int experiment) {
+        return cacheGetHelper(ratingOptionsCache, experiment,
+                key -> String.format("unable to get RatingOptions for Experiment %d from db", key));
+    }
+
+    /**
+     * returns the Rating-Options for the experiment.
+     * <p>
+     * this method accesses the db.
+     * @param experiment the primary key of the experiment
+     * @return a list of RatingOptions
+     */
+    private List<RatingOptionExperimentRecord> getRatingOptionsFromDB(int experiment) {
         return create.selectFrom(Tables.RATING_OPTION_EXPERIMENT)
                 .where(Tables.RATING_OPTION_EXPERIMENT.EXPERIMENT.eq(experiment))
                 .fetch();

@@ -20,9 +20,10 @@ public class CalibrationsOperations extends AbstractOperation {
     /**
      * creates a new instance of CalibrationsOperations
      * @param create the context used to communicate with the database
+     * @param cacheEnabled whether the caching functionality should be enabled
      */
-    public CalibrationsOperations(DSLContext create) {
-        super(create);
+    public CalibrationsOperations(DSLContext create, boolean cacheEnabled) {
+        super(create, cacheEnabled);
     }
 
     /**

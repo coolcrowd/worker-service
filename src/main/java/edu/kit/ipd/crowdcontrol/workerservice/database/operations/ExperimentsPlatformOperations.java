@@ -1,10 +1,13 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
+import com.google.common.cache.LoadingCache;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeMode;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
+import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
 
@@ -27,29 +29,49 @@ import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
  */
 public class ExperimentsPlatformOperations extends AbstractOperation {
     private static final Logger logger = LoggerFactory.getLogger(ExperimentsPlatformOperations.class);
+    private LoadingCache<Tuple2<Integer, String>, ExperimentsPlatformModeMode> platformModeCache = createCache(
+            tuple -> getExperimentsPlatformModeFromDB(tuple.v1, tuple.v2));
+
     /**
      * creates a new ExperimentsPlatformOperations
      * @param create the context used to communicate with the database
+     * @param cacheEnabled whether the caching functionality should be enabled
      */
-    public ExperimentsPlatformOperations(DSLContext create) {
-        super(create);
+    public ExperimentsPlatformOperations(DSLContext create, boolean cacheEnabled) {
+        super(create, cacheEnabled);
     }
 
     /**
      * returns the mode for the platform of the experiment
+     * <p>
+     * this method is cached.
      * @param experiment the primary key of the experiment
      * @param platform the platform to search for
      * @return the mode of the platform
      * @throws IllegalArgumentException if the experimentsPlatform is not existing
      */
     public ExperimentsPlatformModeMode getExperimentsPlatformMode(int experiment, String platform) throws IllegalArgumentException {
+        return cacheGetHelper(platformModeCache, Tuple.tuple(experiment, platform),
+                tuple -> String.format("unable to load the PlatformMode from the db for experiment %d and platform %s", tuple.v1, tuple.v2));
+    }
+
+    /**
+     * returns the mode for the platform of the experiment
+     * <p>
+     * this method uses the db.
+     * @param experiment the primary key of the experiment
+     * @param platform the platform to search for
+     * @return the mode of the platform
+     * @throws IllegalArgumentException if the experimentsPlatform is not existing
+     */
+    private ExperimentsPlatformModeMode getExperimentsPlatformModeFromDB(int experiment, String platform) throws IllegalArgumentException {
         return create.select(EXPERIMENTS_PLATFORM_MODE.MODE)
                 .from(EXPERIMENTS_PLATFORM_MODE)
                 .where(EXPERIMENTS_PLATFORM_MODE.EXPERIMENTS_PLATFORM.in(
                         DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
-                            .from(EXPERIMENTS_PLATFORM)
-                            .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experiment))
-                            .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
+                                .from(EXPERIMENTS_PLATFORM)
+                                .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experiment))
+                                .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
                 ))
                 .orderBy(EXPERIMENTS_PLATFORM_MODE.TIMESTAMP.desc())
                 .limit(1)
