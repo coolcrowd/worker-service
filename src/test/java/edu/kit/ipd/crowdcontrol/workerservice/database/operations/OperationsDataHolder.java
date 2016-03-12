@@ -75,7 +75,7 @@ public class OperationsDataHolder {
     private PlatformRecord generatePlatformRecord() {
         String id = nextRandomString();
         String name = nextRandomString();
-        return new PlatformRecord(name, id, true, true, false);
+        return new PlatformRecord(name, id, true, true, false, -1);
     }
 
     private AlgorithmTaskChooserRecord generateTaskChooserRecord() {
