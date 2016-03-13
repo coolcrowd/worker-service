@@ -91,12 +91,14 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
      */
     public List<Integer> prepareAnswers(int worker, int experiment, int amount) {
         create.transaction(config -> {
-            int openReservations = DSL.using(config).fetchCount(
-                    DSL.selectFrom(ANSWER_RESERVATION)
-                    .where(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
-                    .and(ANSWER_RESERVATION.WORKER.eq(worker))
-                    .and(ANSWER_RESERVATION.USED.eq(false))
-            );
+            int openReservations = DSL.using(config).select(DSL.count())
+                        .from(ANSWER_RESERVATION)
+                        .where(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
+                        .and(ANSWER_RESERVATION.WORKER.eq(worker))
+                        .and(ANSWER_RESERVATION.USED.eq(false))
+                        .fetchOne()
+                        .value1();
+
             logger.trace("Worker {} has {} reserved open answers {}.", worker, openReservations);
 
             Timestamp now = Timestamp.valueOf(LocalDateTime.now());
@@ -117,6 +119,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
             DSL.using(config).batchInsert(reservationRecords).execute();
         });
         return create.select(ANSWER_RESERVATION.IDANSWER_RESERVATION)
+                .from(ANSWER_RESERVATION)
                 .where(ANSWER_RESERVATION.WORKER.eq(worker))
                 .and(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
                 .and(ANSWER_RESERVATION.USED.eq(false))
