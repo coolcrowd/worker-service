@@ -161,16 +161,15 @@ public class MockProvider implements MockDataProvider {
             fields.add(count);
             Field<?>[] fieldsArr = fields.toArray(new Field<?>[fields.size()]);
             Result<Record> result = create.newResult(fieldsArr);
-            dataHolder.getAnswerRecords().stream()
-                    .map(answerRecord -> {
-                        Record record = create.newRecord(fieldsArr);
-                        for (Field field : answerRecord.fields()) {
-                            record.setValue(field, answerRecord.getValue(field));
-                        }
-                        record.setValue(count, 1);
-                        return record;
-                    })
-                    .forEach(result::add);
+            for (int i = 0; i < dataHolder.getAnswerRecords().size(); i++) {
+                AnswerRecord answerRecord = dataHolder.getAnswerRecords().get(i);
+                Record record = create.newRecord(fieldsArr);
+                for (Field field : answerRecord.fields()) {
+                    record.setValue(field, answerRecord.getValue(field));
+                }
+                record.setValue(count, i);
+                result.add(record);
+            }
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`IDANSWER_RESERVATION` FROM `CROWDCON")) {
             Result<Record1<Integer>> result = create.newResult(ANSWER_RESERVATION.IDANSWER_RESERVATION);

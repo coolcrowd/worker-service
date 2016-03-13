@@ -144,6 +144,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                     .from(ANSWER)
                     .innerJoin(RATING_RESERVATION).on(RATING_RESERVATION.WORKER.eq(worker)
                             .and(RATING_RESERVATION.EXPERIMENT.eq(experiment))
+                            .and(RATING_RESERVATION.ANSWER.eq(ANSWER.ID_ANSWER))
                     )
                     .fetchMap(RATING_RESERVATION.IDRESERVERD_RATING, record -> record.into(Tables.ANSWER));
             logger.trace("Worker {} has reserved open ratings {}.", worker, reservedRatings);
