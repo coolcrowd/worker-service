@@ -113,11 +113,13 @@ public class CommandsTest {
         int workerID = 1;
         int experiment = 2;
         int answerID = 3;
+        int reservation = 4;
         submitAnswerHelper(answer, printer.print(Answer.newBuilder()
                 .setExperiment(experiment)
                 .setAnswer(answer)
+                .setReservation(reservation)
                 .build()),
-                experiment, workerID, answerID, context -> verify(context.getResponse()).status(201));
+                experiment, workerID, answerID, reservation, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -126,10 +128,11 @@ public class CommandsTest {
         int workerID = 1;
         int task = 2;
         int answerID = 3;
+        int reservationID = 4;
         String answerRequest =  "{\n" +
                 " \"answer\": \""+ answer + "\"\n" +
                 "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
+        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, reservationID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -138,10 +141,11 @@ public class CommandsTest {
         int workerID = 1;
         int task = 2;
         int answerID = 3;
+        int reservationID = 4;
         String answerRequest =  "{\n" +
                 "\"task\": " + task + "\n" +
                 "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
+        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, reservationID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test(expected= BadRequestException.class)
@@ -151,9 +155,10 @@ public class CommandsTest {
         int workerID = 1;
         int task = 2;
         int answerID = 3;
+        int reservationID = 4;
         String answerRequest =  "{\n" +
                 "}";
-        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, context -> verify(context.getResponse()).status(201));
+        submitAnswerHelper(answer, answerRequest, task, workerID, answerID, reservationID, context -> verify(context.getResponse()).status(201));
     }
 
     @Test
@@ -283,10 +288,10 @@ public class CommandsTest {
         );
     }
 
-    Object submitAnswerHelper(String answer, String answerRequest, int task, int workerID, int answerID, Consumer<Context> responseVerifier) throws Exception {
+    Object submitAnswerHelper(String answer, String answerRequest, int task, int workerID, int answerID, int reservation, Consumer<Context> responseVerifier) throws Exception {
         return submit(task, null,
                 communication -> {
-                    when(communication.submitAnswer(answer, task, workerID))
+                    when(communication.submitAnswer(answer, reservation, task, workerID))
                             .thenReturn(CompletableFuture.completedFuture(answerID));
                 },
                 context -> {

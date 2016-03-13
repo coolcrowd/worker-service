@@ -2,7 +2,6 @@ package edu.kit.ipd.crowdcontrol.workerservice.objectservice;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import org.junit.Test;
@@ -36,7 +35,7 @@ public class CommunicationTest {
     @Test
     public void testSubmitAnswerURL() throws Exception {
         Communication communication = new Communication(url, "a", "b");
-        CompletableFuture<Integer> result = communication.submitAnswer("a", 1, 2);
+        CompletableFuture<Integer> result = communication.submitAnswer("a", 0, 1, 2);
         checkURL(result, "/experiments/1/answers");
     }
 

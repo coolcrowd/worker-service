@@ -1,6 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeMode;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.DSLContext;
 import org.jooq.Result;
@@ -75,7 +75,7 @@ public class OperationsDataHolder {
     private PlatformRecord generatePlatformRecord() {
         String id = nextRandomString();
         String name = nextRandomString();
-        return new PlatformRecord(name, id, true, true, false);
+        return new PlatformRecord(name, id, true, true, false, -1);
     }
 
     private AlgorithmTaskChooserRecord generateTaskChooserRecord() {
@@ -137,12 +137,12 @@ public class OperationsDataHolder {
     }
 
     private ExperimentsPlatformRecord generateExperimentsTaskRecord(ExperimentRecord experimentRecord, PlatformRecord platformRecord) {
-        return new ExperimentsPlatformRecord(nextRandomInt(), experimentRecord.getIdExperiment(), platformRecord.getIdPlatform(), null);
+        return new ExperimentsPlatformRecord(nextRandomInt(), experimentRecord.getIdExperiment(), platformRecord.getIdPlatform(), null, null);
     }
 
     private ExperimentsPlatformModeRecord generateExperimentsPlatformModeRecord(ExperimentsPlatformRecord experimentsPlatformRecord) {
         return new ExperimentsPlatformModeRecord(null, experimentsPlatformRecord.getIdexperimentsPlatforms(),
-                ExperimentsPlatformModeStopgap.disabled, null);
+                ExperimentsPlatformModeMode.normal, null);
     }
 
     public List<AnswerRecord> generateAnswers(int amount, ExperimentRecord experiment) {
@@ -271,22 +271,22 @@ public class OperationsDataHolder {
     //creates
 
     public ExperimentOperations createExperimentOperations() {
-        return new ExperimentOperations(mockProvider.getMockCreate());
+        return new ExperimentOperations(mockProvider.getMockCreate(), false);
     }
 
     public PlatformOperations createPlatformOperations() {
-        return new PlatformOperations(mockProvider.getMockCreate());
+        return new PlatformOperations(mockProvider.getMockCreate(), false);
     }
 
     public CalibrationsOperations createPopulationsOperations() {
-        return new CalibrationsOperations(mockProvider.getMockCreate());
+        return new CalibrationsOperations(mockProvider.getMockCreate(), false);
     }
 
     public ExperimentsPlatformOperations createExperimentsPlatformOperations() {
-        return new ExperimentsPlatformOperations(mockProvider.getMockCreate());
+        return new ExperimentsPlatformOperations(mockProvider.getMockCreate(), false);
     }
 
     public WorkerOperations createWorkerOperations() {
-        return new WorkerOperations(mockProvider.getMockCreate());
+        return new WorkerOperations(mockProvider.getMockCreate(), false);
     }
 }

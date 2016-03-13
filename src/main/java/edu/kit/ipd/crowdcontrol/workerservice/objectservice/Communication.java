@@ -101,15 +101,16 @@ public class Communication {
      * submits an answer for the worker
      * Calls 'PUT /populations/answers' from the Object-Service.
      * @param answer the answer to submit
+     * @param reservation the reservation for the answer
      * @param experiment the experiment working on
-     * @param worker the worker answered
-     * @return an completable future representing the request with the resulting location in the database
+     * @param worker the worker answered   @return an completable future representing the request with the resulting location in the database
      */
-    public CompletableFuture<Integer> submitAnswer(String answer, int experiment, int worker) {
+    public CompletableFuture<Integer> submitAnswer(String answer, int reservation, int experiment, int worker) {
         Answer answerProto = Answer.newBuilder()
                 .setContent(answer)
                 .setWorker(worker)
                 .setExperimentId(experiment)
+                .setReservation(reservation)
                 .build();
         String route = "/experiments/" + experiment + "/answers";
         logger.debug("Trying to submit answer {} for worker {} with route {}", answer, worker, route);
@@ -136,7 +137,7 @@ public class Communication {
      * submits an rating for the worker.
      * Calls 'PUT /populations/ratings' from the Object-Service.
      *
-     * @param ratingId
+     * @param reservation the reservation of the rating
      * @param chosenRating the rating to submit
      * @param feedback the feedback or null
      * @param experiment the experiment working on
@@ -145,12 +146,12 @@ public class Communication {
      * @param constraints the violated constraints
      * @return an completable future representing the request, with the status the result
      */
-    public CompletableFuture<Integer> submitRating(int ratingId, int chosenRating, String feedback, int experiment, int answer, int worker, List<Integer> constraints) {
+    public CompletableFuture<Integer> submitRating(int reservation, int chosenRating, String feedback, int experiment, int answer, int worker, List<Integer> constraints) {
         List<Constraint> constraintProtos = constraints.stream()
                 .map(constraint -> Constraint.newBuilder().setId(constraint).build())
                 .collect(Collectors.toList());
         Rating.Builder ratingBuilder = Rating.newBuilder()
-                .setRatingId(ratingId)
+                .setReservation(reservation)
                 .setRating(chosenRating)
                 .setWorker(worker)
                 .setExperimentId(experiment)

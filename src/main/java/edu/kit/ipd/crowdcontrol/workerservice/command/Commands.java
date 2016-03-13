@@ -50,7 +50,7 @@ public class Commands implements RequestHelper {
      * creates an instance of Commands
      * @param communication        the communication used to communicate with the object-service
      * @param experimentOperations the experiment-operations used to communicate with the database
-     * @param jwtHelper
+     * @param jwtHelper the Helper used to parse/generate the JWT-authentication
      */
     public Commands(Communication communication, ExperimentOperations experimentOperations, JWTHelper jwtHelper) {
         this.communication = communication;
@@ -143,8 +143,8 @@ public class Commands implements RequestHelper {
             } catch (IOException e) {
                 throw new InternalServerErrorException("unable to probe Content-type, aborting", e);
             }
-            logger.trace("answer {} for worker {} is valid", answer, workerID);
-            return communication.submitAnswer(answer.getAnswer(), answer.getExperiment(), workerID);
+            logger.trace("answer {} for reservation {} from worker {} is valid", answer, answer.getReservation(), workerID);
+            return communication.submitAnswer(answer.getAnswer(), answer.getReservation(), answer.getExperiment(), workerID);
         }).map(result -> {
             logger.debug("Object service answered with OK.");
             return "Answer submitted";
@@ -278,9 +278,9 @@ public class Commands implements RequestHelper {
     /**
      * Http HEAD Method to get URL content type
      *
-     * @param urlString
-     * @return content type
-     * @throws IOException
+     * @param urlString the url to check the content type
+     * @return the content type
+     * @throws IOException if an error occured while trying to probe the content type
      */
     //from: http://stackoverflow.com/questions/5801993/quickest-way-to-get-content-type
     public static String getContentType(String urlString) throws IOException {
@@ -297,7 +297,7 @@ public class Commands implements RequestHelper {
     /**
      * Check status code for redirects
      *
-     * @param statusCode
+     * @param statusCode the status code for the redirects
      * @return true if matched redirect group
      */
     //from: http://stackoverflow.com/questions/5801993/quickest-way-to-get-content-type

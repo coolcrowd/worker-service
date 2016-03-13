@@ -130,11 +130,16 @@ public class Main {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("secret must be set in the config file");
         }
-        CalibrationsOperations calibrationsOperations = new CalibrationsOperations(databaseManager.getContext());
-        ExperimentOperations experimentOperations = new ExperimentOperations(databaseManager.getContext());
-        PlatformOperations platformOperations = new PlatformOperations(databaseManager.getContext());
-        ExperimentsPlatformOperations experimentsPlatformOperations = new ExperimentsPlatformOperations(databaseManager.getContext());
-        WorkerOperations workerOperations = new WorkerOperations(databaseManager.getContext());
+
+        boolean cachingEnabled = true;
+        if ("false".equals(getProperty("caching.enabled"))) {
+            cachingEnabled = false;
+        }
+        CalibrationsOperations calibrationsOperations = new CalibrationsOperations(databaseManager.getContext(), cachingEnabled);
+        ExperimentOperations experimentOperations = new ExperimentOperations(databaseManager.getContext(), cachingEnabled);
+        PlatformOperations platformOperations = new PlatformOperations(databaseManager.getContext(), cachingEnabled);
+        ExperimentsPlatformOperations experimentsPlatformOperations = new ExperimentsPlatformOperations(databaseManager.getContext(), cachingEnabled);
+        WorkerOperations workerOperations = new WorkerOperations(databaseManager.getContext(), cachingEnabled);
 
         Queries queries = new Queries(calibrationsOperations, experimentOperations, platformOperations, communication,
                 experimentsPlatformOperations, workerOperations, testing, jwtHelper);

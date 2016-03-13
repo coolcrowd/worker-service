@@ -15,7 +15,7 @@ public  final class Rating extends
     super(builder);
   }
   private Rating() {
-    ratingId_ = 0;
+    reservation_ = 0;
     experimentId_ = 0;
     rating_ = 0;
     feedback_ = "";
@@ -51,7 +51,7 @@ public  final class Rating extends
           }
           case 8: {
 
-            ratingId_ = input.readInt32();
+            reservation_ = input.readInt32();
             break;
           }
           case 16: {
@@ -121,13 +121,13 @@ public  final class Rating extends
   }
 
   private int bitField0_;
-  public static final int RATING_ID_FIELD_NUMBER = 1;
-  private int ratingId_;
+  public static final int RESERVATION_FIELD_NUMBER = 1;
+  private int reservation_;
   /**
-   * <code>optional int32 rating_id = 1;</code>
+   * <code>optional int32 reservation = 1;</code>
    */
-  public int getRatingId() {
-    return ratingId_;
+  public int getReservation() {
+    return reservation_;
   }
 
   public static final int EXPERIMENT_ID_FIELD_NUMBER = 2;
@@ -256,8 +256,8 @@ public  final class Rating extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (ratingId_ != 0) {
-      output.writeInt32(1, ratingId_);
+    if (reservation_ != 0) {
+      output.writeInt32(1, reservation_);
     }
     if (experimentId_ != 0) {
       output.writeInt32(2, experimentId_);
@@ -287,9 +287,9 @@ public  final class Rating extends
     if (size != -1) return size;
 
     size = 0;
-    if (ratingId_ != 0) {
+    if (reservation_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, ratingId_);
+        .computeInt32Size(1, reservation_);
     }
     if (experimentId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
@@ -430,7 +430,7 @@ public  final class Rating extends
     }
     public Builder clear() {
       super.clear();
-      ratingId_ = 0;
+      reservation_ = 0;
 
       experimentId_ = 0;
 
@@ -474,7 +474,7 @@ public  final class Rating extends
       edu.kit.ipd.crowdcontrol.objectservice.proto.Rating result = new edu.kit.ipd.crowdcontrol.objectservice.proto.Rating(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
-      result.ratingId_ = ratingId_;
+      result.reservation_ = reservation_;
       result.experimentId_ = experimentId_;
       result.rating_ = rating_;
       result.feedback_ = feedback_;
@@ -506,8 +506,8 @@ public  final class Rating extends
 
     public Builder mergeFrom(edu.kit.ipd.crowdcontrol.objectservice.proto.Rating other) {
       if (other == edu.kit.ipd.crowdcontrol.objectservice.proto.Rating.getDefaultInstance()) return this;
-      if (other.getRatingId() != 0) {
-        setRatingId(other.getRatingId());
+      if (other.getReservation() != 0) {
+        setReservation(other.getReservation());
       }
       if (other.getExperimentId() != 0) {
         setExperimentId(other.getExperimentId());
@@ -581,28 +581,28 @@ public  final class Rating extends
     }
     private int bitField0_;
 
-    private int ratingId_ ;
+    private int reservation_ ;
     /**
-     * <code>optional int32 rating_id = 1;</code>
+     * <code>optional int32 reservation = 1;</code>
      */
-    public int getRatingId() {
-      return ratingId_;
+    public int getReservation() {
+      return reservation_;
     }
     /**
-     * <code>optional int32 rating_id = 1;</code>
+     * <code>optional int32 reservation = 1;</code>
      */
-    public Builder setRatingId(int value) {
+    public Builder setReservation(int value) {
       
-      ratingId_ = value;
+      reservation_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional int32 rating_id = 1;</code>
+     * <code>optional int32 reservation = 1;</code>
      */
-    public Builder clearRatingId() {
+    public Builder clearReservation() {
       
-      ratingId_ = 0;
+      reservation_ = 0;
       onChanged();
       return this;
     }

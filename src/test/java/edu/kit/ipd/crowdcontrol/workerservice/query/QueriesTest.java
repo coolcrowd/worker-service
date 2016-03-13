@@ -4,7 +4,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.BadRequestException;
 import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
 import edu.kit.ipd.crowdcontrol.workerservice.JWTHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.WorkerID;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeMode;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.PlatformRecord;
@@ -157,14 +157,14 @@ public class QueriesTest {
 
     @Test
     public void testStopgapAnswer() throws Exception {
-        data.getExperimentsPlatformModeRecord().setStopgap(ExperimentsPlatformModeStopgap.answer);
+        data.getExperimentsPlatformModeRecord().setMode(ExperimentsPlatformModeMode.answer);
         View.Builder builder = testWithTaskChooser(false, false);
         assertTrue(builder.getType().equals(View.Type.FINISHED));
     }
 
     @Test
     public void testStopgapAnswerRating() throws Exception {
-        data.getExperimentsPlatformModeRecord().setStopgap(ExperimentsPlatformModeStopgap.rating);
+        data.getExperimentsPlatformModeRecord().setMode(ExperimentsPlatformModeMode.rating);
         View.Builder builder = testWithTaskChooser(false, true);
         assertTrue(builder.getType().equals(View.Type.RATING));
     }

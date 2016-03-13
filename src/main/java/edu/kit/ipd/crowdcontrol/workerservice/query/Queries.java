@@ -1,7 +1,9 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
+import edu.kit.ipd.crowdcontrol.workerservice.InternalServerErrorException;
+import edu.kit.ipd.crowdcontrol.workerservice.RequestHelper;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeMode;
 import edu.kit.ipd.crowdcontrol.workerservice.*;
-import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeStopgap;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationAnswerOptionRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.CalibrationRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
@@ -295,10 +297,10 @@ public class Queries implements RequestHelper {
         }
         boolean skipCreativeTemp = skipCreative;
         boolean skipRatingTemp = skipRating;
-        ExperimentsPlatformModeStopgap mode = experimentsPlatformOperations.getExperimentsPlatformMode(experiment, platformName);
-        if (ExperimentsPlatformModeStopgap.answer.equals(mode)) {
+        ExperimentsPlatformModeMode mode = experimentsPlatformOperations.getExperimentsPlatformMode(experiment, platformName);
+        if (ExperimentsPlatformModeMode.answer.equals(mode)) {
             skipRatingTemp = true;
-        } else if (ExperimentsPlatformModeStopgap.rating.equals(mode)) {
+        } else if (ExperimentsPlatformModeMode.rating.equals(mode)) {
             skipCreativeTemp = true;
         }
         boolean resultingSkipCreative = skipCreativeTemp;
