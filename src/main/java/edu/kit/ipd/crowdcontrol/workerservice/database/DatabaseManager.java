@@ -101,7 +101,7 @@ public class DatabaseManager {
                 });
         if (dbVersion != currentVersion) {
             throw new IllegalStateException(String.format(
-                    "Database Version is %d but the object-service expects %d",
+                    "Database Version is %d but the worker-service expects %d",
                     dbVersion,
                     currentVersion
             ));
