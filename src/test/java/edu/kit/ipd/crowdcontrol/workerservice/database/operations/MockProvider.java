@@ -172,7 +172,7 @@ public class MockProvider implements MockDataProvider {
                     })
                     .forEach(result::add);
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`IDANSWER_RESERVATION` FROM DUAL WHERE ")) {
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`IDANSWER_RESERVATION` FROM `CROWDCON")) {
             Result<Record1<Integer>> result = create.newResult(ANSWER_RESERVATION.IDANSWER_RESERVATION);
             int answerGivenCountWorker = dataHolder.getAnswerGiveCountWorker();
             int answersTotalPerWorker = dataHolder.getExperimentRecord().getAnwersPerWorker();
@@ -182,7 +182,7 @@ public class MockProvider implements MockDataProvider {
                 result.add(record);
             }
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT COUNT(*) AS `C` FROM (SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`IDANSWER_")) {
+        } else if (sql.startsWith("SELECT COUNT(*) FROM `CROWDCONTROL`.`ANSWER_RESERVATION` WHERE")) {
             Param<BigInteger> c = DSL.val("C", BigInteger.class);
             Result<Record1<BigInteger>> result = create.newResult(c);
             Record1<BigInteger> record = create.newRecord(c);
