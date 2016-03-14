@@ -43,7 +43,7 @@ public abstract class AbstractOperation {
     protected <K, V> LoadingCache<K, V> createCache(CacheLoaderInterface<K, V> cacheLoader) {
         if (cacheEnabled) {
             return CacheBuilder.newBuilder()
-                    .maximumSize(100)
+                    .maximumSize(20)
                     .refreshAfterWrite(5, TimeUnit.MINUTES)
                     .expireAfterAccess(30, TimeUnit.MINUTES)
                     .build(new CacheLoader<K, V>() {
