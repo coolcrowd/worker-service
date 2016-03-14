@@ -128,7 +128,7 @@ public class Main {
         try {
             jwtHelper = new JWTHelper(getProperty("jwt.secret"));
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("secret must be set in the config file");
+            throw new IllegalArgumentException("jwt.secret must be set in the config file");
         }
 
         boolean cachingEnabled = true;
