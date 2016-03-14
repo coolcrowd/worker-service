@@ -19,6 +19,7 @@ public class ExperimentOperations extends AbstractOperation {
     private LoadingCache<Integer, ExperimentRecord> experimentCache = createCache(this::getExperimentFromDB);
     private LoadingCache<Integer, Result<ConstraintRecord>> constrainsCache = createCache(this::getConstraintsFromDB);
     private LoadingCache<Integer, List<RatingOptionExperimentRecord>> ratingOptionsCache = createCache(this::getRatingOptionsFromDB);
+    private LoadingCache<Integer, Map<String, String>> taskChooserParamCache = createCache(this::getTaskChooserParamFromDB);
 
     /**
      * creates a new ExperimentOperations
@@ -123,10 +124,24 @@ public class ExperimentOperations extends AbstractOperation {
 
     /**
      * returns the Task-Chooser Parameter for the experiment
+     * <p>
+     * this method is cached
      * @param experiment the primary key of the experiment to search for
      * @return the map with the description as the key and the parameter-value as value
      */
     public Map<String, String> getTaskChooserParam(int experiment) {
+        return cacheGetHelper(taskChooserParamCache, experiment,
+                key -> String.format("no taskChooser found for experiment %d ", key));
+    }
+
+    /**
+     * returns the Task-Chooser Parameter for the experiment
+     * <p>
+     * this method accesses the db.
+     * @param experiment the primary key of the experiment to search for
+     * @return the map with the description as the key and the parameter-value as value
+     */
+    private Map<String, String> getTaskChooserParamFromDB(int experiment) {
         return create.select(Tables.ALGORITHM_TASK_CHOOSER_PARAM.DATA, Tables.CHOSEN_TASK_CHOOSER_PARAM.VALUE)
                 .from(Tables.CHOSEN_TASK_CHOOSER_PARAM)
                 .join(Tables.ALGORITHM_TASK_CHOOSER_PARAM).onKey()
