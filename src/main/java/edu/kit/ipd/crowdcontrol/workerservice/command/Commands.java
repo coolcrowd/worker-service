@@ -15,6 +15,8 @@ import edu.kit.ipd.crowdcontrol.workerservice.proto.Answer;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.Calibration;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.Rating;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ratpack.exec.Promise;
@@ -142,6 +144,10 @@ public class Commands implements RequestHelper {
                 }
             } catch (IOException e) {
                 throw new InternalServerErrorException("unable to probe Content-type, aborting", e);
+            }
+            if (answerType == null) {
+                logger.trace("cleaning answer {} for worker {} form potential malicious html tags");
+                answer.setAnswer(Jsoup.clean(answer.getAnswer(), Whitelist.basic()));
             }
             logger.trace("answer {} for reservation {} from worker {} is valid", answer, answer.getReservation(), workerID);
             return communication.submitAnswer(answer.getAnswer(), answer.getReservation(), answer.getExperiment(), workerID);
