@@ -34,15 +34,10 @@ public class CalibrationsOperations extends AbstractOperation {
      * @return a map where the keys are the detailed population the worker may belong to and the values are the answerOptions
      */
     public Map<CalibrationRecord, Result<CalibrationAnswerOptionRecord>> getCalibrations(int experimentID, String platformID, int worker) {
-        SelectConditionStep<Record1<Integer>> answered = DSL.select(CALIBRATION_RESULT.ANSWER)
-                .from(CALIBRATION_RESULT)
-                .where(CALIBRATION_RESULT.WORKER.eq(worker));
-
-
         SelectConditionStep<Record1<Integer>> alreadyAnsweredCalibrations = DSL.select(CALIBRATION_ANSWER_OPTION.CALIBRATION)
                 .from(Tables.CALIBRATION_ANSWER_OPTION)
                 .join(Tables.CALIBRATION_RESULT).onKey()
-                .where(Tables.CALIBRATION_RESULT.ID_CALIBRATION_RESULT.in(answered));
+                .where(Tables.CALIBRATION_RESULT.WORKER.eq(worker));
 
         Map<CalibrationRecord, Result<Record>> calibrationAndAnswers = create.select(CALIBRATION.fields())
                 .select(CALIBRATION_ANSWER_OPTION.fields())
@@ -80,19 +75,26 @@ public class CalibrationsOperations extends AbstractOperation {
      * @return true if the worker is already belonging to the wrong population, false if not
      */
     public boolean hasSubmittedWrongCalibrations(int experimentID, String platformID, int worker) {
-        SelectConditionStep<Record1<Integer>> answered = DSL.select(Tables.CALIBRATION_RESULT.ANSWER)
-                .from(Tables.CALIBRATION_RESULT)
-                .where(Tables.CALIBRATION_RESULT.WORKER.eq(worker));
+        SelectConditionStep<Record1<Integer>> getCalibrationForExperiment = DSL.select(CALIBRATION_ANSWER_OPTION.CALIBRATION)
+                .from(CALIBRATION_ANSWER_OPTION)
+                .where(CALIBRATION_ANSWER_OPTION.ID_CALIBRATION_ANSWER_OPTION.eq(EXPERIMENTS_CALIBRATION.ANSWER));
 
-        return create.fetchExists(DSL.selectFrom(Tables.EXPERIMENTS_CALIBRATION)
-                .where(Tables.EXPERIMENTS_CALIBRATION.ID_EXPERIMENTS_CALIBRATION.eq(experimentID))
-                .and(Tables.EXPERIMENTS_CALIBRATION.EXPERIMENTS_PLATFORM.in(
-                        DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
-                                .from(EXPERIMENTS_PLATFORM)
-                                .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experimentID))
-                                .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platformID))
-                ))
-                .and(Tables.EXPERIMENTS_CALIBRATION.NOT.eq(false).and(Tables.EXPERIMENTS_CALIBRATION.ANSWER.notIn(answered))
-                        .or(Tables.EXPERIMENTS_CALIBRATION.NOT.eq(true).and(Tables.EXPERIMENTS_CALIBRATION.ANSWER.in(answered)))));
+        SelectConditionStep<Record1<Integer>> getExperimentPlatformIds = DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
+                .from(EXPERIMENTS_PLATFORM)
+                .where(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experimentID))
+                .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platformID));
+
+        return create.fetchExists(
+                DSL.select()
+                    .from(CALIBRATION_ANSWER_OPTION)
+                    .innerJoin(CALIBRATION_RESULT).onKey()
+                    .innerJoin(EXPERIMENTS_CALIBRATION).on(
+                        EXPERIMENTS_CALIBRATION.EXPERIMENTS_PLATFORM.in(getExperimentPlatformIds)
+                        .and(CALIBRATION_ANSWER_OPTION.CALIBRATION.eq(getCalibrationForExperiment))
+                        .and(EXPERIMENTS_CALIBRATION.NOT.eq(true).and(EXPERIMENTS_CALIBRATION.ANSWER.eq(CALIBRATION_ANSWER_OPTION.ID_CALIBRATION_ANSWER_OPTION))
+                            .or(EXPERIMENTS_CALIBRATION.NOT.eq(false).and(EXPERIMENTS_CALIBRATION.ANSWER.notEqual(CALIBRATION_ANSWER_OPTION.ID_CALIBRATION_ANSWER_OPTION))))
+                    )
+                        .where(CALIBRATION_RESULT.WORKER.eq(worker))
+        );
     }
 }
