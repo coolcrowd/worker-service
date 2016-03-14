@@ -112,7 +112,7 @@ public class MockProvider implements MockDataProvider {
                     }))
                     .forEach(record -> result.add((Record) record));
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT 1 AS `ONE` FROM DUAL WHERE EXISTS (SELECT `CROWDCONTROL`.`EXPERIMENTS_CALIBRATION`")) {
+        } else if (sql.startsWith("SELECT 1 AS `ONE` FROM DUAL WHERE EXISTS (SELECT `CROWDCONTROL`.`CALIBRATION_ANS")) {
             Param<Integer> val = DSL.val("1", Integer.class);
             Result<Record1<Integer>> result = create.newResult(val);
             if (dataHolder.belongsToWrongPopulation()) {
