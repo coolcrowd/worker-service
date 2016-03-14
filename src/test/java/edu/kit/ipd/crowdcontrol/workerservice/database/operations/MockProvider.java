@@ -1,6 +1,7 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeMode;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.RatingReservation;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -197,11 +198,12 @@ public class MockProvider implements MockDataProvider {
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_OPTION_EXPERIMENT`")) {
             Result<RatingOptionExperimentRecord> result = create.newResult(RATING_OPTION_EXPERIMENT);
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING`.`ID_RATING`, `CROWDCONTROL`.")) {
-            Result<RatingRecord> result = create.newResult(RATING);
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_RESERVATION`.`IDRESERVERD_RATING`, `CROWDCONTROL`.")) {
+            Result<RatingReservationRecord> result = create.newResult(RATING_RESERVATION);
             List<AnswerRecord> answerRecords = dataHolder.getAnswerRecords();
             for (int i = answerRecords.size() - 1; i >= 0; i--) {
-                result.add(new RatingRecord(i, null, answerRecords.get(i).getIdAnswer(), null, null, null, null, null, null));
+                result.add(new RatingReservationRecord(i, dataHolder.getWorkerID(),
+                        dataHolder.getExperimentRecord().getIdExperiment(), answerRecords.get(i).getIdAnswer(), null, null));
             }
             mock[0] = new MockResult(1, result);
         }

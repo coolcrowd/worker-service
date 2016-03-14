@@ -200,13 +200,13 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 .map(AnswerRecord::getIdAnswer)
                 .collect(Collectors.toList());
 
-        Result<RatingRecord> ratings = create.selectFrom(RATING)
-                .where(RATING.ANSWER_R.in(answerIds))
-                .and(RATING.WORKER_ID.eq(worker))
+        Result<RatingReservationRecord> ratings = create.selectFrom(RATING_RESERVATION)
+                .where(RATING_RESERVATION.ANSWER.in(answerIds))
+                .and(RATING_RESERVATION.WORKER.eq(worker))
                 .fetch();
 
         return ratings.stream()
-                .collect(Collectors.toMap(RatingRecord::getIdRating, record -> answers.get(record.getAnswerR())));
+                .collect(Collectors.toMap(RatingReservationRecord::getIdreserverdRating, record -> answers.get(record.getAnswer())));
     }
 
     /**
