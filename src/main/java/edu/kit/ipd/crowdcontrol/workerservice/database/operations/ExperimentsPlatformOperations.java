@@ -222,8 +222,9 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                                 DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
                                     .from(EXPERIMENT)
                                     .where(EXPERIMENT.ID_EXPERIMENT.eq(experimentID)))
-                        ))
-                        .or(DSL.condition(true))
+                            ).or(DSL.condition(true))
+                        )
+
         );
     }
 
