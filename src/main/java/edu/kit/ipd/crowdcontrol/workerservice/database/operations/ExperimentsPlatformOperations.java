@@ -280,13 +280,14 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
     public List<Record> getOtherAnswersWithCount(int experiment, int worker) {
         LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
         Timestamp timestamp = Timestamp.valueOf(limit);
-        return create.select(Tables.ANSWER.fields())
+        return create.select(ANSWER.fields())
                 .select(DSL.count(RATING.ID_RATING).as("count"))
                 .from(ANSWER)
                 .leftJoin(RATING).on(RATING.ANSWER_R.eq(ANSWER.ID_ANSWER)
                         .and(RATING.RATING_.isNotNull().or(RATING.TIMESTAMP.greaterOrEqual(timestamp))))
                 .where(ANSWER.WORKER_ID.notEqual(worker))
                 .and(ANSWER.EXPERIMENT.eq(experiment))
+                .groupBy(ANSWER.fields())
                 .fetch();
     }
 }
