@@ -45,7 +45,13 @@ public class ErrorHandler implements ServerErrorHandler {
             logger.debug("unauthorized access", throwable);
             context.getResponse().status(401);
             context.render(error("unauthorized", throwable.getMessage()));
-        } else {
+        } else if (throwable instanceof NotFoundException) {
+            logger.debug("not found", throwable);
+            context.getResponse().status(404);
+            context.render(error("resource not found", throwable.getMessage()));
+        }
+
+        else {
             logger.error("an internal error occurred", throwable);
             context.getResponse().status(500);
             context.render(error("internalServerError", throwable.getMessage()));

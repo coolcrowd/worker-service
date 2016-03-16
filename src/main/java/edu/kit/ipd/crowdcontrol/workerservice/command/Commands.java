@@ -1,14 +1,14 @@
 package edu.kit.ipd.crowdcontrol.workerservice.command;
 
-import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.net.MediaType;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
 import edu.kit.ipd.crowdcontrol.workerservice.*;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformNotFoundException;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.*;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.Answer;
@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * The class commands is responsible for the command-part of the CQRS-pattern. Therefore it provides the submit methods
@@ -46,17 +45,20 @@ public class Commands implements RequestHelper {
     private final Communication communication;
     private final JsonFormat.Parser parser = JsonFormat.parser();
     private final ExperimentOperations experimentOperations;
+    private final PlatformOperations platformOperations;
     private final JWTHelper jwtHelper;
 
     /**
      * creates an instance of Commands
      * @param communication        the communication used to communicate with the object-service
      * @param experimentOperations the experiment-operations used to communicate with the database
+     * @param platformOperations the platform-operations to use
      * @param jwtHelper the Helper used to parse/generate the JWT-authentication
      */
-    public Commands(Communication communication, ExperimentOperations experimentOperations, JWTHelper jwtHelper) {
+    public Commands(Communication communication, ExperimentOperations experimentOperations, PlatformOperations platformOperations, JWTHelper jwtHelper) {
         this.communication = communication;
         this.experimentOperations = experimentOperations;
+        this.platformOperations = platformOperations;
         this.jwtHelper = jwtHelper;
     }
 
@@ -71,7 +73,11 @@ public class Commands implements RequestHelper {
      */
     public Promise<EmailAnswer> submitEmail(Context context) {
         String platform = assertParameter(context, "platform");
-
+        try {
+            platformOperations.getPlatform(platform);
+        } catch (PlatformNotFoundException e) {
+            throw new NotFoundException(String.format("Platform %s not found", platform));
+        }
         return merge(context, Email.newBuilder(), new ArrayList<>())
                 .map(Email.Builder::build)
                 .map(toValidate -> {
@@ -146,7 +152,7 @@ public class Commands implements RequestHelper {
                 throw new InternalServerErrorException("unable to probe Content-type, aborting", e);
             }
             if (answerType == null) {
-                logger.trace("cleaning answer {} for worker {} form potential malicious html tags");
+                logger.trace("cleaning answer {} for worker {} form potential malicious html tags", answer, workerID);
                 answer.setAnswer(Jsoup.clean(answer.getAnswer(), Whitelist.basic()));
             }
             logger.trace("answer {} for reservation {} from worker {} is valid", answer, answer.getReservation(), workerID);

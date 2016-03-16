@@ -95,6 +95,7 @@ public class Queries implements RequestHelper {
      * @return the JSON-Representation of View
      */
     public View preview(Context context) {
+        checkForExperimentAndPlatform(context);
         int experimentId = assertParameterInt(context, "experiment");
         logger.debug("generating preview for experiment: {}", experimentId);
         return previewTaskChooser.next(View.newBuilder(), context, experimentId, "", false, false)
@@ -110,6 +111,7 @@ public class Queries implements RequestHelper {
      * @return the JSON-Representation of View
      */
     public View getNext(Context context) {
+        checkForExperimentAndPlatform(context);
         boolean skipCreative = false;
         if ("skip".equals(context.getRequest().getQueryParams().get("answer"))) {
             skipCreative = true;
@@ -123,6 +125,25 @@ public class Queries implements RequestHelper {
         View next = getNext(prepareView(context), context, skipCreative, skipRating);
         logger.debug("returning view: {}", next);
         return next;
+    }
+
+    /**
+     * checks whether the experiment and the platform are existing, throws an NotFoundException if not.
+     * @param context the context of the request
+     */
+    private void checkForExperimentAndPlatform(Context context) {
+        int experiment = assertParameterInt(context, "experiment");
+        try {
+            experimentOperations.getExperiment(experiment);
+        } catch (ExperimentNotFoundException e) {
+            throw new NotFoundException(String.format("Experiment %d not found", experiment));
+        }
+        String platformName = assertParameter(context, "platform");
+        try {
+            platformOperations.getPlatform(platformName);
+        } catch (PlatformNotFoundException e) {
+            throw new NotFoundException(String.format("Platform %s not found", platformName));
+        }
     }
 
     /**

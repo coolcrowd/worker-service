@@ -152,7 +152,7 @@ public class Main {
 
         logger.debug("workerservice is using port {}", port);
 
-        Commands commands = new Commands(communication, experimentOperations, jwtHelper);
+        Commands commands = new Commands(communication, experimentOperations, platformOperations, jwtHelper);
         RatpackRouter router = new RatpackRouter(queries, commands, jwtHelper, port);
         if (!testing) {
             try {

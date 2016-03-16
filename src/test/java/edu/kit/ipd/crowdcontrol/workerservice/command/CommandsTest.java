@@ -8,6 +8,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.JWTHelper;
 import edu.kit.ipd.crowdcontrol.workerservice.WorkerID;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
+import edu.kit.ipd.crowdcontrol.workerservice.database.operations.PlatformOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.*;
 import org.junit.Rule;
@@ -222,7 +223,8 @@ public class CommandsTest {
         when(operation.getExperiment(experimentID)).thenReturn(record);
         JWTHelper jwtMock = mock(JWTHelper.class);
         when(jwtMock.generateJWT(anyInt())).thenAnswer(invocation -> String.valueOf(invocation.getArguments()[0]));
-        return new Commands(communication, operation, jwtMock);
+        PlatformOperations platformOperations = mock(PlatformOperations.class);
+        return new Commands(communication, operation, platformOperations, jwtMock);
     }
 
     Commands prepareCommands(int experimentID, Communication communication) {

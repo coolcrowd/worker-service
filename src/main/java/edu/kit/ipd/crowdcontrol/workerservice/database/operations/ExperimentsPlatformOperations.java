@@ -237,8 +237,8 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
         return create.fetchCount(
                 DSL.selectFrom(ANSWER)
                     .where(ANSWER.EXPERIMENT.eq(experimentID))
-                    .and(ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.notEqual(0)))
-                    .or(DSL.condition(true))
+                    .and(ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.notEqual(0).or(DSL.condition(true))
+                    ))
         );
     }
 
