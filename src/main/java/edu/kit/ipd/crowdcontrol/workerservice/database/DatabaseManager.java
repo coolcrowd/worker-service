@@ -1,6 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.database;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.zaxxer.hikari.HikariDataSource;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.DatabaseVersionRecord;
 import org.apache.commons.io.IOUtils;
@@ -57,12 +57,11 @@ public class DatabaseManager {
         if (providedDBPoolName != null && !providedDBPoolName.isEmpty()) {
             ds = (DataSource) new InitialContext().lookup(providedDBPoolName);
         } else {
-            ComboPooledDataSource cpds = new ComboPooledDataSource();
-            cpds.setJdbcUrl(url);
-            cpds.setUser(userName);
-            cpds.setPassword(password);
-            cpds.setMaxStatements(30);
-            ds = cpds;
+            HikariDataSource hds = new HikariDataSource();
+            hds.setJdbcUrl(url);
+            hds.setUsername(userName);
+            hds.setPassword(password);
+            ds = hds;
         }
         this.ds = ds;
         if (!disableConnection) {
