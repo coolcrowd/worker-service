@@ -380,8 +380,14 @@ public class Queries implements RequestHelper {
      * @return an View with the Type FINISHED
      */
     private View workerFinished(View.Builder builder, Context context) {
-        //TODO notify??
-        return builder.setType(View.Type.FINISHED)
-                .build();
+        int experiment = assertParameterInt(context, "experiment");
+        return context.maybeGet(WorkerID.class).flatMap(id -> {
+            if (!experimentsPlatformOperations.hasWork(experiment, id.get())) {
+                return getStrategyStep(builder, context, false, false);
+            } else {
+                return Optional.empty();
+            }
+        }).orElseGet(() -> builder.setType(View.Type.FINISHED).build());
+
     }
 }
