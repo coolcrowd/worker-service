@@ -62,6 +62,13 @@ public class CommunicationTest {
         checkURL(result, "/experiments/1/answers");
     }
 
+    @Test
+    public void testIsObjectServiceRunning() throws Exception {
+        Communication communication = new Communication(url, "a", "b");
+        boolean objectServiceRunning = communication.isObjectServiceRunning();
+        assertFalse(objectServiceRunning);
+    }
+
 
     private <T> boolean checkURL(CompletableFuture<T> future, String checkUrl) {
         return future.handle((t, throwable) -> {
