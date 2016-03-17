@@ -97,7 +97,12 @@ public class Queries implements RequestHelper {
      * @return the JSON-Representation of View
      */
     public View preview(Context context) {
-        checkForExperimentAndPlatform(context);
+        int experiment = assertParameterInt(context, "experiment");
+        try {
+            experimentOperations.getExperiment(experiment);
+        } catch (ExperimentNotFoundException e) {
+            throw new NotFoundException(String.format("Experiment %d not found", experiment));
+        }
         int experimentId = assertParameterInt(context, "experiment");
         logger.debug("generating preview for experiment: {}", experimentId);
         return previewTaskChooser.next(View.newBuilder(), context, experimentId, "", false, false)
