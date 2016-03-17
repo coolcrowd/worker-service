@@ -29,6 +29,7 @@ import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
  */
 public class ExperimentsPlatformOperations extends AbstractOperation {
     private static final Logger logger = LoggerFactory.getLogger(ExperimentsPlatformOperations.class);
+    private final ExperimentOperations experimentOperations;
     private LoadingCache<Tuple2<Integer, String>, ExperimentsPlatformModeMode> platformModeCache = createCache(
             tuple -> getExperimentsPlatformModeFromDB(tuple.v1, tuple.v2));
 
@@ -36,9 +37,11 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
      * creates a new ExperimentsPlatformOperations
      * @param create the context used to communicate with the database
      * @param cacheEnabled whether the caching functionality should be enabled
+     * @param experimentOperations
      */
-    public ExperimentsPlatformOperations(DSLContext create, boolean cacheEnabled) {
+    public ExperimentsPlatformOperations(DSLContext create, boolean cacheEnabled, ExperimentOperations experimentOperations) {
         super(create, cacheEnabled);
+        this.experimentOperations = experimentOperations;
     }
 
     /**
@@ -86,11 +89,15 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
      * The method first searches for all the open answers, updates them and reserves the difference.
      * @param worker the worker to reserve for
      * @param experiment the primary key of the experiment
-     * @param amount the amount to reserve
      * @return a list of primary keys for the reserverations
      */
-    public List<Integer> prepareAnswers(int worker, int experiment, int amount) {
+    public List<Integer> prepareAnswers(int worker, int experiment) {
+        ExperimentRecord experimentRecord = experimentOperations.getExperiment(experiment);
+        Integer neededAnswers = experimentRecord.getNeededAnswers();
         create.transaction(config -> {
+            int totalAnswers = getAnswersCount(experiment, config);
+            int givenAnswers = getAnswersCount(experiment, worker, config);
+            int toWorkOn = Math.min(Math.max(neededAnswers - totalAnswers, 0), (experimentRecord.getAnwersPerWorker() - givenAnswers));
             int openReservations = DSL.using(config).select(DSL.count())
                         .from(ANSWER_RESERVATION)
                         .where(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
@@ -108,7 +115,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                     .where(ANSWER_RESERVATION.IDANSWER_RESERVATION.in(openReservations))
                     .execute();
 
-            int reserveNew = Math.max(amount - openReservations, 0);
+            int reserveNew = Math.max(toWorkOn - openReservations, 0);
             logger.trace("Reserving {} new Answers for worker {}.", reserveNew, worker);
 
             List<AnswerReservationRecord> reservationRecords = new ArrayList<>(reserveNew);
@@ -212,33 +219,47 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
     /**
      * returns the amount of answers submitted for the passed experiment
      * @param experimentID the primary key of the experiment
+     * @param worker the worker to exclude
      * @return the number of answers submitted
      */
-    public int getAnswersCount(int experimentID) {
-        return create.fetchCount(
-                DSL.selectFrom(ANSWER)
-                        .where(ANSWER.EXPERIMENT.eq(experimentID))
-                        .and(ANSWER.QUALITY_ASSURED.eq(true).and(Tables.ANSWER.QUALITY.greaterThan(
-                                DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
-                                    .from(EXPERIMENT)
-                                    .where(EXPERIMENT.ID_EXPERIMENT.eq(experimentID)))
-                            ).or(DSL.condition(true))
-                        )
-
-        );
+    public int getAnswersCountWithoutWorker(int experimentID, int worker) {
+        return getAnswersCountWithoutWorker(experimentID, worker, create.configuration());
     }
 
     /**
-     * returns all the non-duplicates answers of the db
-     * @param experimentID the primary key of the experiment
-     * @return the numbers of answers
+     * returns the amount of answers submitted for the passed experiment
+     * @param experiment the experiment
+     * @param config the config to use
+     * @return the answerCount
      */
-    public int getRawAnswersCount(int experimentID) {
-        return create.fetchCount(
-                DSL.selectFrom(ANSWER)
-                    .where(ANSWER.EXPERIMENT.eq(experimentID))
-                    .and(ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.notEqual(0).or(DSL.condition(true))
-                    ))
+    private int getAnswersCount(int experiment, Configuration config) {
+        return getAnswersCountWithoutWorker(experiment, -1, config);
+    }
+
+    /**
+     * returns the amount of answers submitted for the passed experiment
+     * @param experiment the experiment
+     * @param config the config to use
+     * @return the answerCount
+     */
+    private int getAnswersCountWithoutWorker(int experiment, int worker, Configuration config) {
+        LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
+        Timestamp timestamp = Timestamp.valueOf(limit);
+        return DSL.using(config).fetchCount(
+                DSL.select(ANSWER_RESERVATION.IDANSWER_RESERVATION)
+                        .from(ANSWER_RESERVATION)
+                        .leftJoin(ANSWER).onKey()
+                        .where(ANSWER_RESERVATION.USED.eq(true).or(
+                                ANSWER_RESERVATION.TIMESTAMP.greaterOrEqual(timestamp)
+                                .and(ANSWER_RESERVATION.WORKER.notEqual(worker))
+                        ))
+                        .and(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
+                        .and(ANSWER.QUALITY_ASSURED.eq(true).and(Tables.ANSWER.QUALITY.greaterThan(
+                                DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
+                                        .from(EXPERIMENT)
+                                        .where(EXPERIMENT.ID_EXPERIMENT.eq(experiment)))
+                                ).or(DSL.condition(true))
+                        )
         );
     }
 
@@ -249,10 +270,22 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
      * @return the number of answers submitted
      */
     public int getAnswersCount(int experimentID, int workerID) {
-        return create.fetchCount(
-                DSL.selectFrom(Tables.ANSWER)
-                        .where(Tables.ANSWER.EXPERIMENT.eq(experimentID))
-                        .and(Tables.ANSWER.WORKER_ID.eq(workerID))
+        return getAnswersCount(experimentID, workerID, create.configuration());
+    }
+
+    /**
+     * returns the amount of answers submitted for the passed experiment by the worker
+     * @param experimentID the primary key of the experiment
+     * @param workerID the worker to check for
+     * @param config the configuration to use
+     * @return the number of answers submitted
+     */
+    public int getAnswersCount(int experimentID, int workerID, Configuration config) {
+        return DSL.using(config).fetchCount(
+                DSL.selectFrom(Tables.ANSWER_RESERVATION)
+                        .where(Tables.ANSWER_RESERVATION.EXPERIMENT.eq(experimentID))
+                        .and(Tables.ANSWER_RESERVATION.WORKER.eq(workerID))
+                        .and(Tables.ANSWER_RESERVATION.USED.eq(true))
         );
     }
 
