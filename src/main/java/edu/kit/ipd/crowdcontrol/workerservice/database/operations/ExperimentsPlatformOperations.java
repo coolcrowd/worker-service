@@ -323,4 +323,32 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 .groupBy(ANSWER.fields())
                 .fetch();
     }
+
+    /**
+     * returns true if the worker submitted work to our system
+     * @param experiment the active experiment
+     * @param worker the worker
+     * @return true of the worker has submitted work, false if not
+     */
+    public boolean hasWork(int experiment, int worker) {
+        boolean hasAnswers = create.fetchExists(
+                DSL.select(ANSWER_RESERVATION.IDANSWER_RESERVATION)
+                        .from(ANSWER_RESERVATION)
+                        .where(ANSWER_RESERVATION.WORKER.eq(worker))
+                        .and(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
+                        .and(ANSWER_RESERVATION.USED.eq(true))
+        );
+        if (hasAnswers) {
+            return hasAnswers;
+        }
+
+        boolean hasRatings = create.fetchExists(
+                DSL.select(RATING_RESERVATION.IDRESERVERD_RATING)
+                        .from(RATING_RESERVATION)
+                        .where(RATING_RESERVATION.WORKER.eq(worker))
+                        .and(RATING_RESERVATION.EXPERIMENT.eq(experiment))
+                        .and(RATING_RESERVATION.USED.eq(true))
+        );
+        return hasRatings;
+    }
 }
