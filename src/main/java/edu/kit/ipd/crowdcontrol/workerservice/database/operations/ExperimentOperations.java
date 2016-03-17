@@ -2,13 +2,17 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 
 import com.google.common.cache.LoadingCache;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.*;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformStatusPlatformStatus;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
-import org.jooq.DSLContext;
-import org.jooq.Result;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 
+import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
 
 /**
  * contains all the operations concerned with experiments.
@@ -172,5 +176,33 @@ public class ExperimentOperations extends AbstractOperation {
         return create.selectFrom(Tables.RATING_OPTION_EXPERIMENT)
                 .where(Tables.RATING_OPTION_EXPERIMENT.EXPERIMENT.eq(experiment))
                 .fetch();
+    }
+
+    public Result<Record2<Integer, String>> getRunningExperimentsForPlatform(String platform) {
+        Field<Timestamp> maxTimestamp = DSL.max(EXPERIMENTS_PLATFORM_STATUS.TIMESTAMP).as("max");
+        Table<Record3<ExperimentsPlatformStatusPlatformStatus, Integer, Timestamp>> maxTable = DSL
+                .select(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS, EXPERIMENTS_PLATFORM_STATUS.PLATFORM, maxTimestamp)
+                .from(EXPERIMENTS_PLATFORM_STATUS)
+                .where(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS.in(Arrays.asList(
+                        ExperimentsPlatformStatusPlatformStatus.running,
+                        ExperimentsPlatformStatusPlatformStatus.creative_stopping
+                )))
+                .groupBy(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS, EXPERIMENTS_PLATFORM_STATUS.PLATFORM)
+                .asTable("maxTable");
+
+        return create.select(EXPERIMENT.ID_EXPERIMENT, EXPERIMENT.TITLE)
+                .from(
+                        maxTable
+                ).innerJoin(EXPERIMENTS_PLATFORM_STATUS).on(EXPERIMENTS_PLATFORM_STATUS.PLATFORM.eq(maxTable.field(EXPERIMENTS_PLATFORM_STATUS.PLATFORM))
+                        .and(EXPERIMENTS_PLATFORM_STATUS.TIMESTAMP.eq(maxTable.field(maxTimestamp))))
+                .innerJoin(EXPERIMENTS_PLATFORM).onKey()
+                .innerJoin(EXPERIMENT).onKey()
+                .where(EXPERIMENTS_PLATFORM_STATUS.PLATFORM.in(
+                        DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
+                                .from(EXPERIMENTS_PLATFORM)
+                                .where(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
+                ))
+                .fetch();
+
     }
 }
