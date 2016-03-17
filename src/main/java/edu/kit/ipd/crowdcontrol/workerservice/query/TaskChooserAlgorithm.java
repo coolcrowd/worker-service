@@ -94,7 +94,10 @@ public abstract class TaskChooserAlgorithm {
             logger.debug("worker {} has answered {} times, max. is {}", context.get(WorkerID.class).get(), answered, experiment.getAnwersPerWorker());
             if (answered < experiment.getAnwersPerWorker()) {
                 logger.debug("returning answer-view");
-                return Optional.of(constructAnswerView(builder, context.get(WorkerID.class).get(), experimentID));
+                Optional<View> view = constructAnswerView(builder, context.get(WorkerID.class).get(), experimentID);
+                if (view.isPresent()) {
+                    return view;
+                }
             }
         }
         if (!skipRating) {
@@ -117,13 +120,17 @@ public abstract class TaskChooserAlgorithm {
      * @return an instance of View with the Type Answer and the information needed for an to display an answer
      * @throws BadRequestException if the experiment was not found
      */
-    protected View constructAnswerView(View.Builder builder, int worker, int experimentID) throws BadRequestException {
+    protected Optional<View> constructAnswerView(View.Builder builder, int worker, int experimentID) throws BadRequestException {
         logger.debug("task chooser constructs answer-view");
         List<Integer> reservations = experimentsPlatformOperations.prepareAnswers(worker, experimentID);
-        return prepareBuilder(builder, experimentID)
-                .setType(View.Type.ANSWER)
-                .addAllAnswerReservations(reservations)
-                .build();
+        if (reservations.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(prepareBuilder(builder, experimentID)
+                    .setType(View.Type.ANSWER)
+                    .addAllAnswerReservations(reservations)
+                    .build());
+        }
     }
 
     /**

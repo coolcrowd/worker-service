@@ -341,7 +341,8 @@ public class Queries implements RequestHelper {
         ExperimentsPlatformModeMode mode = experimentsPlatformOperations.getExperimentsPlatformMode(experiment, platformName);
         if (ExperimentsPlatformModeMode.answer.equals(mode)) {
             skipRatingTemp = true;
-        } else if (ExperimentsPlatformModeMode.rating.equals(mode)) {
+        } else if (ExperimentsPlatformModeMode.rating.equals(mode)
+                || experimentsPlatformOperations.isInCreativeStopping(experiment, platformName)) {
             skipCreativeTemp = true;
         }
         boolean resultingSkipCreative = skipCreativeTemp;

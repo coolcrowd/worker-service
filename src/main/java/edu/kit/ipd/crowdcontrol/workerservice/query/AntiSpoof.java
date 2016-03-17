@@ -106,11 +106,16 @@ public class AntiSpoof extends TaskChooserAlgorithm {
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
         logger.trace("calculating phase for: answersCount={}, phases={}, neededAnswers={}",
                 answersCount, phases, experiment.getNeededAnswers());
-        if ((answersCount <= phases.get(1)) && (answersCount < experiment.getNeededAnswers())) {
+        boolean inCreativeStopping = experimentsPlatformOperations.isInCreativeStopping(experimentID, platform);
+        if ((answersCount <= phases.get(1)) && (answersCount < experiment.getNeededAnswers()) && !inCreativeStopping) {
             logger.debug("entering phase 1");
             //phase 1: no rating
             return constructView(builder, context, experimentID, skipCreative, true);
-        } else if (answersCount < experiment.getNeededAnswers()) {
+        }
+        int goodAnswersCount = experimentsPlatformOperations.getGoodAnswersCount(experimentID);
+        logger.trace("calculating for phase 2: goodAnswersCount={}, neededAnswers={}",
+                goodAnswersCount, experiment.getNeededAnswers());
+        if (goodAnswersCount < experiment.getNeededAnswers()) {
             logger.debug("entering phase 2");
             //phase 2: rating + creative
             return constructView(builder, context, experimentID, skipCreative, skipRating);
