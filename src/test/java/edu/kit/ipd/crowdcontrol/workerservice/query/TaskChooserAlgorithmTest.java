@@ -51,7 +51,7 @@ public class TaskChooserAlgorithmTest {
         View.Builder builder = prepareBuilder();
         int answersTotalPerWorker = data.getExperimentRecord().getAnwersPerWorker();
         //TODO fix
-        View view = taskChooserAlgorithm.constructAnswerView(builder, data.getWorkerID(), experimentID);
+        View view = taskChooserAlgorithm.constructAnswerView(builder, data.getWorkerID(), experimentID).get();
         assertTrue(view.getType().equals(View.Type.ANSWER));
         assertTrue(view.getAnswerReservationsCount() == answersTotalPerWorker);
     }
