@@ -3,6 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 import com.google.common.cache.LoadingCache;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformModeMode;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformStatusPlatformStatus;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -81,6 +82,25 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 .fetchOptional()
                 .map(Record1::value1)
                 .orElse(ExperimentsPlatformModeMode.normal);
+    }
+
+    /**
+     * this method checks whether the platform is in creative-stopping
+     * @param experiment the experiment to check for
+     * @param platform the platform to check for
+     * @return true if in creative-stopping, false if not
+     */
+    public boolean isInCreativeStopping(int experiment, String platform) {
+        return create.fetchExists(
+                DSL.select(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS)
+                    .from(EXPERIMENTS_PLATFORM_STATUS)
+                    .innerJoin(EXPERIMENTS_PLATFORM).on(
+                        EXPERIMENTS_PLATFORM_STATUS.PLATFORM.eq(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
+                        .and(EXPERIMENTS_PLATFORM.EXPERIMENT.eq(experiment))
+                        .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
+                    )
+                    .where(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS.eq(ExperimentsPlatformStatusPlatformStatus.creative_stopping))
+        );
     }
 
     /**
@@ -281,12 +301,30 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
      * @param config the configuration to use
      * @return the number of answers submitted
      */
-    public int getAnswersCount(int experimentID, int workerID, Configuration config) {
+    private int getAnswersCount(int experimentID, int workerID, Configuration config) {
         return DSL.using(config).fetchCount(
                 DSL.selectFrom(Tables.ANSWER_RESERVATION)
                         .where(Tables.ANSWER_RESERVATION.EXPERIMENT.eq(experimentID))
                         .and(Tables.ANSWER_RESERVATION.WORKER.eq(workerID))
                         .and(Tables.ANSWER_RESERVATION.USED.eq(true))
+        );
+    }
+
+    /**
+     * returns the amount of answers submitted for the passed experiment by the worker
+     * @param experimentID the primary key of the experiment
+     * @return the number of answers submitted
+     */
+    public int getGoodAnswersCount(int experimentID) {
+        return create.fetchCount(
+                DSL.select(ANSWER.ID_ANSWER)
+                        .from(ANSWER)
+                        .where(ANSWER.EXPERIMENT.eq(experimentID))
+                        .and(ANSWER.QUALITY.greaterThan(
+                                DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
+                                        .from(EXPERIMENT)
+                                        .where(EXPERIMENT.ID_EXPERIMENT.eq(experimentID))
+                        ))
         );
     }
 
