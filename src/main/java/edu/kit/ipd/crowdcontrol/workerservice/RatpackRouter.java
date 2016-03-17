@@ -74,6 +74,7 @@ public class RatpackRouter {
                             ctx.getResponse().contentType("text/plain");
                             ctx.render("");
                         })
+                        .get("experiments/:platform", ctx -> ctx.render(queries.getExperiments(ctx)))
                         .get("preview/:experiment", ctx -> ctx.render(queries.preview(ctx)))
                         .get("next/:platform/:experiment", ctx -> ctx.render(queries.getNext(ctx)))
                         .post("emails/:platform", ctx -> ctx.render(commands.submitEmail(ctx)))

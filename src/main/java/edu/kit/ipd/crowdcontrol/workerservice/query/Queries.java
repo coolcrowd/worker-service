@@ -9,6 +9,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.Cali
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.*;
 import edu.kit.ipd.crowdcontrol.workerservice.objectservice.Communication;
+import edu.kit.ipd.crowdcontrol.workerservice.proto.Experiments;
 import edu.kit.ipd.crowdcontrol.workerservice.proto.View;
 import org.jooq.Result;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -125,6 +127,24 @@ public class Queries implements RequestHelper {
         View next = getNext(prepareView(context), context, skipCreative, skipRating);
         logger.debug("returning view: {}", next);
         return next;
+    }
+
+    /**
+     * returns all the running experiments
+     * @param context the context, a platform must be present in the path-tokens
+     * @return experiments
+     */
+    public Experiments getExperiments(Context context) {
+        String platformName = assertParameter(context, "platform");
+        try {
+            platformOperations.getPlatform(platformName);
+        } catch (PlatformNotFoundException e) {
+            throw new NotFoundException(String.format("Platform %s not found", platformName));
+        }
+        List<Experiments.Experiment> experiments = experimentOperations.getRunningExperimentsForPlatform(platformName).stream()
+                .map(experiment -> Experiments.Experiment.newBuilder().setId(experiment.value1()).setName(experiment.value2()).build())
+                .collect(Collectors.toList());
+        return Experiments.newBuilder().addAllExperiments(experiments).build();
     }
 
     /**
