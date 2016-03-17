@@ -135,14 +135,18 @@ public class MockProvider implements MockDataProvider {
                 record.value1(BigInteger.valueOf(dataHolder.getAnswerCountTotal()));
                 result.add(record);
                 mock[0] = new MockResult(1, result);
-            }  else {
-                Param<BigInteger> c = DSL.val("C", BigInteger.class);
-                Result<Record1<BigInteger>> result = create.newResult(c);
-                Record1<BigInteger> record = create.newRecord(c);
-                record.value1(BigInteger.valueOf(dataHolder.getAnswerGiveCountWorker()));
-                result.add(record);
-                mock[0] = new MockResult(1, result);
             }
+        } else if (sql.startsWith("SELECT COUNT(*) AS `C` FROM (SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.")) {
+            Param<BigInteger> c = DSL.val("C", BigInteger.class);
+            Result<Record1<BigInteger>> result = create.newResult(c);
+            Record1<BigInteger> record = create.newRecord(c);
+            if (ctx.bindings().length == 7) {
+                record.value1(BigInteger.valueOf(dataHolder.getAnswerCountTotal()));
+            } else {
+                record.value1(BigInteger.valueOf(dataHolder.getAnswerGiveCountWorker()));
+            }
+            result.add(record);
+            mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT COUNT(*) AS `C` FROM (SELECT `CROWDCONTROL`.`RATING`.`ID_RATING`, ")) {
             Param<BigInteger> c = DSL.val("C", BigInteger.class);
             Result<Record1<BigInteger>> result = create.newResult(c);
@@ -181,6 +185,13 @@ public class MockProvider implements MockDataProvider {
                 record.values(i);
                 result.add(record);
             }
+            mock[0] = new MockResult(1, result);
+        } else if (sql.startsWith("SELECT 1 AS `ONE` FROM DUAL WHERE EXISTS (SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`IDANSWER_RESERVATION` FROM `CROWDCONTROL`.`ANSWER_RESERVATION` WHERE (`CROWDCONTROL`.`ANSWER_RESERVATION`.`WORKER` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`EXPERIMENT` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`USED` = ?))")) {
+            Param<Integer> val = DSL.val("1", Integer.class);
+            Result<Record1<Integer>> result = create.newResult(val);
+            Record1<Integer> record = create.newRecord(val);
+            record.value1(1);
+            result.add(record);
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT COUNT(*) FROM `CROWDCONTROL`.`ANSWER_RESERVATION` WHERE")) {
             Param<BigInteger> c = DSL.val("C", BigInteger.class);
