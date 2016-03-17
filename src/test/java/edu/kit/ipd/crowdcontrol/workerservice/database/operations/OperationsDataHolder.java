@@ -283,7 +283,7 @@ public class OperationsDataHolder {
     }
 
     public ExperimentsPlatformOperations createExperimentsPlatformOperations() {
-        return new ExperimentsPlatformOperations(mockProvider.getMockCreate(), false);
+        return new ExperimentsPlatformOperations(mockProvider.getMockCreate(), false, createExperimentOperations());
     }
 
     public WorkerOperations createWorkerOperations() {

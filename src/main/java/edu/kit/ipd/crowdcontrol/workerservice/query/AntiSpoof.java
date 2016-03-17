@@ -1,5 +1,6 @@
 package edu.kit.ipd.crowdcontrol.workerservice.query;
 
+import edu.kit.ipd.crowdcontrol.workerservice.WorkerID;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.ExperimentRecord;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentOperations;
 import edu.kit.ipd.crowdcontrol.workerservice.database.operations.ExperimentsPlatformOperations;
@@ -92,7 +93,8 @@ public class AntiSpoof extends TaskChooserAlgorithm {
     @Override
     public Optional<View> next(View.Builder builder, Context context, int experimentID, String platform,
                                boolean skipCreative, boolean skipRating) {
-        int rawAnswersCount = experimentsPlatformOperations.getRawAnswersCount(experimentID);
+        int workerID = context.get(WorkerID.class).get();
+        int answersCount = experimentsPlatformOperations.getAnswersCountWithoutWorker(experimentID, workerID);
         Map<Integer, Integer> phases = experimentOperations.getTaskChooserParam(experimentID).entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> Integer.parseInt(entry.getKey()),
@@ -102,16 +104,13 @@ public class AntiSpoof extends TaskChooserAlgorithm {
             throw new IllegalStateException("Anti-Spoof parameter not set.");
         }
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
-        logger.trace("calculating phase for: rawAnswersCount={}, phases={}, neededAnswers={}",
-                rawAnswersCount, phases, experiment.getNeededAnswers());
-        if ((rawAnswersCount <= phases.get(1)) && (rawAnswersCount < experiment.getNeededAnswers())) {
+        logger.trace("calculating phase for: answersCount={}, phases={}, neededAnswers={}",
+                answersCount, phases, experiment.getNeededAnswers());
+        if ((answersCount <= phases.get(1)) && (answersCount < experiment.getNeededAnswers())) {
             logger.debug("entering phase 1");
             //phase 1: no rating
             return constructView(builder, context, experimentID, skipCreative, true);
-        }
-        int answersCount = experimentsPlatformOperations.getAnswersCount(experimentID);
-        logger.trace("answersCount: {}", answersCount);
-        if (answersCount < experiment.getNeededAnswers()) {
+        } else if (answersCount < experiment.getNeededAnswers()) {
             logger.debug("entering phase 2");
             //phase 2: rating + creative
             return constructView(builder, context, experimentID, skipCreative, skipRating);

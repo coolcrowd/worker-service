@@ -94,7 +94,7 @@ public abstract class TaskChooserAlgorithm {
             logger.debug("worker {} has answered {} times, max. is {}", context.get(WorkerID.class).get(), answered, experiment.getAnwersPerWorker());
             if (answered < experiment.getAnwersPerWorker()) {
                 logger.debug("returning answer-view");
-                return Optional.of(constructAnswerView(builder, context.get(WorkerID.class).get(), experimentID, experiment.getAnwersPerWorker() - answered));
+                return Optional.of(constructAnswerView(builder, context.get(WorkerID.class).get(), experimentID));
             }
         }
         if (!skipRating) {
@@ -114,13 +114,12 @@ public abstract class TaskChooserAlgorithm {
      * @param builder the builder to use
      * @param worker the worker to prepare the answers for
      * @param experimentID the id of the experiment
-     * @param amount the amount to answer
      * @return an instance of View with the Type Answer and the information needed for an to display an answer
      * @throws BadRequestException if the experiment was not found
      */
-    protected View constructAnswerView(View.Builder builder, int worker, int experimentID, int amount) throws BadRequestException {
+    protected View constructAnswerView(View.Builder builder, int worker, int experimentID) throws BadRequestException {
         logger.debug("task chooser constructs answer-view");
-        List<Integer> reservations = experimentsPlatformOperations.prepareAnswers(worker, experimentID, amount);
+        List<Integer> reservations = experimentsPlatformOperations.prepareAnswers(worker, experimentID);
         return prepareBuilder(builder, experimentID)
                 .setType(View.Type.ANSWER)
                 .addAllAnswerReservations(reservations)
