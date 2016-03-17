@@ -138,7 +138,7 @@ public class Main {
         CalibrationsOperations calibrationsOperations = new CalibrationsOperations(databaseManager.getContext(), cachingEnabled);
         ExperimentOperations experimentOperations = new ExperimentOperations(databaseManager.getContext(), cachingEnabled);
         PlatformOperations platformOperations = new PlatformOperations(databaseManager.getContext(), cachingEnabled);
-        ExperimentsPlatformOperations experimentsPlatformOperations = new ExperimentsPlatformOperations(databaseManager.getContext(), cachingEnabled);
+        ExperimentsPlatformOperations experimentsPlatformOperations = new ExperimentsPlatformOperations(databaseManager.getContext(), cachingEnabled, experimentOperations);
         WorkerOperations workerOperations = new WorkerOperations(databaseManager.getContext(), cachingEnabled);
 
         Queries queries = new Queries(calibrationsOperations, experimentOperations, platformOperations, communication,
