@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
+import static org.jooq.impl.DSL.or;
 
 /**
  * ExperimentsPlatformOperations contains all queries concerned with the platforms of the experiment and the associated
@@ -200,7 +201,13 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                     .and(ANSWER.WORKER_ID.notEqual(worker))
                     .and(ANSWER.ID_ANSWER.notIn(
                             DSL.select(RATING_RESERVATION.ANSWER).from(RATING_RESERVATION).where(RATING_RESERVATION.WORKER.eq(worker).and(RATING_RESERVATION.EXPERIMENT.eq(experiment)))))
-                    .and(ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.notEqual(0)).or(DSL.condition(true)))
+                    .and(
+                            ANSWER.QUALITY_ASSURED.eq(true).and(ANSWER.QUALITY.greaterOrEqual(
+                                    DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
+                                            .from(EXPERIMENT)
+                                            .where(EXPERIMENT.ID_EXPERIMENT.eq(experiment))
+                            )).or(DSL.condition(true))
+                    )
                     .groupBy(ANSWER.fields())
                     .having(count.lessThan(
                             DSL.select(EXPERIMENT.RATINGS_PER_ANSWER).from(EXPERIMENT).where(EXPERIMENT.ID_EXPERIMENT.eq(experiment))))
@@ -275,7 +282,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                                 .and(ANSWER_RESERVATION.WORKER.notEqual(worker))
                         ))
                         .and(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
-                        .and(ANSWER.QUALITY_ASSURED.eq(true).and(Tables.ANSWER.QUALITY.greaterThan(
+                        .and(ANSWER.QUALITY_ASSURED.eq(true).and(Tables.ANSWER.QUALITY.greaterOrEqual(
                                 DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
                                         .from(EXPERIMENT)
                                         .where(EXPERIMENT.ID_EXPERIMENT.eq(experiment)))
@@ -320,7 +327,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 DSL.select(ANSWER.ID_ANSWER)
                         .from(ANSWER)
                         .where(ANSWER.EXPERIMENT.eq(experimentID))
-                        .and(ANSWER.QUALITY.greaterThan(
+                        .and(ANSWER.QUALITY.greaterOrEqual(
                                 DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
                                         .from(EXPERIMENT)
                                         .where(EXPERIMENT.ID_EXPERIMENT.eq(experimentID))
