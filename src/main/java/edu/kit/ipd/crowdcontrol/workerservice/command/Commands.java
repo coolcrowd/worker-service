@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collector;
 
 /**
@@ -192,6 +193,27 @@ public class Commands implements RequestHelper {
             logger.debug("Object service answered with status {}.", status);
             return String.valueOf(status);
         });
+    }
+
+    /**
+     * deletes the worker from the database
+     * @param context the context to use
+     * @return return success or no success
+     */
+    public Promise<String> deleteWorker(Context context) {
+        int workerID = context.get(WorkerID.class).get();
+        Promise.of(downstream -> downstream.accept(
+                communication.deleteWorker(workerID)
+                        .handle((BiFunction<? super Integer, Throwable, Integer>) (t, throwable) ->
+                                wrapExceptionOr201(t, throwable, context))))
+                .map((Function<Integer, String>) status -> {
+                    if (status == 201) {
+                        return String.format("successfully deleted worker %d", workerID);
+                    } else {
+                        throw new NotFoundException(String.format(
+                                "Unable to delete worker %d, object-service answered with %d.", workerID, status));
+                    }
+                });
     }
 
     /**
