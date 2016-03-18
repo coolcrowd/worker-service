@@ -20,6 +20,7 @@ import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ratpack.exec.Promise;
+import ratpack.exec.Upstream;
 import ratpack.handling.Context;
 import ratpack.http.TypedData;
 
@@ -202,11 +203,13 @@ public class Commands implements RequestHelper {
      */
     public Promise<String> deleteWorker(Context context) {
         int workerID = context.get(WorkerID.class).get();
-        Promise.of(downstream -> downstream.accept(
+        Upstream<Integer> objectUpstream = downstream -> downstream.accept(
                 communication.deleteWorker(workerID)
                         .handle((BiFunction<? super Integer, Throwable, Integer>) (t, throwable) ->
-                                wrapExceptionOr201(t, throwable, context))))
-                .map((Function<Integer, String>) status -> {
+                                wrapExceptionOr201(t, throwable, context)));
+
+        return Promise.of(objectUpstream)
+                .map(status -> {
                     if (status == 201) {
                         return String.format("successfully deleted worker %d", workerID);
                     } else {
