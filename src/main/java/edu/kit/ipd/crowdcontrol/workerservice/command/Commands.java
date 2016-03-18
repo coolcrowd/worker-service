@@ -20,6 +20,7 @@ import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ratpack.exec.Promise;
+import ratpack.exec.Upstream;
 import ratpack.handling.Context;
 import ratpack.http.TypedData;
 
@@ -31,6 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collector;
 
 /**
@@ -192,6 +194,29 @@ public class Commands implements RequestHelper {
             logger.debug("Object service answered with status {}.", status);
             return String.valueOf(status);
         });
+    }
+
+    /**
+     * deletes the worker from the database
+     * @param context the context to use
+     * @return return success or no success
+     */
+    public Promise<String> deleteWorker(Context context) {
+        int workerID = context.get(WorkerID.class).get();
+        Upstream<Integer> objectUpstream = downstream -> downstream.accept(
+                communication.deleteWorker(workerID)
+                        .handle((BiFunction<? super Integer, Throwable, Integer>) (t, throwable) ->
+                                wrapExceptionOr201(t, throwable, context)));
+
+        return Promise.of(objectUpstream)
+                .map(status -> {
+                    if (status == 201) {
+                        return String.format("successfully deleted worker %d", workerID);
+                    } else {
+                        throw new NotFoundException(String.format(
+                                "Unable to delete worker %d, object-service answered with %d.", workerID, status));
+                    }
+                });
     }
 
     /**

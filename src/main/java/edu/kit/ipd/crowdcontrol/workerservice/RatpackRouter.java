@@ -58,6 +58,9 @@ public class RatpackRouter {
                             ctx.getResponse().getHeaders().add("access-control-expose-headers", "Link,Location");
                             ctx.getResponse().getHeaders().add("access-control-max-age", "86400");
                             String jwtHeader = ctx.getRequest().getHeaders().get("Authorization");
+                            if (jwtHeader == null) {
+                                jwtHeader = ctx.getRequest().getQueryParams().get("Authorization");
+                            }
                             if (jwtHeader != null) {
                                 if (!jwtHeader.matches("Bearer .*")) {
                                     throw new BadRequestException("Authorization header must contain Bearer token in the format <Bearer JWT>");
@@ -81,6 +84,7 @@ public class RatpackRouter {
                         .post("answers", doAuthorized(ctx -> ctx.render(commands.submitAnswer(ctx))))
                         .post("ratings", doAuthorized(ctx -> ctx.render(commands.submitRating(ctx))))
                         .post("calibrations", doAuthorized(ctx -> ctx.render(commands.submitCalibration(ctx))))
+                        .post("delete", doAuthorized(ctx -> ctx.render(commands.deleteWorker(ctx))))
                 )
         );
     }
