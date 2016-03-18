@@ -188,6 +188,22 @@ public class Communication {
     }
 
     /**
+     * deletes a worker from the system
+     * @param id the primary key of the worker
+     * @return 204 if successfully, 404 if not
+     */
+    public CompletableFuture<Integer> deleteWorker(int id) {
+        String route = String.format("/workers/%d", id);
+        return doAsync(Unirest.delete(url + route)
+                        .header("Content-Type", "application/json")
+                        .header("Accept", "application/json")
+                        .basicAuth(username, password),
+                builder -> builder)
+                .thenApply(response -> throwOr(response, () -> response))
+                .thenApply(HttpResponse::getStatus);
+    }
+
+    /**
      * tries to get the workerID from the request.
      * Calls 'GET /get/:platform' from the Object-Service.
      * @param platform the current platform
