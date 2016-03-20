@@ -153,16 +153,27 @@ public class Commands implements RequestHelper {
             } catch (IOException e) {
                 throw new InternalServerErrorException("unable to probe Content-type, aborting", e);
             }
-            if (answerType == null) {
-                logger.trace("cleaning answer {} for worker {} form potential malicious html tags", answer, workerID);
-                answer.setAnswer(Jsoup.clean(answer.getAnswer(), Whitelist.basic()));
-            }
+            // control-ui & worker-ui are escaping
+            //clearAnswer(answer, workerID, answerType);
             logger.trace("answer {} for reservation {} from worker {} is valid", answer, answer.getReservation(), workerID);
             return communication.submitAnswer(answer.getAnswer(), answer.getReservation(), answer.getExperiment(), workerID);
         }).map(result -> {
             logger.debug("Object service answered with OK.");
             return "Answer submitted";
         });
+    }
+
+    /**
+     * clears the answer from potential malicious code
+     * @param answer the answer
+     * @param workerID the worker-id
+     * @param answerType the answerType
+     */
+    private void clearAnswer(Answer.Builder answer, Integer workerID, String answerType) {
+        if (answerType == null) {
+            logger.trace("cleaning answer {} for worker {} form potential malicious html tags", answer, workerID);
+            answer.setAnswer(Jsoup.clean(answer.getAnswer(), Whitelist.basic()));
+        }
     }
 
     /**
