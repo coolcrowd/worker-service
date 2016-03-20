@@ -5,10 +5,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.RatingReserv
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.jooq.tools.jdbc.MockConnection;
-import org.jooq.tools.jdbc.MockDataProvider;
-import org.jooq.tools.jdbc.MockExecuteContext;
-import org.jooq.tools.jdbc.MockResult;
+import org.jooq.tools.jdbc.*;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
@@ -163,13 +160,13 @@ public class MockProvider implements MockDataProvider {
             mock[0] = new MockResult(1, result);
         } else if (sql.endsWith("`RATING_RESERVATION`.`WORKER` = ? AND `CROWDCONTROL`.`RATING_RESERVATION`.`EXPERIMENT` = ?)")) {
             ArrayList<Field<?>> fields = new ArrayList<>(Arrays.asList(ANSWER.fields()));
-            fields.addAll(Arrays.asList(RATING_RESERVATION.IDRESERVERD_RATING));
+            fields.addAll(Arrays.asList(RATING_RESERVATION.ID_RESERVERD_RATING));
             Field<?>[] fieldsArr = fields.toArray(new Field<?>[fields.size()]);
             Result<Record> result = create.newResult(fieldsArr);
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER`.`ID_ANSWER`, `CROWDCONTROL`.`ANSWER`.`EXPERIMENT`, ")) {
             ArrayList<Field<?>> fields = new ArrayList<>(Arrays.asList(ANSWER.fields()));
-            Field<Integer> count = DSL.count(RATING_RESERVATION.IDRESERVERD_RATING).as("count");
+            Field<Integer> count = DSL.count(RATING_RESERVATION.ID_RESERVERD_RATING).as("count");
             fields.add(count);
             Field<?>[] fieldsArr = fields.toArray(new Field<?>[fields.size()]);
             Result<Record> result = create.newResult(fieldsArr);
@@ -183,12 +180,12 @@ public class MockProvider implements MockDataProvider {
                 result.add(record);
             }
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`IDANSWER_RESERVATION` FROM `CROWDCON")) {
-            Result<Record1<Integer>> result = create.newResult(ANSWER_RESERVATION.IDANSWER_RESERVATION);
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`ID_ANSWER_RESERVATION` FROM `CROWDCON")) {
+            Result<Record1<Integer>> result = create.newResult(ANSWER_RESERVATION.ID_ANSWER_RESERVATION);
             int answerGivenCountWorker = dataHolder.getAnswerGiveCountWorker();
             int answersTotalPerWorker = dataHolder.getExperimentRecord().getAnwersPerWorker();
             for (int i = 0; i < answersTotalPerWorker - answerGivenCountWorker; i++) {
-                Record1<Integer> record = create.newRecord(ANSWER_RESERVATION.IDANSWER_RESERVATION);
+                Record1<Integer> record = create.newRecord(ANSWER_RESERVATION.ID_ANSWER_RESERVATION);
                 record.values(i);
                 result.add(record);
             }
