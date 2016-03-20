@@ -37,7 +37,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentsPlatformMode extends TableImpl<ExperimentsPlatformModeRecord> {
 
-	private static final long serialVersionUID = -1138071080;
+	private static final long serialVersionUID = -917232574;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Experiments_Platform_Mode</code>
@@ -53,9 +53,9 @@ public class ExperimentsPlatformMode extends TableImpl<ExperimentsPlatformModeRe
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Experiments_Platform_Mode.idExperiments_Platform_Stopgap</code>.
+	 * The column <code>crowdcontrol.Experiments_Platform_Mode.id_Experiments_Platform_Mode</code>.
 	 */
-	public final TableField<ExperimentsPlatformModeRecord, Integer> IDEXPERIMENTS_PLATFORM_STOPGAP = createField("idExperiments_Platform_Stopgap", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final TableField<ExperimentsPlatformModeRecord, Integer> ID_EXPERIMENTS_PLATFORM_MODE = createField("id_Experiments_Platform_Mode", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiments_Platform_Mode.experiments_platform</code>.

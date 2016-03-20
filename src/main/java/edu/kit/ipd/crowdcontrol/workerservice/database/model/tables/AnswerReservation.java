@@ -36,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AnswerReservation extends TableImpl<AnswerReservationRecord> {
 
-	private static final long serialVersionUID = 546684969;
+	private static final long serialVersionUID = 320416218;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Answer_Reservation</code>
@@ -52,9 +52,9 @@ public class AnswerReservation extends TableImpl<AnswerReservationRecord> {
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Answer_Reservation.idAnswer_Reservation</code>.
+	 * The column <code>crowdcontrol.Answer_Reservation.id_answer_Reservation</code>.
 	 */
-	public final TableField<AnswerReservationRecord, Integer> IDANSWER_RESERVATION = createField("idAnswer_Reservation", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final TableField<AnswerReservationRecord, Integer> ID_ANSWER_RESERVATION = createField("id_answer_Reservation", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Answer_Reservation.worker</code>.

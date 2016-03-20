@@ -36,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class RatingReservation extends TableImpl<RatingReservationRecord> {
 
-	private static final long serialVersionUID = -1301400972;
+	private static final long serialVersionUID = -277159295;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Rating_Reservation</code>
@@ -52,9 +52,9 @@ public class RatingReservation extends TableImpl<RatingReservationRecord> {
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Rating_Reservation.idReserverd_Rating</code>.
+	 * The column <code>crowdcontrol.Rating_Reservation.id_reserverd_Rating</code>.
 	 */
-	public final TableField<RatingReservationRecord, Integer> IDRESERVERD_RATING = createField("idReserverd_Rating", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final TableField<RatingReservationRecord, Integer> ID_RESERVERD_RATING = createField("id_reserverd_Rating", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Rating_Reservation.worker</code>.

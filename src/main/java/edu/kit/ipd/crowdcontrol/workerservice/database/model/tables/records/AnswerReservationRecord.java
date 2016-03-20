@@ -30,19 +30,19 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AnswerReservationRecord extends UpdatableRecordImpl<AnswerReservationRecord> implements Record5<Integer, Integer, Integer, Timestamp, Boolean> {
 
-	private static final long serialVersionUID = -411128753;
+	private static final long serialVersionUID = -447252004;
 
 	/**
-	 * Setter for <code>crowdcontrol.Answer_Reservation.idAnswer_Reservation</code>.
+	 * Setter for <code>crowdcontrol.Answer_Reservation.id_answer_Reservation</code>.
 	 */
-	public void setIdanswerReservation(Integer value) {
+	public void setIdAnswerReservation(Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Answer_Reservation.idAnswer_Reservation</code>.
+	 * Getter for <code>crowdcontrol.Answer_Reservation.id_answer_Reservation</code>.
 	 */
-	public Integer getIdanswerReservation() {
+	public Integer getIdAnswerReservation() {
 		return (Integer) getValue(0);
 	}
 
@@ -139,7 +139,7 @@ public class AnswerReservationRecord extends UpdatableRecordImpl<AnswerReservati
 	 */
 	@Override
 	public Field<Integer> field1() {
-		return AnswerReservation.ANSWER_RESERVATION.IDANSWER_RESERVATION;
+		return AnswerReservation.ANSWER_RESERVATION.ID_ANSWER_RESERVATION;
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class AnswerReservationRecord extends UpdatableRecordImpl<AnswerReservati
 	 */
 	@Override
 	public Integer value1() {
-		return getIdanswerReservation();
+		return getIdAnswerReservation();
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class AnswerReservationRecord extends UpdatableRecordImpl<AnswerReservati
 	 */
 	@Override
 	public AnswerReservationRecord value1(Integer value) {
-		setIdanswerReservation(value);
+		setIdAnswerReservation(value);
 		return this;
 	}
 
@@ -286,10 +286,10 @@ public class AnswerReservationRecord extends UpdatableRecordImpl<AnswerReservati
 	/**
 	 * Create a detached, initialised AnswerReservationRecord
 	 */
-	public AnswerReservationRecord(Integer idanswerReservation, Integer worker, Integer experiment, Timestamp timestamp, Boolean used) {
+	public AnswerReservationRecord(Integer idAnswerReservation, Integer worker, Integer experiment, Timestamp timestamp, Boolean used) {
 		super(AnswerReservation.ANSWER_RESERVATION);
 
-		setValue(0, idanswerReservation);
+		setValue(0, idAnswerReservation);
 		setValue(1, worker);
 		setValue(2, experiment);
 		setValue(3, timestamp);
