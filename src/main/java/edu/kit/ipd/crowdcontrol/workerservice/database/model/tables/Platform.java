@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Platform extends TableImpl<PlatformRecord> {
 
-	private static final long serialVersionUID = 451253142;
+	private static final long serialVersionUID = -1982007737;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Platform</code>
@@ -57,6 +57,11 @@ public class Platform extends TableImpl<PlatformRecord> {
 	 * The column <code>crowdcontrol.Platform.name</code>.
 	 */
 	public final TableField<PlatformRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Platform.link</code>.
+	 */
+	public final TableField<PlatformRecord, String> LINK = createField("link", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Platform.render_calibrations</code>.
