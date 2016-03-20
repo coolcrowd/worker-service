@@ -250,6 +250,10 @@ public class MockProvider implements MockDataProvider {
             mock[0] = new MockResult(1, null);
         }
 
+        else if (sql.startsWith("DELETE")) {
+            mock[0] = new MockResult(1, null);
+        }
+
         return mock;
     }
 
