@@ -190,7 +190,7 @@ public class MockProvider implements MockDataProvider {
                 result.add(record);
             }
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT 1 AS `ONE` FROM DUAL WHERE EXISTS (SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`IDANSWER_RESERVATION` FROM `CROWDCONTROL`.`ANSWER_RESERVATION` WHERE (`CROWDCONTROL`.`ANSWER_RESERVATION`.`WORKER` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`EXPERIMENT` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`USED` = ?))")) {
+        } else if (sql.startsWith("SELECT 1 AS `ONE` FROM DUAL WHERE EXISTS (SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`ID_ANSWER_RESERVATION` FROM `CROWDCONTROL`.`ANSWER_RESERVATION` WHERE (`CROWDCONTROL`.`ANSWER_RESERVATION`.`WORKER` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`EXPERIMENT` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`USED` = ?))")) {
             Param<Integer> val = DSL.val("1", Integer.class);
             Result<Record1<Integer>> result = create.newResult(val);
             Record1<Integer> record = create.newRecord(val);
@@ -213,7 +213,7 @@ public class MockProvider implements MockDataProvider {
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_OPTION_EXPERIMENT`")) {
             Result<RatingOptionExperimentRecord> result = create.newResult(RATING_OPTION_EXPERIMENT);
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_RESERVATION`.`IDRESERVERD_RATING`, `CROWDCONTROL`.")) {
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_RESERVATION`.`ID_RESERVERD_RATING`, `CROWDCONTROL`.")) {
             Result<RatingReservationRecord> result = create.newResult(RATING_RESERVATION);
             List<AnswerRecord> answerRecords = dataHolder.getAnswerRecords();
             for (int i = answerRecords.size() - 1; i >= 0; i--) {
@@ -238,7 +238,7 @@ public class MockProvider implements MockDataProvider {
             mock[0] = new MockResult(1, null);
         } else if (sql.startsWith("INSERT INTO `CROWDCONTROL`.`RATING` (`EXPERIMENT`, `ANSWER_R`, `WORKER_ID`")) {
             mock[0] = new MockResult(1, null);
-        } else if (sql.startsWith("INSERT INTO `CROWDCONTROL`.`ANSWER_RESERVATION` (`IDANSWER_RESERVATION`, `WORKER`, ")) {
+        } else if (sql.startsWith("INSERT INTO `CROWDCONTROL`.`ANSWER_RESERVATION` (`ID_ANSWER_RESERVATION`, `WORKER`, ")) {
             mock[0] = new MockResult(1, null);
         }
 
