@@ -397,4 +397,22 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
         );
         return hasRatings;
     }
+
+    /**
+     * releases all the unused reservations
+     * @param worker the worker associated with the reservations
+     * @param experiment the experiment worked on
+     */
+    public void releaseReservations(int worker, int experiment) {
+        create.deleteFrom(ANSWER_RESERVATION)
+                .where(ANSWER_RESERVATION.WORKER.eq(worker))
+                .and(ANSWER_RESERVATION.USED.eq(false))
+                .and(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
+                .execute();
+        create.deleteFrom(RATING_RESERVATION)
+                .where(RATING_RESERVATION.WORKER.eq(worker))
+                .and(RATING_RESERVATION.USED.eq(false))
+                .and(RATING_RESERVATION.EXPERIMENT.eq(experiment))
+                .execute();
+    }
 }
