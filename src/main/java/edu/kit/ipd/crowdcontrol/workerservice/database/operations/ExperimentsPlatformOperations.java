@@ -133,7 +133,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
 
             DSL.using(config).update(ANSWER_RESERVATION)
                     .set(ANSWER_RESERVATION.TIMESTAMP, now)
-                    .where(ANSWER_RESERVATION.IDANSWER_RESERVATION.in(openReservations))
+                    .where(ANSWER_RESERVATION.ID_ANSWER_RESERVATION.in(openReservations))
                     .execute();
 
             int reserveNew = Math.max(toWorkOn - openReservations, 0);
@@ -146,7 +146,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
 
             DSL.using(config).batchInsert(reservationRecords).execute();
         });
-        return create.select(ANSWER_RESERVATION.IDANSWER_RESERVATION)
+        return create.select(ANSWER_RESERVATION.ID_ANSWER_RESERVATION)
                 .from(ANSWER_RESERVATION)
                 .where(ANSWER_RESERVATION.WORKER.eq(worker))
                 .and(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
@@ -168,21 +168,21 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
     public Map<Integer, AnswerRecord> prepareRating(int worker, int experiment, int amount) {
         Map<Integer, AnswerRecord> answers = create.transactionResult(config -> {
             Map<Integer, AnswerRecord> reservedRatings = DSL.using(config).select(ANSWER.fields())
-                    .select(RATING_RESERVATION.IDRESERVERD_RATING)
+                    .select(RATING_RESERVATION.ID_RESERVERD_RATING)
                     .from(ANSWER)
                     .innerJoin(RATING_RESERVATION).on(RATING_RESERVATION.WORKER.eq(worker)
                             .and(RATING_RESERVATION.EXPERIMENT.eq(experiment))
                             .and(RATING_RESERVATION.ANSWER.eq(ANSWER.ID_ANSWER))
                             .and(RATING_RESERVATION.USED.eq(false))
                     )
-                    .fetchMap(RATING_RESERVATION.IDRESERVERD_RATING, record -> record.into(Tables.ANSWER));
+                    .fetchMap(RATING_RESERVATION.ID_RESERVERD_RATING, record -> record.into(Tables.ANSWER));
             logger.trace("Worker {} has reserved open ratings {}.", worker, reservedRatings);
 
             Timestamp now = Timestamp.valueOf(LocalDateTime.now());
 
             DSL.using(config).update(RATING_RESERVATION)
                     .set(RATING_RESERVATION.TIMESTAMP, now)
-                    .where(RATING_RESERVATION.IDRESERVERD_RATING.in(reservedRatings.keySet()))
+                    .where(RATING_RESERVATION.ID_RESERVERD_RATING.in(reservedRatings.keySet()))
                     .execute();
 
             int reserveNew = Math.max(amount - reservedRatings.size(), 0);
@@ -190,7 +190,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
 
             LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
             Timestamp timestamp = Timestamp.valueOf(limit);
-            Field<Integer> count = DSL.count(RATING_RESERVATION.IDRESERVERD_RATING).as("count");
+            Field<Integer> count = DSL.count(RATING_RESERVATION.ID_RESERVERD_RATING).as("count");
             Map<Integer, AnswerRecord> toRate = DSL.using(config).select()
                     .select(ANSWER.fields())
                     .select(count)
@@ -241,7 +241,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                 .fetch();
 
         return ratings.stream()
-                .collect(Collectors.toMap(RatingReservationRecord::getIdreserverdRating, record -> answers.get(record.getAnswer())));
+                .collect(Collectors.toMap(RatingReservationRecord::getIdReserverdRating, record -> answers.get(record.getAnswer())));
     }
 
     /**
@@ -274,7 +274,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
         LocalDateTime limit = LocalDateTime.now().minus(2, ChronoUnit.HOURS);
         Timestamp timestamp = Timestamp.valueOf(limit);
         return DSL.using(config).fetchCount(
-                DSL.select(ANSWER_RESERVATION.IDANSWER_RESERVATION)
+                DSL.select(ANSWER_RESERVATION.ID_ANSWER_RESERVATION)
                         .from(ANSWER_RESERVATION)
                         .leftJoin(ANSWER).onKey()
                         .where(ANSWER_RESERVATION.USED.eq(true).or(
@@ -378,7 +378,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
      */
     public boolean hasWork(int experiment, int worker) {
         boolean hasAnswers = create.fetchExists(
-                DSL.select(ANSWER_RESERVATION.IDANSWER_RESERVATION)
+                DSL.select(ANSWER_RESERVATION.ID_ANSWER_RESERVATION)
                         .from(ANSWER_RESERVATION)
                         .where(ANSWER_RESERVATION.WORKER.eq(worker))
                         .and(ANSWER_RESERVATION.EXPERIMENT.eq(experiment))
@@ -389,7 +389,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
         }
 
         boolean hasRatings = create.fetchExists(
-                DSL.select(RATING_RESERVATION.IDRESERVERD_RATING)
+                DSL.select(RATING_RESERVATION.ID_RESERVERD_RATING)
                         .from(RATING_RESERVATION)
                         .where(RATING_RESERVATION.WORKER.eq(worker))
                         .and(RATING_RESERVATION.EXPERIMENT.eq(experiment))

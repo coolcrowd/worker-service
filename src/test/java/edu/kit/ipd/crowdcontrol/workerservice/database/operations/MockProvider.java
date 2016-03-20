@@ -5,10 +5,7 @@ import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.RatingReserv
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.jooq.tools.jdbc.MockConnection;
-import org.jooq.tools.jdbc.MockDataProvider;
-import org.jooq.tools.jdbc.MockExecuteContext;
-import org.jooq.tools.jdbc.MockResult;
+import org.jooq.tools.jdbc.*;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
@@ -163,13 +160,13 @@ public class MockProvider implements MockDataProvider {
             mock[0] = new MockResult(1, result);
         } else if (sql.endsWith("`RATING_RESERVATION`.`WORKER` = ? AND `CROWDCONTROL`.`RATING_RESERVATION`.`EXPERIMENT` = ?)")) {
             ArrayList<Field<?>> fields = new ArrayList<>(Arrays.asList(ANSWER.fields()));
-            fields.addAll(Arrays.asList(RATING_RESERVATION.IDRESERVERD_RATING));
+            fields.addAll(Arrays.asList(RATING_RESERVATION.ID_RESERVERD_RATING));
             Field<?>[] fieldsArr = fields.toArray(new Field<?>[fields.size()]);
             Result<Record> result = create.newResult(fieldsArr);
             mock[0] = new MockResult(1, result);
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER`.`ID_ANSWER`, `CROWDCONTROL`.`ANSWER`.`EXPERIMENT`, ")) {
             ArrayList<Field<?>> fields = new ArrayList<>(Arrays.asList(ANSWER.fields()));
-            Field<Integer> count = DSL.count(RATING_RESERVATION.IDRESERVERD_RATING).as("count");
+            Field<Integer> count = DSL.count(RATING_RESERVATION.ID_RESERVERD_RATING).as("count");
             fields.add(count);
             Field<?>[] fieldsArr = fields.toArray(new Field<?>[fields.size()]);
             Result<Record> result = create.newResult(fieldsArr);
@@ -183,17 +180,17 @@ public class MockProvider implements MockDataProvider {
                 result.add(record);
             }
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`IDANSWER_RESERVATION` FROM `CROWDCON")) {
-            Result<Record1<Integer>> result = create.newResult(ANSWER_RESERVATION.IDANSWER_RESERVATION);
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`ID_ANSWER_RESERVATION` FROM `CROWDCON")) {
+            Result<Record1<Integer>> result = create.newResult(ANSWER_RESERVATION.ID_ANSWER_RESERVATION);
             int answerGivenCountWorker = dataHolder.getAnswerGiveCountWorker();
             int answersTotalPerWorker = dataHolder.getExperimentRecord().getAnwersPerWorker();
             for (int i = 0; i < answersTotalPerWorker - answerGivenCountWorker; i++) {
-                Record1<Integer> record = create.newRecord(ANSWER_RESERVATION.IDANSWER_RESERVATION);
+                Record1<Integer> record = create.newRecord(ANSWER_RESERVATION.ID_ANSWER_RESERVATION);
                 record.values(i);
                 result.add(record);
             }
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT 1 AS `ONE` FROM DUAL WHERE EXISTS (SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`IDANSWER_RESERVATION` FROM `CROWDCONTROL`.`ANSWER_RESERVATION` WHERE (`CROWDCONTROL`.`ANSWER_RESERVATION`.`WORKER` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`EXPERIMENT` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`USED` = ?))")) {
+        } else if (sql.startsWith("SELECT 1 AS `ONE` FROM DUAL WHERE EXISTS (SELECT `CROWDCONTROL`.`ANSWER_RESERVATION`.`ID_ANSWER_RESERVATION` FROM `CROWDCONTROL`.`ANSWER_RESERVATION` WHERE (`CROWDCONTROL`.`ANSWER_RESERVATION`.`WORKER` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`EXPERIMENT` = ? AND `CROWDCONTROL`.`ANSWER_RESERVATION`.`USED` = ?))")) {
             Param<Integer> val = DSL.val("1", Integer.class);
             Result<Record1<Integer>> result = create.newResult(val);
             Record1<Integer> record = create.newRecord(val);
@@ -216,7 +213,7 @@ public class MockProvider implements MockDataProvider {
         } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_OPTION_EXPERIMENT`")) {
             Result<RatingOptionExperimentRecord> result = create.newResult(RATING_OPTION_EXPERIMENT);
             mock[0] = new MockResult(1, result);
-        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_RESERVATION`.`IDRESERVERD_RATING`, `CROWDCONTROL`.")) {
+        } else if (sql.startsWith("SELECT `CROWDCONTROL`.`RATING_RESERVATION`.`ID_RESERVERD_RATING`, `CROWDCONTROL`.")) {
             Result<RatingReservationRecord> result = create.newResult(RATING_RESERVATION);
             List<AnswerRecord> answerRecords = dataHolder.getAnswerRecords();
             for (int i = answerRecords.size() - 1; i >= 0; i--) {
@@ -241,7 +238,7 @@ public class MockProvider implements MockDataProvider {
             mock[0] = new MockResult(1, null);
         } else if (sql.startsWith("INSERT INTO `CROWDCONTROL`.`RATING` (`EXPERIMENT`, `ANSWER_R`, `WORKER_ID`")) {
             mock[0] = new MockResult(1, null);
-        } else if (sql.startsWith("INSERT INTO `CROWDCONTROL`.`ANSWER_RESERVATION` (`IDANSWER_RESERVATION`, `WORKER`, ")) {
+        } else if (sql.startsWith("INSERT INTO `CROWDCONTROL`.`ANSWER_RESERVATION` (`ID_ANSWER_RESERVATION`, `WORKER`, ")) {
             mock[0] = new MockResult(1, null);
         }
 

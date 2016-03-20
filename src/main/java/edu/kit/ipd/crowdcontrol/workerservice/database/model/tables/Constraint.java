@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Constraint extends TableImpl<ConstraintRecord> {
 
-	private static final long serialVersionUID = -329570116;
+	private static final long serialVersionUID = 407424370;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Constraint</code>
@@ -58,7 +58,7 @@ public class Constraint extends TableImpl<ConstraintRecord> {
 	/**
 	 * The column <code>crowdcontrol.Constraint.constraint</code>.
 	 */
-	public final TableField<ConstraintRecord, String> CONSTRAINT_ = createField("constraint", org.jooq.impl.SQLDataType.VARCHAR.length(45).nullable(false), this, "");
+	public final TableField<ConstraintRecord, String> CONSTRAINT_ = createField("constraint", org.jooq.impl.SQLDataType.VARCHAR.length(191).nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Constraint.experiment</code>.

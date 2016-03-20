@@ -31,19 +31,19 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentsPlatformStatusRecord extends UpdatableRecordImpl<ExperimentsPlatformStatusRecord> implements Record4<Integer, ExperimentsPlatformStatusPlatformStatus, Timestamp, Integer> {
 
-	private static final long serialVersionUID = -495896450;
+	private static final long serialVersionUID = -1172318931;
 
 	/**
-	 * Setter for <code>crowdcontrol.Experiments_Platform_Status.idExperiments_Platform_Status</code>.
+	 * Setter for <code>crowdcontrol.Experiments_Platform_Status.id_experiments_Platform_Status</code>.
 	 */
-	public void setIdexperimentsPlatformStatus(Integer value) {
+	public void setIdExperimentsPlatformStatus(Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Experiments_Platform_Status.idExperiments_Platform_Status</code>.
+	 * Getter for <code>crowdcontrol.Experiments_Platform_Status.id_experiments_Platform_Status</code>.
 	 */
-	public Integer getIdexperimentsPlatformStatus() {
+	public Integer getIdExperimentsPlatformStatus() {
 		return (Integer) getValue(0);
 	}
 
@@ -126,7 +126,7 @@ public class ExperimentsPlatformStatusRecord extends UpdatableRecordImpl<Experim
 	 */
 	@Override
 	public Field<Integer> field1() {
-		return ExperimentsPlatformStatus.EXPERIMENTS_PLATFORM_STATUS.IDEXPERIMENTS_PLATFORM_STATUS;
+		return ExperimentsPlatformStatus.EXPERIMENTS_PLATFORM_STATUS.ID_EXPERIMENTS_PLATFORM_STATUS;
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class ExperimentsPlatformStatusRecord extends UpdatableRecordImpl<Experim
 	 */
 	@Override
 	public Integer value1() {
-		return getIdexperimentsPlatformStatus();
+		return getIdExperimentsPlatformStatus();
 	}
 
 	/**
@@ -190,7 +190,7 @@ public class ExperimentsPlatformStatusRecord extends UpdatableRecordImpl<Experim
 	 */
 	@Override
 	public ExperimentsPlatformStatusRecord value1(Integer value) {
-		setIdexperimentsPlatformStatus(value);
+		setIdExperimentsPlatformStatus(value);
 		return this;
 	}
 
@@ -247,10 +247,10 @@ public class ExperimentsPlatformStatusRecord extends UpdatableRecordImpl<Experim
 	/**
 	 * Create a detached, initialised ExperimentsPlatformStatusRecord
 	 */
-	public ExperimentsPlatformStatusRecord(Integer idexperimentsPlatformStatus, ExperimentsPlatformStatusPlatformStatus platformStatus, Timestamp timestamp, Integer platform) {
+	public ExperimentsPlatformStatusRecord(Integer idExperimentsPlatformStatus, ExperimentsPlatformStatusPlatformStatus platformStatus, Timestamp timestamp, Integer platform) {
 		super(ExperimentsPlatformStatus.EXPERIMENTS_PLATFORM_STATUS);
 
-		setValue(0, idexperimentsPlatformStatus);
+		setValue(0, idExperimentsPlatformStatus);
 		setValue(1, platformStatus);
 		setValue(2, timestamp);
 		setValue(3, platform);

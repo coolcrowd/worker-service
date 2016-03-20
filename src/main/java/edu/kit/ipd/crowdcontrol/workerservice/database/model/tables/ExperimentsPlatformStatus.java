@@ -37,7 +37,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentsPlatformStatus extends TableImpl<ExperimentsPlatformStatusRecord> {
 
-	private static final long serialVersionUID = -347946746;
+	private static final long serialVersionUID = -261963371;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Experiments_Platform_Status</code>
@@ -53,9 +53,9 @@ public class ExperimentsPlatformStatus extends TableImpl<ExperimentsPlatformStat
 	}
 
 	/**
-	 * The column <code>crowdcontrol.Experiments_Platform_Status.idExperiments_Platform_Status</code>.
+	 * The column <code>crowdcontrol.Experiments_Platform_Status.id_experiments_Platform_Status</code>.
 	 */
-	public final TableField<ExperimentsPlatformStatusRecord, Integer> IDEXPERIMENTS_PLATFORM_STATUS = createField("idExperiments_Platform_Status", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final TableField<ExperimentsPlatformStatusRecord, Integer> ID_EXPERIMENTS_PLATFORM_STATUS = createField("id_experiments_Platform_Status", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Experiments_Platform_Status.platform_status</code>.

@@ -31,19 +31,19 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentsPlatformModeRecord extends UpdatableRecordImpl<ExperimentsPlatformModeRecord> implements Record4<Integer, Integer, ExperimentsPlatformModeMode, Timestamp> {
 
-	private static final long serialVersionUID = 304162642;
+	private static final long serialVersionUID = 1350033632;
 
 	/**
-	 * Setter for <code>crowdcontrol.Experiments_Platform_Mode.idExperiments_Platform_Stopgap</code>.
+	 * Setter for <code>crowdcontrol.Experiments_Platform_Mode.id_Experiments_Platform_Mode</code>.
 	 */
-	public void setIdexperimentsPlatformStopgap(Integer value) {
+	public void setIdExperimentsPlatformMode(Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Experiments_Platform_Mode.idExperiments_Platform_Stopgap</code>.
+	 * Getter for <code>crowdcontrol.Experiments_Platform_Mode.id_Experiments_Platform_Mode</code>.
 	 */
-	public Integer getIdexperimentsPlatformStopgap() {
+	public Integer getIdExperimentsPlatformMode() {
 		return (Integer) getValue(0);
 	}
 
@@ -126,7 +126,7 @@ public class ExperimentsPlatformModeRecord extends UpdatableRecordImpl<Experimen
 	 */
 	@Override
 	public Field<Integer> field1() {
-		return ExperimentsPlatformMode.EXPERIMENTS_PLATFORM_MODE.IDEXPERIMENTS_PLATFORM_STOPGAP;
+		return ExperimentsPlatformMode.EXPERIMENTS_PLATFORM_MODE.ID_EXPERIMENTS_PLATFORM_MODE;
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class ExperimentsPlatformModeRecord extends UpdatableRecordImpl<Experimen
 	 */
 	@Override
 	public Integer value1() {
-		return getIdexperimentsPlatformStopgap();
+		return getIdExperimentsPlatformMode();
 	}
 
 	/**
@@ -190,7 +190,7 @@ public class ExperimentsPlatformModeRecord extends UpdatableRecordImpl<Experimen
 	 */
 	@Override
 	public ExperimentsPlatformModeRecord value1(Integer value) {
-		setIdexperimentsPlatformStopgap(value);
+		setIdExperimentsPlatformMode(value);
 		return this;
 	}
 
@@ -247,10 +247,10 @@ public class ExperimentsPlatformModeRecord extends UpdatableRecordImpl<Experimen
 	/**
 	 * Create a detached, initialised ExperimentsPlatformModeRecord
 	 */
-	public ExperimentsPlatformModeRecord(Integer idexperimentsPlatformStopgap, Integer experimentsPlatform, ExperimentsPlatformModeMode mode, Timestamp timestamp) {
+	public ExperimentsPlatformModeRecord(Integer idExperimentsPlatformMode, Integer experimentsPlatform, ExperimentsPlatformModeMode mode, Timestamp timestamp) {
 		super(ExperimentsPlatformMode.EXPERIMENTS_PLATFORM_MODE);
 
-		setValue(0, idexperimentsPlatformStopgap);
+		setValue(0, idExperimentsPlatformMode);
 		setValue(1, experimentsPlatform);
 		setValue(2, mode);
 		setValue(3, timestamp);

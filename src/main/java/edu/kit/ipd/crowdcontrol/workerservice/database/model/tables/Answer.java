@@ -36,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Answer extends TableImpl<AnswerRecord> {
 
-	private static final long serialVersionUID = 1549354996;
+	private static final long serialVersionUID = 885041456;
 
 	/**
 	 * The reference instance of <code>crowdcontrol.Answer</code>
@@ -89,7 +89,7 @@ public class Answer extends TableImpl<AnswerRecord> {
 	/**
 	 * The column <code>crowdcontrol.Answer.quality_assured</code>.
 	 */
-	public final TableField<AnswerRecord, Boolean> QUALITY_ASSURED = createField("quality_assured", org.jooq.impl.SQLDataType.BIT, this, "");
+	public final TableField<AnswerRecord, Boolean> QUALITY_ASSURED = createField("quality_assured", org.jooq.impl.SQLDataType.BIT.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * The column <code>crowdcontrol.Answer.system_response</code>.
@@ -100,6 +100,11 @@ public class Answer extends TableImpl<AnswerRecord> {
 	 * The column <code>crowdcontrol.Answer.hash</code>.
 	 */
 	public final TableField<AnswerRecord, Long> HASH = createField("hash", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+	/**
+	 * The column <code>crowdcontrol.Answer.duplicate</code>.
+	 */
+	public final TableField<AnswerRecord, Boolean> DUPLICATE = createField("duplicate", org.jooq.impl.SQLDataType.BIT.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>crowdcontrol.Answer</code> table reference

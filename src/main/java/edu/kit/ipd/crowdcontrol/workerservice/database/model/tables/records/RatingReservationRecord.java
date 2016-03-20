@@ -30,19 +30,19 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class RatingReservationRecord extends UpdatableRecordImpl<RatingReservationRecord> implements Record6<Integer, Integer, Integer, Integer, Timestamp, Boolean> {
 
-	private static final long serialVersionUID = -1139100851;
+	private static final long serialVersionUID = 1480720532;
 
 	/**
-	 * Setter for <code>crowdcontrol.Rating_Reservation.idReserverd_Rating</code>.
+	 * Setter for <code>crowdcontrol.Rating_Reservation.id_reserverd_Rating</code>.
 	 */
-	public void setIdreserverdRating(Integer value) {
+	public void setIdReserverdRating(Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>crowdcontrol.Rating_Reservation.idReserverd_Rating</code>.
+	 * Getter for <code>crowdcontrol.Rating_Reservation.id_reserverd_Rating</code>.
 	 */
-	public Integer getIdreserverdRating() {
+	public Integer getIdReserverdRating() {
 		return (Integer) getValue(0);
 	}
 
@@ -153,7 +153,7 @@ public class RatingReservationRecord extends UpdatableRecordImpl<RatingReservati
 	 */
 	@Override
 	public Field<Integer> field1() {
-		return RatingReservation.RATING_RESERVATION.IDRESERVERD_RATING;
+		return RatingReservation.RATING_RESERVATION.ID_RESERVERD_RATING;
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class RatingReservationRecord extends UpdatableRecordImpl<RatingReservati
 	 */
 	@Override
 	public Integer value1() {
-		return getIdreserverdRating();
+		return getIdReserverdRating();
 	}
 
 	/**
@@ -249,7 +249,7 @@ public class RatingReservationRecord extends UpdatableRecordImpl<RatingReservati
 	 */
 	@Override
 	public RatingReservationRecord value1(Integer value) {
-		setIdreserverdRating(value);
+		setIdReserverdRating(value);
 		return this;
 	}
 
@@ -326,10 +326,10 @@ public class RatingReservationRecord extends UpdatableRecordImpl<RatingReservati
 	/**
 	 * Create a detached, initialised RatingReservationRecord
 	 */
-	public RatingReservationRecord(Integer idreserverdRating, Integer worker, Integer experiment, Integer answer, Timestamp timestamp, Boolean used) {
+	public RatingReservationRecord(Integer idReserverdRating, Integer worker, Integer experiment, Integer answer, Timestamp timestamp, Boolean used) {
 		super(RatingReservation.RATING_RESERVATION);
 
-		setValue(0, idreserverdRating);
+		setValue(0, idReserverdRating);
 		setValue(1, worker);
 		setValue(2, experiment);
 		setValue(3, answer);
