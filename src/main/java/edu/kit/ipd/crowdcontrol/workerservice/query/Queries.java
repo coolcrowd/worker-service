@@ -393,7 +393,10 @@ public class Queries implements RequestHelper {
             } else {
                 return Optional.empty();
             }
-        }).orElseGet(() -> builder.setType(View.Type.FINISHED).build());
+        }).orElseGet(() -> {
+            experimentsPlatformOperations.releaseReservations(context.get(WorkerID.class).get(), experiment);
+            return builder.setType(View.Type.FINISHED).build();
+        });
 
     }
 }
