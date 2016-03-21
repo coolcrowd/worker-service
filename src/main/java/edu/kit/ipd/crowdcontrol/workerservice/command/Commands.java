@@ -189,11 +189,11 @@ public class Commands implements RequestHelper {
                 Arrays.asList(Rating.FEEDBACK_FIELD_NUMBER, Rating.RATING_FIELD_NUMBER), (rating, workerID) -> {
                     logger.debug("Request to submit rating {} for worker {}.", rating, workerID);
                     if (rating.getConstraintsCount() > 0) {
-                        logger.debug("rating {} from worker {} has constraints, setting rating to 0", rating.getRatingId(), workerID);
+                        logger.debug("rating {} from worker {} has constraints, setting rating to 0", rating.getReservation(), workerID);
                         rating.setRating(0);
                     }
                     return communication.submitRating(
-                            rating.getRatingId(),
+                            rating.getReservation(),
                             rating.getRating(),
                             rating.getFeedback(),
                             rating.getExperiment(),

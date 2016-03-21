@@ -22,12 +22,12 @@ public final class RatingOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014rating.proto\022\014crowdcontrol\"y\n\006Rating\022\021" +
-      "\n\trating_id\030\001 \001(\005\022\016\n\006rating\030\002 \001(\005\022\022\n\nexp" +
-      "eriment\030\003 \001(\005\022\021\n\tanswer_id\030\004 \001(\005\022\020\n\010feed" +
-      "back\030\005 \001(\t\022\023\n\013constraints\030\006 \003(\005B0\n,edu.k" +
-      "it.ipd.crowdcontrol.workerservice.protoP" +
-      "\001b\006proto3"
+      "\n\014rating.proto\022\014crowdcontrol\"{\n\006Rating\022\023" +
+      "\n\013reservation\030\001 \001(\005\022\016\n\006rating\030\002 \001(\005\022\022\n\ne" +
+      "xperiment\030\003 \001(\005\022\021\n\tanswer_id\030\004 \001(\005\022\020\n\010fe" +
+      "edback\030\005 \001(\t\022\023\n\013constraints\030\006 \003(\005B0\n,edu" +
+      ".kit.ipd.crowdcontrol.workerservice.prot" +
+      "oP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -46,7 +46,7 @@ public final class RatingOuterClass {
     internal_static_crowdcontrol_Rating_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Rating_descriptor,
-        new java.lang.String[] { "RatingId", "Rating", "Experiment", "AnswerId", "Feedback", "Constraints", });
+        new java.lang.String[] { "Reservation", "Rating", "Experiment", "AnswerId", "Feedback", "Constraints", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -27,12 +27,12 @@ public final class ExperimentsOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021experiments.proto\022\014crowdcontrol\"p\n\013Exp" +
-      "eriments\0229\n\013experiments\030\001 \003(\0132$.crowdcon" +
-      "trol.Experiments.Experiment\032&\n\nExperimen" +
-      "t\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\tB0\n,edu.kit.i" +
-      "pd.crowdcontrol.workerservice.protoP\001b\006p" +
-      "roto3"
+      "\n\021experiments.proto\022\014crowdcontrol\"\206\001\n\013Ex" +
+      "periments\0229\n\013experiments\030\001 \003(\0132$.crowdco" +
+      "ntrol.Experiments.Experiment\032<\n\nExperime" +
+      "nt\022\n\n\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(\t\022\023\n\013descrip" +
+      "tion\030\003 \001(\tB0\n,edu.kit.ipd.crowdcontrol.w" +
+      "orkerservice.protoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -57,7 +57,7 @@ public final class ExperimentsOuterClass {
     internal_static_crowdcontrol_Experiments_Experiment_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_crowdcontrol_Experiments_Experiment_descriptor,
-        new java.lang.String[] { "Id", "Name", });
+        new java.lang.String[] { "Id", "Title", "Description", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -154,7 +154,7 @@ public abstract class TaskChooserAlgorithm {
                 .stream()
                 .map(entry -> View.Answer.newBuilder()
                         .setAnswer(entry.getValue().getAnswer())
-                        .setId(entry.getKey())
+                        .setReservation(entry.getKey())
                         .setAnswerId(entry.getValue().getIdAnswer())
                         .build())
                 .collect(Collectors.toList());
