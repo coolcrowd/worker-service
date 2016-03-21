@@ -177,13 +177,12 @@ public class ExperimentOperations extends AbstractOperation {
                 .where(Tables.RATING_OPTION_EXPERIMENT.EXPERIMENT.eq(experiment))
                 .fetch();
     }
-
     /**
      * returns all the running experiments for the platform
      * @param platform the currently active platform
      * @return the platforms
      */
-    public Result<Record2<Integer, String>> getRunningExperimentsForPlatform(String platform) {
+    public Result<Record3<Integer, String, String>> getRunningExperimentsForPlatform(String platform) {
         Field<Timestamp> maxTimestamp = DSL.max(EXPERIMENTS_PLATFORM_STATUS.TIMESTAMP).as("max");
         Table<Record3<ExperimentsPlatformStatusPlatformStatus, Integer, Timestamp>> maxTable = DSL
                 .select(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS, EXPERIMENTS_PLATFORM_STATUS.PLATFORM, maxTimestamp)
@@ -195,7 +194,7 @@ public class ExperimentOperations extends AbstractOperation {
                 .groupBy(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS, EXPERIMENTS_PLATFORM_STATUS.PLATFORM)
                 .asTable("maxTable");
 
-        return create.select(EXPERIMENT.ID_EXPERIMENT, EXPERIMENT.TITLE)
+        return create.select(EXPERIMENT.ID_EXPERIMENT, EXPERIMENT.TITLE, EXPERIMENT.DESCRIPTION)
                 .from(
                         maxTable
                 ).innerJoin(EXPERIMENTS_PLATFORM_STATUS).on(EXPERIMENTS_PLATFORM_STATUS.PLATFORM.eq(maxTable.field(EXPERIMENTS_PLATFORM_STATUS.PLATFORM))
