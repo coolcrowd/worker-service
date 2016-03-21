@@ -178,6 +178,11 @@ public class ExperimentOperations extends AbstractOperation {
                 .fetch();
     }
 
+    /**
+     * returns all the running experiments for the platform
+     * @param platform the currently active platform
+     * @return the platforms
+     */
     public Result<Record2<Integer, String>> getRunningExperimentsForPlatform(String platform) {
         Field<Timestamp> maxTimestamp = DSL.max(EXPERIMENTS_PLATFORM_STATUS.TIMESTAMP).as("max");
         Table<Record3<ExperimentsPlatformStatusPlatformStatus, Integer, Timestamp>> maxTable = DSL
