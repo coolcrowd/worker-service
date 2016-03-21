@@ -197,11 +197,7 @@ public class ExperimentOperations extends AbstractOperation {
                         .and(EXPERIMENTS_PLATFORM_STATUS.TIMESTAMP.eq(maxTable.field(maxTimestamp))))
                 .innerJoin(EXPERIMENTS_PLATFORM).onKey()
                 .innerJoin(EXPERIMENT).onKey()
-                .where(EXPERIMENTS_PLATFORM_STATUS.PLATFORM.in(
-                        DSL.select(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS)
-                                .from(EXPERIMENTS_PLATFORM)
-                                .where(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
-                ))
+                .where(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
                 .fetch();
 
     }
