@@ -206,7 +206,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                                     DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
                                             .from(EXPERIMENT)
                                             .where(EXPERIMENT.ID_EXPERIMENT.eq(experiment))
-                            )).or(DSL.condition(true))
+                            )).or(ANSWER.QUALITY_ASSURED.eq(false))
                     )
                     .groupBy(ANSWER.fields())
                     .having(count.lessThan(
@@ -286,7 +286,7 @@ public class ExperimentsPlatformOperations extends AbstractOperation {
                                 DSL.select(EXPERIMENT.RESULT_QUALITY_THRESHOLD)
                                         .from(EXPERIMENT)
                                         .where(EXPERIMENT.ID_EXPERIMENT.eq(experiment)))
-                                ).or(DSL.condition(true))
+                                ).or(ANSWER.QUALITY_ASSURED.eq(false))
                         )
         );
     }
