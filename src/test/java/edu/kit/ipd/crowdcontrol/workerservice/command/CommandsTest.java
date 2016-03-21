@@ -178,7 +178,7 @@ public class CommandsTest {
                         .setRating(rating)
                         .setAnswerId(answerID)
                         .setExperiment(experiment)
-                        .setRatingId(ratingID)
+                        .setReservation(ratingID)
                         .build(),
                 experiment, answerID, workerID, ratingID, context -> verify(context.getResponse()).status(201));
     }

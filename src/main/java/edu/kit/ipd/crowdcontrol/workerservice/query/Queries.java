@@ -146,7 +146,8 @@ public class Queries implements RequestHelper {
             throw new NotFoundException(String.format("Platform %s not found", platformName));
         }
         List<Experiments.Experiment> experiments = experimentOperations.getRunningExperimentsForPlatform(platformName).stream()
-                .map(experiment -> Experiments.Experiment.newBuilder().setId(experiment.value1()).setName(experiment.value2()).build())
+                .map(experiment -> Experiments.Experiment.newBuilder().setId(experiment.value1()).setTitle(experiment.value2())
+                        .setDescription(experiment.value3()).build())
                 .collect(Collectors.toList());
         return Experiments.newBuilder().addAllExperiments(experiments).build();
     }

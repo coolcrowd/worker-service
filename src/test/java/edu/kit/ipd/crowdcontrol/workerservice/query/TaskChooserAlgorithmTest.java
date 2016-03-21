@@ -64,7 +64,7 @@ public class TaskChooserAlgorithmTest {
         assertTrue(view.getType().equals(View.Type.RATING));
         assertTrue(builder.getAnswersToRateCount() != neededRatings);
         for (View.Answer answer : builder.getAnswersToRateList()) {
-            assertTrue(data.getAnswerRecords().get(answer.getId()).getAnswer().equals(answer.getAnswer()));
+            assertTrue(data.getAnswerRecords().get(answer.getReservation()).getAnswer().equals(answer.getAnswer()));
         }
     }
 
