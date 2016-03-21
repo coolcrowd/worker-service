@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -203,6 +202,7 @@ public class Queries implements RequestHelper {
             if (strategyStep.isPresent()) {
                 return strategyStep.get();
             }
+            return workerFinishedIfHasWork(builder, context);
         } else {
             logger.debug("worker {} is not allowed to work on the assignment", context.get(WorkerID.class).get());
         }
@@ -379,6 +379,26 @@ public class Queries implements RequestHelper {
     }
 
     /**
+     * returns FINISHED if the worker has submitted work or ANSWER/RATING if the worker has not submitted work
+     * and can work.
+     *
+     * @param builder the builder to use
+     * @param context the Context of the Request
+     * @return an View with the Type FINISHED or ANSWER/RATING
+     */
+    private View workerFinishedIfHasWork(View.Builder builder, Context context) {
+        int experiment = assertParameterInt(context, "experiment");
+        return context.maybeGet(WorkerID.class).flatMap(id -> {
+            if (!experimentsPlatformOperations.hasWork(experiment, id.get())) {
+                return getStrategyStep(builder, context, false, false);
+            } else {
+                return Optional.empty();
+            }
+        }).orElseGet(() -> workerFinished(builder, context));
+
+    }
+
+    /**
      * notifies the platform that the worker has finished the assignment and constructs the Finished View
      *
      * @param builder the builder to use
@@ -387,16 +407,7 @@ public class Queries implements RequestHelper {
      */
     private View workerFinished(View.Builder builder, Context context) {
         int experiment = assertParameterInt(context, "experiment");
-        return context.maybeGet(WorkerID.class).flatMap(id -> {
-            if (!experimentsPlatformOperations.hasWork(experiment, id.get())) {
-                return getStrategyStep(builder, context, false, false);
-            } else {
-                return Optional.empty();
-            }
-        }).orElseGet(() -> {
-            experimentsPlatformOperations.releaseReservations(context.get(WorkerID.class).get(), experiment);
-            return builder.setType(View.Type.FINISHED).build();
-        });
-
+        experimentsPlatformOperations.releaseReservations(context.get(WorkerID.class).get(), experiment);
+        return builder.setType(View.Type.FINISHED).build();
     }
 }
