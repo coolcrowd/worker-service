@@ -15,7 +15,7 @@ public  final class Rating extends
     super(builder);
   }
   private Rating() {
-    ratingId_ = 0;
+    reservation_ = 0;
     rating_ = 0;
     experiment_ = 0;
     answerId_ = 0;
@@ -49,7 +49,7 @@ public  final class Rating extends
           }
           case 8: {
 
-            ratingId_ = input.readInt32();
+            reservation_ = input.readInt32();
             break;
           }
           case 16: {
@@ -68,7 +68,7 @@ public  final class Rating extends
             break;
           }
           case 42: {
-            java.lang.String s = input.readStringRequireUtf8();
+            String s = input.readStringRequireUtf8();
 
             feedback_ = s;
             break;
@@ -122,13 +122,13 @@ public  final class Rating extends
   }
 
   private int bitField0_;
-  public static final int RATING_ID_FIELD_NUMBER = 1;
-  private int ratingId_;
+  public static final int RESERVATION_FIELD_NUMBER = 1;
+  private int reservation_;
   /**
-   * <code>optional int32 rating_id = 1;</code>
+   * <code>optional int32 reservation = 1;</code>
    */
-  public int getRatingId() {
-    return ratingId_;
+  public int getReservation() {
+    return reservation_;
   }
 
   public static final int RATING_FIELD_NUMBER = 2;
@@ -228,8 +228,8 @@ public  final class Rating extends
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     getSerializedSize();
-    if (ratingId_ != 0) {
-      output.writeInt32(1, ratingId_);
+    if (reservation_ != 0) {
+      output.writeInt32(1, reservation_);
     }
     if (rating_ != 0) {
       output.writeInt32(2, rating_);
@@ -257,9 +257,9 @@ public  final class Rating extends
     if (size != -1) return size;
 
     size = 0;
-    if (ratingId_ != 0) {
+    if (reservation_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, ratingId_);
+        .computeInt32Size(1, reservation_);
     }
     if (rating_ != 0) {
       size += com.google.protobuf.CodedOutputStream
@@ -401,7 +401,7 @@ public  final class Rating extends
     }
     public Builder clear() {
       super.clear();
-      ratingId_ = 0;
+      reservation_ = 0;
 
       rating_ = 0;
 
@@ -437,7 +437,7 @@ public  final class Rating extends
       edu.kit.ipd.crowdcontrol.workerservice.proto.Rating result = new edu.kit.ipd.crowdcontrol.workerservice.proto.Rating(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
-      result.ratingId_ = ratingId_;
+      result.reservation_ = reservation_;
       result.rating_ = rating_;
       result.experiment_ = experiment_;
       result.answerId_ = answerId_;
@@ -463,8 +463,8 @@ public  final class Rating extends
 
     public Builder mergeFrom(edu.kit.ipd.crowdcontrol.workerservice.proto.Rating other) {
       if (other == edu.kit.ipd.crowdcontrol.workerservice.proto.Rating.getDefaultInstance()) return this;
-      if (other.getRatingId() != 0) {
-        setRatingId(other.getRatingId());
+      if (other.getReservation() != 0) {
+        setReservation(other.getReservation());
       }
       if (other.getRating() != 0) {
         setRating(other.getRating());
@@ -516,28 +516,28 @@ public  final class Rating extends
     }
     private int bitField0_;
 
-    private int ratingId_ ;
+    private int reservation_ ;
     /**
-     * <code>optional int32 rating_id = 1;</code>
+     * <code>optional int32 reservation = 1;</code>
      */
-    public int getRatingId() {
-      return ratingId_;
+    public int getReservation() {
+      return reservation_;
     }
     /**
-     * <code>optional int32 rating_id = 1;</code>
+     * <code>optional int32 reservation = 1;</code>
      */
-    public Builder setRatingId(int value) {
+    public Builder setReservation(int value) {
       
-      ratingId_ = value;
+      reservation_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional int32 rating_id = 1;</code>
+     * <code>optional int32 reservation = 1;</code>
      */
-    public Builder clearRatingId() {
+    public Builder clearReservation() {
       
-      ratingId_ = 0;
+      reservation_ = 0;
       onChanged();
       return this;
     }

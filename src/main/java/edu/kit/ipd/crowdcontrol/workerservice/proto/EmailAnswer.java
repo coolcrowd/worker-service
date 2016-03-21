@@ -43,7 +43,7 @@ public  final class EmailAnswer extends
             break;
           }
           case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
+            String s = input.readStringRequireUtf8();
 
             authorization_ = s;
             break;

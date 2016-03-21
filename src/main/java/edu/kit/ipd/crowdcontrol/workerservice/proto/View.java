@@ -53,7 +53,7 @@ public  final class View extends
             break;
           }
           case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
+            String s = input.readStringRequireUtf8();
 
             authorization_ = s;
             break;
@@ -65,13 +65,13 @@ public  final class View extends
             break;
           }
           case 26: {
-            java.lang.String s = input.readStringRequireUtf8();
+            String s = input.readStringRequireUtf8();
 
             title_ = s;
             break;
           }
           case 34: {
-            java.lang.String s = input.readStringRequireUtf8();
+            String s = input.readStringRequireUtf8();
 
             description_ = s;
             break;
@@ -98,7 +98,7 @@ public  final class View extends
             break;
           }
           case 50: {
-            java.lang.String s = input.readStringRequireUtf8();
+            String s = input.readStringRequireUtf8();
 
             answerType_ = s;
             break;
@@ -369,7 +369,7 @@ public  final class View extends
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              String s = input.readStringRequireUtf8();
 
               name_ = s;
               break;
@@ -877,13 +877,13 @@ public  final class View extends
               break;
             }
             case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
+              String s = input.readStringRequireUtf8();
 
               url_ = s;
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              String s = input.readStringRequireUtf8();
 
               urlLicense_ = s;
               break;
@@ -1479,7 +1479,7 @@ public  final class View extends
               break;
             }
             case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
+              String s = input.readStringRequireUtf8();
 
               question_ = s;
               break;
@@ -2327,7 +2327,7 @@ public  final class View extends
               break;
             }
             case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
+              String s = input.readStringRequireUtf8();
 
               option_ = s;
               break;
@@ -2780,9 +2780,9 @@ public  final class View extends
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional int32 id = 1;</code>
+     * <code>optional int32 reservation = 1;</code>
      */
-    int getId();
+    int getReservation();
 
     /**
      * <code>optional int32 answer_id = 2;</code>
@@ -2811,7 +2811,7 @@ public  final class View extends
       super(builder);
     }
     private Answer() {
-      id_ = 0;
+      reservation_ = 0;
       answerId_ = 0;
       answer_ = "";
     }
@@ -2842,7 +2842,7 @@ public  final class View extends
             }
             case 8: {
 
-              id_ = input.readInt32();
+              reservation_ = input.readInt32();
               break;
             }
             case 16: {
@@ -2851,7 +2851,7 @@ public  final class View extends
               break;
             }
             case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
+              String s = input.readStringRequireUtf8();
 
               answer_ = s;
               break;
@@ -2880,13 +2880,13 @@ public  final class View extends
               edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.class, edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.Builder.class);
     }
 
-    public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
+    public static final int RESERVATION_FIELD_NUMBER = 1;
+    private int reservation_;
     /**
-     * <code>optional int32 id = 1;</code>
+     * <code>optional int32 reservation = 1;</code>
      */
-    public int getId() {
-      return id_;
+    public int getReservation() {
+      return reservation_;
     }
 
     public static final int ANSWER_ID_FIELD_NUMBER = 2;
@@ -2944,8 +2944,8 @@ public  final class View extends
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (id_ != 0) {
-        output.writeInt32(1, id_);
+      if (reservation_ != 0) {
+        output.writeInt32(1, reservation_);
       }
       if (answerId_ != 0) {
         output.writeInt32(2, answerId_);
@@ -2960,9 +2960,9 @@ public  final class View extends
       if (size != -1) return size;
 
       size = 0;
-      if (id_ != 0) {
+      if (reservation_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, id_);
+          .computeInt32Size(1, reservation_);
       }
       if (answerId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -3082,7 +3082,7 @@ public  final class View extends
       }
       public Builder clear() {
         super.clear();
-        id_ = 0;
+        reservation_ = 0;
 
         answerId_ = 0;
 
@@ -3110,7 +3110,7 @@ public  final class View extends
 
       public edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer buildPartial() {
         edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer result = new edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer(this);
-        result.id_ = id_;
+        result.reservation_ = reservation_;
         result.answerId_ = answerId_;
         result.answer_ = answer_;
         onBuilt();
@@ -3128,8 +3128,8 @@ public  final class View extends
 
       public Builder mergeFrom(edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer other) {
         if (other == edu.kit.ipd.crowdcontrol.workerservice.proto.View.Answer.getDefaultInstance()) return this;
-        if (other.getId() != 0) {
-          setId(other.getId());
+        if (other.getReservation() != 0) {
+          setReservation(other.getReservation());
         }
         if (other.getAnswerId() != 0) {
           setAnswerId(other.getAnswerId());
@@ -3164,28 +3164,28 @@ public  final class View extends
         return this;
       }
 
-      private int id_ ;
+      private int reservation_ ;
       /**
-       * <code>optional int32 id = 1;</code>
+       * <code>optional int32 reservation = 1;</code>
        */
-      public int getId() {
-        return id_;
+      public int getReservation() {
+        return reservation_;
       }
       /**
-       * <code>optional int32 id = 1;</code>
+       * <code>optional int32 reservation = 1;</code>
        */
-      public Builder setId(int value) {
+      public Builder setReservation(int value) {
         
-        id_ = value;
+        reservation_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 id = 1;</code>
+       * <code>optional int32 reservation = 1;</code>
        */
-      public Builder clearId() {
+      public Builder clearReservation() {
         
-        id_ = 0;
+        reservation_ = 0;
         onChanged();
         return this;
       }
@@ -3407,7 +3407,7 @@ public  final class View extends
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              String s = input.readStringRequireUtf8();
 
               description_ = s;
               break;

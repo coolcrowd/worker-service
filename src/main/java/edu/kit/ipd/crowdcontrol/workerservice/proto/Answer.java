@@ -45,7 +45,7 @@ public  final class Answer extends
             break;
           }
           case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
+            String s = input.readStringRequireUtf8();
 
             answer_ = s;
             break;

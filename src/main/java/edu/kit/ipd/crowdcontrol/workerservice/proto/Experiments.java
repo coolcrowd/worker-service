@@ -87,14 +87,24 @@ public  final class Experiments extends
     int getId();
 
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string title = 2;</code>
      */
-    java.lang.String getName();
+    java.lang.String getTitle();
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string title = 2;</code>
      */
     com.google.protobuf.ByteString
-        getNameBytes();
+        getTitleBytes();
+
+    /**
+     * <code>optional string description = 3;</code>
+     */
+    java.lang.String getDescription();
+    /**
+     * <code>optional string description = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getDescriptionBytes();
   }
   /**
    * Protobuf type {@code crowdcontrol.Experiments.Experiment}
@@ -109,7 +119,8 @@ public  final class Experiments extends
     }
     private Experiment() {
       id_ = 0;
-      name_ = "";
+      title_ = "";
+      description_ = "";
     }
 
     @java.lang.Override
@@ -142,9 +153,15 @@ public  final class Experiments extends
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              String s = input.readStringRequireUtf8();
 
-              name_ = s;
+              title_ = s;
+              break;
+            }
+            case 26: {
+              String s = input.readStringRequireUtf8();
+
+              description_ = s;
               break;
             }
           }
@@ -180,34 +197,68 @@ public  final class Experiments extends
       return id_;
     }
 
-    public static final int NAME_FIELD_NUMBER = 2;
-    private volatile java.lang.Object name_;
+    public static final int TITLE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object title_;
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string title = 2;</code>
      */
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
+    public java.lang.String getTitle() {
+      java.lang.Object ref = title_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        name_ = s;
+        title_ = s;
         return s;
       }
     }
     /**
-     * <code>optional string name = 2;</code>
+     * <code>optional string title = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
+        getTitleBytes() {
+      java.lang.Object ref = title_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        name_ = b;
+        title_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DESCRIPTION_FIELD_NUMBER = 3;
+    private volatile java.lang.Object description_;
+    /**
+     * <code>optional string description = 3;</code>
+     */
+    public java.lang.String getDescription() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        description_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string description = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDescriptionBytes() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        description_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -229,8 +280,11 @@ public  final class Experiments extends
       if (id_ != 0) {
         output.writeInt32(1, id_);
       }
-      if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 2, name_);
+      if (!getTitleBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, title_);
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 3, description_);
       }
     }
 
@@ -243,8 +297,11 @@ public  final class Experiments extends
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, id_);
       }
-      if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, name_);
+      if (!getTitleBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, title_);
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(3, description_);
       }
       memoizedSize = size;
       return size;
@@ -359,7 +416,9 @@ public  final class Experiments extends
         super.clear();
         id_ = 0;
 
-        name_ = "";
+        title_ = "";
+
+        description_ = "";
 
         return this;
       }
@@ -384,7 +443,8 @@ public  final class Experiments extends
       public edu.kit.ipd.crowdcontrol.workerservice.proto.Experiments.Experiment buildPartial() {
         edu.kit.ipd.crowdcontrol.workerservice.proto.Experiments.Experiment result = new edu.kit.ipd.crowdcontrol.workerservice.proto.Experiments.Experiment(this);
         result.id_ = id_;
-        result.name_ = name_;
+        result.title_ = title_;
+        result.description_ = description_;
         onBuilt();
         return result;
       }
@@ -403,8 +463,12 @@ public  final class Experiments extends
         if (other.getId() != 0) {
           setId(other.getId());
         }
-        if (!other.getName().isEmpty()) {
-          name_ = other.name_;
+        if (!other.getTitle().isEmpty()) {
+          title_ = other.title_;
+          onChanged();
+        }
+        if (!other.getDescription().isEmpty()) {
+          description_ = other.description_;
           onChanged();
         }
         onChanged();
@@ -459,71 +523,140 @@ public  final class Experiments extends
         return this;
       }
 
-      private java.lang.Object name_ = "";
+      private java.lang.Object title_ = "";
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string title = 2;</code>
        */
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          name_ = s;
+          title_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string title = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
+          getTitleBytes() {
+        java.lang.Object ref = title_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          name_ = b;
+          title_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string title = 2;</code>
        */
-      public Builder setName(
+      public Builder setTitle(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        name_ = value;
+        title_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string title = 2;</code>
        */
-      public Builder clearName() {
+      public Builder clearTitle() {
         
-        name_ = getDefaultInstance().getName();
+        title_ = getDefaultInstance().getTitle();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string name = 2;</code>
+       * <code>optional string title = 2;</code>
        */
-      public Builder setNameBytes(
+      public Builder setTitleBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        name_ = value;
+        title_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object description_ = "";
+      /**
+       * <code>optional string description = 3;</code>
+       */
+      public java.lang.String getDescription() {
+        java.lang.Object ref = description_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          description_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string description = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDescriptionBytes() {
+        java.lang.Object ref = description_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          description_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string description = 3;</code>
+       */
+      public Builder setDescription(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        description_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string description = 3;</code>
+       */
+      public Builder clearDescription() {
+        
+        description_ = getDefaultInstance().getDescription();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string description = 3;</code>
+       */
+      public Builder setDescriptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        description_ = value;
         onChanged();
         return this;
       }
