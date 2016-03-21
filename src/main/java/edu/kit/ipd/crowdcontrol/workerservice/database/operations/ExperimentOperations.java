@@ -3,6 +3,7 @@ package edu.kit.ipd.crowdcontrol.workerservice.database.operations;
 import com.google.common.cache.LoadingCache;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.*;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.enums.ExperimentsPlatformStatusPlatformStatus;
+import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.ExperimentsPlatformStatus;
 import edu.kit.ipd.crowdcontrol.workerservice.database.model.tables.records.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -11,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static edu.kit.ipd.crowdcontrol.workerservice.database.model.Tables.*;
 
@@ -177,31 +179,43 @@ public class ExperimentOperations extends AbstractOperation {
                 .where(Tables.RATING_OPTION_EXPERIMENT.EXPERIMENT.eq(experiment))
                 .fetch();
     }
+
     /**
-     * returns all the running experiments for the platform
-     * @param platform the currently active platform
-     * @return the platforms
+     * returns all the running experiments for the platforms
+     * @param platform the active platform
+     * @return the running experiments
      */
     public Result<Record3<Integer, String, String>> getRunningExperimentsForPlatform(String platform) {
-        Field<Timestamp> maxTimestamp = DSL.max(EXPERIMENTS_PLATFORM_STATUS.TIMESTAMP).as("max");
-        Table<Record3<ExperimentsPlatformStatusPlatformStatus, Integer, Timestamp>> maxTable = DSL
-                .select(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS, EXPERIMENTS_PLATFORM_STATUS.PLATFORM, maxTimestamp)
-                .from(EXPERIMENTS_PLATFORM_STATUS)
-                .where(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS.in(Arrays.asList(
-                        ExperimentsPlatformStatusPlatformStatus.running,
-                        ExperimentsPlatformStatusPlatformStatus.creative_stopping
-                )))
-                .groupBy(EXPERIMENTS_PLATFORM_STATUS.PLATFORM_STATUS, EXPERIMENTS_PLATFORM_STATUS.PLATFORM)
-                .asTable("maxTable");
+        ExperimentsPlatformStatus status1 = EXPERIMENTS_PLATFORM_STATUS.as("mode1");
+        ExperimentsPlatformStatus status2 = EXPERIMENTS_PLATFORM_STATUS.as("mode2");
+        List<ExperimentsPlatformStatusPlatformStatus> validStates = Arrays.asList(
+                ExperimentsPlatformStatusPlatformStatus.running,
+                ExperimentsPlatformStatusPlatformStatus.creative_stopping
+        );
+        SelectConditionStep<Record1<Integer>> experiments = create.select(EXPERIMENTS_PLATFORM.EXPERIMENT)
+                .from(EXPERIMENTS_PLATFORM)
+                .join(status1).on(
+                        EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS.eq(status1.PLATFORM)
+                                .and(status1.PLATFORM_STATUS.in(validStates))
+                )
+                .leftOuterJoin(status2).on(
+                        EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS.eq(status2.PLATFORM)
+                                .and(status1.TIMESTAMP.lessThan(status2.TIMESTAMP).or(status1.TIMESTAMP.eq(status2.TIMESTAMP)
+                                        .and(status1.ID_EXPERIMENTS_PLATFORM_STATUS.lessThan(status2.ID_EXPERIMENTS_PLATFORM_STATUS))))
+                                .and(status2.PLATFORM_STATUS.in(validStates))
+                )
+                .where(status2.ID_EXPERIMENTS_PLATFORM_STATUS.isNull())
+                .and(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform));
 
         return create.select(EXPERIMENT.ID_EXPERIMENT, EXPERIMENT.TITLE, EXPERIMENT.DESCRIPTION)
-                .from(
-                        maxTable
-                ).innerJoin(EXPERIMENTS_PLATFORM_STATUS).on(EXPERIMENTS_PLATFORM_STATUS.PLATFORM.eq(maxTable.field(EXPERIMENTS_PLATFORM_STATUS.PLATFORM))
-                        .and(EXPERIMENTS_PLATFORM_STATUS.TIMESTAMP.eq(maxTable.field(maxTimestamp))))
-                .innerJoin(EXPERIMENTS_PLATFORM).onKey()
-                .innerJoin(EXPERIMENT).onKey()
-                .where(EXPERIMENTS_PLATFORM.PLATFORM.eq(platform))
+                .from(EXPERIMENT)
+                .where(EXPERIMENT.ID_EXPERIMENT.in(
+                        DSL.select(EXPERIMENTS_PLATFORM.EXPERIMENT)
+                                .from(EXPERIMENTS_PLATFORM)
+                                .where(EXPERIMENTS_PLATFORM.IDEXPERIMENTS_PLATFORMS.in(
+                                        experiments
+                                ))
+                ))
                 .fetch();
 
     }
