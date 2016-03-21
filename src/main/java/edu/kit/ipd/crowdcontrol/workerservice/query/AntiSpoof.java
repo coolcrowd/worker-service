@@ -104,6 +104,8 @@ public class AntiSpoof extends TaskChooserAlgorithm {
             throw new IllegalStateException("Anti-Spoof parameter not set.");
         }
         ExperimentRecord experiment = experimentOperations.getExperiment(experimentID);
+        //phase 1 can't be greater than NeededAnswers
+        phases.put(1, Math.min(phases.get(1), experiment.getNeededAnswers()));
         logger.trace("calculating phase for: answersCount={}, phases={}, neededAnswers={}",
                 answersCount, phases, experiment.getNeededAnswers());
         boolean inCreativeStopping = experimentsPlatformOperations.isInCreativeStopping(experimentID, platform);
