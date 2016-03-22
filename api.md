@@ -24,6 +24,43 @@ The Worker-Service uses [JWT](https://jwt.io) to authorize some rest-calls and i
 
 Resources specifying what to display the worker.
 
+## Experiments [/experiments/{platform}]
+
+The /experiments command is used to retrieve all running experiments for the platform.
+
+The response:
+
+ Field  | Type   | Description
+-------| ---- | -----------
+ experiments | (array[Experiment]) | the running experiments, each experiment consists of an id, title and description
+
++ Parameters
+    + platform: `dummy` (required, string) - represents the platform the worker is working on.
+
+### Get the running Experiments [GET]
+
++ Response 200 (application/json)
+    This is an example of the response. Please read the following segments to understand the whole process.
+
+    + Body
+
+            {
+              "experiments": [
+                {
+                  {
+                    "id" : 1,
+                    "title" : "example title",
+                    "description": "example description"
+                  },
+                  {
+                    "id" : 3,
+                    "title" : "another experiment",
+                    "description": "with another description"
+                  }
+                }
+              ]
+            }
+
 ## Next [/next/{platform}/{experiment}{answer,rating}]
 
 The /next command is crucial for the worker-service. It instructs the requestor what to display next and consequently what the worker should be working on. Every response has a type which describes the result. There are 5 different types: **FINISHED, ANSWER, RATING, CALIBRATION** and **EMAIL**. **FINISHED** means there are no more assignments left, the worker can be redirected to the crowdworking-platform. **ANSWER** represents an Creative-Task, the client is expected to present the experiment to the worker and let the worker create one or more answers to it. **RATING** should present the experiment and display the answers of other workers. The worker can now rate these answers. **CALIBRATION** expects the client to present the returned questions and let him choose the answer from pre-defined fields. **EMAIL** represents the need of an email-address from a worker. Additional query-parameters may be required for certain platforms.
@@ -44,11 +81,11 @@ The response:
  type | (enum[string], required) | The type of the view, this field is always set and determines what other fields are also set.
  title | (string) | The title of the experiment
  description | (string) | the description of the experiment
- answer_reservations | (array[number]) | the reservation for each answer the worker is allowd to submit
+ answer_reservations | (array[number]) | the reservation for each answer the worker is allowed to submit
  answersToRate | (array[View_Answer]) | the answers the worker can rate
  answerType | (string) | the answer type, if set this means the worker submits a link pointing to a resource with the mime-type answerType
- ratingOptions | (array[View_RatingOption]) | he optionas to rate one answer
- constraints | (array[View_Constraint]) | the contraints which the worker must check or avoid bein violated
+ ratingOptions | (array[View_RatingOption]) | the options to rate one answer
+ constraints | (array[View_Constraint]) | the constraints which the worker must check or avoid being violated
  pictures | (array[View_Picture]) | the pictures if the experiment contains any
  calibrations | (array[View_Calibration]) | the calibrations the worker must answer
 
